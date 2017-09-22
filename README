@@ -1,0 +1,5 @@
+GTKSPICE
+Sam Gallagher 2017
+
+This is a proper implementation of SPICE with the GTK toolkit to compete with the Windows-only LTSpice.
+

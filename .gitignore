@@ -1,0 +1,27 @@
+# IDE Project Files Folder
+proj
+
+# Build and debug files
+*.o
+*.so
+
+# Packages
+*.gz
+*.tar
+
+# Logs
+*log
+
+# Temporary and swap files
+*~
+*.bak
+*.swp
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-v100
+.Trashes
+ehthumbs.db
+Thumbs.db
