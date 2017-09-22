@@ -2,6 +2,7 @@
 proj
 
 # Build and debug files
+build
 *.o
 *.so
 
