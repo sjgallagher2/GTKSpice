@@ -1,0 +1,5 @@
+/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles/rebuild_cache.dir
+/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles/edit_cache.dir
+/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/rebuild_cache.dir
+/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/edit_cache.dir
+/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/gtkspice.dir

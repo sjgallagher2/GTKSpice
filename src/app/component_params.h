@@ -12,15 +12,33 @@
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VIEWPORT_H
-#define VIEWPORT_H
+#ifndef COMPONENT_PARAMS_H
+#define COMPONENT_PARAMS_H
 
-#include <gui/view.h>
-#include <gtkmm/drawingarea.h>
+#include <gtkmm.h>
+#include <app/vertex_list.h>
 
-class Viewport
+struct ComponentParameters
 {
-protected:
-    View v;
+    int index = -1;
+    Glib::ustring label;
+    bool is_active;
+    float stroke_thickness;
+    bool filled;
+    bool editable;
+    bool selectable;
 };
-#endif /* VIEWPORT_H */
+
+struct LineParameters
+{
+    ComponentParameters cp;
+    VertexList vertices;
+};
+
+struct PointParameters
+{
+    ComponentParameters cp;
+    Coordinate pos; // Position of point
+};
+
+#endif /* COMPONENT_PARAMS_H */

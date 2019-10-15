@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg5913"
+   version="1.1"
+   viewBox="0 0 210 297"
+   height="297mm"
+   width="210mm"
+   sodipodi:docname="Res-test.svg"
+   inkscape:version="0.92.1 r15371">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="884"
+     inkscape:window-height="480"
+     id="namedview5917"
+     showgrid="false"
+     inkscape:zoom="0.84096521"
+     inkscape:cx="46.105114"
+     inkscape:cy="1116.25"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg5913" />
+  <defs
+     id="defs5907" />
+  <metadata
+     id="metadata5910">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1">
+    <path
+       id="Resistor1-2"
+       d="m 85.800599,52.827386 h 0.75595 l 0.30238,-0.52917 0.30238,0.52917 0.30238,0.52916 0.30238,-0.52916 0.30238,-0.52917 0.30239,0.52917 0.30238,0.52916 0.30238,-0.52916 0.30238,-0.52917 0.30238,0.52917 0.30238,0.52916 0.30238,-0.52916 h 0.90714"
+       style="fill:none;stroke:#000000;stroke-width:0.26499999;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">
+      <desc
+         id="desc9885-9">As used in Analog Devices (2008)</desc>
+    </path>
+  </g>
+  <g
+     id="g2086-4-2-9"
+     transform="translate(-10.064548,-53.340749)">
+    <path
+       inkscape:connector-curvature="0"
+       id="path2062-0-2-6"
+       d="m 17.61369,58.875 -3e-6,0.69453 -1.931065,0.942893"
+       style="fill:none;stroke:#000000;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       sodipodi:nodetypes="ccc" />
+    <path
+       sodipodi:nodetypes="ccc"
+       inkscape:connector-curvature="0"
+       id="path2066-1-9-8"
+       d="m 15.676776,62.354191 1.936911,1.089055 3e-6,0.72342"
+       style="fill:none;stroke:#000000;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.5291658px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 17.724771,63.424704 -0.697282,-1.15483 -0.660714,1.344812 z"
+       id="path2105-6-0-7"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 15.703729,61.520833 -0.735869,4e-6"
+       id="path2109-2-7-9"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <rect
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.07390682;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect5573-5-1"
+       width="0.2780571"
+       height="3.4852338"
+       x="15.537296"
+       y="59.788464" />
+  </g>
+</svg>

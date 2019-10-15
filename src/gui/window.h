@@ -12,15 +12,26 @@
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VIEWPORT_H
-#define VIEWPORT_H
+#ifndef WINDOW_H
+#define WINDOW_H
 
-#include <gui/view.h>
-#include <gtkmm/drawingarea.h>
+#include <gtkmm.h>
+#include <gui/drawingeventbox.h>
+#include <app/state_machine.h>
 
-class Viewport
+/* 
+ * A simple window class. Subclass of Gtk::ApplicationWindow.
+ */
+
+class Window : public Gtk::ApplicationWindow
 {
+public:
+	Window();
+	~Window();
 protected:
-    View v;
+	DrawingEventBox _drawevents;
+	virtual bool on_key_press_event(GdkEventKey* key_event) override;
+	//void on_action_quit();
 };
-#endif /* VIEWPORT_H */
+
+#endif /* WINDOW_H */

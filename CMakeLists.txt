@@ -5,6 +5,10 @@ project(gtk-spice)	# Set CMake project name
 # Add GTKmm
 find_package(PkgConfig)
 pkg_check_modules(GTKMM gtkmm-3.0) # Look into FindPkgConfig.cmake
+pkg_check_modules(RSVG librsvg-2.0) # SVG support
 
 # Add src/
 add_subdirectory(src)
+
+# Set build type
+set(CMAKE_BUILD_TYPE Debug)

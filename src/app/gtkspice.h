@@ -11,16 +11,30 @@
  * You should have received a copy of the GNU General Public License
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef GTKSPICE_H
+#define GTKSPICE_H
 
-#ifndef VIEWPORT_H
-#define VIEWPORT_H
+#include <gtkmm.h>
+#include <gui/window.h>
+#include <gui/drawingeventbox.h>
+#include <app/action_stack.h>
+#include <app/object_tree.h>
 
-#include <gui/view.h>
-#include <gtkmm/drawingarea.h>
+/* APPLICATION */
 
-class Viewport
+class GTKSpice : public Gtk::Application
 {
 protected:
-    View v;
+	GTKSpice();
+
+public:
+	static Glib::RefPtr<GTKSpice> create();	// Point of entry
+
+protected:
+	void on_activate();
+	Window _win;
+    ObjectTree* _ot;
+    ActionStack* _as;
 };
-#endif /* VIEWPORT_H */
+
+#endif /* GTKSPICE_H */

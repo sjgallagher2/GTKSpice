@@ -12,15 +12,13 @@
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VIEWPORT_H
-#define VIEWPORT_H
+#ifndef VERTEX_LIST_H
+#define VERTEX_LIST_H
 
-#include <gui/view.h>
-#include <gtkmm/drawingarea.h>
+#include <vector>
+#include <app/coordinate.h>
 
-class Viewport
-{
-protected:
-    View v;
-};
-#endif /* VIEWPORT_H */
+typedef std::vector<Vertex*> VertexList;
+
+#endif /* VERTEX_LIST_H */
+

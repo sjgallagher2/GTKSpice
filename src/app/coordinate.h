@@ -20,27 +20,56 @@
 class Coordinate
 {
 public:
-    Coordinate() {};
-    Coordinate(double X, double Y) : _x(X), _y(Y) {};
+    Coordinate() {}
+    Coordinate(double X, double Y) {x(X);y(Y);}
     virtual ~Coordinate() {};
 
     void set_to_user_coordinate(const Cairo::RefPtr<Cairo::Context>& context);
     void set_to_user_distance(const Cairo::RefPtr<Cairo::Context>& context);
     void set_to_device_coordinate(const Cairo::RefPtr<Cairo::Context>& context);
     void set_to_device_distance(const Cairo::RefPtr<Cairo::Context>& context);
-    void set_coordinate(double X, double Y) { _x = X; _y = Y; };
-
+    void set_coordinate(double X, double Y,bool snapped=false) { x(X,snapped); y(Y,snapped); }
+    void set_to_snapped();
+    
     /* Sets and Gets */
-    void x(const double X) { _x = X; }
-    void y(const double Y) { _y = Y; }
+    virtual void x(const double X, bool snapped = false);
+    virtual void y(const double Y, bool snapped = false);
+    virtual double x()  const { return _x; }
+    virtual double y() const { return _y; }
 
-    double x()  const { return _x; }
-    double y() const { return _y; }
+    /* Static */   
+    static void grid(float g) {_grid = g;}
+    static float grid() {return _grid;}
+
+    /* Operator overloads */
+    virtual bool operator==(const Coordinate& r) const {return (r.x() == _x && r.y() == _y);}
 
 protected:
     double _x;
     double _y;
+    static float _grid; // Grid interval
 
 };
+
+class Vertex : public Coordinate
+{
+public:
+    Vertex() {}
+    Vertex(double X,double Y) : Coordinate(X,Y) {}
+    Vertex(Coordinate v) : Coordinate(v.x(),v.y()) {}
+    Vertex(int index) : _index(index) {}
+    Vertex(double X,double Y,int index) : Coordinate(X,Y),_index(index) {}
+    Vertex(Coordinate v,int index) : Coordinate(v.x(),v.y()),_index(index) {}
+
+    bool active() const {return _is_active;}
+    void active(bool a) {_is_active = a;}
+    int index() const {return _index;}
+    void index(int i) {_index = i;}
+
+private:
+    int _index = -1;
+    bool _is_active = false;
+};
+
 
 #endif /* COORDINATE_H */

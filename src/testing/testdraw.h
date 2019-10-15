@@ -12,15 +12,24 @@
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VIEWPORT_H
-#define VIEWPORT_H
+#ifndef TESTDRAW_H
+#define TESTDRAW_H
 
-#include <gui/view.h>
-#include <gtkmm/drawingarea.h>
+#include <gtkmm.h>
+#include <app/coordinate_system.h>
+#include <app/coordinate.h>
 
-class Viewport
+class TestDraw
 {
-protected:
-    View v;
+public:
+    TestDraw();
+    virtual ~TestDraw();
+
+    void draw_something(const Cairo::RefPtr<Cairo::Context>& context);
+
+private:
+    double _radius;
 };
-#endif /* VIEWPORT_H */
+
+#endif /* TESTDRAW_H */
+

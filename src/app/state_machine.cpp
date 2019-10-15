@@ -1,0 +1,453 @@
+/* GTKSpice is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+
+ * GTKSpice is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#include <iostream>
+#include <gtkmm.h>
+#include <app/state_machine.h>
+#include <app/vertex_list.h>
+
+StateMachine* StateMachine::_sm = nullptr;
+DrawingEventBox* StateMachine::_drawevents = nullptr;
+StateMachine::DrawStates StateMachine::_state = StateMachine::TOOL;
+StateMachine::DrawStates StateMachine::_prevstate = StateMachine::POINTER;
+StateMachine::ToolTypes StateMachine::_tool = StateMachine::DRAW_WIRE;
+
+Glib::ustring StateMachine::get_cursor_name()
+{
+    Glib::ustring cursor_name = "default";
+    switch(_state)
+    {
+    case POINTER:
+        cursor_name = "default";
+        break;
+    case PAN:
+        cursor_name = "grabbing";
+        break;
+    case TOOL:
+        cursor_name = get_tool_cursor_name();
+        break;
+    }
+    return cursor_name;
+}
+
+Glib::ustring StateMachine::get_tool_cursor_name()
+{
+    Glib::ustring cursor_name = "default";
+    switch(_tool)
+    {
+    case NO_TOOL:
+        break;
+    case DRAW_WIRE:
+        cursor_name = "crosshair";
+        break;
+    case DRAG_COMPONENT:
+        break;
+    case ROTATE_COMPONENT:
+        break;
+    case FLIP_COMPONENT_LR:
+        break;
+    case FLIP_COMPONENT_UD:
+        break;
+    case DROP_COMPONENT:
+        break;
+    case ADD_TEXT:
+        break;
+    case MODIFY_TEXT:
+        break;
+    case ROTATE_COMPONENT_CW:
+        break;
+    case ROTATE_COMPONENT_CCW:
+        break;
+    case DELETE:
+        cursor_name = "scissors";
+        break;
+    default:
+        break;
+    }
+    return cursor_name;
+}
+
+void StateMachine::init(DrawingEventBox* drawevents)
+{
+    if(!_sm)
+        _sm = new StateMachine(drawevents);
+}
+
+StateMachine::StateMachine(DrawingEventBox* drawevents)
+{
+    _drawevents = drawevents;
+    _drawevents->button_click().connect(sigc::ptr_fun(&StateMachine::click_handler));
+    _drawevents->mouse_move().connect(sigc::ptr_fun(&StateMachine::move_handler));
+    _drawevents->key_press().connect(sigc::ptr_fun(&StateMachine::key_handler));
+}
+
+StateMachine::~StateMachine()
+{
+    delete _sm;
+}
+
+void StateMachine::click_handler(Coordinate mousepos, int button, int modifier, int cselect)
+{
+    switch(_state)
+    {
+    case POINTER:
+        if(button == LEFT_PRESS)
+        {
+            // TODO This is temporary
+            change_state(PAN);
+            // Find object underneath cursor from ObjectStack
+        }
+        else if(button == RIGHT_RELEASE)
+        {
+            // Find object, right-click action
+        }
+        break;
+    case TOOL:
+        // Find object underneath cursor from ObjectStack, pass to tool_handler
+        tool_click_handler(mousepos,button,modifier,cselect);
+        break;
+    case PAN:
+        if(button == LEFT_RELEASE)
+            change_state(_prevstate);
+        break;
+    default:
+        break;
+
+    }
+}
+void StateMachine::move_handler(Coordinate mousepos)
+{
+    switch(_state)
+    {
+    case POINTER:
+        break;
+    case TOOL:
+        // Find object underneath cursor from ObjectStack, pass to tool_handler
+        tool_move_handler(mousepos);
+        break;
+    case PAN:
+        break;
+    default:
+        break;
+
+    }
+}
+
+// TODO Add undo and redo (ctrl+z, ctrl+y)
+void StateMachine::key_handler(int key,int modifier)
+{
+    /* UNIVERSAL KEY HANDLING */
+    if(modifier == CTRL)
+    {
+        switch(key)
+        {
+        case GDK_KEY_z:
+            // Undo
+            ActionStack::undo();
+            _drawevents->force_redraw();
+            break;
+        case GDK_KEY_r:
+            // Redo
+            ActionStack::redo();
+            _drawevents->force_redraw();
+            break;
+        }
+    }
+    else
+    {
+        switch(_state)
+        {
+        case POINTER:
+            if(modifier == NO_MOD)
+            {
+                switch(key)
+                {
+                case GDK_KEY_Escape:
+                    change_tool(NO_TOOL);
+                    change_state(POINTER);
+                    break;
+                case GDK_KEY_w:
+                    change_state(TOOL);
+                    change_tool(DRAW_WIRE);
+                    break;
+                case GDK_KEY_Delete:
+                    change_state(TOOL);
+                    change_tool(DELETE);
+                    break;
+                }
+                break;
+            }
+        case PAN:
+            switch(key)
+            {
+            default:
+                break;
+            }
+            break;
+        case TOOL:
+            tool_key_handler(key,modifier);
+            break;
+        }
+    }
+}
+
+void StateMachine::tool_click_handler(Coordinate mousepos, int button, int modifier, int cselect)
+{
+    // Send actions to ActionStack for this component
+    mousepos.set_to_snapped();
+    switch(_tool)
+    {
+    case NO_TOOL:
+        break;
+    case DRAW_WIRE:
+        if(ObjectTree::has_active_line())
+        {
+            if(button == LEFT_RELEASE)
+                ObjectTree::add_line_vertex(mousepos);
+            else if(button == DOUBLE_LEFT)
+                ObjectTree::set_no_line_active();
+            else if(button == RIGHT_RELEASE)
+                ObjectTree::remove_line_vertex(mousepos);
+        }
+        else
+        {
+            if(button == LEFT_RELEASE)
+            {
+                LineParameters lp;
+                lp.vertices.push_back(new Vertex(mousepos));
+                lp.vertices.push_back(new Vertex(mousepos));
+                ActionStack::push(new AppendLineAction(lp)); // Append to a line with only two vertices
+            }
+        }
+        break;
+    case DRAG_COMPONENT:
+        break;
+    case ROTATE_COMPONENT:
+        break;
+    case FLIP_COMPONENT_LR:
+        break;
+    case FLIP_COMPONENT_UD:
+        break;
+    case DROP_COMPONENT:
+        break;
+    case ADD_TEXT:
+        break;
+    case MODIFY_TEXT:
+        break;
+    case ROTATE_COMPONENT_CW:
+        break;
+    case ROTATE_COMPONENT_CCW:
+        break;
+    case DELETE:
+        if(button==LEFT_RELEASE && cselect != -1)
+            ActionStack::push(new RemoveLineAction(cselect));
+        else if(button==RIGHT_RELEASE)
+        {
+            change_tool(NO_TOOL);
+            change_state(POINTER);
+        }
+        break;
+    default:
+        break;
+    }
+}
+
+void StateMachine::tool_move_handler(Coordinate mousepos)
+{
+    mousepos.set_to_snapped();
+    // Send actions to ActionStack for this component
+    switch(_tool)
+    {
+    case NO_TOOL:
+        break;
+    case DRAW_WIRE:
+        // Update active endpoint of active line vertex
+        ObjectTree::move_line_vertex(mousepos);
+        break;
+    case DRAG_COMPONENT:
+        break;
+    case ROTATE_COMPONENT:
+        break;
+    case FLIP_COMPONENT_LR:
+        break;
+    case FLIP_COMPONENT_UD:
+        break;
+    case DROP_COMPONENT:
+        break;
+    case ADD_TEXT:
+        break;
+    case MODIFY_TEXT:
+        break;
+    case ROTATE_COMPONENT_CW:
+        break;
+    case ROTATE_COMPONENT_CCW:
+        break;
+    case DELETE:
+        break;
+    default:
+        break;
+    }
+}
+
+void StateMachine::tool_key_handler(int key, int modifier)
+{
+    switch(_tool)
+    {
+    case NO_TOOL:
+        break;
+    case DRAW_WIRE:
+        switch(key)
+        {
+        case GDK_KEY_Escape:
+            while(ObjectTree::has_active_line())
+                ObjectTree::remove_line_vertex(Coordinate(0,0));
+            change_tool(NO_TOOL);
+            change_state(POINTER);
+            break;
+        case GDK_KEY_Return:
+            ObjectTree::finish_line();
+            break;
+        case GDK_KEY_Delete:
+            change_tool(DELETE);
+            break;
+        }
+        break;
+    case DRAG_COMPONENT:
+        switch(key)
+        {
+        case GDK_KEY_Escape:
+            change_tool(NO_TOOL);
+            change_state(POINTER);
+            break;
+        case GDK_KEY_Delete:
+            change_tool(DELETE);
+            break;
+        }
+        break;
+    case ROTATE_COMPONENT:
+        switch(key)
+        {
+        case GDK_KEY_Escape:
+            change_tool(NO_TOOL);
+            change_state(POINTER);
+            break;
+        case GDK_KEY_Delete:
+            change_tool(DELETE);
+            break;
+        }
+        break;
+    case FLIP_COMPONENT_LR:
+        switch(key)
+        {
+        case GDK_KEY_Escape:
+            change_tool(NO_TOOL);
+            change_state(POINTER);
+            break;
+        case GDK_KEY_Delete:
+            change_tool(DELETE);
+            break;
+        }
+        break;
+    case FLIP_COMPONENT_UD:
+        switch(key)
+        {
+        case GDK_KEY_Escape:
+            change_tool(NO_TOOL);
+            change_state(POINTER);
+            break;
+        case GDK_KEY_Delete:
+            change_tool(DELETE);
+            break;
+        }
+        break;
+    case DROP_COMPONENT:
+        switch(key)
+        {
+        case GDK_KEY_Escape:
+            change_tool(NO_TOOL);
+            change_state(POINTER);
+            break;
+        case GDK_KEY_Delete:
+            change_tool(DELETE);
+            break;
+        }
+        break;
+    case ADD_TEXT:
+        switch(key)
+        {
+        case GDK_KEY_Escape:
+            change_tool(NO_TOOL);
+            change_state(POINTER);
+            break;
+        case GDK_KEY_Delete:
+            change_tool(DELETE);
+            break;
+        }
+        break;
+    case MODIFY_TEXT:
+        switch(key)
+        {
+        case GDK_KEY_Escape:
+            change_tool(NO_TOOL);
+            change_state(POINTER);
+            break;
+        case GDK_KEY_Delete:
+            change_tool(DELETE);
+            break;
+        }
+        break;
+    case ROTATE_COMPONENT_CW:
+        switch(key)
+        {
+        case GDK_KEY_Escape:
+            change_tool(NO_TOOL);
+            change_state(POINTER);
+            break;
+        case GDK_KEY_Delete:
+            change_tool(DELETE);
+            break;
+        }
+        break;
+    case ROTATE_COMPONENT_CCW:
+        switch(key)
+        {
+        case GDK_KEY_Escape:
+            change_tool(NO_TOOL);
+            change_state(POINTER);
+            break;
+        case GDK_KEY_Delete:
+            change_tool(DELETE);
+            break;
+        }
+        break;
+    case DELETE:
+        switch(key)
+        {
+        case GDK_KEY_Escape:
+            change_tool(NO_TOOL);
+            change_state(POINTER);
+            break;
+        case GDK_KEY_w:
+            change_tool(DRAW_WIRE);
+            break;
+        case GDK_KEY_Delete:
+            change_tool(DELETE);
+            break;
+        }
+        break;
+    default:
+        break;
+    }
+}
+

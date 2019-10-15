@@ -12,15 +12,37 @@
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VIEWPORT_H
-#define VIEWPORT_H
+#include <app/gtkspice.h>
+#include <app/object_tree.h>
 
-#include <gui/view.h>
-#include <gtkmm/drawingarea.h>
-
-class Viewport
+/* APPLICATION */
+GTKSpice::GTKSpice():
+	Gtk::Application("com.gtkspice.GTKSpice", Gio::APPLICATION_HANDLES_OPEN)
 {
-protected:
-    View v;
-};
-#endif /* VIEWPORT_H */
+}
+
+void GTKSpice::on_activate()
+{
+	// Startup procedure (where there are no input args)
+	// Initialize
+	//_win.set_default_size(1600, 800);
+	add_window(_win);
+	ObjectTree::init();
+    _as = ActionStack::Instance();
+	_win.present();
+}
+
+Glib::RefPtr<GTKSpice> GTKSpice::create()
+{
+	return Glib::RefPtr<GTKSpice>(new GTKSpice());
+}
+
+int main(int argc, char* argv[])
+{
+	auto app =
+			GTKSpice::create();
+
+
+	return app->run();
+}
+

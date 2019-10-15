@@ -12,15 +12,5 @@
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VIEWPORT_H
-#define VIEWPORT_H
+#include <tools/tool.h>
 
-#include <gui/view.h>
-#include <gtkmm/drawingarea.h>
-
-class Viewport
-{
-protected:
-    View v;
-};
-#endif /* VIEWPORT_H */

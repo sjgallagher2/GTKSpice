@@ -11,16 +11,8 @@
  * You should have received a copy of the GNU General Public License
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef TOOL_LINE_H
+#define TOOL_LINE_H
 
-#ifndef VIEWPORT_H
-#define VIEWPORT_H
 
-#include <gui/view.h>
-#include <gtkmm/drawingarea.h>
-
-class Viewport
-{
-protected:
-    View v;
-};
-#endif /* VIEWPORT_H */
+#endif /* TOOL_LINE_H */

@@ -12,9 +12,39 @@
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <gtkmm.h>
+#include <gtkmm/drawingarea.h>
 #include <app/coordinate.h>
 #include <app/coordinate_system.h>
-#include <iostream>
-#include <cmath>
 
+void CoordinateSystem::set_to_user_coordinates(Coordinate& c)
+{
+    double xx,yy;
+    xx = c.x();
+    yy = c.y();
+    _tmatinv.transform_point(xx,yy);
+    c.set_coordinate(xx,yy);
+}
+void CoordinateSystem::set_to_device_coordinates(Coordinate& c)
+{
+    double xx,yy;
+    xx = c.x();
+    yy = c.y();
+    _tmat.transform_point(xx,yy);
+    c.set_coordinate(xx,yy);
+}
+void CoordinateSystem::set_to_user_distance(Coordinate& c)
+{
+    double xx,yy;
+    xx = c.x();
+    yy = c.y();
+    _tmatinv.transform_distance(xx,yy);
+    c.set_coordinate(xx,yy);
+}
+void CoordinateSystem::set_to_device_distance(Coordinate& c)
+{
+    double xx,yy;
+    xx = c.x();
+    yy = c.y();
+    _tmat.transform_distance(xx,yy);
+    c.set_coordinate(xx,yy);
+}

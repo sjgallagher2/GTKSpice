@@ -16,6 +16,38 @@
 #include <app/coordinate.h>
 #include <math.h>
 
+float Coordinate::_grid = 1;
+
+void Coordinate::x(const double X,bool snapped)
+{
+    if(snapped)
+    {
+        // Snap to grid
+        // There are two grid sizes: 0.1 dots/unit and 1 dot/unit
+        if(Coordinate::grid() == 1)
+            _x = std::round(X);
+        else if(Coordinate::grid() == 10)
+            _x = std::round(X/10)*10;
+    }
+    else
+        _x = X;
+}
+/*
+*/
+void Coordinate::y(const double Y,bool snapped)
+{
+    if(snapped)
+    {
+        // Snap to grid
+        // There are two grid sizes: 0.1 dots/unit and 1 dot/unit
+        if(Coordinate::grid() == 1)
+            _y = std::round(Y);
+        else if(Coordinate::grid() == 10)
+            _y = std::round(Y/10)*10;
+    }
+    else
+        _y = Y;
+}
 
 void Coordinate::set_to_user_coordinate(
     const Cairo::RefPtr<Cairo::Context>& context)
@@ -39,3 +71,19 @@ void Coordinate::set_to_device_distance(
 {
     context->user_to_device_distance(_x, _y);
 }
+void Coordinate::set_to_snapped()
+{
+    if(Coordinate::grid() == 1)
+    {
+        _x = std::round(_x);
+        _y = std::round(_y);
+    }
+    else if(Coordinate::grid() == 10)
+    {
+        _x = std::round(_x/10)*10;
+        _y = std::round(_y/10)*10;
+    }
+    
+
+}
+

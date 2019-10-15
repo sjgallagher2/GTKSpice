@@ -16,7 +16,7 @@
 #include <iostream>
 #include <cairomm/context.h>
 #include <gui/grid.h>
-#include <librsvg-2.0/librsvg/rsvg.h>
+#include <app/coordinate.h>
 
 Grid::Grid() : _radius(1.5)
 { 
@@ -49,9 +49,12 @@ void Grid::draw_grid(const Cairo::RefPtr<Cairo::Context>& context,const float sc
     context->save();
     float sf = 2; // Dot scale factor
     float s = sf/scale;
-    float inc = 10;
+    float inc = 10; // Dot spacing
     if(scale > 6)
-        inc = 1;
+    {
+        inc = 1; // Smaller dot spacing for smaller grid
+    }
+    Coordinate::grid(inc);
 
     //context->set_line_width(_radius);
     //context->set_line_cap(Cairo::LINE_CAP_ROUND);

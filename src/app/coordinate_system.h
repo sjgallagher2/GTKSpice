@@ -17,6 +17,7 @@
 #ifndef COORDINATE_SYSTEM_H
 #define COORDINATE_SYSTEM_H
 
+#include <cairomm/matrix.h>
 #include <app/coordinate.h>
 
 class CoordinateSystem
@@ -25,6 +26,20 @@ public:
     CoordinateSystem() {};
     virtual ~CoordinateSystem() {};
 
+    void set_tmatrix(const Cairo::Matrix m) {_tmat = m;_tmatinv=_tmat;_tmatinv.invert();}
+
+    void set_to_user_coordinates(Coordinate& c);
+    void set_to_device_coordinates(Coordinate& c);
+    void set_to_user_distance(Coordinate& c);
+    void set_to_device_distance(Coordinate& c);
+
+    void snap_grid(bool s) {_snap_grid = s;}
+    bool snap_grid() const {return _snap_grid;}
+protected:
+    bool _snap_grid = false;
+
+    Cairo::Matrix _tmat;
+    Cairo::Matrix _tmatinv;
 };
 
 #endif /* COORDINATE_SYSTEM_H */
