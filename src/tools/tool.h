@@ -14,5 +14,22 @@
 #ifndef TOOL_H
 #define TOOL_H
 
+#include <app/coordinate.h>
+#include <app/gtkspice_state.h>
+
+/* Pure virtual Tool interace */
+
+class Tool
+{
+public:
+    Tool() {}
+    virtual ~Tool() {}
+
+    static void tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect) = 0;
+    static void tool_move_handler(Coordinate mousepos) = 0;
+    static void tool_key_handler(int key,int modifier) = 0;
+    virtual Glib::ustring get_tool_cursor_name() = 0;
+
+};
 
 #endif /* TOOL_H */

@@ -11,8 +11,23 @@
  * You should have received a copy of the GNU General Public License
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef PAN_H
-#define PAN_H
+#ifndef TOOL_POINTER_H
+#define TOOL_POINTER_H
 
+#include <tools/tool.h>
+#include <app/coordinate.h>
+#include <app/gtkspice_state.h>
 
-#endif /* PAN_H */
+class PointerTool : public Tool 
+{
+public:
+    PointerTool() {}
+    virtual ~PointerTool() {}
+
+    static void tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect);
+    static void tool_move_handler(Coordinate mousepos);
+    static void tool_key_handler(int key,int modifier);
+    virtual Glib::ustring get_tool_cursor_name() {return "default";}
+};
+
+#endif /* TOOL_POINTER_H */

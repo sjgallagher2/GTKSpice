@@ -11,5 +11,8 @@
  * You should have received a copy of the GNU General Public License
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef KEYACCEL_H
+#define KEYACCEL_H
 
-#include <tools/tool_line.h>
+
+#endif /* KEYACCEL_H */

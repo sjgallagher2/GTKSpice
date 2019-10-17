@@ -22,7 +22,7 @@ in the view class */
 #include <app/coordinate.h>
 #include <app/coordinate_system.h>
 #include <gui/drawingeventbox.h>
-#include <app/state_machine.h>
+#include <app/gtkspice_state.h>
 
 DrawingEventBox::DrawingEventBox()
 {
@@ -59,6 +59,7 @@ bool DrawingEventBox::on_mouse_cross_event(GdkEventCrossing* cross_event)
 
 bool DrawingEventBox::on_button_press_event(GdkEventButton* button_event)
 {
+    // TODO: All instances of click handling and key handling must be updated
     Coordinate mousepos(button_event->x,button_event->y);
 
     CoordinateSystem* cs = _v.get_coordinate_system();
@@ -68,18 +69,18 @@ bool DrawingEventBox::on_button_press_event(GdkEventButton* button_event)
     {
     case 1:
         if(button_event->type == GDK_2BUTTON_PRESS)
-            _mouse_button = static_cast<int>(StateMachine::DOUBLE_LEFT);
+            _mouse_button = static_cast<int>(DOUBLE_LEFT);
         else
-            _mouse_button = static_cast<int>(StateMachine::LEFT_PRESS);
+            _mouse_button = static_cast<int>(LEFT_PRESS);
         break;
     case 2:
-        _mouse_button = static_cast<int>(StateMachine::MIDDLE_PRESS);
+        _mouse_button = static_cast<int>(MIDDLE_PRESS);
         break;
     case 3:
         if(button_event->type == GDK_2BUTTON_PRESS)
-            _mouse_button = static_cast<int>(StateMachine::DOUBLE_RIGHT);
+            _mouse_button = static_cast<int>(DOUBLE_RIGHT);
         else
-            _mouse_button = static_cast<int>(StateMachine::RIGHT_PRESS);
+            _mouse_button = static_cast<int>(RIGHT_PRESS);
         break;
     default:
         break;
@@ -88,13 +89,13 @@ bool DrawingEventBox::on_button_press_event(GdkEventButton* button_event)
     switch(button_event->state)
     {
     case GDK_SHIFT_MASK:
-        _modifier = static_cast<int>(StateMachine::SHIFT);
+        _modifier = static_cast<int>(SHIFT);
         break;
     case GDK_CONTROL_MASK:
-        _modifier = static_cast<int>(StateMachine::CTRL);
+        _modifier = static_cast<int>(CTRL);
         break;
     case GDK_MOD1_MASK:
-        _modifier = static_cast<int>(StateMachine::ALT);
+        _modifier = static_cast<int>(ALT);
         break;
     }
     
@@ -115,15 +116,15 @@ bool DrawingEventBox::on_button_release_event(GdkEventButton* button_event)
     switch(button_event->button)
     {
     case 1:
-        if(_mouse_button != static_cast<int>(StateMachine::DOUBLE_LEFT))
-            _mouse_button = static_cast<int>(StateMachine::LEFT_RELEASE);
+        if(_mouse_button != static_cast<int>(DOUBLE_LEFT))
+            _mouse_button = static_cast<int>(LEFT_RELEASE);
         break;
     case 2:
-        _mouse_button = static_cast<int>(StateMachine::MIDDLE_RELEASE);
+        _mouse_button = static_cast<int>(MIDDLE_RELEASE);
         break;
     case 3:
-        if(_mouse_button != static_cast<int>(StateMachine::DOUBLE_RIGHT))
-            _mouse_button = static_cast<int>(StateMachine::RIGHT_RELEASE);
+        if(_mouse_button != static_cast<int>(DOUBLE_RIGHT))
+            _mouse_button = static_cast<int>(RIGHT_RELEASE);
         break;
     default:
         break;
@@ -131,13 +132,13 @@ bool DrawingEventBox::on_button_release_event(GdkEventButton* button_event)
     switch(button_event->state)
     {
     case GDK_SHIFT_MASK:
-        _modifier = static_cast<int>(StateMachine::SHIFT);
+        _modifier = static_cast<int>(SHIFT);
         break;
     case GDK_CONTROL_MASK:
-        _modifier = static_cast<int>(StateMachine::CTRL);
+        _modifier = static_cast<int>(CTRL);
         break;
     case GDK_MOD1_MASK:
-        _modifier = static_cast<int>(StateMachine::ALT);
+        _modifier = static_cast<int>(ALT);
         break;
     }
 
@@ -168,13 +169,13 @@ bool DrawingEventBox::on_key_press_event(GdkEventKey* key_event)
     switch(key_event->state)
     {
     case GDK_SHIFT_MASK:
-        _modifier = static_cast<int>(StateMachine::SHIFT);
+        _modifier = static_cast<int>(SHIFT);
         break;
     case GDK_CONTROL_MASK:
-        _modifier = static_cast<int>(StateMachine::CTRL);
+        _modifier = static_cast<int>(CTRL);
         break;
     case GDK_MOD1_MASK:
-        _modifier = static_cast<int>(StateMachine::ALT);
+        _modifier = static_cast<int>(ALT);
         break;
     }
     

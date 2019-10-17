@@ -11,8 +11,8 @@
  * You should have received a copy of the GNU General Public License
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef TOOL_H
-#define TOOL_H
+#ifndef TOOL_COMPONENT_FLIPUD_H
+#define TOOL_COMPONENT_FLIPUD_H
 
 
-#endif /* TOOL_H */
+#endif /* TOOL_COMPONENT_FLIPUD_H */

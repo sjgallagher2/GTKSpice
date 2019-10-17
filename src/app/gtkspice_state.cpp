@@ -12,18 +12,20 @@
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// TODO All instances of state handling must be updated
+
 #include <iostream>
 #include <gtkmm.h>
-#include <app/state_machine.h>
+#include <app/gtkspice_state.h>
 #include <app/vertex_list.h>
 
-StateMachine* StateMachine::_sm = nullptr;
-DrawingEventBox* StateMachine::_drawevents = nullptr;
-StateMachine::DrawStates StateMachine::_state = StateMachine::TOOL;
-StateMachine::DrawStates StateMachine::_prevstate = StateMachine::POINTER;
-StateMachine::ToolTypes StateMachine::_tool = StateMachine::DRAW_WIRE;
-
-Glib::ustring StateMachine::get_cursor_name()
+GtkSpiceState* GtkSpiceState::_sm = nullptr;
+DrawingEventBox* GtkSpiceState::_drawevents = nullptr;
+GtkSpiceState::DrawStates GtkSpiceState::_state = GtkSpiceState::TOOL;
+GtkSpiceState::DrawStates GtkSpiceState::_prevstate = GtkSpiceState::POINTER;
+Tool* GtkSpiceState::_active_tool = nullptr;
+/*
+Glib::ustring GtkSpiceState::get_cursor_name()
 {
     Glib::ustring cursor_name = "default";
     switch(_state)
@@ -40,8 +42,13 @@ Glib::ustring StateMachine::get_cursor_name()
     }
     return cursor_name;
 }
+*/
 
-Glib::ustring StateMachine::get_tool_cursor_name()
+Glib::ustring GtkSpiceState::get_tool_cursor_name()
+{
+    return _active_tool->get_tool_cursor_name();
+}
+/*
 {
     Glib::ustring cursor_name = "default";
     switch(_tool)
@@ -77,27 +84,36 @@ Glib::ustring StateMachine::get_tool_cursor_name()
     }
     return cursor_name;
 }
-
-void StateMachine::init(DrawingEventBox* drawevents)
+*/
+void GtkSpiceState::init(DrawingEventBox* drawevents)
 {
     if(!_sm)
-        _sm = new StateMachine(drawevents);
+        _sm = new GtkSpiceState(drawevents);
 }
 
-StateMachine::StateMachine(DrawingEventBox* drawevents)
+GtkSpiceState::GtkSpiceState(DrawingEventBox* drawevents)
 {
     _drawevents = drawevents;
-    _drawevents->button_click().connect(sigc::ptr_fun(&StateMachine::click_handler));
-    _drawevents->mouse_move().connect(sigc::ptr_fun(&StateMachine::move_handler));
-    _drawevents->key_press().connect(sigc::ptr_fun(&StateMachine::key_handler));
+    _drawevents->button_click().connect(sigc::ptr_fun(&GtkSpiceState::click_handler));
+    _drawevents->mouse_move().connect(sigc::ptr_fun(&GtkSpiceState::move_handler));
+    _drawevents->key_press().connect(sigc::ptr_fun(&GtkSpiceState::key_handler));
 }
 
-StateMachine::~StateMachine()
+GtkSpiceState::~GtkSpiceState()
 {
     delete _sm;
 }
 
-void StateMachine::click_handler(Coordinate mousepos, int button, int modifier, int cselect)
+void GtkSpiceState::click_handler(Coordinate mousepos, int button, int modifier, int cselect)
+{
+    _active_tool->tool_click_handler(mousepos,button,modifier,cselect);
+}
+void GtkSpiceState::move_handler(Coordinate mousepos)
+{
+    _active_tool->tool_move_handler(mousepos);
+}
+/*
+void GtkSpiceState::click_handler(Coordinate mousepos, int button, int modifier, int cselect)
 {
     switch(_state)
     {
@@ -115,7 +131,7 @@ void StateMachine::click_handler(Coordinate mousepos, int button, int modifier, 
         break;
     case TOOL:
         // Find object underneath cursor from ObjectStack, pass to tool_handler
-        tool_click_handler(mousepos,button,modifier,cselect);
+        //tool_click_handler(mousepos,button,modifier,cselect);
         break;
     case PAN:
         if(button == LEFT_RELEASE)
@@ -126,7 +142,7 @@ void StateMachine::click_handler(Coordinate mousepos, int button, int modifier, 
 
     }
 }
-void StateMachine::move_handler(Coordinate mousepos)
+void GtkSpiceState::move_handler(Coordinate mousepos)
 {
     switch(_state)
     {
@@ -143,9 +159,8 @@ void StateMachine::move_handler(Coordinate mousepos)
 
     }
 }
-
-// TODO Add undo and redo (ctrl+z, ctrl+y)
-void StateMachine::key_handler(int key,int modifier)
+*/
+void GtkSpiceState::key_handler(int key,int modifier)
 {
     /* UNIVERSAL KEY HANDLING */
     if(modifier == CTRL)
@@ -164,6 +179,8 @@ void StateMachine::key_handler(int key,int modifier)
             break;
         }
     }
+    _active_tool->tool_key_handler(key,modifier);
+/*
     else
     {
         switch(_state)
@@ -200,9 +217,10 @@ void StateMachine::key_handler(int key,int modifier)
             break;
         }
     }
+*/
 }
-
-void StateMachine::tool_click_handler(Coordinate mousepos, int button, int modifier, int cselect)
+/*
+void GtkSpiceState::tool_click_handler(Coordinate mousepos, int button, int modifier, int cselect)
 {
     // Send actions to ActionStack for this component
     mousepos.set_to_snapped();
@@ -263,7 +281,7 @@ void StateMachine::tool_click_handler(Coordinate mousepos, int button, int modif
     }
 }
 
-void StateMachine::tool_move_handler(Coordinate mousepos)
+void GtkSpiceState::tool_move_handler(Coordinate mousepos)
 {
     mousepos.set_to_snapped();
     // Send actions to ActionStack for this component
@@ -300,7 +318,7 @@ void StateMachine::tool_move_handler(Coordinate mousepos)
     }
 }
 
-void StateMachine::tool_key_handler(int key, int modifier)
+void GtkSpiceState::tool_key_handler(int key, int modifier)
 {
     switch(_tool)
     {
@@ -450,4 +468,4 @@ void StateMachine::tool_key_handler(int key, int modifier)
         break;
     }
 }
-
+*/

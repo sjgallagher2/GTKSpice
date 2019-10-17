@@ -22,7 +22,7 @@
 //#include <testing/debug_text.h>
 #include <testing/testdraw.h>
 #include <app/object_tree.h>
-#include <app/state_machine.h>
+#include <app/gtkspice_state.h>
 
 /* THE CAIRO COORDINATE SYSTEM
  * When the screen is drawn, on_draw() is called, which provides a context object. It
@@ -84,7 +84,7 @@ View::~View()
 
 Glib::RefPtr<Gdk::Cursor> View::get_cursor()
 {
-    Glib::ustring ctext = StateMachine::get_cursor_name();
+    Glib::ustring ctext = GtkSpiceState::get_cursor_name();
     if(ctext.compare("default") == 0)
     {
         if(!_pointer_cursor)
@@ -233,7 +233,7 @@ bool View::on_scroll_event(GdkEventScroll* scroll_event)
 
 bool View::on_button_press(GdkEventButton* button_event)
 {
-    if(button_event->button == 1 && StateMachine::get_state() != StateMachine::TOOL)
+    if(button_event->button == 1 && GtkSpiceState::get_state() != GtkSpiceState::TOOL)
     {
         // Use screen (device) location to set pan anchor
         _pan_anchor_d.set_coordinate(button_event->x, button_event->y);
@@ -266,8 +266,9 @@ bool View::on_button_release(GdkEventButton* button_event)
 
 bool View::pan(GdkEventMotion* movement_event)
 {
+    // TODO All instances of state handling must be updated
     _mouse_pos_d.set_coordinate(movement_event->x,movement_event->y);
-    if(StateMachine::get_state() == StateMachine::PAN)
+    if(GtkSpiceState::get_state() == GtkSpiceState::PAN)
     {
         Gtk::Allocation alloc = get_allocation();
         const int width = alloc.get_width();

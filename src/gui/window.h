@@ -17,7 +17,7 @@
 
 #include <gtkmm.h>
 #include <gui/drawingeventbox.h>
-#include <app/state_machine.h>
+#include <app/gtkspice_state.h>
 
 /* 
  * A simple window class. Subclass of Gtk::ApplicationWindow.

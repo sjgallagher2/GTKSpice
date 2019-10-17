@@ -25,7 +25,7 @@ Window::Window()
     add_events(Gdk::KEY_RELEASE_MASK);
 
     add(_drawevents);
-	StateMachine::init(&_drawevents);
+	GtkSpiceState::init(&_drawevents);
     _drawevents.show();
 
     set_title("GTKSpice");

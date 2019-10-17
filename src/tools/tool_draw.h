@@ -11,8 +11,23 @@
  * You should have received a copy of the GNU General Public License
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef TOOL_H
-#define TOOL_H
+#ifndef TOOL_DRAW_H
+#define TOOL_DRAW_H
 
+#include <tools/tool.h>
+#include <app/coordinate.h>
+#include <app/gtkspice_state.h>
 
-#endif /* TOOL_H */
+class DrawTool : public Tool 
+{
+public:
+    DrawTool() {}
+    virtual ~DrawTool() {}
+
+    static void tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect) = 0;
+    static void tool_move_handler(Coordinate mousepos) = 0;
+    static void tool_key_handler(int key,int modifier) = 0;
+    virtual Glib::ustring get_tool_cursor_name() = 0;
+};
+
+#endif /* TOOL_DRAW_H */
