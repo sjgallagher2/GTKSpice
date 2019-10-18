@@ -16,6 +16,7 @@
 #define DRAWINGEVENTBOX_H
 
 #include <gtkmm/eventbox.h>
+#include <gui/drawingeventbox_keyaccel.h>
 #include <gui/view.h>
 
 class DrawingEventBox : public Gtk::EventBox
@@ -47,7 +48,8 @@ protected:
     //bool on_key_release_event(GdkEventKey* event) override;
     int _mouse_button = 0;
     int _modifier = 0;
-    View _v;
+    View _v; // TODO Should the view be here? 
+    DrawingEventBoxKeyAccel* _keyaccel;
     
 };
 

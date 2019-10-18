@@ -24,7 +24,7 @@ in the view class */
 #include <gui/drawingeventbox.h>
 #include <app/gtkspice_state.h>
 
-DrawingEventBox::DrawingEventBox()
+DrawingEventBox::DrawingEventBox() : _keyaccel(new DrawingEventBoxKeyAccel)
 {
     add_events(Gdk::ENTER_NOTIFY_MASK);
     add_events(Gdk::LEAVE_NOTIFY_MASK);

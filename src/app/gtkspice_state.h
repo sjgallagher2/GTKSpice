@@ -34,30 +34,23 @@ enum KeyModifiers {NO_MOD,SHIFT,CTRL,ALT};
 class GtkSpiceState
 {
 public:
-    static void init(DrawingEventBox* drawevents);
+    GtkSpiceState(DrawingEventBox* drawevents);
     ~GtkSpiceState();
 
+    void change_state(DrawStates ds) {_prevstate=_state; _state = ds;}
+    DrawStates get_state() {return _state;}
 
-    static void change_state(DrawStates ds) {_prevstate=_state; _state = ds;}
-    static DrawStates get_state() {return _state;}
+    Glib::ustring get_cursor_name();
 
-    static Glib::ustring get_cursor_name();
-
-    static void click_handler(Coordinate mousepos,int button,int modifier,int cselect);
-    static void move_handler(Coordinate mousepos);
-    static void key_handler(int key,int modifier);
+    void click_handler(Coordinate mousepos,int button,int modifier,int cselect);
+    void move_handler(Coordinate mousepos);
+    void key_handler(int key,int modifier);
 
 private:
-    GtkSpiceState(DrawingEventBox* drawevents);
-    static GtkSpiceState* _sm;
+    Glib::ustring get_tool_cursor_name();
 
-    static Glib::ustring get_tool_cursor_name();
-
-    static DrawingEventBox* _drawevents;
-    static DrawStates _state;
-    static DrawStates _prevstate;
-
-    static Tool* _active_tool;
+    DrawingEventBox* _drawevents;
+    Tool* _active_tool;
 
 };
 

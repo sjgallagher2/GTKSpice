@@ -17,8 +17,7 @@
 #include <gtkmm.h>
 #include <gui/window.h>
 #include <gui/drawingeventbox.h>
-#include <app/action_stack.h>
-#include <app/object_tree.h>
+#include <app/workspace.h>
 
 /* APPLICATION */
 
@@ -33,8 +32,7 @@ public:
 protected:
 	void on_activate();
 	Window _win;
-    ObjectTree* _ot;
-    ActionStack* _as;
+	Workspace* _schemspace;
 };
 
 #endif /* GTKSPICE_H */

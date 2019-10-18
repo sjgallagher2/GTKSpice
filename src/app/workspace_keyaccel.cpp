@@ -12,36 +12,13 @@
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <app/gtkspice.h>
-#include <app/object_tree.h>
+#include <app/workspace_keyaccel.h>
 
-/* APPLICATION */
-GTKSpice::GTKSpice():
-	Gtk::Application("com.gtkspice.GTKSpice", Gio::APPLICATION_HANDLES_OPEN)
+WorkspaceKeyAccel::WorkspaceKeyAccel(ActionFactory* af) : 
+    _actionfactory(af)
 {
 }
 
-void GTKSpice::on_activate()
+WorkspaceKeyAccel::~WorkspaceKeyAccel()
 {
-	// Startup procedure (where there are no input args)
-	// Initialize
-	//_win.set_default_size(1600, 800);
-	add_window(_win);
-	_schemspace = new Workspace();
-	_win.present();
 }
-
-Glib::RefPtr<GTKSpice> GTKSpice::create()
-{
-	return Glib::RefPtr<GTKSpice>(new GTKSpice());
-}
-
-int main(int argc, char* argv[])
-{
-	auto app =
-			GTKSpice::create();
-
-
-	return app->run();
-}
-

@@ -24,51 +24,49 @@
 #include <app/component.h>
 #include <app/coordinate.h>
 
+// TODO: Un-Singleton
+
 class ObjectTree
 {
 public:
-    static ObjectTree* Instance();
-    static void init();
+    ObjectTree();
     ~ObjectTree();
 
-    static void redraw(const Cairo::RefPtr<Cairo::Context>& context);
+    void redraw(const Cairo::RefPtr<Cairo::Context>& context);
 
-    static int add_component(PointParameters pp);
-    static int add_component(LineParameters lp);
+    int add_component(PointParameters pp);
+    int add_component(LineParameters lp);
 
-    static bool remove_component(Glib::ustring type,int index);
+    bool remove_component(Glib::ustring type,int index);
 
-    static LineParameters get_line_parameters(int index);
+    LineParameters get_line_parameters(int index);
     // Move the active vertex of the active line
-    static bool move_line_vertex(Coordinate pos);
+    bool move_line_vertex(Coordinate pos);
     // NOTE: If you want to move a line's vertex outside of line editing,
     // use a move vertex action
-    static bool add_line_vertex(Coordinate pos);
-    static bool remove_line_vertex(Coordinate pos);
-    static void finish_line(); // Remove floating vertex and deactivate
-    static void set_line_active(int index,bool active = true);
-    static void set_no_line_active();
+    bool add_line_vertex(Coordinate pos);
+    bool remove_line_vertex(Coordinate pos);
+    void finish_line(); // Remove floating vertex and deactivate
+    void set_line_active(int index,bool active = true);
+    void set_no_line_active();
 
-    static bool has_active_line();
-    static bool has_active_point();
+    bool has_active_line();
+    bool has_active_point();
 
-    static int get_line_under_cursor(Coordinate mousepos);
+    int get_line_under_cursor(Coordinate mousepos);
 
     typedef std::vector<std::shared_ptr<Component>> Tree;
     typedef Tree::iterator OIter;
     
 private:
-    ObjectTree() {}
+    std::vector<Tree*> _tree;
+    Tree _pointtree;
+    Tree _linetree;
 
-    static ObjectTree* _ot;
-    static std::vector<Tree*> _tree;
-    static Tree _pointtree;
-    static Tree _linetree;
+    int _point_auto_index;
+    int _line_auto_index;
 
-    static int _point_auto_index;
-    static int _line_auto_index;
-
-    static OIter _get_active_line();
+    OIter _get_active_line();
 };
 
 #endif /* OBJECT_TREE_H */

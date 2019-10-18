@@ -15,28 +15,10 @@
 #include <iostream>
 #include <app/object_tree.h>
 
-// Static data
-ObjectTree* ObjectTree::_ot = nullptr;
-std::vector<ObjectTree::Tree*> ObjectTree::_tree;
-ObjectTree::Tree ObjectTree::_pointtree;
-ObjectTree::Tree ObjectTree::_linetree;
-int ObjectTree::_point_auto_index = 0;
-int ObjectTree::_line_auto_index = 0;
-
-ObjectTree* ObjectTree::Instance()
+void ObjectTree::ObjectTree() : _point_auto_index(0), _line_auto_index(0)
 {
-    if(!ObjectTree::_ot)
-    {
-        ObjectTree::_ot = new ObjectTree;
-    }
-    
-    return ObjectTree::_ot;
-}
-
-void ObjectTree::init()
-{
-    ObjectTree::_tree.push_back(&_pointtree);
-    ObjectTree::_tree.push_back(&_linetree);
+    _tree.push_back(&_pointtree);
+    _tree.push_back(&_linetree);
 }
 
 ObjectTree::~ObjectTree()

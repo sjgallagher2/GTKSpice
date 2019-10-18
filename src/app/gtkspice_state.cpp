@@ -19,11 +19,52 @@
 #include <app/gtkspice_state.h>
 #include <app/vertex_list.h>
 
-GtkSpiceState* GtkSpiceState::_sm = nullptr;
-DrawingEventBox* GtkSpiceState::_drawevents = nullptr;
-GtkSpiceState::DrawStates GtkSpiceState::_state = GtkSpiceState::TOOL;
-GtkSpiceState::DrawStates GtkSpiceState::_prevstate = GtkSpiceState::POINTER;
-Tool* GtkSpiceState::_active_tool = nullptr;
+Glib::ustring GtkSpiceState::get_tool_cursor_name()
+{
+    return _active_tool->get_tool_cursor_name();
+}
+GtkSpiceState::GtkSpiceState(DrawingEventBox* drawevents)
+{
+    _drawevents = drawevents;
+    _drawevents->button_click().connect(sigc::ptr_fun(&GtkSpiceState::click_handler));
+    _drawevents->mouse_move().connect(sigc::ptr_fun(&GtkSpiceState::move_handler));
+    _drawevents->key_press().connect(sigc::ptr_fun(&GtkSpiceState::key_handler));
+}
+
+GtkSpiceState::~GtkSpiceState()
+{
+    delete _sm;
+}
+
+void GtkSpiceState::click_handler(Coordinate mousepos, int button, int modifier, int cselect)
+{
+    _active_tool->tool_click_handler(mousepos,button,modifier,cselect);
+}
+void GtkSpiceState::move_handler(Coordinate mousepos)
+{
+    _active_tool->tool_move_handler(mousepos);
+}
+void GtkSpiceState::key_handler(int key,int modifier)
+{
+    /* UNIVERSAL KEY HANDLING */
+    if(modifier == CTRL)
+    {
+        switch(key)
+        {
+        case GDK_KEY_z:
+            // Undo
+            ActionStack::undo();
+            _drawevents->force_redraw();
+            break;
+        case GDK_KEY_r:
+            // Redo
+            ActionStack::redo();
+            _drawevents->force_redraw();
+            break;
+        }
+    }
+    _active_tool->tool_key_handler(key,modifier);
+}
 /*
 Glib::ustring GtkSpiceState::get_cursor_name()
 {
@@ -44,10 +85,6 @@ Glib::ustring GtkSpiceState::get_cursor_name()
 }
 */
 
-Glib::ustring GtkSpiceState::get_tool_cursor_name()
-{
-    return _active_tool->get_tool_cursor_name();
-}
 /*
 {
     Glib::ustring cursor_name = "default";
@@ -85,33 +122,7 @@ Glib::ustring GtkSpiceState::get_tool_cursor_name()
     return cursor_name;
 }
 */
-void GtkSpiceState::init(DrawingEventBox* drawevents)
-{
-    if(!_sm)
-        _sm = new GtkSpiceState(drawevents);
-}
 
-GtkSpiceState::GtkSpiceState(DrawingEventBox* drawevents)
-{
-    _drawevents = drawevents;
-    _drawevents->button_click().connect(sigc::ptr_fun(&GtkSpiceState::click_handler));
-    _drawevents->mouse_move().connect(sigc::ptr_fun(&GtkSpiceState::move_handler));
-    _drawevents->key_press().connect(sigc::ptr_fun(&GtkSpiceState::key_handler));
-}
-
-GtkSpiceState::~GtkSpiceState()
-{
-    delete _sm;
-}
-
-void GtkSpiceState::click_handler(Coordinate mousepos, int button, int modifier, int cselect)
-{
-    _active_tool->tool_click_handler(mousepos,button,modifier,cselect);
-}
-void GtkSpiceState::move_handler(Coordinate mousepos)
-{
-    _active_tool->tool_move_handler(mousepos);
-}
 /*
 void GtkSpiceState::click_handler(Coordinate mousepos, int button, int modifier, int cselect)
 {
@@ -160,26 +171,6 @@ void GtkSpiceState::move_handler(Coordinate mousepos)
     }
 }
 */
-void GtkSpiceState::key_handler(int key,int modifier)
-{
-    /* UNIVERSAL KEY HANDLING */
-    if(modifier == CTRL)
-    {
-        switch(key)
-        {
-        case GDK_KEY_z:
-            // Undo
-            ActionStack::undo();
-            _drawevents->force_redraw();
-            break;
-        case GDK_KEY_r:
-            // Redo
-            ActionStack::redo();
-            _drawevents->force_redraw();
-            break;
-        }
-    }
-    _active_tool->tool_key_handler(key,modifier);
 /*
     else
     {
@@ -218,7 +209,6 @@ void GtkSpiceState::key_handler(int key,int modifier)
         }
     }
 */
-}
 /*
 void GtkSpiceState::tool_click_handler(Coordinate mousepos, int button, int modifier, int cselect)
 {
