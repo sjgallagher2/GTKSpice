@@ -105,9 +105,33 @@ src/CMakeFiles/gtkspice.dir/app/action_stack.cpp.o.provides: src/CMakeFiles/gtks
 src/CMakeFiles/gtkspice.dir/app/action_stack.cpp.o.provides.build: src/CMakeFiles/gtkspice.dir/app/action_stack.cpp.o
 
 
+src/CMakeFiles/gtkspice.dir/app/canvas.cpp.o: src/CMakeFiles/gtkspice.dir/flags.make
+src/CMakeFiles/gtkspice.dir/app/canvas.cpp.o: src/app/canvas.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/CMakeFiles/gtkspice.dir/app/canvas.cpp.o"
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/gtkspice.dir/app/canvas.cpp.o -c /home/sam/Documents/Devel/Cpp/GTKSpice/src/app/canvas.cpp
+
+src/CMakeFiles/gtkspice.dir/app/canvas.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gtkspice.dir/app/canvas.cpp.i"
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sam/Documents/Devel/Cpp/GTKSpice/src/app/canvas.cpp > CMakeFiles/gtkspice.dir/app/canvas.cpp.i
+
+src/CMakeFiles/gtkspice.dir/app/canvas.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gtkspice.dir/app/canvas.cpp.s"
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sam/Documents/Devel/Cpp/GTKSpice/src/app/canvas.cpp -o CMakeFiles/gtkspice.dir/app/canvas.cpp.s
+
+src/CMakeFiles/gtkspice.dir/app/canvas.cpp.o.requires:
+
+.PHONY : src/CMakeFiles/gtkspice.dir/app/canvas.cpp.o.requires
+
+src/CMakeFiles/gtkspice.dir/app/canvas.cpp.o.provides: src/CMakeFiles/gtkspice.dir/app/canvas.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/canvas.cpp.o.provides.build
+.PHONY : src/CMakeFiles/gtkspice.dir/app/canvas.cpp.o.provides
+
+src/CMakeFiles/gtkspice.dir/app/canvas.cpp.o.provides.build: src/CMakeFiles/gtkspice.dir/app/canvas.cpp.o
+
+
 src/CMakeFiles/gtkspice.dir/app/component.cpp.o: src/CMakeFiles/gtkspice.dir/flags.make
 src/CMakeFiles/gtkspice.dir/app/component.cpp.o: src/app/component.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/CMakeFiles/gtkspice.dir/app/component.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/CMakeFiles/gtkspice.dir/app/component.cpp.o"
 	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/gtkspice.dir/app/component.cpp.o -c /home/sam/Documents/Devel/Cpp/GTKSpice/src/app/component.cpp
 
 src/CMakeFiles/gtkspice.dir/app/component.cpp.i: cmake_force
@@ -131,7 +155,7 @@ src/CMakeFiles/gtkspice.dir/app/component.cpp.o.provides.build: src/CMakeFiles/g
 
 src/CMakeFiles/gtkspice.dir/app/coordinate.cpp.o: src/CMakeFiles/gtkspice.dir/flags.make
 src/CMakeFiles/gtkspice.dir/app/coordinate.cpp.o: src/app/coordinate.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/CMakeFiles/gtkspice.dir/app/coordinate.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object src/CMakeFiles/gtkspice.dir/app/coordinate.cpp.o"
 	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/gtkspice.dir/app/coordinate.cpp.o -c /home/sam/Documents/Devel/Cpp/GTKSpice/src/app/coordinate.cpp
 
 src/CMakeFiles/gtkspice.dir/app/coordinate.cpp.i: cmake_force
@@ -155,7 +179,7 @@ src/CMakeFiles/gtkspice.dir/app/coordinate.cpp.o.provides.build: src/CMakeFiles/
 
 src/CMakeFiles/gtkspice.dir/app/coordinate_system.cpp.o: src/CMakeFiles/gtkspice.dir/flags.make
 src/CMakeFiles/gtkspice.dir/app/coordinate_system.cpp.o: src/app/coordinate_system.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object src/CMakeFiles/gtkspice.dir/app/coordinate_system.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object src/CMakeFiles/gtkspice.dir/app/coordinate_system.cpp.o"
 	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/gtkspice.dir/app/coordinate_system.cpp.o -c /home/sam/Documents/Devel/Cpp/GTKSpice/src/app/coordinate_system.cpp
 
 src/CMakeFiles/gtkspice.dir/app/coordinate_system.cpp.i: cmake_force
@@ -179,7 +203,7 @@ src/CMakeFiles/gtkspice.dir/app/coordinate_system.cpp.o.provides.build: src/CMak
 
 src/CMakeFiles/gtkspice.dir/app/gtkspice.cpp.o: src/CMakeFiles/gtkspice.dir/flags.make
 src/CMakeFiles/gtkspice.dir/app/gtkspice.cpp.o: src/app/gtkspice.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object src/CMakeFiles/gtkspice.dir/app/gtkspice.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object src/CMakeFiles/gtkspice.dir/app/gtkspice.cpp.o"
 	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/gtkspice.dir/app/gtkspice.cpp.o -c /home/sam/Documents/Devel/Cpp/GTKSpice/src/app/gtkspice.cpp
 
 src/CMakeFiles/gtkspice.dir/app/gtkspice.cpp.i: cmake_force
@@ -201,9 +225,33 @@ src/CMakeFiles/gtkspice.dir/app/gtkspice.cpp.o.provides: src/CMakeFiles/gtkspice
 src/CMakeFiles/gtkspice.dir/app/gtkspice.cpp.o.provides.build: src/CMakeFiles/gtkspice.dir/app/gtkspice.cpp.o
 
 
+src/CMakeFiles/gtkspice.dir/app/gtkspice_state.cpp.o: src/CMakeFiles/gtkspice.dir/flags.make
+src/CMakeFiles/gtkspice.dir/app/gtkspice_state.cpp.o: src/app/gtkspice_state.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object src/CMakeFiles/gtkspice.dir/app/gtkspice_state.cpp.o"
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/gtkspice.dir/app/gtkspice_state.cpp.o -c /home/sam/Documents/Devel/Cpp/GTKSpice/src/app/gtkspice_state.cpp
+
+src/CMakeFiles/gtkspice.dir/app/gtkspice_state.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gtkspice.dir/app/gtkspice_state.cpp.i"
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sam/Documents/Devel/Cpp/GTKSpice/src/app/gtkspice_state.cpp > CMakeFiles/gtkspice.dir/app/gtkspice_state.cpp.i
+
+src/CMakeFiles/gtkspice.dir/app/gtkspice_state.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gtkspice.dir/app/gtkspice_state.cpp.s"
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sam/Documents/Devel/Cpp/GTKSpice/src/app/gtkspice_state.cpp -o CMakeFiles/gtkspice.dir/app/gtkspice_state.cpp.s
+
+src/CMakeFiles/gtkspice.dir/app/gtkspice_state.cpp.o.requires:
+
+.PHONY : src/CMakeFiles/gtkspice.dir/app/gtkspice_state.cpp.o.requires
+
+src/CMakeFiles/gtkspice.dir/app/gtkspice_state.cpp.o.provides: src/CMakeFiles/gtkspice.dir/app/gtkspice_state.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/gtkspice_state.cpp.o.provides.build
+.PHONY : src/CMakeFiles/gtkspice.dir/app/gtkspice_state.cpp.o.provides
+
+src/CMakeFiles/gtkspice.dir/app/gtkspice_state.cpp.o.provides.build: src/CMakeFiles/gtkspice.dir/app/gtkspice_state.cpp.o
+
+
 src/CMakeFiles/gtkspice.dir/app/object_tree.cpp.o: src/CMakeFiles/gtkspice.dir/flags.make
 src/CMakeFiles/gtkspice.dir/app/object_tree.cpp.o: src/app/object_tree.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object src/CMakeFiles/gtkspice.dir/app/object_tree.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object src/CMakeFiles/gtkspice.dir/app/object_tree.cpp.o"
 	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/gtkspice.dir/app/object_tree.cpp.o -c /home/sam/Documents/Devel/Cpp/GTKSpice/src/app/object_tree.cpp
 
 src/CMakeFiles/gtkspice.dir/app/object_tree.cpp.i: cmake_force
@@ -225,33 +273,105 @@ src/CMakeFiles/gtkspice.dir/app/object_tree.cpp.o.provides: src/CMakeFiles/gtksp
 src/CMakeFiles/gtkspice.dir/app/object_tree.cpp.o.provides.build: src/CMakeFiles/gtkspice.dir/app/object_tree.cpp.o
 
 
-src/CMakeFiles/gtkspice.dir/app/state_machine.cpp.o: src/CMakeFiles/gtkspice.dir/flags.make
-src/CMakeFiles/gtkspice.dir/app/state_machine.cpp.o: src/app/state_machine.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object src/CMakeFiles/gtkspice.dir/app/state_machine.cpp.o"
-	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/gtkspice.dir/app/state_machine.cpp.o -c /home/sam/Documents/Devel/Cpp/GTKSpice/src/app/state_machine.cpp
+src/CMakeFiles/gtkspice.dir/app/schematic.cpp.o: src/CMakeFiles/gtkspice.dir/flags.make
+src/CMakeFiles/gtkspice.dir/app/schematic.cpp.o: src/app/schematic.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object src/CMakeFiles/gtkspice.dir/app/schematic.cpp.o"
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/gtkspice.dir/app/schematic.cpp.o -c /home/sam/Documents/Devel/Cpp/GTKSpice/src/app/schematic.cpp
 
-src/CMakeFiles/gtkspice.dir/app/state_machine.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gtkspice.dir/app/state_machine.cpp.i"
-	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sam/Documents/Devel/Cpp/GTKSpice/src/app/state_machine.cpp > CMakeFiles/gtkspice.dir/app/state_machine.cpp.i
+src/CMakeFiles/gtkspice.dir/app/schematic.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gtkspice.dir/app/schematic.cpp.i"
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sam/Documents/Devel/Cpp/GTKSpice/src/app/schematic.cpp > CMakeFiles/gtkspice.dir/app/schematic.cpp.i
 
-src/CMakeFiles/gtkspice.dir/app/state_machine.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gtkspice.dir/app/state_machine.cpp.s"
-	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sam/Documents/Devel/Cpp/GTKSpice/src/app/state_machine.cpp -o CMakeFiles/gtkspice.dir/app/state_machine.cpp.s
+src/CMakeFiles/gtkspice.dir/app/schematic.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gtkspice.dir/app/schematic.cpp.s"
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sam/Documents/Devel/Cpp/GTKSpice/src/app/schematic.cpp -o CMakeFiles/gtkspice.dir/app/schematic.cpp.s
 
-src/CMakeFiles/gtkspice.dir/app/state_machine.cpp.o.requires:
+src/CMakeFiles/gtkspice.dir/app/schematic.cpp.o.requires:
 
-.PHONY : src/CMakeFiles/gtkspice.dir/app/state_machine.cpp.o.requires
+.PHONY : src/CMakeFiles/gtkspice.dir/app/schematic.cpp.o.requires
 
-src/CMakeFiles/gtkspice.dir/app/state_machine.cpp.o.provides: src/CMakeFiles/gtkspice.dir/app/state_machine.cpp.o.requires
-	$(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/state_machine.cpp.o.provides.build
-.PHONY : src/CMakeFiles/gtkspice.dir/app/state_machine.cpp.o.provides
+src/CMakeFiles/gtkspice.dir/app/schematic.cpp.o.provides: src/CMakeFiles/gtkspice.dir/app/schematic.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/schematic.cpp.o.provides.build
+.PHONY : src/CMakeFiles/gtkspice.dir/app/schematic.cpp.o.provides
 
-src/CMakeFiles/gtkspice.dir/app/state_machine.cpp.o.provides.build: src/CMakeFiles/gtkspice.dir/app/state_machine.cpp.o
+src/CMakeFiles/gtkspice.dir/app/schematic.cpp.o.provides.build: src/CMakeFiles/gtkspice.dir/app/schematic.cpp.o
+
+
+src/CMakeFiles/gtkspice.dir/app/spice_data.cpp.o: src/CMakeFiles/gtkspice.dir/flags.make
+src/CMakeFiles/gtkspice.dir/app/spice_data.cpp.o: src/app/spice_data.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object src/CMakeFiles/gtkspice.dir/app/spice_data.cpp.o"
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/gtkspice.dir/app/spice_data.cpp.o -c /home/sam/Documents/Devel/Cpp/GTKSpice/src/app/spice_data.cpp
+
+src/CMakeFiles/gtkspice.dir/app/spice_data.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gtkspice.dir/app/spice_data.cpp.i"
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sam/Documents/Devel/Cpp/GTKSpice/src/app/spice_data.cpp > CMakeFiles/gtkspice.dir/app/spice_data.cpp.i
+
+src/CMakeFiles/gtkspice.dir/app/spice_data.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gtkspice.dir/app/spice_data.cpp.s"
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sam/Documents/Devel/Cpp/GTKSpice/src/app/spice_data.cpp -o CMakeFiles/gtkspice.dir/app/spice_data.cpp.s
+
+src/CMakeFiles/gtkspice.dir/app/spice_data.cpp.o.requires:
+
+.PHONY : src/CMakeFiles/gtkspice.dir/app/spice_data.cpp.o.requires
+
+src/CMakeFiles/gtkspice.dir/app/spice_data.cpp.o.provides: src/CMakeFiles/gtkspice.dir/app/spice_data.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/spice_data.cpp.o.provides.build
+.PHONY : src/CMakeFiles/gtkspice.dir/app/spice_data.cpp.o.provides
+
+src/CMakeFiles/gtkspice.dir/app/spice_data.cpp.o.provides.build: src/CMakeFiles/gtkspice.dir/app/spice_data.cpp.o
+
+
+src/CMakeFiles/gtkspice.dir/app/workspace.cpp.o: src/CMakeFiles/gtkspice.dir/flags.make
+src/CMakeFiles/gtkspice.dir/app/workspace.cpp.o: src/app/workspace.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object src/CMakeFiles/gtkspice.dir/app/workspace.cpp.o"
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/gtkspice.dir/app/workspace.cpp.o -c /home/sam/Documents/Devel/Cpp/GTKSpice/src/app/workspace.cpp
+
+src/CMakeFiles/gtkspice.dir/app/workspace.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gtkspice.dir/app/workspace.cpp.i"
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sam/Documents/Devel/Cpp/GTKSpice/src/app/workspace.cpp > CMakeFiles/gtkspice.dir/app/workspace.cpp.i
+
+src/CMakeFiles/gtkspice.dir/app/workspace.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gtkspice.dir/app/workspace.cpp.s"
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sam/Documents/Devel/Cpp/GTKSpice/src/app/workspace.cpp -o CMakeFiles/gtkspice.dir/app/workspace.cpp.s
+
+src/CMakeFiles/gtkspice.dir/app/workspace.cpp.o.requires:
+
+.PHONY : src/CMakeFiles/gtkspice.dir/app/workspace.cpp.o.requires
+
+src/CMakeFiles/gtkspice.dir/app/workspace.cpp.o.provides: src/CMakeFiles/gtkspice.dir/app/workspace.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/workspace.cpp.o.provides.build
+.PHONY : src/CMakeFiles/gtkspice.dir/app/workspace.cpp.o.provides
+
+src/CMakeFiles/gtkspice.dir/app/workspace.cpp.o.provides.build: src/CMakeFiles/gtkspice.dir/app/workspace.cpp.o
+
+
+src/CMakeFiles/gtkspice.dir/app/workspace_keyaccel.cpp.o: src/CMakeFiles/gtkspice.dir/flags.make
+src/CMakeFiles/gtkspice.dir/app/workspace_keyaccel.cpp.o: src/app/workspace_keyaccel.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object src/CMakeFiles/gtkspice.dir/app/workspace_keyaccel.cpp.o"
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/gtkspice.dir/app/workspace_keyaccel.cpp.o -c /home/sam/Documents/Devel/Cpp/GTKSpice/src/app/workspace_keyaccel.cpp
+
+src/CMakeFiles/gtkspice.dir/app/workspace_keyaccel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gtkspice.dir/app/workspace_keyaccel.cpp.i"
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sam/Documents/Devel/Cpp/GTKSpice/src/app/workspace_keyaccel.cpp > CMakeFiles/gtkspice.dir/app/workspace_keyaccel.cpp.i
+
+src/CMakeFiles/gtkspice.dir/app/workspace_keyaccel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gtkspice.dir/app/workspace_keyaccel.cpp.s"
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sam/Documents/Devel/Cpp/GTKSpice/src/app/workspace_keyaccel.cpp -o CMakeFiles/gtkspice.dir/app/workspace_keyaccel.cpp.s
+
+src/CMakeFiles/gtkspice.dir/app/workspace_keyaccel.cpp.o.requires:
+
+.PHONY : src/CMakeFiles/gtkspice.dir/app/workspace_keyaccel.cpp.o.requires
+
+src/CMakeFiles/gtkspice.dir/app/workspace_keyaccel.cpp.o.provides: src/CMakeFiles/gtkspice.dir/app/workspace_keyaccel.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/workspace_keyaccel.cpp.o.provides.build
+.PHONY : src/CMakeFiles/gtkspice.dir/app/workspace_keyaccel.cpp.o.provides
+
+src/CMakeFiles/gtkspice.dir/app/workspace_keyaccel.cpp.o.provides.build: src/CMakeFiles/gtkspice.dir/app/workspace_keyaccel.cpp.o
 
 
 src/CMakeFiles/gtkspice.dir/gui/drawingeventbox.cpp.o: src/CMakeFiles/gtkspice.dir/flags.make
 src/CMakeFiles/gtkspice.dir/gui/drawingeventbox.cpp.o: src/gui/drawingeventbox.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object src/CMakeFiles/gtkspice.dir/gui/drawingeventbox.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object src/CMakeFiles/gtkspice.dir/gui/drawingeventbox.cpp.o"
 	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/gtkspice.dir/gui/drawingeventbox.cpp.o -c /home/sam/Documents/Devel/Cpp/GTKSpice/src/gui/drawingeventbox.cpp
 
 src/CMakeFiles/gtkspice.dir/gui/drawingeventbox.cpp.i: cmake_force
@@ -273,9 +393,33 @@ src/CMakeFiles/gtkspice.dir/gui/drawingeventbox.cpp.o.provides: src/CMakeFiles/g
 src/CMakeFiles/gtkspice.dir/gui/drawingeventbox.cpp.o.provides.build: src/CMakeFiles/gtkspice.dir/gui/drawingeventbox.cpp.o
 
 
+src/CMakeFiles/gtkspice.dir/gui/drawingeventbox_keyaccel.cpp.o: src/CMakeFiles/gtkspice.dir/flags.make
+src/CMakeFiles/gtkspice.dir/gui/drawingeventbox_keyaccel.cpp.o: src/gui/drawingeventbox_keyaccel.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object src/CMakeFiles/gtkspice.dir/gui/drawingeventbox_keyaccel.cpp.o"
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/gtkspice.dir/gui/drawingeventbox_keyaccel.cpp.o -c /home/sam/Documents/Devel/Cpp/GTKSpice/src/gui/drawingeventbox_keyaccel.cpp
+
+src/CMakeFiles/gtkspice.dir/gui/drawingeventbox_keyaccel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gtkspice.dir/gui/drawingeventbox_keyaccel.cpp.i"
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sam/Documents/Devel/Cpp/GTKSpice/src/gui/drawingeventbox_keyaccel.cpp > CMakeFiles/gtkspice.dir/gui/drawingeventbox_keyaccel.cpp.i
+
+src/CMakeFiles/gtkspice.dir/gui/drawingeventbox_keyaccel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gtkspice.dir/gui/drawingeventbox_keyaccel.cpp.s"
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sam/Documents/Devel/Cpp/GTKSpice/src/gui/drawingeventbox_keyaccel.cpp -o CMakeFiles/gtkspice.dir/gui/drawingeventbox_keyaccel.cpp.s
+
+src/CMakeFiles/gtkspice.dir/gui/drawingeventbox_keyaccel.cpp.o.requires:
+
+.PHONY : src/CMakeFiles/gtkspice.dir/gui/drawingeventbox_keyaccel.cpp.o.requires
+
+src/CMakeFiles/gtkspice.dir/gui/drawingeventbox_keyaccel.cpp.o.provides: src/CMakeFiles/gtkspice.dir/gui/drawingeventbox_keyaccel.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/gui/drawingeventbox_keyaccel.cpp.o.provides.build
+.PHONY : src/CMakeFiles/gtkspice.dir/gui/drawingeventbox_keyaccel.cpp.o.provides
+
+src/CMakeFiles/gtkspice.dir/gui/drawingeventbox_keyaccel.cpp.o.provides.build: src/CMakeFiles/gtkspice.dir/gui/drawingeventbox_keyaccel.cpp.o
+
+
 src/CMakeFiles/gtkspice.dir/gui/grid.cpp.o: src/CMakeFiles/gtkspice.dir/flags.make
 src/CMakeFiles/gtkspice.dir/gui/grid.cpp.o: src/gui/grid.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object src/CMakeFiles/gtkspice.dir/gui/grid.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object src/CMakeFiles/gtkspice.dir/gui/grid.cpp.o"
 	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/gtkspice.dir/gui/grid.cpp.o -c /home/sam/Documents/Devel/Cpp/GTKSpice/src/gui/grid.cpp
 
 src/CMakeFiles/gtkspice.dir/gui/grid.cpp.i: cmake_force
@@ -299,7 +443,7 @@ src/CMakeFiles/gtkspice.dir/gui/grid.cpp.o.provides.build: src/CMakeFiles/gtkspi
 
 src/CMakeFiles/gtkspice.dir/gui/view.cpp.o: src/CMakeFiles/gtkspice.dir/flags.make
 src/CMakeFiles/gtkspice.dir/gui/view.cpp.o: src/gui/view.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object src/CMakeFiles/gtkspice.dir/gui/view.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object src/CMakeFiles/gtkspice.dir/gui/view.cpp.o"
 	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/gtkspice.dir/gui/view.cpp.o -c /home/sam/Documents/Devel/Cpp/GTKSpice/src/gui/view.cpp
 
 src/CMakeFiles/gtkspice.dir/gui/view.cpp.i: cmake_force
@@ -321,9 +465,33 @@ src/CMakeFiles/gtkspice.dir/gui/view.cpp.o.provides: src/CMakeFiles/gtkspice.dir
 src/CMakeFiles/gtkspice.dir/gui/view.cpp.o.provides.build: src/CMakeFiles/gtkspice.dir/gui/view.cpp.o
 
 
+src/CMakeFiles/gtkspice.dir/gui/view_features.cpp.o: src/CMakeFiles/gtkspice.dir/flags.make
+src/CMakeFiles/gtkspice.dir/gui/view_features.cpp.o: src/gui/view_features.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object src/CMakeFiles/gtkspice.dir/gui/view_features.cpp.o"
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/gtkspice.dir/gui/view_features.cpp.o -c /home/sam/Documents/Devel/Cpp/GTKSpice/src/gui/view_features.cpp
+
+src/CMakeFiles/gtkspice.dir/gui/view_features.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gtkspice.dir/gui/view_features.cpp.i"
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sam/Documents/Devel/Cpp/GTKSpice/src/gui/view_features.cpp > CMakeFiles/gtkspice.dir/gui/view_features.cpp.i
+
+src/CMakeFiles/gtkspice.dir/gui/view_features.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gtkspice.dir/gui/view_features.cpp.s"
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sam/Documents/Devel/Cpp/GTKSpice/src/gui/view_features.cpp -o CMakeFiles/gtkspice.dir/gui/view_features.cpp.s
+
+src/CMakeFiles/gtkspice.dir/gui/view_features.cpp.o.requires:
+
+.PHONY : src/CMakeFiles/gtkspice.dir/gui/view_features.cpp.o.requires
+
+src/CMakeFiles/gtkspice.dir/gui/view_features.cpp.o.provides: src/CMakeFiles/gtkspice.dir/gui/view_features.cpp.o.requires
+	$(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/gui/view_features.cpp.o.provides.build
+.PHONY : src/CMakeFiles/gtkspice.dir/gui/view_features.cpp.o.provides
+
+src/CMakeFiles/gtkspice.dir/gui/view_features.cpp.o.provides.build: src/CMakeFiles/gtkspice.dir/gui/view_features.cpp.o
+
+
 src/CMakeFiles/gtkspice.dir/gui/viewport.cpp.o: src/CMakeFiles/gtkspice.dir/flags.make
 src/CMakeFiles/gtkspice.dir/gui/viewport.cpp.o: src/gui/viewport.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object src/CMakeFiles/gtkspice.dir/gui/viewport.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object src/CMakeFiles/gtkspice.dir/gui/viewport.cpp.o"
 	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/gtkspice.dir/gui/viewport.cpp.o -c /home/sam/Documents/Devel/Cpp/GTKSpice/src/gui/viewport.cpp
 
 src/CMakeFiles/gtkspice.dir/gui/viewport.cpp.i: cmake_force
@@ -347,7 +515,7 @@ src/CMakeFiles/gtkspice.dir/gui/viewport.cpp.o.provides.build: src/CMakeFiles/gt
 
 src/CMakeFiles/gtkspice.dir/gui/window.cpp.o: src/CMakeFiles/gtkspice.dir/flags.make
 src/CMakeFiles/gtkspice.dir/gui/window.cpp.o: src/gui/window.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object src/CMakeFiles/gtkspice.dir/gui/window.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object src/CMakeFiles/gtkspice.dir/gui/window.cpp.o"
 	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/gtkspice.dir/gui/window.cpp.o -c /home/sam/Documents/Devel/Cpp/GTKSpice/src/gui/window.cpp
 
 src/CMakeFiles/gtkspice.dir/gui/window.cpp.i: cmake_force
@@ -371,7 +539,7 @@ src/CMakeFiles/gtkspice.dir/gui/window.cpp.o.provides.build: src/CMakeFiles/gtks
 
 src/CMakeFiles/gtkspice.dir/testing/debug_text.cpp.o: src/CMakeFiles/gtkspice.dir/flags.make
 src/CMakeFiles/gtkspice.dir/testing/debug_text.cpp.o: src/testing/debug_text.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object src/CMakeFiles/gtkspice.dir/testing/debug_text.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object src/CMakeFiles/gtkspice.dir/testing/debug_text.cpp.o"
 	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/gtkspice.dir/testing/debug_text.cpp.o -c /home/sam/Documents/Devel/Cpp/GTKSpice/src/testing/debug_text.cpp
 
 src/CMakeFiles/gtkspice.dir/testing/debug_text.cpp.i: cmake_force
@@ -395,7 +563,7 @@ src/CMakeFiles/gtkspice.dir/testing/debug_text.cpp.o.provides.build: src/CMakeFi
 
 src/CMakeFiles/gtkspice.dir/testing/testdraw.cpp.o: src/CMakeFiles/gtkspice.dir/flags.make
 src/CMakeFiles/gtkspice.dir/testing/testdraw.cpp.o: src/testing/testdraw.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object src/CMakeFiles/gtkspice.dir/testing/testdraw.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object src/CMakeFiles/gtkspice.dir/testing/testdraw.cpp.o"
 	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/gtkspice.dir/testing/testdraw.cpp.o -c /home/sam/Documents/Devel/Cpp/GTKSpice/src/testing/testdraw.cpp
 
 src/CMakeFiles/gtkspice.dir/testing/testdraw.cpp.i: cmake_force
@@ -421,15 +589,22 @@ src/CMakeFiles/gtkspice.dir/testing/testdraw.cpp.o.provides.build: src/CMakeFile
 gtkspice_OBJECTS = \
 "CMakeFiles/gtkspice.dir/app/action.cpp.o" \
 "CMakeFiles/gtkspice.dir/app/action_stack.cpp.o" \
+"CMakeFiles/gtkspice.dir/app/canvas.cpp.o" \
 "CMakeFiles/gtkspice.dir/app/component.cpp.o" \
 "CMakeFiles/gtkspice.dir/app/coordinate.cpp.o" \
 "CMakeFiles/gtkspice.dir/app/coordinate_system.cpp.o" \
 "CMakeFiles/gtkspice.dir/app/gtkspice.cpp.o" \
+"CMakeFiles/gtkspice.dir/app/gtkspice_state.cpp.o" \
 "CMakeFiles/gtkspice.dir/app/object_tree.cpp.o" \
-"CMakeFiles/gtkspice.dir/app/state_machine.cpp.o" \
+"CMakeFiles/gtkspice.dir/app/schematic.cpp.o" \
+"CMakeFiles/gtkspice.dir/app/spice_data.cpp.o" \
+"CMakeFiles/gtkspice.dir/app/workspace.cpp.o" \
+"CMakeFiles/gtkspice.dir/app/workspace_keyaccel.cpp.o" \
 "CMakeFiles/gtkspice.dir/gui/drawingeventbox.cpp.o" \
+"CMakeFiles/gtkspice.dir/gui/drawingeventbox_keyaccel.cpp.o" \
 "CMakeFiles/gtkspice.dir/gui/grid.cpp.o" \
 "CMakeFiles/gtkspice.dir/gui/view.cpp.o" \
+"CMakeFiles/gtkspice.dir/gui/view_features.cpp.o" \
 "CMakeFiles/gtkspice.dir/gui/viewport.cpp.o" \
 "CMakeFiles/gtkspice.dir/gui/window.cpp.o" \
 "CMakeFiles/gtkspice.dir/testing/debug_text.cpp.o" \
@@ -440,22 +615,29 @@ gtkspice_EXTERNAL_OBJECTS =
 
 src/gtkspice: src/CMakeFiles/gtkspice.dir/app/action.cpp.o
 src/gtkspice: src/CMakeFiles/gtkspice.dir/app/action_stack.cpp.o
+src/gtkspice: src/CMakeFiles/gtkspice.dir/app/canvas.cpp.o
 src/gtkspice: src/CMakeFiles/gtkspice.dir/app/component.cpp.o
 src/gtkspice: src/CMakeFiles/gtkspice.dir/app/coordinate.cpp.o
 src/gtkspice: src/CMakeFiles/gtkspice.dir/app/coordinate_system.cpp.o
 src/gtkspice: src/CMakeFiles/gtkspice.dir/app/gtkspice.cpp.o
+src/gtkspice: src/CMakeFiles/gtkspice.dir/app/gtkspice_state.cpp.o
 src/gtkspice: src/CMakeFiles/gtkspice.dir/app/object_tree.cpp.o
-src/gtkspice: src/CMakeFiles/gtkspice.dir/app/state_machine.cpp.o
+src/gtkspice: src/CMakeFiles/gtkspice.dir/app/schematic.cpp.o
+src/gtkspice: src/CMakeFiles/gtkspice.dir/app/spice_data.cpp.o
+src/gtkspice: src/CMakeFiles/gtkspice.dir/app/workspace.cpp.o
+src/gtkspice: src/CMakeFiles/gtkspice.dir/app/workspace_keyaccel.cpp.o
 src/gtkspice: src/CMakeFiles/gtkspice.dir/gui/drawingeventbox.cpp.o
+src/gtkspice: src/CMakeFiles/gtkspice.dir/gui/drawingeventbox_keyaccel.cpp.o
 src/gtkspice: src/CMakeFiles/gtkspice.dir/gui/grid.cpp.o
 src/gtkspice: src/CMakeFiles/gtkspice.dir/gui/view.cpp.o
+src/gtkspice: src/CMakeFiles/gtkspice.dir/gui/view_features.cpp.o
 src/gtkspice: src/CMakeFiles/gtkspice.dir/gui/viewport.cpp.o
 src/gtkspice: src/CMakeFiles/gtkspice.dir/gui/window.cpp.o
 src/gtkspice: src/CMakeFiles/gtkspice.dir/testing/debug_text.cpp.o
 src/gtkspice: src/CMakeFiles/gtkspice.dir/testing/testdraw.cpp.o
 src/gtkspice: src/CMakeFiles/gtkspice.dir/build.make
 src/gtkspice: src/CMakeFiles/gtkspice.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking CXX executable gtkspice"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/sam/Documents/Devel/Cpp/GTKSpice/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Linking CXX executable gtkspice"
 	cd /home/sam/Documents/Devel/Cpp/GTKSpice/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/gtkspice.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -465,15 +647,22 @@ src/CMakeFiles/gtkspice.dir/build: src/gtkspice
 
 src/CMakeFiles/gtkspice.dir/requires: src/CMakeFiles/gtkspice.dir/app/action.cpp.o.requires
 src/CMakeFiles/gtkspice.dir/requires: src/CMakeFiles/gtkspice.dir/app/action_stack.cpp.o.requires
+src/CMakeFiles/gtkspice.dir/requires: src/CMakeFiles/gtkspice.dir/app/canvas.cpp.o.requires
 src/CMakeFiles/gtkspice.dir/requires: src/CMakeFiles/gtkspice.dir/app/component.cpp.o.requires
 src/CMakeFiles/gtkspice.dir/requires: src/CMakeFiles/gtkspice.dir/app/coordinate.cpp.o.requires
 src/CMakeFiles/gtkspice.dir/requires: src/CMakeFiles/gtkspice.dir/app/coordinate_system.cpp.o.requires
 src/CMakeFiles/gtkspice.dir/requires: src/CMakeFiles/gtkspice.dir/app/gtkspice.cpp.o.requires
+src/CMakeFiles/gtkspice.dir/requires: src/CMakeFiles/gtkspice.dir/app/gtkspice_state.cpp.o.requires
 src/CMakeFiles/gtkspice.dir/requires: src/CMakeFiles/gtkspice.dir/app/object_tree.cpp.o.requires
-src/CMakeFiles/gtkspice.dir/requires: src/CMakeFiles/gtkspice.dir/app/state_machine.cpp.o.requires
+src/CMakeFiles/gtkspice.dir/requires: src/CMakeFiles/gtkspice.dir/app/schematic.cpp.o.requires
+src/CMakeFiles/gtkspice.dir/requires: src/CMakeFiles/gtkspice.dir/app/spice_data.cpp.o.requires
+src/CMakeFiles/gtkspice.dir/requires: src/CMakeFiles/gtkspice.dir/app/workspace.cpp.o.requires
+src/CMakeFiles/gtkspice.dir/requires: src/CMakeFiles/gtkspice.dir/app/workspace_keyaccel.cpp.o.requires
 src/CMakeFiles/gtkspice.dir/requires: src/CMakeFiles/gtkspice.dir/gui/drawingeventbox.cpp.o.requires
+src/CMakeFiles/gtkspice.dir/requires: src/CMakeFiles/gtkspice.dir/gui/drawingeventbox_keyaccel.cpp.o.requires
 src/CMakeFiles/gtkspice.dir/requires: src/CMakeFiles/gtkspice.dir/gui/grid.cpp.o.requires
 src/CMakeFiles/gtkspice.dir/requires: src/CMakeFiles/gtkspice.dir/gui/view.cpp.o.requires
+src/CMakeFiles/gtkspice.dir/requires: src/CMakeFiles/gtkspice.dir/gui/view_features.cpp.o.requires
 src/CMakeFiles/gtkspice.dir/requires: src/CMakeFiles/gtkspice.dir/gui/viewport.cpp.o.requires
 src/CMakeFiles/gtkspice.dir/requires: src/CMakeFiles/gtkspice.dir/gui/window.cpp.o.requires
 src/CMakeFiles/gtkspice.dir/requires: src/CMakeFiles/gtkspice.dir/testing/debug_text.cpp.o.requires

@@ -19,6 +19,7 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
+#include <memory>
 #include <vector>
 #include <gtkmm.h>
 #include <gtkmm/drawingarea.h>
@@ -26,6 +27,33 @@
 #include <app/component_params.h>
 
 // TODO Add wire, circuitelement, subcircuit
+
+class Component;
+class Point;
+class Line;
+
+class ComponentFactory
+{
+public:
+    enum TYPE {POINT,LINE,WIRE};
+
+    template<typename T>
+    std::shared_ptr<Component> CreateComponent(const ComponentFactory::TYPE& type, T params)
+    {
+        std::shared_ptr<Component> component;
+        switch(type)
+        {
+        case ComponentFactory::POINT:
+            std::make_shared<Point>(params);
+            break;
+        case ComponentFactory::LINE:
+            std::make_shared<Line>(params);
+            break;
+        }
+
+        return component;
+    }
+};
 
 class Component
 {

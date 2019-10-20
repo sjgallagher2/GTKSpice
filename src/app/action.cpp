@@ -17,7 +17,7 @@
 
 void DrawPointAction::execute()
 {
-    ObjectTree::add_component(_pp);
+    //ObjectTree::add_component(_pp);
 }
 void DrawPointAction::unexecute()
 {
@@ -25,24 +25,24 @@ void DrawPointAction::unexecute()
 }
 void AppendLineAction::execute()
 {
-    int index = ObjectTree::add_component(_lp);
-    ObjectTree::set_line_active(index,_stay_active);
-    _lp.cp.index = index;
+    //int index = ObjectTree::add_component(_lp);
+    //ObjectTree::set_line_active(index,_stay_active);
+    //_lp.cp.index = index;
 }
 void AppendLineAction::unexecute()
 {
-    _lp = ObjectTree::get_line_parameters(_lp.cp.index);
-    _stay_active = false; // Ensure that if we re-add the line, it won't be active
-    ObjectTree::remove_component("line",_lp.cp.index);
+    //_lp = ObjectTree::get_line_parameters(_lp.cp.index);
+    //_stay_active = false; // Ensure that if we re-add the line, it won't be active
+    //ObjectTree::remove_component("line",_lp.cp.index);
 }
 void RemoveLineAction::execute()
 {
-    _lp = ObjectTree::get_line_parameters(_index); // Store line params
-    ObjectTree::remove_component("line",_index); // Pop
+    //_lp = ObjectTree::get_line_parameters(_index); // Store line params
+    //ObjectTree::remove_component("line",_index); // Pop
 }
 void RemoveLineAction::unexecute()
 {
-    ObjectTree::add_component(_lp);
+    //ObjectTree::add_component(_lp);
 }
 void MoveLineAction::execute()
 {

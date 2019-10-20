@@ -2,11 +2,11 @@ format 222
 
 classcanvas 128088 class_ref 128088 // SimulationData
   classdiagramsettings member_max_width 0 end
-  xyz 113 220 2000
+  xyz 52 197 2000
 end
 classcanvas 128216 class_ref 128216 // Schematic
   classdiagramsettings member_max_width 0 end
-  xyz 285 222 2000
+  xyz 1035 222 2000
 end
 classcanvas 128344 class_ref 128344 // Canvas
   classdiagramsettings member_max_width 0 end
@@ -14,11 +14,11 @@ classcanvas 128344 class_ref 128344 // Canvas
 end
 classcanvas 128472 class_ref 128472 // ObjectTree
   classdiagramsettings member_max_width 0 end
-  xyz 282 281 2000
+  xyz 1034 291 2000
 end
 classcanvas 128600 class_ref 128600 // ActionStack
   classdiagramsettings member_max_width 0 end
-  xyz 865 197 2000
+  xyz 268 206 2000
 end
 classcanvas 128728 class_ref 128728 // EventBox
   classdiagramsettings member_max_width 0 end
@@ -42,23 +42,35 @@ classcanvas 129240 class_ref 129240 // Workspace
 end
 classcanvas 129368 class_ref 129368 // WorkspaceKeyboardAccels
   classdiagramsettings member_max_width 0 end
-  xyz 431 203 2005
+  xyz 424 198 2005
 end
 classcanvas 129624 class_ref 129624 // EventBoxKeyboardAccels
   classdiagramsettings member_max_width 0 end
   xyz 612 378 2015
 end
-classcanvas 130392 class_ref 129752 // ObjectFactory
-  classdiagramsettings member_max_width 0 end
-  xyz 480 377 2000
-end
-classcanvas 130520 class_ref 129880 // ActionFactory
-  classdiagramsettings member_max_width 0 end
-  xyz 478 298 2000
-end
 classcanvas 132824 class_ref 130648 // GtkSpice
   classdiagramsettings member_max_width 0 end
   xyz 491 46 2000
+end
+classcanvas 133464 class_ref 130392 // Component
+  classdiagramsettings member_max_width 0 end
+  xyz 211 443 2000
+end
+classcanvas 133592 class_ref 137176 // ComponentSymbol
+  classdiagramsettings member_max_width 0 end
+  xyz 115 510 2000
+end
+classcanvas 133848 class_ref 137432 // ComponentModel
+  classdiagramsettings member_max_width 0 end
+  xyz 276 510 2000
+end
+classcanvas 134360 class_ref 137560 // ComponentFactory
+  classdiagramsettings member_max_width 0 end
+  xyz 445 361 2020
+end
+classcanvas 134488 class_ref 137688 // Action
+  classdiagramsettings member_max_width 0 end
+  xyz 494 300 2025
 end
 relationcanvas 129752 relation_ref 128088 // <association>
   from ref 128216 z 2001 to ref 128472
@@ -67,11 +79,6 @@ relationcanvas 129752 relation_ref 128088 // <association>
 end
 relationcanvas 129880 relation_ref 128216 // <association>
   from ref 129240 z 2001 to ref 128088
-  no_role_a no_role_b
-  no_multiplicity_a no_multiplicity_b
-end
-relationcanvas 130008 relation_ref 128344 // <association>
-  from ref 129240 z 2001 to ref 128216
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
 end
@@ -105,18 +112,8 @@ relationcanvas 131032 relation_ref 129112 // <association>
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
 end
-relationcanvas 131160 relation_ref 129240 // <association>
-  from ref 128344 z 2001 to ref 130520
-  no_role_a no_role_b
-  no_multiplicity_a no_multiplicity_b
-end
 relationcanvas 131416 relation_ref 129496 // <association>
   from ref 128728 z 2016 to ref 129624
-  no_role_a no_role_b
-  no_multiplicity_a no_multiplicity_b
-end
-relationcanvas 131544 relation_ref 129624 // <association>
-  from ref 130520 z 2001 to ref 130392
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
 end
@@ -130,8 +127,38 @@ relationcanvas 132952 relation_ref 130136 // <association>
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
 end
-relationcanvas 133336 relation_ref 130264 // <association>
-  from ref 129368 z 2006 to ref 130520
+relationcanvas 134104 relation_ref 136920 // <association>
+  from ref 133464 z 2001 to ref 133592
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 134232 relation_ref 137048 // <association>
+  from ref 133464 z 2001 to ref 133848
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 134616 relation_ref 137176 // <association>
+  from ref 134488 z 2026 to ref 134360
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 134744 relation_ref 137304 // <association>
+  from ref 129368 z 2026 to ref 134488
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 134872 relation_ref 137432 // <association>
+  from ref 128344 z 2026 to ref 134488
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 135384 relation_ref 137688 // <association>
+  from ref 129240 z 2001 to ref 128216
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 136152 relation_ref 137944 // <association>
+  from ref 128344 z 2001 to ref 128472
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
 end

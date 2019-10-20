@@ -25,9 +25,9 @@ public:
     PanViewTool() {}
     virtual ~PanViewTool() {}
 
-    static void tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect);
-    static void tool_move_handler(Coordinate mousepos);
-    static void tool_key_handler(int key,int modifier);
+    virtual void tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect);
+    virtual void tool_move_handler(Coordinate mousepos);
+    virtual void tool_key_handler(int key,int modifier);
     virtual Glib::ustring get_tool_cursor_name() {return "grabbing";}
 };
 

@@ -15,6 +15,7 @@
 #ifndef WORKSPACE_H
 #define WORKSPACE_H
 
+#include <memory>
 #include <app/spice_data.h>
 #include <app/schematic.h>
 #include <app/workspace_keyaccel.h>
@@ -28,11 +29,12 @@ public:
     ~Workspace();
 
 protected:
-    SpiceData* _spicedata;
-    WorkspaceKeyAccel* _keyaccel;
-    Canvas* _canvas;
-    ActionStack* _actionstack;
-    ActionFactory* _actionfactory;
+    std::shared_ptr<ObjectTree> _objecttree;
+    std::shared_ptr<SpiceData> _spicedata;
+    std::shared_ptr<ActionStack> _actionstack;
+    std::shared_ptr<Schematic> _schem;
+    std::shared_ptr<WorkspaceKeyAccel> _keyaccel;
+    std::shared_ptr<Canvas> _canvas;
 };
 
 #endif /* WORKSPACE_H */

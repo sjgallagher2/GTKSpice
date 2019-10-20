@@ -14,3 +14,10 @@
 
 #include <app/schematic.h>
 
+Schematic::Schematic(std::shared_ptr<ObjectTree> ot) : _objecttree(ot)
+{}
+
+Schematic::~Schematic() 
+{}
+
+

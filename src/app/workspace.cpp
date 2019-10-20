@@ -16,10 +16,11 @@
 
 Workspace::Workspace()
 {
-    _spicedata = new SpiceData();
+    _objecttree = std::make_shared<ObjectTree>();
+    _spicedata = std::make_shared<SpiceData>();
+    _actionstack = std::make_shared<ActionStack>();
     
-    _actionfactory = new ActionFactory();
-    _keyaccel = new WorkspaceKeyAccel(_actionfactory); 
-    _canvas = new Canvas(_actionfactory); 
-    _actionstack = new ActionStack();
+    _schem = std::make_shared<Schematic>(_objecttree);
+    _keyaccel = std::make_shared<WorkspaceKeyAccel>(); 
+    _canvas = std::make_shared<Canvas>(_objecttree);  // ObjectTree pointer is to const
 }

@@ -15,7 +15,9 @@
 #ifndef CANVAS_H
 #define CANVAS_H
 
-#include <app/action_factory.h>
+#include <gtkmm.h>
+#include <memory>
+
 #include <gui/drawingeventbox.h>
 #include <gui/view_features.h>
 #include <app/gtkspice_state.h>
@@ -23,13 +25,18 @@
 class Canvas
 {
 public:
-    Canvas(ActionFactory* af);
+    Canvas(std::shared_ptr<const ObjectTree> ot);
     virtual ~Canvas();
+
+    typedef sigc::signal<bool,std::shared_ptr<Action>> new_action_type;
+    new_action_type new_action() const {return _new_action;}
 protected:
-    ActionFactory* _actionfactory;
-    DrawingEventBox* _ebox;
-    ViewFeatures* _vfeatures;
-    GtkSpiceState* _state;
+    std::shared_ptr<const ObjectTree> _objecttree;
+    std::shared_ptr<DrawingEventBox> _ebox;
+    std::shared_ptr<ViewFeatures> _vfeatures;
+    std::shared_ptr<GtkSpiceState> _state;
+
+    new_action_type _new_action;
 };
 
 #endif /* CANVAS_H */

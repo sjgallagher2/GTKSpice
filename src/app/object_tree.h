@@ -19,7 +19,7 @@
 #ifndef OBJECT_TREE_H
 #define OBJECT_TREE_H
 
-#include <stack>
+#include <vector>
 #include <memory>
 #include <app/component.h>
 #include <app/coordinate.h>
@@ -34,8 +34,8 @@ public:
 
     void redraw(const Cairo::RefPtr<Cairo::Context>& context);
 
-    int add_component(PointParameters pp);
-    int add_component(LineParameters lp);
+    void add_component(std::shared_ptr<Component> component);
+
 
     bool remove_component(Glib::ustring type,int index);
 
@@ -65,6 +65,8 @@ private:
 
     int _point_auto_index;
     int _line_auto_index;
+    int register_component();
+    void unregister_component(int index);
 
     OIter _get_active_line();
 };

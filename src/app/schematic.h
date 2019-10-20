@@ -16,14 +16,15 @@
 #define SCHEMATIC_H
 
 #include <app/object_tree.h>
+#include <memory>
 
 class Schematic
 {
 public:
-    Schematic();
+    Schematic(std::shared_ptr<ObjectTree> ot);
     ~Schematic();
 private:
-
+    std::shared_ptr<ObjectTree> _objecttree;
 };
 
 #endif /* SCHEMATIC_H */

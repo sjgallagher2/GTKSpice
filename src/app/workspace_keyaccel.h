@@ -15,6 +15,7 @@
 #ifndef WORKSPACE_KEYACCEL_H
 #define WORKSPACE_KEYACCEL_H
 
+#include <memory>
 #include <app/action_factory.h>
 
 class WorkspaceKeyAccel
@@ -22,8 +23,13 @@ class WorkspaceKeyAccel
 public:
     WorkspaceKeyAccel(ActionFactory* af);
     ~WorkspaceKeyAccel();
+    
+    typedef sigc::signal<bool,std::shared_ptr<Action>> new_action_type;
+    new_action_type new_action() const {return _new_action;}
 private:
     ActionFactory* _actionfactory;
+
+    new_action_type _new_action;
 };
 
 #endif /* WORKSPACE_KEYACCEL_H */

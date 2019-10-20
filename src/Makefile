@@ -179,6 +179,33 @@ app/action_stack.cpp.s:
 	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/action_stack.cpp.s
 .PHONY : app/action_stack.cpp.s
 
+app/canvas.o: app/canvas.cpp.o
+
+.PHONY : app/canvas.o
+
+# target to build an object file
+app/canvas.cpp.o:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/canvas.cpp.o
+.PHONY : app/canvas.cpp.o
+
+app/canvas.i: app/canvas.cpp.i
+
+.PHONY : app/canvas.i
+
+# target to preprocess a source file
+app/canvas.cpp.i:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/canvas.cpp.i
+.PHONY : app/canvas.cpp.i
+
+app/canvas.s: app/canvas.cpp.s
+
+.PHONY : app/canvas.s
+
+# target to generate assembly for a file
+app/canvas.cpp.s:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/canvas.cpp.s
+.PHONY : app/canvas.cpp.s
+
 app/component.o: app/component.cpp.o
 
 .PHONY : app/component.o
@@ -287,6 +314,33 @@ app/gtkspice.cpp.s:
 	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/gtkspice.cpp.s
 .PHONY : app/gtkspice.cpp.s
 
+app/gtkspice_state.o: app/gtkspice_state.cpp.o
+
+.PHONY : app/gtkspice_state.o
+
+# target to build an object file
+app/gtkspice_state.cpp.o:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/gtkspice_state.cpp.o
+.PHONY : app/gtkspice_state.cpp.o
+
+app/gtkspice_state.i: app/gtkspice_state.cpp.i
+
+.PHONY : app/gtkspice_state.i
+
+# target to preprocess a source file
+app/gtkspice_state.cpp.i:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/gtkspice_state.cpp.i
+.PHONY : app/gtkspice_state.cpp.i
+
+app/gtkspice_state.s: app/gtkspice_state.cpp.s
+
+.PHONY : app/gtkspice_state.s
+
+# target to generate assembly for a file
+app/gtkspice_state.cpp.s:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/gtkspice_state.cpp.s
+.PHONY : app/gtkspice_state.cpp.s
+
 app/object_tree.o: app/object_tree.cpp.o
 
 .PHONY : app/object_tree.o
@@ -314,32 +368,113 @@ app/object_tree.cpp.s:
 	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/object_tree.cpp.s
 .PHONY : app/object_tree.cpp.s
 
-app/state_machine.o: app/state_machine.cpp.o
+app/schematic.o: app/schematic.cpp.o
 
-.PHONY : app/state_machine.o
+.PHONY : app/schematic.o
 
 # target to build an object file
-app/state_machine.cpp.o:
-	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/state_machine.cpp.o
-.PHONY : app/state_machine.cpp.o
+app/schematic.cpp.o:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/schematic.cpp.o
+.PHONY : app/schematic.cpp.o
 
-app/state_machine.i: app/state_machine.cpp.i
+app/schematic.i: app/schematic.cpp.i
 
-.PHONY : app/state_machine.i
+.PHONY : app/schematic.i
 
 # target to preprocess a source file
-app/state_machine.cpp.i:
-	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/state_machine.cpp.i
-.PHONY : app/state_machine.cpp.i
+app/schematic.cpp.i:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/schematic.cpp.i
+.PHONY : app/schematic.cpp.i
 
-app/state_machine.s: app/state_machine.cpp.s
+app/schematic.s: app/schematic.cpp.s
 
-.PHONY : app/state_machine.s
+.PHONY : app/schematic.s
 
 # target to generate assembly for a file
-app/state_machine.cpp.s:
-	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/state_machine.cpp.s
-.PHONY : app/state_machine.cpp.s
+app/schematic.cpp.s:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/schematic.cpp.s
+.PHONY : app/schematic.cpp.s
+
+app/spice_data.o: app/spice_data.cpp.o
+
+.PHONY : app/spice_data.o
+
+# target to build an object file
+app/spice_data.cpp.o:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/spice_data.cpp.o
+.PHONY : app/spice_data.cpp.o
+
+app/spice_data.i: app/spice_data.cpp.i
+
+.PHONY : app/spice_data.i
+
+# target to preprocess a source file
+app/spice_data.cpp.i:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/spice_data.cpp.i
+.PHONY : app/spice_data.cpp.i
+
+app/spice_data.s: app/spice_data.cpp.s
+
+.PHONY : app/spice_data.s
+
+# target to generate assembly for a file
+app/spice_data.cpp.s:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/spice_data.cpp.s
+.PHONY : app/spice_data.cpp.s
+
+app/workspace.o: app/workspace.cpp.o
+
+.PHONY : app/workspace.o
+
+# target to build an object file
+app/workspace.cpp.o:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/workspace.cpp.o
+.PHONY : app/workspace.cpp.o
+
+app/workspace.i: app/workspace.cpp.i
+
+.PHONY : app/workspace.i
+
+# target to preprocess a source file
+app/workspace.cpp.i:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/workspace.cpp.i
+.PHONY : app/workspace.cpp.i
+
+app/workspace.s: app/workspace.cpp.s
+
+.PHONY : app/workspace.s
+
+# target to generate assembly for a file
+app/workspace.cpp.s:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/workspace.cpp.s
+.PHONY : app/workspace.cpp.s
+
+app/workspace_keyaccel.o: app/workspace_keyaccel.cpp.o
+
+.PHONY : app/workspace_keyaccel.o
+
+# target to build an object file
+app/workspace_keyaccel.cpp.o:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/workspace_keyaccel.cpp.o
+.PHONY : app/workspace_keyaccel.cpp.o
+
+app/workspace_keyaccel.i: app/workspace_keyaccel.cpp.i
+
+.PHONY : app/workspace_keyaccel.i
+
+# target to preprocess a source file
+app/workspace_keyaccel.cpp.i:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/workspace_keyaccel.cpp.i
+.PHONY : app/workspace_keyaccel.cpp.i
+
+app/workspace_keyaccel.s: app/workspace_keyaccel.cpp.s
+
+.PHONY : app/workspace_keyaccel.s
+
+# target to generate assembly for a file
+app/workspace_keyaccel.cpp.s:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/workspace_keyaccel.cpp.s
+.PHONY : app/workspace_keyaccel.cpp.s
 
 gui/drawingeventbox.o: gui/drawingeventbox.cpp.o
 
@@ -367,6 +502,33 @@ gui/drawingeventbox.s: gui/drawingeventbox.cpp.s
 gui/drawingeventbox.cpp.s:
 	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/gui/drawingeventbox.cpp.s
 .PHONY : gui/drawingeventbox.cpp.s
+
+gui/drawingeventbox_keyaccel.o: gui/drawingeventbox_keyaccel.cpp.o
+
+.PHONY : gui/drawingeventbox_keyaccel.o
+
+# target to build an object file
+gui/drawingeventbox_keyaccel.cpp.o:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/gui/drawingeventbox_keyaccel.cpp.o
+.PHONY : gui/drawingeventbox_keyaccel.cpp.o
+
+gui/drawingeventbox_keyaccel.i: gui/drawingeventbox_keyaccel.cpp.i
+
+.PHONY : gui/drawingeventbox_keyaccel.i
+
+# target to preprocess a source file
+gui/drawingeventbox_keyaccel.cpp.i:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/gui/drawingeventbox_keyaccel.cpp.i
+.PHONY : gui/drawingeventbox_keyaccel.cpp.i
+
+gui/drawingeventbox_keyaccel.s: gui/drawingeventbox_keyaccel.cpp.s
+
+.PHONY : gui/drawingeventbox_keyaccel.s
+
+# target to generate assembly for a file
+gui/drawingeventbox_keyaccel.cpp.s:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/gui/drawingeventbox_keyaccel.cpp.s
+.PHONY : gui/drawingeventbox_keyaccel.cpp.s
 
 gui/grid.o: gui/grid.cpp.o
 
@@ -421,6 +583,33 @@ gui/view.s: gui/view.cpp.s
 gui/view.cpp.s:
 	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/gui/view.cpp.s
 .PHONY : gui/view.cpp.s
+
+gui/view_features.o: gui/view_features.cpp.o
+
+.PHONY : gui/view_features.o
+
+# target to build an object file
+gui/view_features.cpp.o:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/gui/view_features.cpp.o
+.PHONY : gui/view_features.cpp.o
+
+gui/view_features.i: gui/view_features.cpp.i
+
+.PHONY : gui/view_features.i
+
+# target to preprocess a source file
+gui/view_features.cpp.i:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/gui/view_features.cpp.i
+.PHONY : gui/view_features.cpp.i
+
+gui/view_features.s: gui/view_features.cpp.s
+
+.PHONY : gui/view_features.s
+
+# target to generate assembly for a file
+gui/view_features.cpp.s:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/gui/view_features.cpp.s
+.PHONY : gui/view_features.cpp.s
 
 gui/viewport.o: gui/viewport.cpp.o
 
@@ -545,6 +734,9 @@ help:
 	@echo "... app/action_stack.o"
 	@echo "... app/action_stack.i"
 	@echo "... app/action_stack.s"
+	@echo "... app/canvas.o"
+	@echo "... app/canvas.i"
+	@echo "... app/canvas.s"
 	@echo "... app/component.o"
 	@echo "... app/component.i"
 	@echo "... app/component.s"
@@ -557,21 +749,39 @@ help:
 	@echo "... app/gtkspice.o"
 	@echo "... app/gtkspice.i"
 	@echo "... app/gtkspice.s"
+	@echo "... app/gtkspice_state.o"
+	@echo "... app/gtkspice_state.i"
+	@echo "... app/gtkspice_state.s"
 	@echo "... app/object_tree.o"
 	@echo "... app/object_tree.i"
 	@echo "... app/object_tree.s"
-	@echo "... app/state_machine.o"
-	@echo "... app/state_machine.i"
-	@echo "... app/state_machine.s"
+	@echo "... app/schematic.o"
+	@echo "... app/schematic.i"
+	@echo "... app/schematic.s"
+	@echo "... app/spice_data.o"
+	@echo "... app/spice_data.i"
+	@echo "... app/spice_data.s"
+	@echo "... app/workspace.o"
+	@echo "... app/workspace.i"
+	@echo "... app/workspace.s"
+	@echo "... app/workspace_keyaccel.o"
+	@echo "... app/workspace_keyaccel.i"
+	@echo "... app/workspace_keyaccel.s"
 	@echo "... gui/drawingeventbox.o"
 	@echo "... gui/drawingeventbox.i"
 	@echo "... gui/drawingeventbox.s"
+	@echo "... gui/drawingeventbox_keyaccel.o"
+	@echo "... gui/drawingeventbox_keyaccel.i"
+	@echo "... gui/drawingeventbox_keyaccel.s"
 	@echo "... gui/grid.o"
 	@echo "... gui/grid.i"
 	@echo "... gui/grid.s"
 	@echo "... gui/view.o"
 	@echo "... gui/view.i"
 	@echo "... gui/view.s"
+	@echo "... gui/view_features.o"
+	@echo "... gui/view_features.i"
+	@echo "... gui/view_features.s"
 	@echo "... gui/viewport.o"
 	@echo "... gui/viewport.i"
 	@echo "... gui/viewport.s"

@@ -114,7 +114,7 @@ protected:
 };
 
 
-// TODO Add actions for removing lines, moving lines, moving line vertices
+// TODO Add actions for moving lines, moving line vertices
 
 
 

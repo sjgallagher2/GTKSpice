@@ -16,9 +16,7 @@
 #include <app/component.h>
 #include <app/geometry.h>
 
-Component::Component(ComponentParameters cp) : _cp(cp)
-{
-}
+
 bool Component::is_under_cursor(Coordinate mousepos)
 {
     return false;

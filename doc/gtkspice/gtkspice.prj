@@ -118,10 +118,6 @@ ${inlines}
 	    classrelation_ref 128216 // <association>
       end
 
-      classrelation 128728 // <association>
-	relation_ref 128344 // <association>
-      end
-
       operation 128216 "Schematic"
 	public explicit_return_type "void"
 	nparams 0
@@ -147,6 +143,11 @@ ${inlines}
 	mysql_decl ""
 	MysqlColumn
       end
+
+      classrelation 141016 // <association>
+	relation_ref 137688 // <association>
+      end
+
     end
 
     class 128344 "Canvas"
@@ -240,6 +241,30 @@ ${inlines}
 	
 	
       end
+
+      classrelation 140376 // <association>
+	relation 137432 ----
+	  a role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 140376 // <association>
+	  b role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 140504 // <association>
+      end
+
+      classrelation 141400 // <association>
+	relation 137944 ----
+	  a role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 141400 // <association>
+	  b role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 141528 // <association>
+      end
     end
 
     class 128472 "ObjectTree"
@@ -257,6 +282,10 @@ ${inlines}
       
       classrelation 128216 // <association>
 	relation_ref 128088 // <association>
+      end
+
+      classrelation 141528 // <association>
+	relation_ref 137944 // <association>
       end
     end
 
@@ -385,18 +414,6 @@ ${inlines}
 	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
 "
 	    classrelation_ref 128472 // <association>
-      end
-
-      classrelation 128600 // <association>
-	relation 128344 ----
-	  a role_name "" private
-	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
-"
-	    classrelation_ref 128600 // <association>
-	  b role_name "" private
-	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
-"
-	    classrelation_ref 128728 // <association>
       end
 
       classrelation 128856 // <association>
@@ -542,6 +559,18 @@ ${inlines}
 	
 	
       end
+
+      classrelation 140888 // <association>
+	relation 137688 ----
+	  a role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 140888 // <association>
+	  b role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 141016 // <association>
+      end
     end
 
     class 129368 "WorkspaceKeyboardAccels"
@@ -598,6 +627,18 @@ ${inlines}
 	
 	
 	
+      end
+
+      classrelation 140120 // <association>
+	relation 137304 ----
+	  a role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 140120 // <association>
+	  b role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 140248 // <association>
       end
     end
 
@@ -760,6 +801,29 @@ ${inlines}
       explicit_switch_type ""
       mysql_decl ""
       
+      classrelation 139352 // <association>
+	relation 136920 ----
+	  a role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 139352 // <association>
+	  b role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 139480 // <association>
+      end
+
+      classrelation 139608 // <association>
+	relation 137048 ----
+	  a role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 139608 // <association>
+	  b role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 139736 // <association>
+      end
     end
 
     class 130520 "ComponentList"
@@ -812,6 +876,94 @@ ${inlines}
 	idl_decl ""
 	mysql_decl ""
 	MysqlColumn
+      end
+    end
+
+    class 137176 "ComponentSymbol"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 139480 // <association>
+	relation_ref 136920 // <association>
+      end
+    end
+
+    class 137432 "ComponentModel"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 139736 // <association>
+	relation_ref 137048 // <association>
+      end
+    end
+
+    class 137560 "ComponentFactory"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 139992 // <association>
+	relation_ref 137176 // <association>
+      end
+    end
+
+    class 137688 "Action"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 139864 // <association>
+	relation 137176 ----
+	  a role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 139864 // <association>
+	  b role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 139992 // <association>
+      end
+
+      classrelation 140248 // <association>
+	relation_ref 137304 // <association>
+      end
+
+      classrelation 140504 // <association>
+	relation_ref 137432 // <association>
       end
     end
   end

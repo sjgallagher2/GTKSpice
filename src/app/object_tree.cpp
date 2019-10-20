@@ -15,6 +15,12 @@
 #include <iostream>
 #include <app/object_tree.h>
 
+// TODO This should not be indexing lines, change so it only accepts new
+// objects, other objects can use the ComponentFactory to make new component
+// shared_pointers
+// Implement a register() function for indices
+// This interacts closely with Action
+
 void ObjectTree::ObjectTree() : _point_auto_index(0), _line_auto_index(0)
 {
     _tree.push_back(&_pointtree);
@@ -37,8 +43,9 @@ void ObjectTree::redraw(const Cairo::RefPtr<Cairo::Context>& context)
     }
 }
 
-int ObjectTree::add_component(PointParameters pp)
+int ObjectTree::register_component(PointParameters pp)
 {
+    /*
     if(pp.cp.index == -1)
     {
         pp.cp.index = _point_auto_index;
@@ -51,11 +58,9 @@ int ObjectTree::add_component(PointParameters pp)
                 return -1;
     }
     // Make a point object from pp
-    _pointtree.push_back(std::make_shared<Point>(pp));
-    return pp.cp.index;
-}
-int ObjectTree::add_component(LineParameters lp)
-{
+    //_pointtree.push_back(std::make_shared<Point>(pp));
+
+
     if(lp.cp.index == -1)
     {
         lp.cp.index = _line_auto_index;
@@ -63,15 +68,16 @@ int ObjectTree::add_component(LineParameters lp)
     }
     else
     {
-        // TODO Fix iterators?
         for(OIter t = _linetree.begin(); t != _linetree.end();++t)
             if((*t)->index() == lp.cp.index)
                 return -1;
     }
     // Make a line object from lp
-    _linetree.push_back(std::make_shared<Line>(lp));
+    //_linetree.push_back(std::make_shared<Line>(lp));
     std::static_pointer_cast<Line>(_linetree.back())->active(true);
     return lp.cp.index;
+    */
+   return -1;
 }
 
 bool ObjectTree::remove_component(Glib::ustring type, int index)

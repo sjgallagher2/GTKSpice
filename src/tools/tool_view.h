@@ -24,9 +24,9 @@ public:
     ViewTool() {}
     virtual ~ViewTool() {}
 
-    static void tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect) = 0;
-    static void tool_move_handler(Coordinate mousepos) = 0;
-    static void tool_key_handler(int key,int modifier) = 0;
+    virtual void tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect) = 0;
+    virtual void tool_move_handler(Coordinate mousepos) = 0;
+    virtual void tool_key_handler(int key,int modifier) = 0;
     virtual Glib::ustring get_tool_cursor_name() {return "default";}
 };
 

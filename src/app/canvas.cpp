@@ -14,15 +14,15 @@
 
 #include <app/canvas.h>
 
-Canvas::Canvas(ActionFactory* af) : 
-    _actionfactory(af),
-    _state(new GtkSpiceState)
+// NOTE: You can pass a std::shared_ptr<ObjectTree> to this
+Canvas::Canvas(std::shared_ptr<const ObjectTree> ot) : 
+    _objecttree(ot),
+    _state( std::make_shared<GtkSpiceState>() )
 {
     // TODO Where to get DrawingEventBox and ViewFeatures?
 }
 
 Canvas::~Canvas()
 {
-    delete _state;
 }
 

@@ -1,13 +1,11 @@
-window_sizes 1268 769 124 1138 574 136
+window_sizes 1717 876 250 1461 681 136
 cleanlooks_style
 diagrams
   active  classdiagram_ref 128088 // Overview
-    1138 574 100 A4-Landscape 0 0
-  classdiagram_ref 128216 // app
-    1464 821 100 A4 0 0
+    1461 681 100 A4-Landscape 0 0
 end
 show_stereotypes
-selected classdiagram_ref 128088 // Overview
+selected class_ref 137688 // Action
 open
   class_ref 128216 // Schematic
   class_ref 128344 // Canvas
