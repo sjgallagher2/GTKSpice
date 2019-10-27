@@ -66,7 +66,7 @@ classcanvas 133848 class_ref 137432 // ComponentModel
 end
 classcanvas 134360 class_ref 137560 // ComponentFactory
   classdiagramsettings member_max_width 0 end
-  xyz 454 361 2020
+  xyz 1005 369 2020
 end
 classcanvas 134488 class_ref 137688 // Action
   classdiagramsettings member_max_width 0 end
@@ -145,11 +145,6 @@ relationcanvas 134232 relation_ref 137048 // <association>
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
 end
-relationcanvas 134616 relation_ref 137176 // <association>
-  from ref 134488 z 2026 to ref 134360
-  no_role_a no_role_b
-  no_multiplicity_a no_multiplicity_b
-end
 relationcanvas 134744 relation_ref 137304 // <association>
   from ref 129368 z 2026 to ref 134488
   no_role_a no_role_b
@@ -177,6 +172,11 @@ relationcanvas 136408 relation_ref 144472 // <association>
 end
 relationcanvas 136664 relation_ref 144600 // <association>
   from ref 136280 z 2007 to ref 136536
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 136920 relation_ref 144856 // <association>
+  from ref 128472 z 2021 to ref 134360
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
 end

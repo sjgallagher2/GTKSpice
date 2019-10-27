@@ -286,6 +286,18 @@ ${inlines}
       classrelation 141528 // <association>
 	relation_ref 137944 // <association>
       end
+
+      classrelation 148824 // <association>
+	relation 144856 ----
+	  a role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 148824 // <association>
+	  b role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 148952 // <association>
+      end
     end
 
     class 128600 "ActionStack"
@@ -953,6 +965,10 @@ ${inlines}
       
       classrelation 139992 // <association>
 	relation_ref 137176 // <association>
+      end
+
+      classrelation 148952 // <association>
+	relation_ref 144856 // <association>
       end
     end
 

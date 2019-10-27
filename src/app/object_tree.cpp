@@ -17,7 +17,7 @@
 
 // TODO This should not be indexing lines, change so it only accepts new
 // objects, other objects can use the ComponentFactory to make new component
-// shared_pointers
+// shared_pointers?
 // Implement a register() function for indices
 // This interacts closely with Action
 
@@ -42,42 +42,45 @@ void ObjectTree::redraw(const Cairo::RefPtr<Cairo::Context>& context)
     }
 }
 
-// TODO Add object parameters
-int ObjectTree::register_component()
+void ObjectTree::add_component(PointParameters pp)
 {
-    /*
-    if(pp.cp.index == -1)
+    std::shared_ptr<Component> point;
+    point = _factory->CreateComponent(ComponentFactory::POINT,pp);
+
+    register_component(point);
+    _pointtree.push_back(point);
+}
+void ObjectTree::add_component(LineParameters lp)
+{
+    std::shared_ptr<Component> line;
+    line = _factory->CreateComponent(ComponentFactory::LINE,lp);
+
+    register_component(line);
+    _linetree.push_back(line);
+}
+
+
+int ObjectTree::register_component(std::shared_ptr<Component> component)
+{
+    if(component->index() == -1)
     {
-        pp.cp.index = _point_auto_index;
-        _point_auto_index++;
+        if(component->type() == "point")
+            component->index(_point_auto_index);
+        else if(component->type() == "line")
+            component->index(_line_auto_index);
     }
     else
     {
-        for(OIter t = _pointtree.begin(); t != _pointtree.end();++t)
-            if((*t)->index() == pp.cp.index)
-                return -1;
+        if(component->type() == "point")
+            for(OIter t = _pointtree.begin(); t != _pointtree.end();++t)
+                if((*t)->index() == component->index())
+                    return -1;
+        else if (component->type() == "line")
+            for(OIter t = _linetree.begin(); t != _linetree.end();++t)
+                if((*t)->index() == component->index())
+                    return -1;
     }
-    // Make a point object from pp
-    //_pointtree.push_back(std::make_shared<Point>(pp));
-
-
-    if(lp.cp.index == -1)
-    {
-        lp.cp.index = _line_auto_index;
-        _line_auto_index++;
-    }
-    else
-    {
-        for(OIter t = _linetree.begin(); t != _linetree.end();++t)
-            if((*t)->index() == lp.cp.index)
-                return -1;
-    }
-    // Make a line object from lp
-    //_linetree.push_back(std::make_shared<Line>(lp));
-    std::static_pointer_cast<Line>(_linetree.back())->active(true);
-    return lp.cp.index;
-    */
-   return -1;
+    return component->index();
 }
 
 bool ObjectTree::remove_component(Glib::ustring type, int index)

@@ -23,8 +23,8 @@
 #include <memory>
 #include <app/component.h>
 #include <app/coordinate.h>
+#include <app/component.h>
 
-// TODO: Un-Singleton
 
 class ObjectTree
 {
@@ -34,9 +34,8 @@ public:
 
     void redraw(const Cairo::RefPtr<Cairo::Context>& context);
 
-    void add_component(std::shared_ptr<Component> component);
-
-
+    void add_component(PointParameters pp);
+    void add_component(LineParameters lp);
     bool remove_component(Glib::ustring type,int index);
 
     LineParameters get_line_parameters(int index);
@@ -65,10 +64,11 @@ private:
 
     int _point_auto_index;
     int _line_auto_index;
-    int register_component();
+    int register_component(std::shared_ptr<Component> component);
     void unregister_component(int index);
 
     OIter _get_active_line();
+    std::shared_ptr<ComponentFactory> _factory;
 };
 
 #endif /* OBJECT_TREE_H */
