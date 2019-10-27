@@ -24,8 +24,8 @@
  * 
  */
 
-#ifndef VIEW_H
-#define VIEW_H
+#ifndef GTKSPICE_VIEW_H
+#define GTKSPICE_VIEW_H
 
 #include <gtkmm.h>
 #include <gtkmm/drawingarea.h>
@@ -34,6 +34,8 @@
 #include <gui/grid.h>
 #include <testing/debug_text.h>
 #include <app/action_stack.h>
+
+class DrawingEventBox;
 
 class View : public Gtk::DrawingArea
 {
@@ -87,4 +89,4 @@ private:
     Glib::RefPtr<Gdk::Cursor> _scissors_cursor;
 };
 
-#endif /* VIEW_H */
+#endif /* GTKSPICE_VIEW_H */

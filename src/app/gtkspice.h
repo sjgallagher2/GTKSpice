@@ -19,6 +19,7 @@
 #include <gui/drawingeventbox.h>
 #include <app/workspace.h>
 
+
 /* APPLICATION */
 
 class GTKSpice : public Gtk::Application

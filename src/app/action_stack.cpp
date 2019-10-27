@@ -15,21 +15,21 @@
 #include <iostream>
 #include <app/action_stack.h>
 
-void ActionLifo::push(Action* i)
+void ActionLifo::push(std::shared_ptr<Action> i)
 {
 	// Push to stack
 	if(_stk.size() < MAX_LEN)
 		_stk.push_front(i);
-	else if(_stk.size() == MAX_LEN)
+	else if(_stk.size() == MAX_LEN) // If length is max, rotate
 	{
 		std::rotate(_stk.begin(),_stk.begin()+_stk.size()-1,_stk.end());
 		_stk.front() = i;
 	}
 }
-Action* ActionLifo::pop()
+std::shared_ptr<Action> ActionLifo::pop()
 {
 	// Pop from stack, return value
-	Action* ret;
+	std::shared_ptr<Action> ret;
 	if(_stk.size() > 0)
 	{
 		ret = _stk.front();
@@ -47,17 +47,18 @@ ActionStack::~ActionStack()
 {
 }
 
-void ActionStack::push(Action* c)
+void ActionStack::push(std::shared_ptr<Action> c)
 {
+	// TODO Handle special actions (undo, redo, others?) separately?
     c->execute();
-    _stk.push(c);
-    if(!_rstk.empty())
+    _stk.push(c); // Push to undo stack
+    if(!_rstk.empty()) // Check redo stack, if a new action is added this stack is always cleared
         _rstk.clear();
 }
 
 void ActionStack::undo()
 {
-    Action* undone = _stk.pop();
+    std::shared_ptr<Action> undone = _stk.pop();
 	if(undone)
 	{
     	undone->unexecute();
@@ -66,7 +67,7 @@ void ActionStack::undo()
 }
 void ActionStack::redo()
 {
-    Action* redone = _rstk.pop();
+    std::shared_ptr<Action> redone = _rstk.pop();
 	if(redone)
 	{
     	redone->execute();

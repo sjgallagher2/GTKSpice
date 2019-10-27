@@ -20,6 +20,7 @@
 #include <app/schematic.h>
 #include <app/workspace_keyaccel.h>
 #include <app/canvas.h>
+#include <app/action.h>
 #include <app/action_stack.h>
 
 class Workspace
@@ -35,6 +36,8 @@ protected:
     std::shared_ptr<Schematic> _schem;
     std::shared_ptr<WorkspaceKeyAccel> _keyaccel;
     std::shared_ptr<Canvas> _canvas;
+
+    bool get_action(std::shared_ptr<Action> a);
 };
 
 #endif /* WORKSPACE_H */

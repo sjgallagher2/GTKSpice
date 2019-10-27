@@ -42,11 +42,11 @@ classcanvas 129240 class_ref 129240 // Workspace
 end
 classcanvas 129368 class_ref 129368 // WorkspaceKeyboardAccels
   classdiagramsettings member_max_width 0 end
-  xyz 424 198 2005
+  xyz 428 198 2005
 end
 classcanvas 129624 class_ref 129624 // EventBoxKeyboardAccels
   classdiagramsettings member_max_width 0 end
-  xyz 612 378 2015
+  xyz 612 363 2015
 end
 classcanvas 132824 class_ref 130648 // GtkSpice
   classdiagramsettings member_max_width 0 end
@@ -66,11 +66,19 @@ classcanvas 133848 class_ref 137432 // ComponentModel
 end
 classcanvas 134360 class_ref 137560 // ComponentFactory
   classdiagramsettings member_max_width 0 end
-  xyz 445 361 2020
+  xyz 454 361 2020
 end
 classcanvas 134488 class_ref 137688 // Action
   classdiagramsettings member_max_width 0 end
-  xyz 494 300 2025
+  xyz 499 300 2025
+end
+classcanvas 136280 class_ref 144216 // Window
+  classdiagramsettings member_max_width 0 end
+  xyz 773 82 2000
+end
+classcanvas 136536 class_ref 144344 // DrawingEventBox
+  classdiagramsettings member_max_width 0 end
+  xyz 861 141 2006
 end
 relationcanvas 129752 relation_ref 128088 // <association>
   from ref 128216 z 2001 to ref 128472
@@ -159,6 +167,16 @@ relationcanvas 135384 relation_ref 137688 // <association>
 end
 relationcanvas 136152 relation_ref 137944 // <association>
   from ref 128344 z 2001 to ref 128472
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 136408 relation_ref 144472 // <association>
+  from ref 132824 z 2001 to ref 136280
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 136664 relation_ref 144600 // <association>
+  from ref 136280 z 2007 to ref 136536
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
 end

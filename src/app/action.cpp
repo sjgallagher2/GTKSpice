@@ -15,34 +15,116 @@
 #include <iostream>
 #include <app/action.h>
 
+std::shared_ptr<Action> ActionFactory::make_action(ActionType action)
+{
+    std::shared_ptr<Action> ret = nullptr;
+    switch(action)
+    {
+    }
+    return ret;
+}
+
+std::shared_ptr<Action> ActionFactory::make_action(ActionType action, PointParameters pp)
+{
+    std::shared_ptr<Action> ret = nullptr;
+    switch(action)
+    {
+    case DRAW_POINT:
+        ret = std::make_shared<DrawPointAction>(_objecttree,pp);
+        break;
+    }
+    return ret;
+}
+
+std::shared_ptr<Action> ActionFactory::make_action(ActionType action, LineParameters lp,std::vector<Vertex> vs)
+{
+    std::shared_ptr<Action> ret = nullptr;
+    switch(action)
+    {
+    case ADD_LINE:
+        ret = std::make_shared<AddLineAction>(_objecttree,lp,vs);
+        break;
+    }
+
+    return ret;
+}
+
+std::shared_ptr<Action> ActionFactory::make_action(ActionType action, LineParameters lp)
+{
+    std::shared_ptr<Action> ret = nullptr;
+    switch(action)
+    {
+    case APPEND_LINE:
+        ret = std::make_shared<AppendLineAction>(_objecttree,lp);
+        break;
+    }
+
+    return ret;
+}
+
+std::shared_ptr<Action> ActionFactory::make_action(ActionType action, int index)
+{
+    std::shared_ptr<Action> ret = nullptr;
+    switch(action)
+    {
+    case REMOVE_LINE:
+        ret = std::make_shared<RemoveLineAction>(_objecttree, index);
+        break;
+    }
+
+    return ret;
+}
+
+std::shared_ptr<Action> ActionFactory::make_action(ActionType action, int index, std::vector<int> vertexindices)
+{
+    std::shared_ptr<Action> ret = nullptr;
+    switch(action)
+    {
+    case MOVE_LINE_VERTICES:
+        ret = std::make_shared<MoveLineVerticesAction>(_objecttree, index,vertexindices);
+        break;
+    }
+
+    return ret;
+}
+
+
 void DrawPointAction::execute()
 {
-    //ObjectTree::add_component(_pp);
+    //_objecttree->add_component(_pp);
 }
 void DrawPointAction::unexecute()
 {
-    //ObjectTree::remove_point(_index);
+    //_objecttree->remove_point(_index);
+}
+void AddLineAction::execute()
+{
+    // Add line
+}
+void AddLineAction::unexecute()
+{
+    // Un-add line
 }
 void AppendLineAction::execute()
 {
-    //int index = ObjectTree::add_component(_lp);
-    //ObjectTree::set_line_active(index,_stay_active);
+    //int index = _objecttree->add_component(_lp);
+    //_objecttree->set_line_active(index,_stay_active);
     //_lp.cp.index = index;
 }
 void AppendLineAction::unexecute()
 {
-    //_lp = ObjectTree::get_line_parameters(_lp.cp.index);
+    //_lp = _objecttree->get_line_parameters(_lp.cp.index);
     //_stay_active = false; // Ensure that if we re-add the line, it won't be active
-    //ObjectTree::remove_component("line",_lp.cp.index);
+    //_objecttree->remove_component("line",_lp.cp.index);
 }
 void RemoveLineAction::execute()
 {
-    //_lp = ObjectTree::get_line_parameters(_index); // Store line params
-    //ObjectTree::remove_component("line",_index); // Pop
+    //_lp = _objecttree->get_line_parameters(_index); // Store line params
+    //_objecttree->remove_component("line",_index); // Pop
 }
 void RemoveLineAction::unexecute()
 {
-    //ObjectTree::add_component(_lp);
+    //_objecttree->add_component(_lp);
 }
 void MoveLineAction::execute()
 {

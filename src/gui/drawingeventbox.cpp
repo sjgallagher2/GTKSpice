@@ -24,7 +24,8 @@ in the view class */
 #include <gui/drawingeventbox.h>
 #include <app/gtkspice_state.h>
 
-DrawingEventBox::DrawingEventBox() : _keyaccel(new DrawingEventBoxKeyAccel)
+DrawingEventBox::DrawingEventBox() : 
+    _v(new View),_keyaccel(new DrawingEventBoxKeyAccel)
 {
     add_events(Gdk::ENTER_NOTIFY_MASK);
     add_events(Gdk::LEAVE_NOTIFY_MASK);
@@ -32,7 +33,7 @@ DrawingEventBox::DrawingEventBox() : _keyaccel(new DrawingEventBoxKeyAccel)
     signal_enter_notify_event().connect(sigc::mem_fun(*this,&DrawingEventBox::on_mouse_cross_event));
     signal_leave_notify_event().connect(sigc::mem_fun(*this,&DrawingEventBox::on_mouse_cross_event));
 
-    add(_v);
+    add(*_v);
     show_all_children();
     show();
 }
@@ -53,7 +54,7 @@ bool DrawingEventBox::on_mouse_cross_event(GdkEventCrossing* cross_event)
     {
         // Set cursor to default
         //auto win = _v.get_window();
-        _v.unset_cursor();
+        _v->unset_cursor();
     }
 }
 
@@ -62,7 +63,7 @@ bool DrawingEventBox::on_button_press_event(GdkEventButton* button_event)
     // TODO: All instances of click handling and key handling must be updated
     Coordinate mousepos(button_event->x,button_event->y);
 
-    CoordinateSystem* cs = _v.get_coordinate_system();
+    CoordinateSystem* cs = _v->get_coordinate_system();
     cs->set_to_user_coordinates(mousepos);
 
     switch(button_event->button)
@@ -107,7 +108,7 @@ bool DrawingEventBox::on_button_press_event(GdkEventButton* button_event)
 
 bool DrawingEventBox::on_button_release_event(GdkEventButton* button_event)
 {
-    CoordinateSystem* cs = _v.get_coordinate_system();
+    CoordinateSystem* cs = _v->get_coordinate_system();
     Coordinate mousepos(button_event->x,button_event->y);
     
     cs->set_to_user_coordinates(mousepos);
@@ -149,10 +150,10 @@ bool DrawingEventBox::on_button_release_event(GdkEventButton* button_event)
 
 bool DrawingEventBox::on_mouse_move_event(GdkEventMotion* movement_event)
 {
-    auto win = _v.get_window();
+    auto win = _v->get_window();
 //    win->set_cursor(_v.get_cursor());
 
-    CoordinateSystem* cs = _v.get_coordinate_system();
+    CoordinateSystem* cs = _v->get_coordinate_system();
     Coordinate mousepos(movement_event->x,movement_event->y);
     
     cs->set_to_user_coordinates(mousepos);
@@ -163,7 +164,7 @@ bool DrawingEventBox::on_mouse_move_event(GdkEventMotion* movement_event)
 
 bool DrawingEventBox::on_key_press_event(GdkEventKey* key_event)
 {
-    auto win = _v.get_window();
+    auto win = _v->get_window();
 //    win->set_cursor(_v.get_cursor());
     
     switch(key_event->state)
@@ -186,7 +187,7 @@ bool DrawingEventBox::on_key_press_event(GdkEventKey* key_event)
 
 void DrawingEventBox::force_redraw()
 {
-    _v.force_redraw();
+    _v->force_redraw();
 }
 
 /* 

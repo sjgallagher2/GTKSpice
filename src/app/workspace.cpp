@@ -23,4 +23,12 @@ Workspace::Workspace()
     _schem = std::make_shared<Schematic>(_objecttree);
     _keyaccel = std::make_shared<WorkspaceKeyAccel>(); 
     _canvas = std::make_shared<Canvas>(_objecttree);  // ObjectTree pointer is to const
+
+    _canvas->new_action().connect(sigc::mem_fun(*this,&Workspace::get_action));
+}
+
+bool Workspace::get_action(std::shared_ptr<Action> a)
+{
+    // Push to action stack
+    _actionstack->push(a);
 }

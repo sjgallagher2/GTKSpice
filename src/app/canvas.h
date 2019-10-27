@@ -23,6 +23,10 @@
 #include <app/gtkspice_state.h>
 #include <app/action.h>
 
+class Action;
+class DrawingEventBox;
+class GtkSpiceState;
+
 class Canvas
 {
 public:

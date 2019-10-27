@@ -1,6 +1,6 @@
 format 222
 "gtkspice"
-  revision 2
+  revision 3
   modified_by 88 "sam"
 
 
@@ -147,7 +147,6 @@ ${inlines}
       classrelation 141016 // <association>
 	relation_ref 137688 // <association>
       end
-
     end
 
     class 128344 "Canvas"
@@ -334,6 +333,18 @@ ${inlines}
 	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
 "
 	    classrelation_ref 131032 // <association>
+      end
+
+      classrelation 148568 // <association>
+	relation 144728 ----
+	  a role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 148568 // <association>
+	  b role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 148696 // <association>
       end
     end
 
@@ -877,6 +888,18 @@ ${inlines}
 	mysql_decl ""
 	MysqlColumn
       end
+
+      classrelation 148056 // <association>
+	relation 144472 ----
+	  a role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 148056 // <association>
+	  b role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 148184 // <association>
+      end
     end
 
     class 137176 "ComponentSymbol"
@@ -964,6 +987,58 @@ ${inlines}
 
       classrelation 140504 // <association>
 	relation_ref 137432 // <association>
+      end
+    end
+
+    class 144216 "Window"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 148184 // <association>
+	relation_ref 144472 // <association>
+      end
+
+      classrelation 148312 // <association>
+	relation 144600 ----
+	  a role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 148312 // <association>
+	  b role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 148440 // <association>
+      end
+    end
+
+    class 144344 "DrawingEventBox"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 148440 // <association>
+	relation_ref 144600 // <association>
+      end
+
+      classrelation 148696 // <association>
+	relation_ref 144728 // <association>
       end
     end
   end

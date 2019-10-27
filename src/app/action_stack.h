@@ -26,21 +26,24 @@
 
 #include <app/action.h>
 #include <deque>
+#include <memory>
+
+class Action;
 
 class ActionLifo
 {
 public:
 	ActionLifo(int max = 10) : MAX_LEN(max) {}
 	~ActionLifo() {}
-	void push(Action* i);
-	Action* pop();
+	void push(std::shared_ptr<Action> i);
+	std::shared_ptr<Action> pop();
 	void printstack();
 	bool empty() const {return _stk.empty();}
 
 	void clear() {_stk.clear();}
 
 private:	
-	std::deque<Action*> _stk;
+	std::deque<std::shared_ptr<Action>> _stk;
 	const int MAX_LEN;
 
 };
@@ -51,7 +54,7 @@ public:
     ActionStack() {}
     ~ActionStack();
 
-    void push(Action* c);
+    void push(std::shared_ptr<Action> c);
     void undo();
     void redo();
 private:

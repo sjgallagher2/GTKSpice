@@ -15,6 +15,7 @@
 #include <app/gtkspice.h>
 #include <app/object_tree.h>
 
+
 /* APPLICATION */
 GTKSpice::GTKSpice():
 	Gtk::Application("com.gtkspice.GTKSpice", Gio::APPLICATION_HANDLES_OPEN)

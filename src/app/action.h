@@ -27,9 +27,26 @@
 #ifndef ACTION_H
 #define ACTION_H
 
+#include <memory>
 #include <gtkmm.h>
 #include <app/object_tree.h>
 #include <app/component_params.h>
+#include <app/canvas.h>
+#include <app/object_tree.h>
+#include <app/schematic.h>
+#include <app/spice_data.h>
+
+class Canvas;
+
+enum ActionType 
+{
+    DRAW_POINT,
+    ADD_LINE,
+    APPEND_LINE,
+    REMOVE_LINE,
+    MOVE_LINE,
+    MOVE_LINE_VERTICES
+};
 
 class Action
 {
@@ -39,83 +56,124 @@ public:
 
     virtual void execute() = 0;
     virtual void unexecute() = 0;
+protected:
+};
+
+class ActionFactory
+{
+public:
+    ActionFactory(std::shared_ptr<ObjectTree> ot, std::shared_ptr<Schematic> sch, std::shared_ptr<Canvas> canv) : 
+        _objecttree(ot), _schematic(sch), _canvas(canv)
+    {}
+
+    ~ActionFactory() {}
+
+    std::shared_ptr<Action> make_action(ActionType action);
+    std::shared_ptr<Action> make_action(ActionType action, PointParameters pp);
+    std::shared_ptr<Action> make_action(ActionType action, LineParameters lp);
+    std::shared_ptr<Action> make_action(ActionType action, LineParameters lp,std::vector<Vertex> vs);
+    std::shared_ptr<Action> make_action(ActionType action, int index);
+    std::shared_ptr<Action> make_action(ActionType action, int index, std::vector<int> vertexindices);
+
+private:
+    std::shared_ptr<ObjectTree> _objecttree;
+    std::shared_ptr<Schematic> _schematic;
+    std::shared_ptr<Canvas> _canvas;
 };
 
 class DrawPointAction : public Action
 {
 public:
-    DrawPointAction(PointParameters pp) : _pp(pp) {}
+    DrawPointAction(std::shared_ptr<ObjectTree> ot, PointParameters pp) : 
+        _objecttree(ot), _pp(pp)
+    {}
     virtual ~DrawPointAction() {}
 
     void execute();
     void unexecute();
 protected:
+    std::shared_ptr<ObjectTree> _objecttree;
     PointParameters _pp;
 };
 
 class AppendLineAction : public Action
 {
 public:
-    AppendLineAction(LineParameters lp) : _lp(lp) {}
+    AppendLineAction(std::shared_ptr<ObjectTree> ot, LineParameters lp) : 
+        _objecttree(ot), _lp(lp) 
+    {}
     virtual ~AppendLineAction() {}
 
     void execute();
     void reexecute();
     void unexecute();
 protected:
+    std::shared_ptr<ObjectTree> _objecttree;
     LineParameters _lp;
     bool _stay_active = true;
 };
 class AddLineAction : public Action
 {
 public:
-    AddLineAction(LineParameters lp,std::vector<Vertex> vertices) : _lp(lp) {}
+    AddLineAction(std::shared_ptr<ObjectTree> ot,
+        LineParameters lp,
+        std::vector<Vertex> vertices) : 
+        _objecttree(ot), _lp(lp)
+    {}
     virtual ~AddLineAction() {}
 
-    void execute();
-    void unexecute();
+    void execute() {}
+    void unexecute() {}
 protected:
+    std::shared_ptr<ObjectTree> _objecttree;
     LineParameters _lp;
 };
 class RemoveLineAction : public Action
 {
 public:
-    RemoveLineAction(int index) : _index(index){}
+    RemoveLineAction(std::shared_ptr<ObjectTree> ot, int index) : 
+        _objecttree(ot),_index(index){}
     virtual ~RemoveLineAction() {}
 
     void execute();
     void unexecute();
 protected:
+    std::shared_ptr<ObjectTree> _objecttree;
     LineParameters _lp;
     int _index;
 };
 class MoveLineAction : public Action
 {
-    MoveLineAction(int index) : _index(index){}
+public:
+    MoveLineAction(std::shared_ptr<ObjectTree> ot,int index) : 
+        _objecttree(ot), _index(index)
+    {}
     virtual ~MoveLineAction() {}
 
     void execute();
     void unexecute();
 protected:
+    std::shared_ptr<ObjectTree> _objecttree;
     LineParameters _lp;
     int _index;
 };
 class MoveLineVerticesAction : public Action
 {
-    MoveLineVerticesAction(int lineindex,std::vector<int> vertexindices) : _lineindex(lineindex),
-        _vertexindices(vertexindices){}
+public:
+    MoveLineVerticesAction(std::shared_ptr<ObjectTree> ot,
+        int lineindex,
+        std::vector<int> vertexindices) : 
+        _objecttree(ot),_lineindex(lineindex),_vertexindices(vertexindices)
+    {}
     virtual ~MoveLineVerticesAction() {}
 
     void execute();
     void unexecute();
 protected:
+    std::shared_ptr<ObjectTree> _objecttree;
     int _lineindex;
     std::vector<int> _vertexindices;
 };
-
-
-// TODO Add actions for moving lines, moving line vertices
-
 
 
 #endif /* ACTION_H */
