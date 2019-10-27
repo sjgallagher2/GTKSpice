@@ -21,7 +21,7 @@
 // Implement a register() function for indices
 // This interacts closely with Action
 
-void ObjectTree::ObjectTree() : _point_auto_index(0), _line_auto_index(0)
+ObjectTree::ObjectTree() : _point_auto_index(0), _line_auto_index(0)
 {
     _tree.push_back(&_pointtree);
     _tree.push_back(&_linetree);
@@ -29,7 +29,6 @@ void ObjectTree::ObjectTree() : _point_auto_index(0), _line_auto_index(0)
 
 ObjectTree::~ObjectTree()
 {
-    delete ObjectTree::_ot;
 }
 
 void ObjectTree::redraw(const Cairo::RefPtr<Cairo::Context>& context)
@@ -43,7 +42,8 @@ void ObjectTree::redraw(const Cairo::RefPtr<Cairo::Context>& context)
     }
 }
 
-int ObjectTree::register_component(PointParameters pp)
+// TODO Add object parameters
+int ObjectTree::register_component()
 {
     /*
     if(pp.cp.index == -1)

@@ -15,10 +15,6 @@
 #include <iostream>
 #include <app/action_stack.h>
 
-ActionStack* ActionStack::_as = nullptr;
-ActionLifo ActionStack::_stk(ActionStack::MAX_LEN);
-ActionLifo ActionStack::_rstk(ActionStack::MAX_LEN);
-
 void ActionLifo::push(Action* i)
 {
 	// Push to stack
@@ -47,17 +43,8 @@ Action* ActionLifo::pop()
 }
 
 
-ActionStack* ActionStack::Instance()
-{
-    if(!ActionStack::_as)
-        ActionStack::_as = new ActionStack;
-
-    return ActionStack::_as;
-}
-
 ActionStack::~ActionStack()
 {
-    delete ActionStack::_as;
 }
 
 void ActionStack::push(Action* c)

@@ -14,8 +14,7 @@
 
 #include <app/workspace_keyaccel.h>
 
-WorkspaceKeyAccel::WorkspaceKeyAccel(ActionFactory* af) : 
-    _actionfactory(af)
+WorkspaceKeyAccel::WorkspaceKeyAccel() 
 {
 }
 

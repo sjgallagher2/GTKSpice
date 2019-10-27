@@ -12,4 +12,4 @@
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <app/view_features.h>
+#include <gui/view_features.h>

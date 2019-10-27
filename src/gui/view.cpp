@@ -64,6 +64,8 @@
  * 
  */
 
+// TODO This needs to be rewritten for new structure
+
 View::View() : _delta_d(0,0), _pan_anchor_d(0,0), _scale_anchor_d(0,0), _pan_delta_d(0,0),_mouse_pos_d(0,0)
 { 
 
@@ -81,7 +83,7 @@ View::View() : _delta_d(0,0), _pan_anchor_d(0,0), _scale_anchor_d(0,0), _pan_del
 View::~View()
 { 
 }
-
+/*
 Glib::RefPtr<Gdk::Cursor> View::get_cursor()
 {
     Glib::ustring ctext = GtkSpiceState::get_cursor_name();
@@ -127,6 +129,7 @@ Glib::RefPtr<Gdk::Cursor> View::get_cursor()
         return _scissors_cursor;
     }
 }
+*/
 
 void View::force_redraw()
 {
@@ -187,7 +190,7 @@ bool View::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
     _grid.draw_grid(context, _scale,org.x(),viewarea.x(),org.y(),viewarea.y());
 
     // Draw all objects in the object tree
-    ObjectTree::redraw(context);
+    //ObjectTree::redraw(context);
 
     // All done
     return true;
@@ -233,6 +236,7 @@ bool View::on_scroll_event(GdkEventScroll* scroll_event)
 
 bool View::on_button_press(GdkEventButton* button_event)
 {
+/*
     if(button_event->button == 1 && GtkSpiceState::get_state() != GtkSpiceState::TOOL)
     {
         // Use screen (device) location to set pan anchor
@@ -241,7 +245,7 @@ bool View::on_button_press(GdkEventButton* button_event)
 
     //_mouse_pos_d.set_coordinate(button_event->x,button_event->y);
     //_send_mouse_click = true;
-
+*/
     // Force redraw
     force_redraw();
     return false;
@@ -268,6 +272,7 @@ bool View::pan(GdkEventMotion* movement_event)
 {
     // TODO All instances of state handling must be updated
     _mouse_pos_d.set_coordinate(movement_event->x,movement_event->y);
+/*
     if(GtkSpiceState::get_state() == GtkSpiceState::PAN)
     {
         Gtk::Allocation alloc = get_allocation();
@@ -290,6 +295,7 @@ bool View::pan(GdkEventMotion* movement_event)
         }
         return false;
     }
+*/
     force_redraw();
     return false;
 }

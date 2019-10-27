@@ -18,8 +18,8 @@
 class SpiceData
 {
 public:
-    SpiceData();
-    virtual ~SpiceData();
+    SpiceData() {}
+    virtual ~SpiceData() {}
     
 protected:
 

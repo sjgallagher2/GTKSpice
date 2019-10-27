@@ -21,6 +21,7 @@
 #include <gui/drawingeventbox.h>
 #include <gui/view_features.h>
 #include <app/gtkspice_state.h>
+#include <app/action.h>
 
 class Canvas
 {

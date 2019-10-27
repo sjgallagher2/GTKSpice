@@ -46,7 +46,7 @@ public:
 
     CoordinateSystem* get_coordinate_system() {return &_cs;}
 
-    Glib::RefPtr<Gdk::Cursor> get_cursor();
+    //Glib::RefPtr<Gdk::Cursor> get_cursor();
 
     // These calculate the left-, right-, top-, and bottom-most coordinates visible
     int get_left();

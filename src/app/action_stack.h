@@ -48,18 +48,16 @@ private:
 class ActionStack
 {
 public:
-    static ActionStack* Instance();
+    ActionStack() {}
     ~ActionStack();
 
-    static void push(Action* c);
-    static void undo();
-    static void redo();
+    void push(Action* c);
+    void undo();
+    void redo();
 private:
-    ActionStack() {}
-    static ActionStack* _as;
-    static ActionLifo _stk; // Undo stack
-    static ActionLifo _rstk; // Redo stack
-    static const int MAX_LEN = 25;
+    ActionLifo _stk; // Undo stack
+    ActionLifo _rstk; // Redo stack
+    const int MAX_LEN = 25;
 };
 
 #endif /* ACTION_STACK_H */

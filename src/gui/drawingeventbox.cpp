@@ -45,8 +45,8 @@ bool DrawingEventBox::on_mouse_cross_event(GdkEventCrossing* cross_event)
     if(cross_event->type == GDK_ENTER_NOTIFY)
     {
         // Set cursor to tool-specific cursor
-        auto win = _v.get_window();
-        win->set_cursor(_v.get_cursor());
+ //       auto win = _v.get_window();
+ //       win->set_cursor(_v.get_cursor());
 
     }
     else if(cross_event->type == GDK_LEAVE_NOTIFY)
@@ -99,9 +99,9 @@ bool DrawingEventBox::on_button_press_event(GdkEventButton* button_event)
         break;
     }
     
-    int lineselect = ObjectTree::get_line_under_cursor(mousepos);
+    //int lineselect = ObjectTree::get_line_under_cursor(mousepos);
     
-    _button_click.emit(mousepos,_mouse_button,_modifier,lineselect);
+    //_button_click.emit(mousepos,_mouse_button,_modifier,lineselect);
     return true;
 }
 
@@ -142,15 +142,15 @@ bool DrawingEventBox::on_button_release_event(GdkEventButton* button_event)
         break;
     }
 
-    int lineselect = ObjectTree::get_line_under_cursor(mousepos);
-    _button_click.emit(mousepos,_mouse_button,_modifier,lineselect);
+    //int lineselect = ObjectTree::get_line_under_cursor(mousepos);
+    //_button_click.emit(mousepos,_mouse_button,_modifier,lineselect);
     return true;
 }
 
 bool DrawingEventBox::on_mouse_move_event(GdkEventMotion* movement_event)
 {
     auto win = _v.get_window();
-    win->set_cursor(_v.get_cursor());
+//    win->set_cursor(_v.get_cursor());
 
     CoordinateSystem* cs = _v.get_coordinate_system();
     Coordinate mousepos(movement_event->x,movement_event->y);
@@ -164,7 +164,7 @@ bool DrawingEventBox::on_mouse_move_event(GdkEventMotion* movement_event)
 bool DrawingEventBox::on_key_press_event(GdkEventKey* key_event)
 {
     auto win = _v.get_window();
-    win->set_cursor(_v.get_cursor());
+//    win->set_cursor(_v.get_cursor());
     
     switch(key_event->state)
     {

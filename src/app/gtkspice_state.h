@@ -19,6 +19,7 @@
  */
 
 #include <gtkmm.h>
+#include <memory>
 #include <gui/drawingeventbox.h>
 #include <app/coordinate.h>
 #include <app/component_params.h>
@@ -34,11 +35,11 @@ enum KeyModifiers {NO_MOD,SHIFT,CTRL,ALT};
 class GtkSpiceState
 {
 public:
-    GtkSpiceState(DrawingEventBox* drawevents);
+    GtkSpiceState();
     ~GtkSpiceState();
 
-    void change_state(DrawStates ds) {_prevstate=_state; _state = ds;}
-    DrawStates get_state() {return _state;}
+    //void change_state(DrawStates ds) {_prevstate=_state; _state = ds;}
+    //DrawStates get_state() {return _state;}
 
     Glib::ustring get_cursor_name();
 
@@ -49,8 +50,9 @@ public:
 private:
     Glib::ustring get_tool_cursor_name();
 
-    DrawingEventBox* _drawevents;
-    Tool* _active_tool;
+    //DrawingEventBox* _drawevents;
+    
+    std::shared_ptr<Tool> _active_tool;
 
 };
 

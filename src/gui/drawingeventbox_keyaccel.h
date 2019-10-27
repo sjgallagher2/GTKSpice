@@ -18,8 +18,8 @@
 class DrawingEventBoxKeyAccel
 {
 public:
-    DrawingEventBoxKeyAccel();
-    ~DrawingEventBoxKeyAccel();
+    DrawingEventBoxKeyAccel() {}
+    ~DrawingEventBoxKeyAccel() {}
     
 private:
 
