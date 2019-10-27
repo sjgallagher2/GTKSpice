@@ -122,8 +122,8 @@ public:
     {}
     virtual ~AddLineAction() {}
 
-    void execute() {}
-    void unexecute() {}
+    void execute();
+    void unexecute();
 protected:
     std::shared_ptr<ObjectTree> _objecttree;
     LineParameters _lp;

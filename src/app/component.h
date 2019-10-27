@@ -37,21 +37,17 @@ class ComponentFactory
 public:
     enum TYPE {POINT,LINE,WIRE};
 
-    template<typename T>
-    std::shared_ptr<Component> CreateComponent(const ComponentFactory::TYPE& type, T params)
+    std::shared_ptr<Component> CreateComponent(const LineParameters& params)
     {
-        std::shared_ptr<Component> component;
-        switch(type)
-        {
-        case ComponentFactory::POINT:
-            std::make_shared<Point>(params);
-            break;
-        case ComponentFactory::LINE:
-            std::make_shared<Line>(params);
-            break;
-        }
-
-        return component;
+        std::shared_ptr<Component> ret = nullptr;
+        ret = std::static_pointer_cast<Component>(std::make_shared<Line>(params));
+        return ret;
+    }
+    std::shared_ptr<Component> CreateComponent(const PointParameters& params)
+    {
+        std::shared_ptr<Component> ret = nullptr;
+        ret = std::static_pointer_cast<Component>(std::make_shared<Point>(params));
+        return ret;
     }
 };
 

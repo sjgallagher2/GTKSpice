@@ -45,7 +45,7 @@ void ObjectTree::redraw(const Cairo::RefPtr<Cairo::Context>& context)
 void ObjectTree::add_component(PointParameters pp)
 {
     std::shared_ptr<Component> point;
-    point = _factory->CreateComponent(ComponentFactory::POINT,pp);
+    point = _factory->CreateComponent(pp);
 
     register_component(point);
     _pointtree.push_back(point);
@@ -53,7 +53,7 @@ void ObjectTree::add_component(PointParameters pp)
 void ObjectTree::add_component(LineParameters lp)
 {
     std::shared_ptr<Component> line;
-    line = _factory->CreateComponent(ComponentFactory::LINE,lp);
+    line = _factory->CreateComponent(lp);
 
     register_component(line);
     _linetree.push_back(line);
