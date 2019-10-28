@@ -28,8 +28,11 @@ class Workspace
 public:
     Workspace();
     ~Workspace();
+    
+    std::shared_ptr<ObjectTree> get_workspace_object_tree() const {return _objecttree;}
 
 protected:
+    std::shared_ptr<ActionFactory> _actionfactory;
     std::shared_ptr<ObjectTree> _objecttree;
     std::shared_ptr<SpiceData> _spicedata;
     std::shared_ptr<ActionStack> _actionstack;

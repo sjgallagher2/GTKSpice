@@ -15,7 +15,9 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include <memory>
 #include <gtkmm.h>
+#include <app/object_tree.h>
 #include <gui/drawingeventbox.h>
 #include <app/gtkspice_state.h>
 
@@ -28,6 +30,9 @@ class Window : public Gtk::ApplicationWindow
 public:
 	Window();
 	~Window();
+
+    void set_view_object_tree(std::shared_ptr<ObjectTree> ot) {_drawevents.set_object_tree(ot);}
+
 protected:
 	DrawingEventBox _drawevents;
 	virtual bool on_key_press_event(GdkEventKey* key_event) override;

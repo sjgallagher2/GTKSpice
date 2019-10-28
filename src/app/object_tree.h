@@ -34,8 +34,8 @@ public:
 
     void redraw(const Cairo::RefPtr<Cairo::Context>& context);
 
-    void add_component(PointParameters pp);
-    void add_component(LineParameters lp);
+    int add_component(PointParameters pp);
+    int add_component(LineParameters lp);
     bool remove_component(Glib::ustring type,int index);
 
     LineParameters get_line_parameters(int index);

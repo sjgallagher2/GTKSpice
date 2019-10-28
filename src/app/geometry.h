@@ -18,6 +18,7 @@
 #include <iostream>
 #include <app/coordinate.h>
 #include <cmath>
+#include <app/vertex_list.h>
 
 namespace Geometry
 {
@@ -60,7 +61,8 @@ namespace Geometry
         }
         return d;
     }
-    inline float distance_from_line(Coordinate P,Vertex* LineStart,Vertex* LineEnd)
+    inline float distance_from_line(Coordinate P,std::shared_ptr<Vertex> LineStart,
+        std::shared_ptr<Vertex> LineEnd)
     {
         float x0,x1,x2,y0,y1,y2,dx,dy;
         x1 = (float)LineStart->x();

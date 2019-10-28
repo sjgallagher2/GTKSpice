@@ -91,11 +91,11 @@ std::shared_ptr<Action> ActionFactory::make_action(ActionType action, int index,
 
 void DrawPointAction::execute()
 {
-    //_objecttree->add_component(_pp);
+    _objecttree->add_component(_pp);
 }
 void DrawPointAction::unexecute()
 {
-    //_objecttree->remove_point(_index);
+    _objecttree->remove_component("point",_pp.cp.index);
 }
 void AddLineAction::execute()
 {
@@ -107,24 +107,24 @@ void AddLineAction::unexecute()
 }
 void AppendLineAction::execute()
 {
-    //int index = _objecttree->add_component(_lp);
-    //_objecttree->set_line_active(index,_stay_active);
-    //_lp.cp.index = index;
+    int index = _objecttree->add_component(_lp);
+    _objecttree->set_line_active(index,_stay_active);
+    _lp.cp.index = index;
 }
 void AppendLineAction::unexecute()
 {
-    //_lp = _objecttree->get_line_parameters(_lp.cp.index);
-    //_stay_active = false; // Ensure that if we re-add the line, it won't be active
-    //_objecttree->remove_component("line",_lp.cp.index);
+    _lp = _objecttree->get_line_parameters(_lp.cp.index);
+    _stay_active = false; // Ensure that if we re-add the line, it won't be active
+    _objecttree->remove_component("line",_lp.cp.index);
 }
 void RemoveLineAction::execute()
 {
-    //_lp = _objecttree->get_line_parameters(_index); // Store line params
-    //_objecttree->remove_component("line",_index); // Pop
+    _lp = _objecttree->get_line_parameters(_index); // Store line params
+    _objecttree->remove_component("line",_index); // Pop
 }
 void RemoveLineAction::unexecute()
 {
-    //_objecttree->add_component(_lp);
+    _objecttree->add_component(_lp);
 }
 void MoveLineAction::execute()
 {

@@ -42,21 +42,25 @@ void ObjectTree::redraw(const Cairo::RefPtr<Cairo::Context>& context)
     }
 }
 
-void ObjectTree::add_component(PointParameters pp)
+int ObjectTree::add_component(PointParameters pp)
 {
     std::shared_ptr<Component> point;
     point = _factory->CreateComponent(pp);
 
-    register_component(point);
+    int index = register_component(point);
     _pointtree.push_back(point);
+    
+    return index;
 }
-void ObjectTree::add_component(LineParameters lp)
+int ObjectTree::add_component(LineParameters lp)
 {
     std::shared_ptr<Component> line;
     line = _factory->CreateComponent(lp);
 
-    register_component(line);
+    int index = register_component(line);
     _linetree.push_back(line);
+
+    return index;
 }
 
 

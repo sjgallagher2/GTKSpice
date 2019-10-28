@@ -29,6 +29,7 @@ void GTKSpice::on_activate()
 	//_win.set_default_size(1600, 800);
 	add_window(_win);
 	_schemspace = new Workspace();
+	_win.set_view_object_tree(_schemspace->get_workspace_object_tree());
 	_win.present();
 }
 

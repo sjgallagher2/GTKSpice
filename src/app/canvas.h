@@ -24,19 +24,23 @@
 #include <app/action.h>
 
 class Action;
+class ActionFactory;
 class DrawingEventBox;
 class GtkSpiceState;
 
 class Canvas
 {
 public:
-    Canvas(std::shared_ptr<const ObjectTree> ot);
+    Canvas(std::shared_ptr<const ObjectTree> ot, std::shared_ptr<ActionFactory> af);
     virtual ~Canvas();
+
+    std::shared_ptr<const ObjectTree> get_canvas_object_tree() const {return _objecttree;}
 
     typedef sigc::signal<bool,std::shared_ptr<Action>> new_action_type;
     new_action_type new_action() const {return _new_action;}
 protected:
     std::shared_ptr<const ObjectTree> _objecttree;
+    std::shared_ptr<ActionFactory> _actionfactory;
     std::shared_ptr<DrawingEventBox> _ebox;
     std::shared_ptr<ViewFeatures> _vfeatures;
     std::shared_ptr<GtkSpiceState> _state;

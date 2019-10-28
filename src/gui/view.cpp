@@ -66,7 +66,8 @@
 
 // TODO This needs to be rewritten for new structure
 
-View::View() : _delta_d(0,0), _pan_anchor_d(0,0), _scale_anchor_d(0,0), _pan_delta_d(0,0),_mouse_pos_d(0,0)
+View::View() :
+    _delta_d(0,0), _pan_anchor_d(0,0), _scale_anchor_d(0,0), _pan_delta_d(0,0),_mouse_pos_d(0,0)
 { 
 
     add_events(Gdk::SCROLL_MASK | Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK | Gdk::POINTER_MOTION_MASK);
@@ -190,7 +191,8 @@ bool View::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
     _grid.draw_grid(context, _scale,org.x(),viewarea.x(),org.y(),viewarea.y());
 
     // Draw all objects in the object tree
-    //ObjectTree::redraw(context);
+    if(_objecttree)
+        _objecttree->redraw(context);
 
     // All done
     return true;

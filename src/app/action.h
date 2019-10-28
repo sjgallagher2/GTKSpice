@@ -62,11 +62,18 @@ protected:
 class ActionFactory
 {
 public:
-    ActionFactory(std::shared_ptr<ObjectTree> ot, std::shared_ptr<Schematic> sch, std::shared_ptr<Canvas> canv) : 
-        _objecttree(ot), _schematic(sch), _canvas(canv)
-    {}
+    ActionFactory() {}
 
     ~ActionFactory() {}
+
+    void update(std::shared_ptr<ObjectTree> ot, 
+        std::shared_ptr<Schematic> sch, 
+        std::shared_ptr<Canvas> canv)
+    {
+        _objecttree = ot;
+        _schematic = sch;
+        _canvas = canv;
+    }
 
     std::shared_ptr<Action> make_action(ActionType action);
     std::shared_ptr<Action> make_action(ActionType action, PointParameters pp);

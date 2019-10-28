@@ -75,7 +75,7 @@ void Line::draw(Cairo::RefPtr<Cairo::Context> context)
 
 void Line::push_vertex(Coordinate pos)
 {
-    _lp.vertices.push_back(new Vertex(pos));
+    _lp.vertices.push_back(std::make_shared<Vertex>(pos));
     _calculate_bounding_box();
 }
 void Line::pop_vertex()

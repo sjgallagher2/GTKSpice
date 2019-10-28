@@ -15,6 +15,8 @@
 #ifndef COORDINATE_H
 #define COORDINATE_H
 
+#include <gtkmm.h>
+
 // A coordinate class used for storing screen and application coordinate points
 // Coordinates are always stored as doubles
 class Coordinate

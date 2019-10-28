@@ -41,6 +41,12 @@ DrawingEventBox::DrawingEventBox() :
 DrawingEventBox::~DrawingEventBox()
 {}
 
+void DrawingEventBox::set_object_tree(std::shared_ptr<ObjectTree> ot)
+{
+    _v->set_object_tree(ot);
+}
+
+
 bool DrawingEventBox::on_mouse_cross_event(GdkEventCrossing* cross_event)
 {
     if(cross_event->type == GDK_ENTER_NOTIFY)

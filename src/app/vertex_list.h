@@ -16,9 +16,10 @@
 #define VERTEX_LIST_H
 
 #include <vector>
+#include <memory>
 #include <app/coordinate.h>
 
-typedef std::vector<Vertex*> VertexList;
+typedef std::vector<std::shared_ptr<Vertex>> VertexList;
 
 #endif /* VERTEX_LIST_H */
 

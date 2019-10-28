@@ -15,7 +15,9 @@
 #ifndef DRAWINGEVENTBOX_H
 #define DRAWINGEVENTBOX_H
 
+#include <memory>
 #include <gtkmm/eventbox.h>
+#include <app/object_tree.h>
 #include <gui/drawingeventbox_keyaccel.h>
 #include <gui/view.h>
 
@@ -26,6 +28,8 @@ class DrawingEventBox : public Gtk::EventBox
 public:
     DrawingEventBox();
     virtual ~DrawingEventBox();
+
+    void set_object_tree(std::shared_ptr<ObjectTree> ot); 
     
     typedef sigc::signal<void,Coordinate,int,int,int> clicksig_type;
     clicksig_type button_click() const {return _button_click;}

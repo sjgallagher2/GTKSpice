@@ -27,8 +27,10 @@
 #ifndef GTKSPICE_VIEW_H
 #define GTKSPICE_VIEW_H
 
+#include <memory>
 #include <gtkmm.h>
 #include <gtkmm/drawingarea.h>
+#include <app/object_tree.h>
 #include <app/coordinate_system.h>
 #include <app/coordinate.h>
 #include <gui/grid.h>
@@ -47,6 +49,7 @@ public:
     int visible_units_y();
 
     CoordinateSystem* get_coordinate_system() {return &_cs;}
+    void set_object_tree(std::shared_ptr<ObjectTree> os) {_objecttree = os;}
 
     //Glib::RefPtr<Gdk::Cursor> get_cursor();
 
@@ -67,6 +70,8 @@ private:
     bool pan(GdkEventMotion* movement_event);
 
     Cairo::RefPtr<Cairo::Context> _context;
+
+    std::shared_ptr<ObjectTree> _objecttree;
 
     CoordinateSystem _cs;
     Grid _grid;
