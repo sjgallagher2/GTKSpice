@@ -5,9 +5,8 @@ diagrams
     1664 821 100 A4-Landscape 0 0
 end
 show_stereotypes
-selected class_ref 137688 // Action
+selected class_ref 144344 // DrawingEventBox
 open
-  class_ref 128216 // Schematic
-  class_ref 128344 // Canvas
+  classview_ref 128088 // app
 end
 end

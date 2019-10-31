@@ -14,6 +14,7 @@
 #ifndef GTKSPICE_H
 #define GTKSPICE_H
 
+#include <memory>
 #include <gtkmm.h>
 #include <gui/window.h>
 #include <gui/drawingeventbox.h>
@@ -32,8 +33,8 @@ public:
 
 protected:
 	void on_activate();
-	Window _win;
-	Workspace* _schemspace;
+	std::shared_ptr<Window> _win;
+	std::shared_ptr<Workspace> _schemspace;
 };
 
 #endif /* GTKSPICE_H */

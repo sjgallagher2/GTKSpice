@@ -16,6 +16,7 @@
 #define WORKSPACE_H
 
 #include <memory>
+#include <gui/window.h>
 #include <app/spice_data.h>
 #include <app/schematic.h>
 #include <app/workspace_keyaccel.h>
@@ -26,12 +27,13 @@
 class Workspace
 {
 public:
-    Workspace();
+    Workspace(std::shared_ptr<Window> toplevel);
     ~Workspace();
     
     std::shared_ptr<ObjectTree> get_workspace_object_tree() const {return _objecttree;}
 
 protected:
+    std::shared_ptr<Window> _toplevel;
     std::shared_ptr<ActionFactory> _actionfactory;
     std::shared_ptr<ObjectTree> _objecttree;
     std::shared_ptr<SpiceData> _spicedata;

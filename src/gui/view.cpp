@@ -192,7 +192,9 @@ bool View::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
 
     // Draw all objects in the object tree
     if(_objecttree)
+    {
         _objecttree->redraw(context);
+    }
 
     // All done
     return true;

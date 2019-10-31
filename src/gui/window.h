@@ -31,10 +31,10 @@ public:
 	Window();
 	~Window();
 
-    void set_view_object_tree(std::shared_ptr<ObjectTree> ot) {_drawevents.set_object_tree(ot);}
+    //void set_view_object_tree(std::shared_ptr<ObjectTree> ot) {_drawevents.set_object_tree(ot);}
 
 protected:
-	DrawingEventBox _drawevents;
+	//DrawingEventBox _drawevents;
 	virtual bool on_key_press_event(GdkEventKey* key_event) override;
 	//void on_action_quit();
 };

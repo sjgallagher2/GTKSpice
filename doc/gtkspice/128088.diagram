@@ -70,7 +70,7 @@ classcanvas 134360 class_ref 137560 // ComponentFactory
 end
 classcanvas 134488 class_ref 137688 // Action
   classdiagramsettings member_max_width 0 end
-  xyz 499 300 2025
+  xyz 502 302 2025
 end
 classcanvas 136280 class_ref 144216 // Window
   classdiagramsettings member_max_width 0 end

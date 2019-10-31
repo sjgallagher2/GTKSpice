@@ -15,6 +15,7 @@
 #include <app/gtkspice.h>
 #include <app/object_tree.h>
 
+class Window;
 
 /* APPLICATION */
 GTKSpice::GTKSpice():
@@ -27,10 +28,11 @@ void GTKSpice::on_activate()
 	// Startup procedure (where there are no input args)
 	// Initialize
 	//_win.set_default_size(1600, 800);
-	add_window(_win);
-	_schemspace = new Workspace();
-	_win.set_view_object_tree(_schemspace->get_workspace_object_tree());
-	_win.present();
+	_win = std::make_shared<Window>();
+	add_window(*_win);
+	_schemspace = std::make_shared<Workspace>(_win);
+	//_win.set_view_object_tree(_schemspace->get_workspace_object_tree());
+	_win->present();
 }
 
 Glib::RefPtr<GTKSpice> GTKSpice::create()

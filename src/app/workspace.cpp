@@ -13,8 +13,10 @@
 */
 
 #include <app/workspace.h>
+#include <iostream>
 
-Workspace::Workspace()
+Workspace::Workspace(std::shared_ptr<Window> toplevel) :
+    _toplevel(toplevel)
 {
     _actionfactory = std::make_shared<ActionFactory>();
 
@@ -24,12 +26,15 @@ Workspace::Workspace()
     
     _schem = std::make_shared<Schematic>(_objecttree);
     _keyaccel = std::make_shared<WorkspaceKeyAccel>(); 
-    _canvas = std::make_shared<Canvas>(_objecttree,_actionfactory);
+    _canvas = std::make_shared<Canvas>(_toplevel,_objecttree,_actionfactory);
     
     _actionfactory->update(_objecttree,_schem,_canvas);
 
     _canvas->new_action().connect(sigc::mem_fun(*this,&Workspace::get_action));
 }
+
+Workspace::~Workspace()
+{}
 
 bool Workspace::get_action(std::shared_ptr<Action> a)
 {

@@ -24,17 +24,20 @@ Window::Window()
     add_events(Gdk::KEY_PRESS_MASK);
     add_events(Gdk::KEY_RELEASE_MASK);
 
-    add(_drawevents);
+    //add(_drawevents);
 	//GtkSpiceState::init(&_drawevents);
-    _drawevents.show();
+    //_drawevents.show();
 
     set_title("GTKSpice");
     maximize();
     signal_key_press_event().connect(sigc::mem_fun(*this,&Window::on_key_press_event));
+    // TODO Does Window need to see these? Maybe just pass along?
+    /*
     signal_key_press_event().connect(sigc::mem_fun(_drawevents,&DrawingEventBox::on_key_press_event));
     signal_button_press_event().connect(sigc::mem_fun(_drawevents, &DrawingEventBox::on_button_press_event));
     signal_button_release_event().connect(sigc::mem_fun(_drawevents, &DrawingEventBox::on_button_release_event));
     signal_motion_notify_event().connect(sigc::mem_fun(_drawevents, &DrawingEventBox::on_mouse_move_event));
+    */
 
 }
 Window::~Window()

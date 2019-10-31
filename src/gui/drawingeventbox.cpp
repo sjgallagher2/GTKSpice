@@ -12,7 +12,7 @@
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* Note: I don't think I'm using this widget correctly, but it does
+/* Note: I don't know if I'm using this widget correctly, but it does
 add a much needed layer of abstraction so things like this aren't handled
 in the view class */
 
@@ -150,7 +150,8 @@ bool DrawingEventBox::on_button_release_event(GdkEventButton* button_event)
     }
 
     //int lineselect = ObjectTree::get_line_under_cursor(mousepos);
-    //_button_click.emit(mousepos,_mouse_button,_modifier,lineselect);
+    int lineselect = -1;
+    _button_click.emit(mousepos,_mouse_button,_modifier,lineselect);
     return true;
 }
 
