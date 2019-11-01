@@ -66,18 +66,17 @@
 
 // TODO This needs to be rewritten for new structure
 
-View::View() :
-    _delta_d(0,0), _pan_anchor_d(0,0), _scale_anchor_d(0,0), _pan_delta_d(0,0),_mouse_pos_d(0,0)
-{ 
-
+View::View(std::shared_ptr<CoordinateSystem> cs) :
+    _cs(cs)
+{
     add_events(Gdk::SCROLL_MASK | Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK | Gdk::POINTER_MOTION_MASK);
 
     signal_button_press_event().connect(sigc::mem_fun(*this, &View::on_button_press));
     signal_button_release_event().connect(sigc::mem_fun(*this, &View::on_button_release));
     signal_scroll_event().connect(sigc::mem_fun(*this, &View::on_scroll_event));
-    signal_motion_notify_event().connect(sigc::mem_fun(*this, &View::pan));
+    //signal_motion_notify_event().connect(sigc::mem_fun(*this, &View::pan));
 
-    _cs.snap_grid(true);
+    _cs->snap_grid(true);
     
 }
 
@@ -145,41 +144,18 @@ void View::force_redraw()
 
 bool View::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
 {
+
     // Cairo context from event, automatically generated
     Gtk::Allocation alloc = get_allocation();
     const int width = alloc.get_width();
     const int height = alloc.get_height();
 
-    double offsetx = width/2 + _delta_d.x() + _pan_delta_d.x();
-    double offsety = height/2 + _delta_d.y() + _pan_delta_d.y();
-
-    context->translate(offsetx, offsety);
-
-    if(_zoom_in) // New zoom occurred
-    {
-        Coordinate dspt = Transforms::anchored_scale(context,_scale_anchor_d,_scale,_scale_factor,true);
-        _delta_d.x(_delta_d.x()+dspt.x());
-        _delta_d.y(_delta_d.y()+dspt.y());
-        _zoom_in = false;
-    }
-    else if(_zoom_out)
-    {
-        Coordinate dspt = Transforms::anchored_scale(context,_scale_anchor_d,_scale,_scale_factor,false);
-        _delta_d.x(_delta_d.x()+dspt.x());
-        _delta_d.y(_delta_d.y()+dspt.y());
-        _zoom_out = false;
-    }
-    else
-    {
-        context->scale(_scale,_scale);
-    }
+    _tmat = _cs->get_view_matrix(width,height);
+    context->set_matrix(_tmat);
     context->set_source_rgba(0,0,0,1.0);
     
-    // Update coordinate system transformation
-    _cs.set_tmatrix(context->get_matrix());
-
     /* Draw origin */
-    _grid.draw_origin(context, _scale);
+    _grid.draw_origin(context, _cs->scale());
     
     /* Draw grid */
     // First get view area in user coordinates
@@ -188,7 +164,7 @@ bool View::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
     org.set_to_user_coordinate(context);
     viewarea.set_to_user_coordinate(context);
     // Now use those to set grid bounds
-    _grid.draw_grid(context, _scale,org.x(),viewarea.x(),org.y(),viewarea.y());
+    _grid.draw_grid(context, _cs->scale(),org.x(),viewarea.x(),org.y(),viewarea.y());
 
     // Draw all objects in the object tree
     if(_objecttree)
@@ -213,26 +189,13 @@ bool View::on_scroll_event(GdkEventScroll* scroll_event)
     const int height = alloc.get_height();
     
     // Handler for scrolling (zooming)
-    if(scroll_event->direction == GDK_SCROLL_UP)
-    {
-        if(_scale*_scale_factor < MAX_ZOOM_IN)
-        {
-            _scale = _scale*_scale_factor;
-            _zoom_in = true;
-        }
-    }
-    else if(scroll_event->direction == GDK_SCROLL_DOWN)
-    {
-        if(_scale/_scale_factor > MAX_ZOOM_OUT)
-        {
-            _scale = _scale/_scale_factor;
-            _zoom_out = true;
-        }
-    }
+//    if(scroll_event->direction == GDK_SCROLL_UP)
+//    {
+//    }
+//    else if(scroll_event->direction == GDK_SCROLL_DOWN)
+//    {
+//    }
 
-    //Use screen (device) position to set scale anchor
-    _scale_anchor_d.set_coordinate(scroll_event->x, scroll_event->y);
-    
     // Force redraw
     force_redraw();
     return false;
@@ -257,25 +220,27 @@ bool View::on_button_press(GdkEventButton* button_event)
 
 bool View::on_button_release(GdkEventButton* button_event)
 {
+    /*
     if(button_event->button == 1)
     {
         _delta_d.x(_delta_d.x() + _pan_delta_d.x());
         _delta_d.y(_delta_d.y() + _pan_delta_d.y());
         _pan_delta_d.set_coordinate(0,0);
-        //std::cout << "Reset\n";
     }
 
-    //std::cout << "Release\n";
-
+    */
     // Force redraw
     force_redraw();
     return false;
 }
 
+/*
 bool View::pan(GdkEventMotion* movement_event)
 {
     // TODO All instances of state handling must be updated
     _mouse_pos_d.set_coordinate(movement_event->x,movement_event->y);
+*/
+
 /*
     if(GtkSpiceState::get_state() == GtkSpiceState::PAN)
     {
@@ -300,6 +265,9 @@ bool View::pan(GdkEventMotion* movement_event)
         return false;
     }
 */
+
+/*
     force_redraw();
     return false;
 }
+*/

@@ -12,6 +12,7 @@
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <iostream>
 #include <tools/tool_pointer.h>
 
 // NOTE: How can we introduce a higher degree of customizability?
@@ -25,6 +26,12 @@
 //  Alt-left-click action
 //  Scroll action
 
+PointerTool::PointerTool()
+{}
+
+PointerTool::~PointerTool()
+{}
+
 void PointerTool::tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect)
 {
     if(modifier == NO_MOD)
@@ -33,7 +40,8 @@ void PointerTool::tool_click_handler(Coordinate mousepos,int button,int modifier
         {
             // Opt: Set the rectangle select anchor
             // Opt: Select object under mouse, change tool to move
-            // Opt: Change tool to pan
+            // Opt: Change tool to pan, or do pan mode
+
         }
         else if(button == LEFT_RELEASE)
         {

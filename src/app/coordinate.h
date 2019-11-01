@@ -27,9 +27,13 @@ public:
     virtual ~Coordinate() {};
 
     void set_to_user_coordinate(const Cairo::RefPtr<Cairo::Context>& context);
+    void set_to_user_coordinate(Cairo::Matrix tmat);
     void set_to_user_distance(const Cairo::RefPtr<Cairo::Context>& context);
+    void set_to_user_distance(Cairo::Matrix tmat);
     void set_to_device_coordinate(const Cairo::RefPtr<Cairo::Context>& context);
+    void set_to_device_coordinate(Cairo::Matrix tmat);
     void set_to_device_distance(const Cairo::RefPtr<Cairo::Context>& context);
+    void set_to_device_distance(Cairo::Matrix tmat);
     void set_coordinate(double X, double Y,bool snapped=false) { x(X,snapped); y(Y,snapped); }
     void set_to_snapped();
     

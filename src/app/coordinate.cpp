@@ -12,6 +12,7 @@
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <iostream>
 #include <cairomm/context.h>
 #include <app/coordinate.h>
 #include <math.h>
@@ -54,22 +55,39 @@ void Coordinate::set_to_user_coordinate(
 {
     context->device_to_user(_x, _y);
 }
-
+void Coordinate::set_to_user_coordinate(Cairo::Matrix tmat)
+{
+    tmat.transform_point(_x,_y);
+}
 void Coordinate::set_to_user_distance(
     const Cairo::RefPtr<Cairo::Context>& context)
 {
     context->device_to_user_distance(_x, _y);
+}
+void Coordinate::set_to_user_distance(Cairo::Matrix tmat)
+{
+    tmat.transform_distance(_x,_y);
 }
 void Coordinate::set_to_device_coordinate(
     const Cairo::RefPtr<Cairo::Context>& context)
 {
     context->user_to_device(_x, _y);
 }
+void Coordinate::set_to_device_coordinate(Cairo::Matrix tmat)
+{
+    tmat.invert();
+    tmat.transform_point(_x,_y);
+}
 
 void Coordinate::set_to_device_distance(
     const Cairo::RefPtr<Cairo::Context>& context)
 {
     context->user_to_device_distance(_x, _y);
+}
+void Coordinate::set_to_device_distance(Cairo::Matrix tmat)
+{
+    tmat.invert();
+    tmat.transform_distance(_x,_y);
 }
 void Coordinate::set_to_snapped()
 {

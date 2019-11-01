@@ -21,23 +21,26 @@
 namespace Transforms
 {
     // Performs an anchored scaling transformation on a Cairo context
-    inline Coordinate anchored_scale (const Cairo::RefPtr<Cairo::Context>& context, Coordinate anchor, float scale, float scale_factor, bool zoom_in)
+    // Params
+    //  anchor          Location to keep anchored
+    //  scale           Absolute scale value
+    //  scale_factor    Scale factor, multiplication factor for zoom in, division factor for zoom out,
+    //                  should be >1
+    //  zoom_in         true/false, false indicates zoom out
+
+    // Returns: 
+    //  displacement    A Coordinate for the displacement
+
+    inline Coordinate anchored_scale_displacement (Coordinate anchor, float scale, float scale_factor, bool zoom_in)
     {
         if(zoom_in)
         {
-            context->scale(scale,scale);
-
-            anchor.set_to_user_coordinate(context);
             // Scaling caused everything to move away, we need to bring it back. This comes
             // from Euclidean displacement after multiplying coordinates by scalefactor.
             // The factor is |1-scalefactor| e.g. 1.5x scale means |1-3/2| = 1/2
             float f = std::abs(1-scale_factor);
-            context->translate(-anchor.x()*f,-anchor.y()*f);
 
-            // We need to get the scale anchor back to a device distance
-            anchor.set_to_device_distance(context);
-
-            // Then return a displacement coordinate
+            // Return a displacement coordinate
             Coordinate displacement;
             displacement.x(-anchor.x()*f);
             displacement.y(-anchor.y()*f);
@@ -45,15 +48,9 @@ namespace Transforms
         }
         else // Zoom out
         {
-            context->scale(scale,scale);
-
-            anchor.set_to_user_coordinate(context);
             // For zoom out, the distance is |1-1/scalefactor|
             float f = std::abs(1-1/scale_factor);
-            context->translate(anchor.x()*f,anchor.y()*f);
             
-            anchor.set_to_device_distance(context);
-
             Coordinate displacement;
             displacement.x(anchor.x()*f);
             displacement.y(anchor.y()*f);

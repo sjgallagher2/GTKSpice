@@ -14,7 +14,7 @@
 #ifndef TOOL_VIEW_PAN_H
 #define TOOL_VIEW_PAN_H
 
-#include <tools/tool.h>
+//#include <tools/tool.h>
 #include <tools/tool_view.h>
 #include <app/coordinate.h>
 #include <app/gtkspice_state.h>

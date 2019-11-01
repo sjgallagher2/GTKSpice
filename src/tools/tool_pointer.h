@@ -14,20 +14,24 @@
 #ifndef TOOL_POINTER_H
 #define TOOL_POINTER_H
 
-#include <tools/tool.h>
 #include <app/coordinate.h>
+#include <tools/tool.h>
 #include <app/gtkspice_state.h>
 
 class PointerTool : public Tool 
 {
 public:
-    PointerTool() {}
-    virtual ~PointerTool() {}
+    PointerTool();
+    virtual ~PointerTool();
 
     virtual void tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect);
     virtual void tool_move_handler(Coordinate mousepos);
     virtual void tool_key_handler(int key,int modifier);
     virtual Glib::ustring get_tool_cursor_name() {return "default";}
+
+private:
+    bool _panning = false;
+    
 };
 
 #endif /* TOOL_POINTER_H */

@@ -42,13 +42,14 @@ class DrawingEventBox;
 class View : public Gtk::DrawingArea
 {
 public:
-    View();
+    View(std::shared_ptr<CoordinateSystem> cs);
     virtual ~View();
 
     int visible_units_x();
     int visible_units_y();
 
-    CoordinateSystem* get_coordinate_system() {return &_cs;}
+    //CoordinateSystem get_coordinate_system() {return &_cs;}
+    Cairo::Matrix tmatrix() {return _tmat;}
     void set_object_tree(std::shared_ptr<ObjectTree> os) {_objecttree = os;}
 
     //Glib::RefPtr<Gdk::Cursor> get_cursor();
@@ -67,26 +68,16 @@ private:
     bool on_scroll_event(GdkEventScroll* scroll_event);
     bool on_button_press(GdkEventButton* button_event);
     bool on_button_release(GdkEventButton* button_event);
-    bool pan(GdkEventMotion* movement_event);
+//    bool pan(GdkEventMotion* movement_event);
+
 
     Cairo::RefPtr<Cairo::Context> _context;
-
     std::shared_ptr<ObjectTree> _objecttree;
+    Cairo::Matrix _tmat;
 
-    CoordinateSystem _cs;
+    std::shared_ptr<CoordinateSystem> _cs;
     Grid _grid;
     DebugText _dt;
-    bool _pan = false;
-    bool _zoom_in = false;
-    bool _zoom_out = false;
-    Coordinate _pan_anchor_d; // Anchor for pan (device coordinates)
-    Coordinate _delta_d; // Net change in position (device coordinates)
-    Coordinate _pan_delta_d; // Change in position for current pan (device coorindates)
-    float _scale = 4;
-    float _scale_factor = 1.5; // Multiplication factor for zooming in and out
-    const float MAX_ZOOM_IN = 25;
-    const float MAX_ZOOM_OUT = 0.6;
-    Coordinate _scale_anchor_d; // Scale anchor (device coordinates)
     Coordinate _mouse_pos_d;
     Glib::RefPtr<Gdk::Cursor> _crosshairs_cursor;
     Glib::RefPtr<Gdk::Cursor> _pointer_cursor;

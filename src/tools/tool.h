@@ -11,11 +11,10 @@
  * You should have received a copy of the GNU General Public License
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef TOOL_H
-#define TOOL_H
+#ifndef GTKSPICE_TOOL_H
+#define GTKSPICE_TOOL_H
 
 #include <app/coordinate.h>
-#include <app/gtkspice_state.h>
 
 /* Pure virtual Tool interace */
 
@@ -32,4 +31,4 @@ public:
 
 };
 
-#endif /* TOOL_H */
+#endif /* GTKSPICE_TOOL_H */

@@ -23,10 +23,16 @@
 
 class View;
 
+enum MouseClicks {LEFT_PRESS=1,LEFT_RELEASE, 
+    MIDDLE_PRESS, MIDDLE_RELEASE,
+    RIGHT_PRESS, RIGHT_RELEASE, 
+    DOUBLE_LEFT, DOUBLE_RIGHT};
+enum KeyModifiers {NO_MOD,SHIFT,CTRL,ALT};
+
 class DrawingEventBox : public Gtk::EventBox
 {
 public:
-    DrawingEventBox();
+    DrawingEventBox(std::shared_ptr<CoordinateSystem> cs);
     virtual ~DrawingEventBox();
 
     void set_object_tree(std::shared_ptr<ObjectTree> ot); 
@@ -54,7 +60,7 @@ protected:
     //bool on_key_release_event(GdkEventKey* event) override;
     int _mouse_button = 0;
     int _modifier = 0;
-    View* _v; // TODO Should the view be here? 
+    std::shared_ptr<View> _v; // TODO Should the view be here? 
     DrawingEventBoxKeyAccel* _keyaccel;
     
 };

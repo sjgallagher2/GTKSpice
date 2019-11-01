@@ -15,7 +15,27 @@
 #include <gtkmm/drawingarea.h>
 #include <app/coordinate.h>
 #include <app/coordinate_system.h>
+#include <app/transforms.h>
+#include <iostream>
 
+CoordinateSystem::CoordinateSystem() : _center(0,0),_scale(4.0)
+{
+}
+
+Cairo::Matrix CoordinateSystem::get_view_matrix(int width, int height)
+{
+    // Return a transformation matrix for a view
+    double dx = width/2 + _center.x();
+    double dy = height/2 + _center.y();
+    Cairo::Matrix vmat(1,0,0,1,0,0);
+    vmat.translate(dx,dy);
+    vmat.scale(_scale,_scale);
+    Cairo::Matrix vmatinv = vmat;
+    vmatinv.invert();
+
+    return vmat;
+}
+/*
 void CoordinateSystem::set_to_user_coordinates(Coordinate& c)
 {
     double xx,yy;
@@ -48,3 +68,30 @@ void CoordinateSystem::set_to_device_distance(Coordinate& c)
     _tmat.transform_distance(xx,yy);
     c.set_coordinate(xx,yy);
 }
+*/
+void CoordinateSystem::pan(Coordinate delta)
+{
+    _center.x(_center.x() + delta.x());
+    _center.y(_center.y() + delta.y());
+}
+
+void CoordinateSystem::zoom_in(Coordinate anchor)
+{
+    if(_scale*_scale_factor < MAX_ZOOM_IN)
+    {
+        _scale = _scale*_scale_factor;
+    }
+    Coordinate disp = Transforms::anchored_scale_displacement(anchor,_scale,_scale_factor,true);
+    pan(disp);
+}
+
+void CoordinateSystem::zoom_out(Coordinate anchor)
+{
+    if(_scale/_scale_factor > MAX_ZOOM_OUT)
+    {
+        _scale = _scale/_scale_factor;
+    }
+    Coordinate disp = Transforms::anchored_scale_displacement(anchor,_scale,_scale_factor,false);
+    pan(disp);
+}
+

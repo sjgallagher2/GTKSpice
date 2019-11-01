@@ -13,47 +13,31 @@
  */
 #ifndef GTKSPICE_STATE_H
 #define GTKSPICE_STATE_H
-/* This is a state machine with the intention of tracking clicking and mouse
- * behavior in the DrawingArea.
- * 
- */
 
 #include <gtkmm.h>
 #include <memory>
 #include <gui/drawingeventbox.h>
 #include <app/coordinate.h>
 #include <app/component_params.h>
-#include <tools/tool.h>
 
-enum MouseClicks {LEFT_PRESS=1,LEFT_RELEASE, 
-    MIDDLE_PRESS, MIDDLE_RELEASE,
-    RIGHT_PRESS, RIGHT_RELEASE, 
-    DOUBLE_LEFT, DOUBLE_RIGHT};
-enum KeyModifiers {NO_MOD,SHIFT,CTRL,ALT};
+class Tool;
 
-
+/* 
+ * Object to track the program state
+ */
 class GtkSpiceState
 {
 public:
     GtkSpiceState();
     ~GtkSpiceState();
 
-    //void change_state(DrawStates ds) {_prevstate=_state; _state = ds;}
-    //DrawStates get_state() {return _state;}
-
     Glib::ustring get_cursor_name();
-
-    void click_handler(Coordinate mousepos,int button,int modifier,int cselect);
-    void move_handler(Coordinate mousepos);
-    void key_handler(int key,int modifier);
+    void active_tool(std::shared_ptr<Tool> at) {_active_tool = at;}
+    std::shared_ptr<Tool> active_tool() const {return _active_tool;}
 
 private:
     Glib::ustring get_tool_cursor_name();
-
-    //DrawingEventBox* _drawevents;
-    
     std::shared_ptr<Tool> _active_tool;
-
 };
 
 #endif /* GTKSPICE_STATE_H */

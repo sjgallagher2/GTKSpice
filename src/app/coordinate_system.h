@@ -12,7 +12,6 @@
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Class for storing the in-app coordinate system
 
 #ifndef COORDINATE_SYSTEM_H
 #define COORDINATE_SYSTEM_H
@@ -20,26 +19,59 @@
 #include <cairomm/matrix.h>
 #include <app/coordinate.h>
 
+// Class for storing the in-app coordinate system
+/* USAGE: 
+ * This class is the interface between the device coordinates and the
+ * user/developer coordinates. The transformations are (in order):
+ *  1. Translation
+ *      1a. Translation for allocation
+ *      1b. Translation for offset due to panning and zooming
+ *      1c. Translation for offset due to active panning
+ *  2. Scaling
+ *      2a. Scaling for zooming
+ * 
+ * Before events for mouse presses and movements are emitted, they
+ * are converted by this coordinate system in the DrawingEventBox
+ * into user space. 
+ */
 class CoordinateSystem
 {
 public:
-    CoordinateSystem() {};
+    CoordinateSystem();
     virtual ~CoordinateSystem() {};
 
-    void set_tmatrix(const Cairo::Matrix m) {_tmat = m;_tmatinv=_tmat;_tmatinv.invert();}
+    Cairo::Matrix get_view_matrix(int width, int height);
 
-    void set_to_user_coordinates(Coordinate& c);
-    void set_to_device_coordinates(Coordinate& c);
-    void set_to_user_distance(Coordinate& c);
-    void set_to_device_distance(Coordinate& c);
+    //void set_to_user_coordinates(Coordinate& c);
+    //void set_to_device_coordinates(Coordinate& c);
+    //void set_to_user_distance(Coordinate& c);
+    //void set_to_device_distance(Coordinate& c);
 
     void snap_grid(bool s) {_snap_grid = s;}
     bool snap_grid() const {return _snap_grid;}
+
+    float scale() const {return _scale;}
+
+    void pan(Coordinate delta); // Translate by delta in x,y
+    void zoom_in(Coordinate anchor);  // Zoom in with anchor fixed
+    void zoom_out(Coordinate anchor);  // Zoom out with anchor fixed
 protected:
     bool _snap_grid = false;
 
-    Cairo::Matrix _tmat;
-    Cairo::Matrix _tmatinv;
+    
+    Coordinate _center;
+    float _scale = 4;
+    float _scale_factor = 1.5; // Multiplication factor for zooming in and out
+    const float MAX_ZOOM_IN = 25;
+    const float MAX_ZOOM_OUT = 0.6;
 };
+//Cairo::Matrix _tmat;
+//Cairo::Matrix _tmatinv;
+//    bool _pan = false;
+//    bool _zoom_in = false;
+//    bool _zoom_out = false;
+//    Coordinate _pan_anchor; // Anchor for pan 
+//    Coordinate _delta; // Net change in position
+//    Coordinate _pan_delta; // Change in position for current pan 
 
 #endif /* COORDINATE_SYSTEM_H */
