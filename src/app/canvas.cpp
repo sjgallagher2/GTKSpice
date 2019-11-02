@@ -24,11 +24,11 @@ Canvas::Canvas(std::shared_ptr<Window> toplevel, std::shared_ptr<ObjectTree> ot,
     _objecttree(ot),
     _state( std::make_shared<GtkSpiceState>() ),
     _actionfactory(af),
-    _cs( std::make_shared<CoordinateSystem>()),
-    _pointer( std::make_shared<PointerTool>())
+    _cs( std::make_shared<CoordinateSystem>())
 {
     send_test = true;
     _ebox = std::make_shared<DrawingEventBox>(_cs);
+    _pointer = std::make_shared<PointerTool>(_cs);
     // Set the object tree for the view
     _ebox->set_object_tree(_objecttree);
     // Add the event box for this canvas to the toplevel window and show
@@ -43,10 +43,12 @@ Canvas::Canvas(std::shared_ptr<Window> toplevel, std::shared_ptr<ObjectTree> ot,
     _ebox->button_click().connect(sigc::mem_fun(*this, &Canvas::click_handler));
     _ebox->mouse_move().connect(sigc::mem_fun(*this, &Canvas::move_handler));
     _ebox->key_press().connect(sigc::mem_fun(*this, &Canvas::key_handler));
+    _ebox->scroll_wheel().connect(sigc::mem_fun(*this,&Canvas::scroll_handler));
     _toplevel->signal_key_press_event().connect(sigc::mem_fun(*_ebox,&DrawingEventBox::on_key_press_event));
     _toplevel->signal_button_press_event().connect(sigc::mem_fun(*_ebox, &DrawingEventBox::on_button_press_event));
     _toplevel->signal_button_release_event().connect(sigc::mem_fun(*_ebox, &DrawingEventBox::on_button_release_event));
     _toplevel->signal_motion_notify_event().connect(sigc::mem_fun(*_ebox, &DrawingEventBox::on_mouse_move_event));
+    _toplevel->signal_scroll_event().connect(sigc::mem_fun(*_ebox, &DrawingEventBox::on_scroll_wheel_event));
 }
 
 Canvas::~Canvas()
@@ -56,9 +58,20 @@ Canvas::~Canvas()
 void Canvas::click_handler(Coordinate mousepos, int button, int modifier, int cselect)
 {
     _state->active_tool()->tool_click_handler(mousepos,button,modifier,cselect);
+    _ebox->force_redraw();
+}
+void Canvas::scroll_handler(Coordinate mousepos, int scroll_dir)
+{
+    if(scroll_dir == SCROLL_UP)
+        _cs->zoom_in(mousepos);
+    else if(scroll_dir == SCROLL_DOWN)
+        _cs->zoom_out(mousepos);
+    _ebox->force_redraw();
+    
 }
 void Canvas::move_handler(Coordinate mousepos)
 {
+    _ebox->force_redraw();
     _state->active_tool()->tool_move_handler(mousepos);
 }
 void Canvas::key_handler(int key,int modifier)

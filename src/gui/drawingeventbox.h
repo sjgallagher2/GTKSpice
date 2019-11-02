@@ -17,6 +17,7 @@
 
 #include <memory>
 #include <gtkmm/eventbox.h>
+#include <cairomm/matrix.h>
 #include <app/object_tree.h>
 #include <gui/drawingeventbox_keyaccel.h>
 #include <gui/view.h>
@@ -28,6 +29,7 @@ enum MouseClicks {LEFT_PRESS=1,LEFT_RELEASE,
     RIGHT_PRESS, RIGHT_RELEASE, 
     DOUBLE_LEFT, DOUBLE_RIGHT};
 enum KeyModifiers {NO_MOD,SHIFT,CTRL,ALT};
+enum ScrollDirections {SCROLL_UP, SCROLL_DOWN};
 
 class DrawingEventBox : public Gtk::EventBox
 {
@@ -36,6 +38,8 @@ public:
     virtual ~DrawingEventBox();
 
     void set_object_tree(std::shared_ptr<ObjectTree> ot); 
+
+    Cairo::Matrix get_view_matrix() const {return _view_mat;}
     
     typedef sigc::signal<void,Coordinate,int,int,int> clicksig_type;
     clicksig_type button_click() const {return _button_click;}
@@ -43,12 +47,15 @@ public:
     movesig_type mouse_move() const {return _mouse_move;}
     typedef sigc::signal<void,int,int> keypress_sig_type;
     keypress_sig_type key_press() const {return _key_press;}
+    typedef sigc::signal<void,Coordinate,int> scroll_sig_type;
+    scroll_sig_type scroll_wheel() const {return _scroll_wheel;}
 
     virtual bool on_key_press_event(GdkEventKey* event) override;
     virtual bool on_button_press_event(GdkEventButton* button_event);
     virtual bool on_button_release_event(GdkEventButton* release_event);
     virtual bool on_mouse_move_event(GdkEventMotion* movement_event);
     virtual bool on_mouse_cross_event(GdkEventCrossing* cross_event);
+    virtual bool on_scroll_wheel_event(GdkEventScroll* scroll_event);
 
     void force_redraw();
 protected:
@@ -56,12 +63,14 @@ protected:
     clicksig_type _button_click;
     movesig_type _mouse_move;
     keypress_sig_type _key_press;
+    scroll_sig_type _scroll_wheel;
     //
     //bool on_key_release_event(GdkEventKey* event) override;
     int _mouse_button = 0;
     int _modifier = 0;
-    std::shared_ptr<View> _v; // TODO Should the view be here? 
+    std::shared_ptr<View> _v; 
     DrawingEventBoxKeyAccel* _keyaccel;
+    Cairo::Matrix _view_mat;
     
 };
 

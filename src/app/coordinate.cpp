@@ -55,28 +55,31 @@ void Coordinate::set_to_user_coordinate(
 {
     context->device_to_user(_x, _y);
 }
-void Coordinate::set_to_user_coordinate(Cairo::Matrix tmat)
+void Coordinate::set_to_user_coordinate()
 {
-    tmat.transform_point(_x,_y);
+    _view_mat.invert();
+    _view_mat.transform_point(_x,_y);
+    _view_mat.invert();
 }
 void Coordinate::set_to_user_distance(
     const Cairo::RefPtr<Cairo::Context>& context)
 {
     context->device_to_user_distance(_x, _y);
 }
-void Coordinate::set_to_user_distance(Cairo::Matrix tmat)
+void Coordinate::set_to_user_distance()
 {
-    tmat.transform_distance(_x,_y);
+    _view_mat.invert();
+    _view_mat.transform_distance(_x,_y);
+    _view_mat.invert();
 }
 void Coordinate::set_to_device_coordinate(
     const Cairo::RefPtr<Cairo::Context>& context)
 {
     context->user_to_device(_x, _y);
 }
-void Coordinate::set_to_device_coordinate(Cairo::Matrix tmat)
+void Coordinate::set_to_device_coordinate()
 {
-    tmat.invert();
-    tmat.transform_point(_x,_y);
+    _view_mat.transform_point(_x,_y);
 }
 
 void Coordinate::set_to_device_distance(
@@ -84,10 +87,9 @@ void Coordinate::set_to_device_distance(
 {
     context->user_to_device_distance(_x, _y);
 }
-void Coordinate::set_to_device_distance(Cairo::Matrix tmat)
+void Coordinate::set_to_device_distance()
 {
-    tmat.invert();
-    tmat.transform_distance(_x,_y);
+    _view_mat.transform_distance(_x,_y);
 }
 void Coordinate::set_to_snapped()
 {

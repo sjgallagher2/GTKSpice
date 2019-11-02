@@ -22,18 +22,26 @@
 class Coordinate
 {
 public:
-    Coordinate() {}
+    Coordinate() : _view_mat(1,0,0,1,0,0) {}
     Coordinate(double X, double Y) {x(X);y(Y);}
+    Coordinate(const Coordinate& r) {x(r.x());y(r.y());_view_mat=r.get_view_matrix();}
     virtual ~Coordinate() {};
+    
+    void set_view_matrix(Cairo::Matrix tmat) {_view_mat = tmat;}
+    Cairo::Matrix get_view_matrix() const { return _view_mat;}
 
     void set_to_user_coordinate(const Cairo::RefPtr<Cairo::Context>& context);
-    void set_to_user_coordinate(Cairo::Matrix tmat);
+    void set_to_user_coordinate(); // This uses _view_matrix, which defaults to identity
+    
     void set_to_user_distance(const Cairo::RefPtr<Cairo::Context>& context);
-    void set_to_user_distance(Cairo::Matrix tmat);
+    void set_to_user_distance();
+    
     void set_to_device_coordinate(const Cairo::RefPtr<Cairo::Context>& context);
-    void set_to_device_coordinate(Cairo::Matrix tmat);
+    void set_to_device_coordinate();
+
     void set_to_device_distance(const Cairo::RefPtr<Cairo::Context>& context);
-    void set_to_device_distance(Cairo::Matrix tmat);
+    void set_to_device_distance();
+
     void set_coordinate(double X, double Y,bool snapped=false) { x(X,snapped); y(Y,snapped); }
     void set_to_snapped();
     
@@ -49,11 +57,15 @@ public:
 
     /* Operator overloads */
     virtual bool operator==(const Coordinate& r) const {return (r.x() == _x && r.y() == _y);}
+    virtual Coordinate operator+(const Coordinate& r) const {return Coordinate(r.x() + _x, r.y() + _y);}
+    virtual Coordinate operator-(const Coordinate& r) const {return Coordinate(r.x() - _x, r.y() - _y);}
+    virtual Coordinate operator*(const Coordinate& r) const {return Coordinate(r.x() * _x, r.y() + _y);}
 
 protected:
     double _x;
     double _y;
     static float _grid; // Grid interval
+    Cairo::Matrix _view_mat;
 
 };
 

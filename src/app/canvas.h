@@ -55,6 +55,7 @@ public:
     void click_handler(Coordinate mousepos, int button, int modifier, int cselect);
     void move_handler(Coordinate mousepos);
     void key_handler(int key,int modifier);
+    void scroll_handler(Coordinate mousepos, int scroll_dir);
 
     void send_test_action(Coordinate x,int y,int z,int t);
     typedef sigc::signal<bool,std::shared_ptr<Action>> new_action_type;

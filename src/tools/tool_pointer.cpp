@@ -26,7 +26,8 @@
 //  Alt-left-click action
 //  Scroll action
 
-PointerTool::PointerTool()
+PointerTool::PointerTool(std::shared_ptr<CoordinateSystem> cs) :
+    _cs(cs)
 {}
 
 PointerTool::~PointerTool()
@@ -41,10 +42,17 @@ void PointerTool::tool_click_handler(Coordinate mousepos,int button,int modifier
             // Opt: Set the rectangle select anchor
             // Opt: Select object under mouse, change tool to move
             // Opt: Change tool to pan, or do pan mode
+            _panning = true;
+            _pan_anchor_d = mousepos;
+            _pan_anchor_d.set_to_device_coordinate();
+            _pan_delta_d = Coordinate(0,0);
+            std::cout << "Pan Delta: ("<<_pan_delta_d.x()<<","<<_pan_delta_d.y()<<")\n";
 
         }
         else if(button == LEFT_RELEASE)
         {
+            _panning = false;
+            _cs->finish_pan();
             // Find any objects under mouse or selection rectangle, select and highlight
         }
         else if(button == RIGHT_RELEASE)
@@ -56,7 +64,19 @@ void PointerTool::tool_click_handler(Coordinate mousepos,int button,int modifier
 
 void PointerTool::tool_move_handler(Coordinate mousepos)
 {
-    mousepos.set_to_snapped();
+    // Previous method had bad rounding issues or something, so now we convert
+    // to device coordinates (although this somewhat defeats the purpose of
+    // the CoordinateSystem interface).
+    if(_panning)
+    {
+        Coordinate delta;
+        mousepos.set_to_device_coordinate();
+        delta = _pan_anchor_d - mousepos;
+        std::cout << "Pan Delta: ("<<delta.x()<<","<<delta.y()<<")\n";
+        delta.set_view_matrix(mousepos.get_view_matrix());
+        delta.set_to_user_distance();
+        _cs->set_pan_delta(delta);
+    }
     // Check if left mouse button is down
     // Start a drag-select rectangle
 }

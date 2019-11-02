@@ -63,13 +63,16 @@ bool DrawingEventBox::on_mouse_cross_event(GdkEventCrossing* cross_event)
         //auto win = _v.get_window();
         _v->unset_cursor();
     }
+    _v->force_redraw();
 }
 
 bool DrawingEventBox::on_button_press_event(GdkEventButton* button_event)
 {
     // TODO: All instances of click handling and key handling must be updated
     Coordinate mousepos(button_event->x,button_event->y);
-    mousepos.set_to_user_coordinate(_v->tmatrix());
+    _view_mat = _v->tmatrix();
+    mousepos.set_view_matrix(_view_mat);
+    mousepos.set_to_user_coordinate();
 
     switch(button_event->button)
     {
@@ -108,13 +111,16 @@ bool DrawingEventBox::on_button_press_event(GdkEventButton* button_event)
     //int lineselect = ObjectTree::get_line_under_cursor(mousepos);
     int lineselect = -1;
     _button_click.emit(mousepos,_mouse_button,_modifier,lineselect);
+    
     return true;
 }
 
 bool DrawingEventBox::on_button_release_event(GdkEventButton* button_event)
 {
     Coordinate mousepos(button_event->x,button_event->y);
-    mousepos.set_to_user_coordinate(_v->tmatrix());
+    _view_mat = _v->tmatrix();
+    mousepos.set_view_matrix(_view_mat);
+    mousepos.set_to_user_coordinate();
 
     switch(button_event->button)
     {
@@ -148,18 +154,42 @@ bool DrawingEventBox::on_button_release_event(GdkEventButton* button_event)
     //int lineselect = ObjectTree::get_line_under_cursor(mousepos);
     int lineselect = -1;
     _button_click.emit(mousepos,_mouse_button,_modifier,lineselect);
+    
     return true;
 }
 
 bool DrawingEventBox::on_mouse_move_event(GdkEventMotion* movement_event)
 {
-    auto win = _v->get_window();
+//    auto win = _v->get_window();
 //    win->set_cursor(_v.get_cursor());
 
     Coordinate mousepos(movement_event->x,movement_event->y);
-    mousepos.set_to_user_coordinate(_v->tmatrix());
+    _view_mat = _v->tmatrix();
+    mousepos.set_view_matrix(_view_mat);
+    mousepos.set_to_user_coordinate();
     
     _mouse_move.emit(mousepos);
+    
+    return true;
+}
+
+bool DrawingEventBox::on_scroll_wheel_event(GdkEventScroll* scroll_event)
+{
+    Coordinate mousepos(scroll_event->x,scroll_event->y);
+    _view_mat = _v->tmatrix();
+    mousepos.set_view_matrix(_view_mat);
+    mousepos.set_to_user_coordinate();
+    ScrollDirections dir;
+    if(scroll_event->direction == GDK_SCROLL_UP)
+    {
+        dir = SCROLL_UP;
+    }
+    else if(scroll_event->direction == GDK_SCROLL_DOWN)
+    {
+        dir = SCROLL_DOWN;
+    }
+    
+    _scroll_wheel.emit(mousepos,dir);
     return true;
 }
 
@@ -183,6 +213,7 @@ bool DrawingEventBox::on_key_press_event(GdkEventKey* key_event)
     
     // Emit key press signal
     _key_press.emit(key_event->keyval,_modifier);
+    
     return true;
 }
 

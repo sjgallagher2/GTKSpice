@@ -18,61 +18,35 @@
 #include <app/transforms.h>
 #include <iostream>
 
-CoordinateSystem::CoordinateSystem() : _center(0,0),_scale(4.0)
+// TODO Not sure why you need to multiply by scale, set_to_device_distance
+// should do it for us in tool_move_handler in PointerTool, but it doesn't.
+
+CoordinateSystem::CoordinateSystem() : _center(0,0),_scale(6.0)
 {
 }
 
 Cairo::Matrix CoordinateSystem::get_view_matrix(int width, int height)
 {
     // Return a transformation matrix for a view
-    double dx = width/2 + _center.x();
-    double dy = height/2 + _center.y();
-    Cairo::Matrix vmat(1,0,0,1,0,0);
-    vmat.translate(dx,dy);
-    vmat.scale(_scale,_scale);
-    Cairo::Matrix vmatinv = vmat;
-    vmatinv.invert();
+    double x0 = _center.x()+width/2 + _scale*_pan_delta.x();
+    double y0 = _center.y()+height/2 + _scale*_pan_delta.y();
+    Cairo::Matrix vmat(_scale,0,0,_scale,x0,y0);
+//    vmat.translate(dx,dy);
+//    vmat.scale(_scale,_scale);
 
     return vmat;
 }
-/*
-void CoordinateSystem::set_to_user_coordinates(Coordinate& c)
-{
-    double xx,yy;
-    xx = c.x();
-    yy = c.y();
-    _tmatinv.transform_point(xx,yy);
-    c.set_coordinate(xx,yy);
-}
-void CoordinateSystem::set_to_device_coordinates(Coordinate& c)
-{
-    double xx,yy;
-    xx = c.x();
-    yy = c.y();
-    _tmat.transform_point(xx,yy);
-    c.set_coordinate(xx,yy);
-}
-void CoordinateSystem::set_to_user_distance(Coordinate& c)
-{
-    double xx,yy;
-    xx = c.x();
-    yy = c.y();
-    _tmatinv.transform_distance(xx,yy);
-    c.set_coordinate(xx,yy);
-}
-void CoordinateSystem::set_to_device_distance(Coordinate& c)
-{
-    double xx,yy;
-    xx = c.x();
-    yy = c.y();
-    _tmat.transform_distance(xx,yy);
-    c.set_coordinate(xx,yy);
-}
-*/
-void CoordinateSystem::pan(Coordinate delta)
+void CoordinateSystem::translate(Coordinate delta)
 {
     _center.x(_center.x() + delta.x());
     _center.y(_center.y() + delta.y());
+}
+void CoordinateSystem::finish_pan()
+{
+    _center.x(_center.x() + _scale*_pan_delta.x());
+    _center.y(_center.y() + _scale*_pan_delta.y());
+    _pan_delta.x(0);
+    _pan_delta.y(0);
 }
 
 void CoordinateSystem::zoom_in(Coordinate anchor)
@@ -82,7 +56,7 @@ void CoordinateSystem::zoom_in(Coordinate anchor)
         _scale = _scale*_scale_factor;
     }
     Coordinate disp = Transforms::anchored_scale_displacement(anchor,_scale,_scale_factor,true);
-    pan(disp);
+    translate(disp);
 }
 
 void CoordinateSystem::zoom_out(Coordinate anchor)
@@ -92,6 +66,6 @@ void CoordinateSystem::zoom_out(Coordinate anchor)
         _scale = _scale/_scale_factor;
     }
     Coordinate disp = Transforms::anchored_scale_displacement(anchor,_scale,_scale_factor,false);
-    pan(disp);
+    translate(disp);
 }
 

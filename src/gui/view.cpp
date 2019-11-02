@@ -180,24 +180,11 @@ bool View::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
 
 bool View::on_new_size(GdkEventConfigure* event_configure)
 {
+    return false;
 }
 
 bool View::on_scroll_event(GdkEventScroll* scroll_event)
 {
-    Gtk::Allocation alloc = get_allocation();
-    const int width = alloc.get_width();
-    const int height = alloc.get_height();
-    
-    // Handler for scrolling (zooming)
-//    if(scroll_event->direction == GDK_SCROLL_UP)
-//    {
-//    }
-//    else if(scroll_event->direction == GDK_SCROLL_DOWN)
-//    {
-//    }
-
-    // Force redraw
-    force_redraw();
     return false;
 }
 
@@ -213,8 +200,6 @@ bool View::on_button_press(GdkEventButton* button_event)
     //_mouse_pos_d.set_coordinate(button_event->x,button_event->y);
     //_send_mouse_click = true;
 */
-    // Force redraw
-    force_redraw();
     return false;
 }
 
@@ -229,8 +214,6 @@ bool View::on_button_release(GdkEventButton* button_event)
     }
 
     */
-    // Force redraw
-    force_redraw();
     return false;
 }
 

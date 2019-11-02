@@ -14,14 +14,18 @@
 #ifndef TOOL_POINTER_H
 #define TOOL_POINTER_H
 
+#include <memory>
+#include <cairomm/matrix.h>
+#include <app/coordinate_system.h>
 #include <app/coordinate.h>
 #include <tools/tool.h>
 #include <app/gtkspice_state.h>
 
+
 class PointerTool : public Tool 
 {
 public:
-    PointerTool();
+    PointerTool(std::shared_ptr<CoordinateSystem> cs);
     virtual ~PointerTool();
 
     virtual void tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect);
@@ -30,7 +34,10 @@ public:
     virtual Glib::ustring get_tool_cursor_name() {return "default";}
 
 private:
+    std::shared_ptr<CoordinateSystem> _cs;
     bool _panning = false;
+    Coordinate _pan_delta_d;
+    Coordinate _pan_anchor_d;
     
 };
 

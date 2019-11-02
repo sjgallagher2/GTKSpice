@@ -51,16 +51,18 @@ public:
     bool snap_grid() const {return _snap_grid;}
 
     float scale() const {return _scale;}
+    void set_pan_delta(Coordinate pan_delta) {_pan_delta = pan_delta;}
+    void finish_pan();
 
-    void pan(Coordinate delta); // Translate by delta in x,y
+    void translate(Coordinate delta); // Translate by delta in x,y
     void zoom_in(Coordinate anchor);  // Zoom in with anchor fixed
     void zoom_out(Coordinate anchor);  // Zoom out with anchor fixed
 protected:
     bool _snap_grid = false;
 
-    
     Coordinate _center;
-    float _scale = 4;
+    Coordinate _pan_delta;
+    float _scale;
     float _scale_factor = 1.5; // Multiplication factor for zooming in and out
     const float MAX_ZOOM_IN = 25;
     const float MAX_ZOOM_OUT = 0.6;
