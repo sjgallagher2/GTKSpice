@@ -45,6 +45,7 @@ public:
     virtual ~Canvas();
 
     std::shared_ptr<const ObjectTree> get_canvas_object_tree() const {return _objecttree;}
+    std::shared_ptr<GtkSpiceState> get_gtkspice_state() const {return _state;}
 
     void click_handler(Coordinate mousepos, int button, int modifier, int cselect);
     void move_handler(Coordinate mousepos);

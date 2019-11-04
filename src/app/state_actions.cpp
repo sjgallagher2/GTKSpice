@@ -16,9 +16,49 @@
 
 void SetToolAction::execute()
 {
-    _state->active_tool(_toolmgr->get_tool(_tool));
 }
-
 void SetToolAction::unexecute()
 {
 }
+
+void SetToolDrawWireAction::execute()
+{
+    _state->active_tool(_toolmgr->get_tool(DRAW_WIRE));
+}
+void SetToolPointerAction::execute()
+{
+    _state->active_tool(_toolmgr->get_tool(POINTER));
+}
+void SetToolDeleteAction::execute()
+{
+    _state->active_tool(_toolmgr->get_tool(DELETE));
+}
+void SetToolDragAction::execute()
+{
+    _state->active_tool(_toolmgr->get_tool(COMPONENT_DRAG));
+}
+void SetToolFlipLRAction::execute()
+{
+    _state->active_tool(_toolmgr->get_tool(COMPONENT_FLIPLR));
+}
+void SetToolFlipUDAction::execute()
+{
+    _state->active_tool(_toolmgr->get_tool(COMPONENT_FLIPUD));
+}
+void SetToolRotateCWAction::execute()
+{
+    _state->active_tool(_toolmgr->get_tool(COMPONENT_ROTATECW));
+}
+void SetToolRotateCCWAction::execute()
+{
+    _state->active_tool(_toolmgr->get_tool(COMPONENT_ROTATECCW));
+}
+void SetToolTextAddAction::execute()
+{
+    _state->active_tool(_toolmgr->get_tool(TEXT_ADD));
+}
+void SetToolTextModifyAction::execute()
+{
+    _state->active_tool(_toolmgr->get_tool(TEXT_MODIFY));
+}
+

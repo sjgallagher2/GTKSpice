@@ -14,6 +14,7 @@
 
 #include <iostream>
 #include <app/action.h>
+#include <app/state_actions.h>
 
 std::shared_ptr<Action> ActionFactory::make_action(ActionType action)
 {
@@ -25,6 +26,36 @@ std::shared_ptr<Action> ActionFactory::make_action(ActionType action)
         break;
     case REDO:
         ret = std::make_shared<RedoAction>(_actionstack);
+        break;
+    case SET_TOOL_DRAW_WIRE:
+        ret = std::make_shared<SetToolDrawWireAction>(_toolmgr,_state);
+        break;
+    case SET_TOOL_POINTER:
+        ret = std::make_shared<SetToolPointerAction>(_toolmgr,_state);
+        break;
+    case SET_TOOL_DELETE:
+        ret = std::make_shared<SetToolDeleteAction>(_toolmgr,_state);
+        break;
+    case SET_TOOL_DRAG:
+        ret = std::make_shared<SetToolDragAction>(_toolmgr,_state);
+        break;
+    case SET_TOOL_FLIPLR:
+        ret = std::make_shared<SetToolFlipLRAction>(_toolmgr,_state);
+        break;
+    case SET_TOOL_FLIPUD:
+        ret = std::make_shared<SetToolFlipUDAction>(_toolmgr,_state);
+        break;
+    case SET_TOOL_ROTCCW:
+        ret = std::make_shared<SetToolRotateCWAction>(_toolmgr,_state);
+        break;
+    case SET_TOOL_ROTCW:
+        ret = std::make_shared<SetToolRotateCCWAction>(_toolmgr,_state);
+        break;
+    case SET_TOOL_TEXT_ADD:
+        ret = std::make_shared<SetToolTextAddAction>(_toolmgr,_state);
+        break;
+    case SET_TOOL_TEXT_MODIFY:
+        ret = std::make_shared<SetToolTextModifyAction>(_toolmgr,_state);
         break;
     }
     return ret;

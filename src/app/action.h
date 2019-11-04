@@ -31,6 +31,7 @@
 #include <gtkmm.h>
 #include <app/object_tree.h>
 #include <app/component_params.h>
+#include <app/gtkspice_state.h>
 #include <app/action_stack.h>
 #include <app/canvas.h>
 #include <app/object_tree.h>
@@ -46,7 +47,16 @@ enum ActionType
     NO_ACTION,
     UNDO,
     REDO,
-    SET_TOOL,
+    SET_TOOL_DRAW_WIRE,
+    SET_TOOL_POINTER,
+    SET_TOOL_DELETE,
+    SET_TOOL_DRAG,
+    SET_TOOL_FLIPLR,
+    SET_TOOL_FLIPUD,
+    SET_TOOL_ROTCCW,
+    SET_TOOL_ROTCW,
+    SET_TOOL_TEXT_ADD,
+    SET_TOOL_TEXT_MODIFY,
     DRAW_POINT,
     ADD_LINE,
     APPEND_LINE,
@@ -78,12 +88,14 @@ public:
     void update(std::shared_ptr<ObjectTree> ot, 
         std::shared_ptr<Schematic> sch, 
         std::shared_ptr<Canvas> canv,
-        std::shared_ptr<ActionStack> as)
+        std::shared_ptr<ActionStack> as,
+        std::shared_ptr<GtkSpiceState> state)
     {
         _objecttree = ot;
         _schematic = sch;
         _canvas = canv;
         _actionstack = as;
+        _state = state;
     }
 
     std::shared_ptr<Action> make_action(ActionType action);
@@ -99,6 +111,7 @@ private:
     std::shared_ptr<Canvas> _canvas;
     std::shared_ptr<ActionStack> _actionstack;
     std::shared_ptr<ToolManager> _toolmgr;
+    std::shared_ptr<GtkSpiceState> _state;
 };
 
 class UndoAction : public Action
