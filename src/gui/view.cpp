@@ -83,53 +83,6 @@ View::View(std::shared_ptr<CoordinateSystem> cs) :
 View::~View()
 { 
 }
-/*
-Glib::RefPtr<Gdk::Cursor> View::get_cursor()
-{
-    Glib::ustring ctext = GtkSpiceState::get_cursor_name();
-    if(ctext.compare("default") == 0)
-    {
-        if(!_pointer_cursor)
-        {
-            auto win = get_window();
-            auto display = win->get_display();
-            _pointer_cursor = Gdk::Cursor::create(display,"default");
-        }
-        return _pointer_cursor;
-    }
-    else if(ctext.compare("crosshair")==0)
-    {
-        if(!_crosshairs_cursor)
-        {
-            auto win = get_window();
-            auto display = win->get_display();
-            _crosshairs_cursor = Gdk::Cursor::create(display,"crosshair");
-        }
-        return _crosshairs_cursor;
-    }
-    else if(ctext.compare("grabbing")==0)
-    {
-        if(!_grabbing_cursor)
-        {
-            auto win = get_window();
-            auto display = win->get_display();
-            _grabbing_cursor = Gdk::Cursor::create(display,"grabbing");
-        }
-        return _grabbing_cursor;
-    }
-    else if(ctext.compare("scissors")==0)
-    {
-        if(!_scissors_cursor)
-        {
-            auto win = get_window();
-            auto display = win->get_display();
-            auto pb = Gdk::Pixbuf::create_from_file("/home/sam/Documents/Devel/Cpp/GTKSpice/data/media/scissor-cursor-32.png");
-            _scissors_cursor = Gdk::Cursor::create(display,pb,14,8);
-        }
-        return _scissors_cursor;
-    }
-}
-*/
 
 void View::force_redraw()
 {
@@ -190,67 +143,10 @@ bool View::on_scroll_event(GdkEventScroll* scroll_event)
 
 bool View::on_button_press(GdkEventButton* button_event)
 {
-/*
-    if(button_event->button == 1 && GtkSpiceState::get_state() != GtkSpiceState::TOOL)
-    {
-        // Use screen (device) location to set pan anchor
-        _pan_anchor_d.set_coordinate(button_event->x, button_event->y);
-    }
-
-    //_mouse_pos_d.set_coordinate(button_event->x,button_event->y);
-    //_send_mouse_click = true;
-*/
     return false;
 }
 
 bool View::on_button_release(GdkEventButton* button_event)
 {
-    /*
-    if(button_event->button == 1)
-    {
-        _delta_d.x(_delta_d.x() + _pan_delta_d.x());
-        _delta_d.y(_delta_d.y() + _pan_delta_d.y());
-        _pan_delta_d.set_coordinate(0,0);
-    }
-
-    */
     return false;
 }
-
-/*
-bool View::pan(GdkEventMotion* movement_event)
-{
-    // TODO All instances of state handling must be updated
-    _mouse_pos_d.set_coordinate(movement_event->x,movement_event->y);
-*/
-
-/*
-    if(GtkSpiceState::get_state() == GtkSpiceState::PAN)
-    {
-        Gtk::Allocation alloc = get_allocation();
-        const int width = alloc.get_width();
-        const int height = alloc.get_height();
-
-        // Use screen (device) position to set pan distance for x and y
-        double dx,dy;
-        dx = movement_event->x - _pan_anchor_d.x();
-        dy = movement_event->y - _pan_anchor_d.y();
-        _pan_delta_d.set_coordinate(dx, dy);
-
-        // Force redraw
-        auto win = get_window();
-        if (win)
-        {
-            Gdk::Rectangle r(0, 0, get_allocation().get_width(),
-                    get_allocation().get_height());
-            win->invalidate_rect(r, false);
-        }
-        return false;
-    }
-*/
-
-/*
-    force_redraw();
-    return false;
-}
-*/

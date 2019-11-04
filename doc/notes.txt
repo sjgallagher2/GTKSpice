@@ -1,53 +1,15 @@
-Need to revise the tool handling. All tools should be settable outside
-of the View by key accelerators and callbacks for e.g. button presses. 
-The GtkSpiceState object will store the active tool object, which can
-either be a pointer to a singleton or an object instance? 
+There are two control "knobs" for the user: the mouse and the keyboard. 
 
-The tool should have functions for its behavior, e.g. the line tool should
-have a draw_line() function that is called at some point. But to keep a
-common interface, all methods should be general. And do different tools
-need to connect to different callbacks? All tools seemingly need:
-    Mouse position
-    Mouse button (left, middle, right) press and release
-    Key modifiers
-    Key press and release
-And this information can be sent to a specific tool handler for more
-specific behavior. 
+For mouse left-click, the active tool handles the click. For scrolling,
+the canvas assumes control and simply scrolls. For right-clicking, we need
+to bring up a context menu, which will depend on the active tool and the
+current selection. For middle-click, there's no defined behavior yet. 
+Left clicks must also check for modifiers, but this hasn't been implemented
+yet. 
 
-Tools should also supply a pointer icon to use, and the active tool should
-be highlighted in the toolbox (not yet implemented). 
+For the keyboard, things are slightly more involved. Users typically want
+to customize their keyboard shortcuts to something that suits them. This
+means we need a lot of configuration. We'll just need to have a way to 
+bind keys to different actions. 
 
-But should tools have to worry about the mouse and keyboard? No, their
-behavior should be limited to the View, and this exists outside of the
-domain of the mouse and keyboard. This makes their behavior more
-difficult to generalize to a toplevel tool interface, but it is more
-robust. 
-Then again, these tools are specifically interacting with the 
-user via the mouse and keyboard, the actions are more abstracted. So 
-letting them handle mouse and keyboard input as they need seems more 
-appropriate. 
-
-Tool hierarchy:
-    Text tools (add,modify)
-    Draw tools (wire,line,circle)
-    Component-manipulation tools (add,drag,rotate,flip)
-    View tools (pan,zoomrect)
-    Misc tools (pointer,delete)
-
-As a minimum, I'll need to implement:
-    pointer 
-    draw_wire
-    pan 
-    delete 
-
-Which requires the view and draw interfaces, and of course the top-level
-tool interface. 
-
-VIEW 
-Use cases include anything related to the camera, particularly pan and 
-zoom rectangle, and autozoom would be very useful as a button or similar. 
-
-DRAW 
-Use cases include all tools with which the user clicks to add, delete, or
-modify object properties, add vertices, etc. 
-
+There's something of an issue with context. We'll see. 

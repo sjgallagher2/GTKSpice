@@ -16,19 +16,23 @@
 #include <app/canvas.h>
 #include <app/component_params.h>
 #include <app/coordinate.h>
+#include <app/key_accel_map.h>
 #include <iostream>
 
 
-Canvas::Canvas(std::shared_ptr<Window> toplevel, std::shared_ptr<ObjectTree> ot, std::shared_ptr<ActionFactory> af) : 
+Canvas::Canvas(std::shared_ptr<Window> toplevel, 
+    std::shared_ptr<ObjectTree> ot, 
+    std::shared_ptr<ActionFactory> af,
+    std::shared_ptr<KeyAccelMap> keymap) : 
     _toplevel(toplevel),
     _objecttree(ot),
     _state( std::make_shared<GtkSpiceState>() ),
     _actionfactory(af),
-    _cs( std::make_shared<CoordinateSystem>())
+    _cs( std::make_shared<CoordinateSystem>() )
 {
     send_test = true;
     _ebox = std::make_shared<DrawingEventBox>(_cs);
-    _pointer = std::make_shared<PointerTool>(_cs);
+    _toolmgr = std::make_shared<ToolManager>(_cs);
     // Set the object tree for the view
     _ebox->set_object_tree(_objecttree);
     // Add the event box for this canvas to the toplevel window and show
@@ -36,7 +40,10 @@ Canvas::Canvas(std::shared_ptr<Window> toplevel, std::shared_ptr<ObjectTree> ot,
     _ebox->show();
 
     // Create default Pointer tool
-    _state->active_tool(_pointer);
+    _state->active_tool(_toolmgr->get_tool(POINTER));
+
+    // Initialize key accelerators
+    _keymap = keymap;
 
     // Events
     _ebox->button_click().connect(sigc::mem_fun(*this,&Canvas::send_test_action));
@@ -71,30 +78,20 @@ void Canvas::scroll_handler(Coordinate mousepos, int scroll_dir)
 }
 void Canvas::move_handler(Coordinate mousepos)
 {
-    _ebox->force_redraw();
     _state->active_tool()->tool_move_handler(mousepos);
+    _ebox->force_redraw();
 }
 void Canvas::key_handler(int key,int modifier)
 {
-    /* UNIVERSAL KEY HANDLING */
-    // TODO Put in DrawingEventBoxKeyAccel
-    if(modifier == CTRL)
+    // CANVAS KEY ACCELERATORS
+    ActionType action = _keymap->get_action((KeyModifiers)(modifier),key);
+    if(action != NO_ACTION)
     {
-        switch(key)
-        {
-        case GDK_KEY_z:
-            // Undo
-            //ActionStack::undo();
-            //_drawevents->force_redraw();
-            break;
-        case GDK_KEY_r:
-            // Redo
-            //ActionStack::redo();
-            //_drawevents->force_redraw();
-            break;
-        }
+        _new_action.emit(_actionfactory->make_action(action));
     }
+    
     _state->active_tool()->tool_key_handler(key,modifier);
+    _ebox->force_redraw();
 }
 
 

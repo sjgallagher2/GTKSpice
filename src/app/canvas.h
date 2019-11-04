@@ -24,30 +24,24 @@
 #include <app/gtkspice_state.h>
 #include <app/action.h>
 #include <app/coordinate_system.h>
-#include <tools/tool_component_drag.h>
-#include <tools/tool_component_fliplr.h>
-#include <tools/tool_component_flipud.h>
-#include <tools/tool_component_rotateccw.h>
-#include <tools/tool_component_rotatecw.h>
-#include <tools/tool_delete.h>
-#include <tools/tool_draw_wire.h>
-#include <tools/tool_text_add.h>
-#include <tools/tool_text_modify.h>
-#include <tools/tool_view_pan.h>
-#include <tools/tool_pointer.h>
+#include <tools/tool_manager.h>
 
 class Action;
 class ActionFactory;
 class DrawingEventBox;
 class GtkSpiceState;
 class Window;
+class KeyAccelMap;
 
 class PointerTool;
 
 class Canvas
 {
 public:
-    Canvas(std::shared_ptr<Window> toplevel, std::shared_ptr<ObjectTree> ot, std::shared_ptr<ActionFactory> af);
+    Canvas(std::shared_ptr<Window> toplevel, 
+        std::shared_ptr<ObjectTree> ot, 
+        std::shared_ptr<ActionFactory> af,
+        std::shared_ptr<KeyAccelMap> keymap);
     virtual ~Canvas();
 
     std::shared_ptr<const ObjectTree> get_canvas_object_tree() const {return _objecttree;}
@@ -68,10 +62,9 @@ protected:
     std::shared_ptr<ViewFeatures> _vfeatures;
     std::shared_ptr<GtkSpiceState> _state;
     std::shared_ptr<CoordinateSystem> _cs;
+    std::shared_ptr<ToolManager> _toolmgr;
 
-    std::shared_ptr<PointerTool> _pointer; // TODO Add the other tools
-
-
+    std::shared_ptr<KeyAccelMap> _keymap;
 
     new_action_type _new_action;
 

@@ -31,15 +31,22 @@
 #include <gtkmm.h>
 #include <app/object_tree.h>
 #include <app/component_params.h>
+#include <app/action_stack.h>
 #include <app/canvas.h>
 #include <app/object_tree.h>
 #include <app/schematic.h>
 #include <app/spice_data.h>
+#include <tools/tool_manager.h>
 
 class Canvas;
+class ActionStack;
 
 enum ActionType 
 {
+    NO_ACTION,
+    UNDO,
+    REDO,
+    SET_TOOL,
     DRAW_POINT,
     ADD_LINE,
     APPEND_LINE,
@@ -56,7 +63,9 @@ public:
 
     virtual void execute() = 0;
     virtual void unexecute() = 0;
+    virtual bool stackable() const {return _stackable;}
 protected:
+    bool _stackable = false;
 };
 
 class ActionFactory
@@ -68,11 +77,13 @@ public:
 
     void update(std::shared_ptr<ObjectTree> ot, 
         std::shared_ptr<Schematic> sch, 
-        std::shared_ptr<Canvas> canv)
+        std::shared_ptr<Canvas> canv,
+        std::shared_ptr<ActionStack> as)
     {
         _objecttree = ot;
         _schematic = sch;
         _canvas = canv;
+        _actionstack = as;
     }
 
     std::shared_ptr<Action> make_action(ActionType action);
@@ -86,6 +97,30 @@ private:
     std::shared_ptr<ObjectTree> _objecttree;
     std::shared_ptr<Schematic> _schematic;
     std::shared_ptr<Canvas> _canvas;
+    std::shared_ptr<ActionStack> _actionstack;
+    std::shared_ptr<ToolManager> _toolmgr;
+};
+
+class UndoAction : public Action
+{
+public:
+    UndoAction(std::shared_ptr<ActionStack> as) : _actionstack(as) {_stackable = false;}
+    ~UndoAction() {}
+    virtual void execute();
+    virtual void unexecute() {}
+protected:
+    std::shared_ptr<ActionStack> _actionstack;
+};
+
+class RedoAction : public Action
+{
+public:
+    RedoAction(std::shared_ptr<ActionStack> as) : _actionstack(as) {_stackable = false;}
+    ~RedoAction() {}
+    virtual void execute();
+    virtual void unexecute() {}
+protected:
+    std::shared_ptr<ActionStack> _actionstack;
 };
 
 class DrawPointAction : public Action
@@ -93,7 +128,7 @@ class DrawPointAction : public Action
 public:
     DrawPointAction(std::shared_ptr<ObjectTree> ot, PointParameters pp) : 
         _objecttree(ot), _pp(pp)
-    {}
+    {_stackable = true;}
     virtual ~DrawPointAction() {}
 
     void execute();
@@ -108,7 +143,7 @@ class AppendLineAction : public Action
 public:
     AppendLineAction(std::shared_ptr<ObjectTree> ot, LineParameters lp) : 
         _objecttree(ot), _lp(lp) 
-    {}
+    {_stackable = true;}
     virtual ~AppendLineAction() {}
 
     void execute();
@@ -126,7 +161,7 @@ public:
         LineParameters lp,
         std::vector<Vertex> vertices) : 
         _objecttree(ot), _lp(lp)
-    {}
+    {_stackable=true;}
     virtual ~AddLineAction() {}
 
     void execute();
@@ -139,7 +174,7 @@ class RemoveLineAction : public Action
 {
 public:
     RemoveLineAction(std::shared_ptr<ObjectTree> ot, int index) : 
-        _objecttree(ot),_index(index){}
+        _objecttree(ot),_index(index){_stackable=true;}
     virtual ~RemoveLineAction() {}
 
     void execute();
@@ -154,7 +189,7 @@ class MoveLineAction : public Action
 public:
     MoveLineAction(std::shared_ptr<ObjectTree> ot,int index) : 
         _objecttree(ot), _index(index)
-    {}
+    {_stackable=true;}
     virtual ~MoveLineAction() {}
 
     void execute();
@@ -171,7 +206,7 @@ public:
         int lineindex,
         std::vector<int> vertexindices) : 
         _objecttree(ot),_lineindex(lineindex),_vertexindices(vertexindices)
-    {}
+    {_stackable=true;}
     virtual ~MoveLineVerticesAction() {}
 
     void execute();

@@ -46,7 +46,6 @@ void PointerTool::tool_click_handler(Coordinate mousepos,int button,int modifier
             _pan_anchor_d = mousepos;
             _pan_anchor_d.set_to_device_coordinate();
             _pan_delta_d = Coordinate(0,0);
-            std::cout << "Pan Delta: ("<<_pan_delta_d.x()<<","<<_pan_delta_d.y()<<")\n";
 
         }
         else if(button == LEFT_RELEASE)
@@ -72,7 +71,6 @@ void PointerTool::tool_move_handler(Coordinate mousepos)
         Coordinate delta;
         mousepos.set_to_device_coordinate();
         delta = _pan_anchor_d - mousepos;
-        std::cout << "Pan Delta: ("<<delta.x()<<","<<delta.y()<<")\n";
         delta.set_view_matrix(mousepos.get_view_matrix());
         delta.set_to_user_distance();
         _cs->set_pan_delta(delta);

@@ -12,27 +12,30 @@
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef WORKSPACE_KEYACCEL_H
-#define WORKSPACE_KEYACCEL_H
+
+#ifndef STATE_ACTIONS_H
+#define STATE_ACTIONS_H
 
 #include <memory>
 #include <app/action.h>
-#include <app/key_accel_map.h>
+#include <tools/tool.h>
+#include <tools/tool_manager.h>
+#include <app/gtkspice_state.h>
 
-class WorkspaceKeyAccel
+class SetToolAction : public Action 
 {
 public:
-    WorkspaceKeyAccel(std::shared_ptr<ActionFactory> actionfactory,
-        std::shared_ptr<KeyAccelMap> keymap);
-    ~WorkspaceKeyAccel();
-    
-    typedef sigc::signal<bool,std::shared_ptr<Action>> new_action_type;
-    new_action_type new_action() const {return _new_action;}
-private:
-    new_action_type _new_action;
-    std::shared_ptr<ActionFactory> _actionfactory;
+    SetToolAction(ToolTypes tool, std::shared_ptr<ToolManager> tm, 
+        std::shared_ptr<GtkSpiceState> state) : 
+        _tool(tool),_state(state),_toolmgr(tm) {_stackable = false;}
+    ~SetToolAction() {}
 
-    std::shared_ptr<KeyAccelMap> _keymap;
+    virtual void execute();
+    virtual void unexecute();
+private:
+    const ToolTypes _tool;
+    std::shared_ptr<GtkSpiceState> _state;
+    std::shared_ptr<ToolManager> _toolmgr;
 };
 
-#endif /* WORKSPACE_KEYACCEL_H */
+#endif /* STATE_ACTIONS_H */

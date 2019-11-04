@@ -50,10 +50,16 @@ ActionStack::~ActionStack()
 void ActionStack::push(std::shared_ptr<Action> c)
 {
 	// TODO Handle special actions (undo, redo, others?) separately?
-    c->execute();
-    _stk.push(c); // Push to undo stack
-    if(!_rstk.empty()) // Check redo stack, if a new action is added this stack is always cleared
-        _rstk.clear();
+	if(c)
+	{
+		c->execute();
+		if(c->stackable())
+		{
+			_stk.push(c); // Push to undo stack
+			if(!_rstk.empty()) // Check redo stack, if a new action is added this stack is always cleared
+				_rstk.clear();
+		}
+	}
 }
 
 void ActionStack::undo()

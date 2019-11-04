@@ -12,15 +12,13 @@
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <app/workspace_keyaccel.h>
+#include <app/state_actions.h>
 
-WorkspaceKeyAccel::WorkspaceKeyAccel(std::shared_ptr<ActionFactory> actionfactory, 
-    std::shared_ptr<KeyAccelMap> keymap) 
+void SetToolAction::execute()
 {
-    _actionfactory = actionfactory;
-    _keymap = keymap;
+    _state->active_tool(_toolmgr->get_tool(_tool));
 }
 
-WorkspaceKeyAccel::~WorkspaceKeyAccel()
+void SetToolAction::unexecute()
 {
 }

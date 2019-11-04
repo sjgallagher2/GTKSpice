@@ -18,6 +18,20 @@
 
 /* Pure virtual Tool interace */
 
+enum ToolTypes
+{
+    POINTER,
+    DRAW_WIRE,
+    COMPONENT_DRAG,
+    COMPONENT_FLIPLR,
+    COMPONENT_FLIPUP,
+    COMPONENT_ROTATECCW,
+    COMPONENT_ROTATECW,
+    DELETE,
+    TEXT_MODIFY,
+    TEXT_ADD
+};
+
 class Tool
 {
 public:
@@ -30,5 +44,52 @@ public:
     virtual Glib::ustring get_tool_cursor_name() = 0;
 
 };
+/*
+Glib::RefPtr<Gdk::Cursor> View::get_cursor()
+{
+    Glib::ustring ctext = GtkSpiceState::get_cursor_name();
+    if(ctext.compare("default") == 0)
+    {
+        if(!_pointer_cursor)
+        {
+            auto win = get_window();
+            auto display = win->get_display();
+            _pointer_cursor = Gdk::Cursor::create(display,"default");
+        }
+        return _pointer_cursor;
+    }
+    else if(ctext.compare("crosshair")==0)
+    {
+        if(!_crosshairs_cursor)
+        {
+            auto win = get_window();
+            auto display = win->get_display();
+            _crosshairs_cursor = Gdk::Cursor::create(display,"crosshair");
+        }
+        return _crosshairs_cursor;
+    }
+    else if(ctext.compare("grabbing")==0)
+    {
+        if(!_grabbing_cursor)
+        {
+            auto win = get_window();
+            auto display = win->get_display();
+            _grabbing_cursor = Gdk::Cursor::create(display,"grabbing");
+        }
+        return _grabbing_cursor;
+    }
+    else if(ctext.compare("scissors")==0)
+    {
+        if(!_scissors_cursor)
+        {
+            auto win = get_window();
+            auto display = win->get_display();
+            auto pb = Gdk::Pixbuf::create_from_file("/home/sam/Documents/Devel/Cpp/GTKSpice/data/media/scissor-cursor-32.png");
+            _scissors_cursor = Gdk::Cursor::create(display,pb,14,8);
+        }
+        return _scissors_cursor;
+    }
+}
+*/
 
 #endif /* GTKSPICE_TOOL_H */

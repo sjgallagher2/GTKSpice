@@ -20,6 +20,12 @@ std::shared_ptr<Action> ActionFactory::make_action(ActionType action)
     std::shared_ptr<Action> ret = nullptr;
     switch(action)
     {
+    case UNDO:
+        ret = std::make_shared<UndoAction>(_actionstack);
+        break;
+    case REDO:
+        ret = std::make_shared<RedoAction>(_actionstack);
+        break;
     }
     return ret;
 }
@@ -88,7 +94,14 @@ std::shared_ptr<Action> ActionFactory::make_action(ActionType action, int index,
     return ret;
 }
 
-
+void UndoAction::execute()
+{
+    _actionstack->undo();
+}
+void RedoAction::execute()
+{
+    _actionstack->redo();
+}
 void DrawPointAction::execute()
 {
     _objecttree->add_component(_pp);

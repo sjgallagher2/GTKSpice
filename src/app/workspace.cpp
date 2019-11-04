@@ -18,6 +18,8 @@
 Workspace::Workspace(std::shared_ptr<Window> toplevel) :
     _toplevel(toplevel)
 {
+    _keymap = std::make_shared<KeyAccelMap>();
+    _keymap->set_defaults();
     _actionfactory = std::make_shared<ActionFactory>();
 
     _objecttree = std::make_shared<ObjectTree>();
@@ -25,10 +27,11 @@ Workspace::Workspace(std::shared_ptr<Window> toplevel) :
     _actionstack = std::make_shared<ActionStack>();
     
     _schem = std::make_shared<Schematic>(_objecttree);
-    _keyaccel = std::make_shared<WorkspaceKeyAccel>(); 
-    _canvas = std::make_shared<Canvas>(_toplevel,_objecttree,_actionfactory);
+    _keyaccel = std::make_shared<WorkspaceKeyAccel>(_actionfactory,_keymap); 
+    _canvas = std::make_shared<Canvas>(_toplevel,_objecttree,_actionfactory,_keymap);
     
-    _actionfactory->update(_objecttree,_schem,_canvas);
+    _actionfactory->update(_objecttree,_schem,_canvas,_actionstack);
+
 
     _canvas->new_action().connect(sigc::mem_fun(*this,&Workspace::get_action));
 }
