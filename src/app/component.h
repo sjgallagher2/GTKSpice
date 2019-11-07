@@ -27,6 +27,11 @@
 #include <app/component_params.h>
 
 // TODO Add wire, circuitelement, subcircuit
+// TODO Remove direct drawing information, separate component model and
+// component symbol and actual drawing process of a component
+// Idea: Keep these components as GUI components, make all symbols a drawline
+// actions for on_draw() which contains lines and points. These are more
+// like 'primitives' or 'drawables'
 
 class Component;
 class Point;
@@ -35,7 +40,7 @@ class Line;
 class ComponentFactory
 {
 public:
-    enum TYPE {POINT,LINE,WIRE};
+    enum TYPE {POINT,LINE,NET};
 
     std::shared_ptr<Component> CreateComponent(const LineParameters& params)
     {
@@ -93,6 +98,7 @@ private:
 class Line : public Component
 {
 public:
+    Line() {}
     Line(LineParameters lp);
     virtual ~Line();
 
@@ -124,5 +130,6 @@ protected:
     VIter _get_vertex_from_index(int index); // Get a vertex from its index
     void _calculate_bounding_box();
 };
+
 
 #endif /* COMPONENT_H */

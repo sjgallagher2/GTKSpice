@@ -14,9 +14,11 @@
 #ifndef TOOL_MANAGER_H
 #define TOOL_MANAGER_H
 
+#include <iostream>
 #include <memory>
 #include <map>
 #include <app/coordinate_system.h>
+#include <app/object_tree.h>
 #include <tools/tool.h>
 #include <tools/tool_component_drag.h>
 #include <tools/tool_component_fliplr.h>
@@ -25,30 +27,44 @@
 #include <tools/tool_component_rotatecw.h>
 #include <tools/tool_delete.h>
 #include <tools/tool_draw_wire.h>
+#include <tools/tool_draw_line.h>
 #include <tools/tool_text_add.h>
 #include <tools/tool_text_modify.h>
-#include <tools/tool_view_pan.h>
 #include <tools/tool_pointer.h>
 
+class Tool;
 class PointerTool;
+class DrawLineTool;
 
 class ToolManager
 {
 public:
-    ToolManager(std::shared_ptr<CoordinateSystem> cs)
+
+    typedef std::map<ToolTypes,std::shared_ptr<Tool>> Toolmap;
+
+    ToolManager(std::shared_ptr<ActionFactory> af, 
+        std::shared_ptr<ObjectTree> ot,
+        std::shared_ptr<CoordinateSystem> cs) :
+        _tool_map(std::make_shared<Toolmap>())
     {
+        _actionfactory = af;
         _coord_sys = cs;
-        _pointer = std::make_shared<PointerTool>(cs);
-        _tool_map.insert(std::pair<ToolTypes,std::shared_ptr<PointerTool>>(POINTER,_pointer));
+        _objecttree = ot;
+        _pointer = std::static_pointer_cast<Tool>( std::make_shared<PointerTool>(af,cs) );
+        _drawline = std::static_pointer_cast<Tool>( std::make_shared<DrawLineTool>(af,ot) );
+
+        _tool_map->insert(std::pair<ToolTypes,std::shared_ptr<Tool>>(POINTER,_pointer));
+        _tool_map->insert(std::pair<ToolTypes,std::shared_ptr<Tool>>(DRAW_LINE,_drawline));
     }
     ~ToolManager() {}
 
     std::shared_ptr<Tool> get_tool(ToolTypes tool)
     {
-        std::shared_ptr<Tool> ret = nullptr;
-        if(_tool_map.find(tool) != _tool_map.end())
+        std::shared_ptr<Tool> ret;
+
+        if(_tool_map->find(tool) != _tool_map->end())
         {
-            ret = _tool_map.find(tool)->second;
+            ret = _tool_map->find(tool)->second;
         }
         else
         {
@@ -58,9 +74,12 @@ public:
     }
 
 private:
-    std::map<ToolTypes,std::shared_ptr<PointerTool>> _tool_map;
+    std::shared_ptr<Toolmap> _tool_map;
+    std::shared_ptr<ActionFactory> _actionfactory;
+    std::shared_ptr<ObjectTree> _objecttree;
     std::shared_ptr<CoordinateSystem> _coord_sys;
-    std::shared_ptr<PointerTool> _pointer; // TODO Add the other tools
+    std::shared_ptr<Tool> _pointer; 
+    std::shared_ptr<Tool> _drawline;// TODO Add the other tools
 };
 
 #endif /* TOOL_MANAGER_H */

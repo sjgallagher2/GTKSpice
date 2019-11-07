@@ -26,15 +26,18 @@
 //  Alt-left-click action
 //  Scroll action
 
-PointerTool::PointerTool(std::shared_ptr<CoordinateSystem> cs) :
+PointerTool::PointerTool(std::shared_ptr<ActionFactory> af, 
+    std::shared_ptr<CoordinateSystem> cs) :
+    Tool(af),
     _cs(cs)
 {}
 
 PointerTool::~PointerTool()
 {}
 
-void PointerTool::tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect)
+std::shared_ptr<Action> PointerTool::tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect)
 {
+    std::shared_ptr<Action> ret = nullptr;
     if(modifier == NO_MOD)
     {
         if(button == LEFT_PRESS)
@@ -59,13 +62,15 @@ void PointerTool::tool_click_handler(Coordinate mousepos,int button,int modifier
             // Find any objects under mouse, select, highlight, and context-menu
         }
     }
+    return ret;
 }
 
-void PointerTool::tool_move_handler(Coordinate mousepos)
+std::shared_ptr<Action> PointerTool::tool_move_handler(Coordinate mousepos)
 {
     // Previous method had bad rounding issues or something, so now we convert
     // to device coordinates (although this somewhat defeats the purpose of
     // the CoordinateSystem interface).
+    std::shared_ptr<Action> ret = nullptr;
     if(_panning)
     {
         Coordinate delta;
@@ -77,8 +82,11 @@ void PointerTool::tool_move_handler(Coordinate mousepos)
     }
     // Check if left mouse button is down
     // Start a drag-select rectangle
+    return ret;
 }
 
-void PointerTool::tool_key_handler(int key,int modifier)
+std::shared_ptr<Action> PointerTool::tool_key_handler(int key,int modifier)
 {
+    std::shared_ptr<Action> ret = nullptr;
+    return ret;
 }

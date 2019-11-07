@@ -18,6 +18,7 @@
 #include <cairomm/matrix.h>
 #include <app/coordinate_system.h>
 #include <app/coordinate.h>
+#include <app/action.h>
 #include <tools/tool.h>
 #include <app/gtkspice_state.h>
 
@@ -25,12 +26,13 @@
 class PointerTool : public Tool 
 {
 public:
-    PointerTool(std::shared_ptr<CoordinateSystem> cs);
+    PointerTool(std::shared_ptr<ActionFactory> af, 
+        std::shared_ptr<CoordinateSystem> cs);
     virtual ~PointerTool();
 
-    virtual void tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect);
-    virtual void tool_move_handler(Coordinate mousepos);
-    virtual void tool_key_handler(int key,int modifier);
+    virtual std::shared_ptr<Action> tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect);
+    virtual std::shared_ptr<Action> tool_move_handler(Coordinate mousepos);
+    virtual std::shared_ptr<Action> tool_key_handler(int key,int modifier);
     virtual Glib::ustring get_tool_cursor_name() {return "default";}
 
 private:

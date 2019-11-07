@@ -25,6 +25,10 @@ void SetToolDrawWireAction::execute()
 {
     _state->active_tool(_toolmgr->get_tool(DRAW_WIRE));
 }
+void SetToolDrawLineAction::execute()
+{
+    _state->active_tool(_toolmgr->get_tool(DRAW_LINE));
+}
 void SetToolPointerAction::execute()
 {
     _state->active_tool(_toolmgr->get_tool(POINTER));

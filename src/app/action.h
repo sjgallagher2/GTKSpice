@@ -48,6 +48,7 @@ enum ActionType
     UNDO,
     REDO,
     SET_TOOL_DRAW_WIRE,
+    SET_TOOL_DRAW_LINE,
     SET_TOOL_POINTER,
     SET_TOOL_DELETE,
     SET_TOOL_DRAG,
@@ -89,13 +90,15 @@ public:
         std::shared_ptr<Schematic> sch, 
         std::shared_ptr<Canvas> canv,
         std::shared_ptr<ActionStack> as,
-        std::shared_ptr<GtkSpiceState> state)
+        std::shared_ptr<GtkSpiceState> state,
+        std::shared_ptr<ToolManager> tlmgr)
     {
         _objecttree = ot;
         _schematic = sch;
         _canvas = canv;
         _actionstack = as;
         _state = state;
+        _toolmgr = tlmgr;
     }
 
     std::shared_ptr<Action> make_action(ActionType action);

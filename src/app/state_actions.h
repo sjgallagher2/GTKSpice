@@ -46,6 +46,15 @@ public:
     virtual void execute();
     virtual void unexecute() {}
 };
+class SetToolDrawLineAction : public SetToolAction
+{
+public:
+    SetToolDrawLineAction(std::shared_ptr<ToolManager> tm,
+        std::shared_ptr<GtkSpiceState> state) : SetToolAction(tm,state) {}
+    virtual ~SetToolDrawLineAction() {}
+    virtual void execute();
+    virtual void unexecute() {}
+};
 class SetToolPointerAction : public SetToolAction
 {
 public:

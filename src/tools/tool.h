@@ -14,7 +14,12 @@
 #ifndef GTKSPICE_TOOL_H
 #define GTKSPICE_TOOL_H
 
+#include <memory>
 #include <app/coordinate.h>
+#include <app/action.h>
+
+class ActionFactory;
+class Action;
 
 /* Pure virtual Tool interace */
 
@@ -22,6 +27,7 @@ enum ToolTypes
 {
     POINTER,
     DRAW_WIRE,
+    DRAW_LINE,
     COMPONENT_DRAG,
     COMPONENT_FLIPLR,
     COMPONENT_FLIPUD,
@@ -35,14 +41,16 @@ enum ToolTypes
 class Tool
 {
 public:
-    Tool() {}
+    Tool(std::shared_ptr<ActionFactory> af) {_actionfactory = af;}
     virtual ~Tool() {}
 
-    virtual void tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect) = 0;
-    virtual void tool_move_handler(Coordinate mousepos) = 0;
-    virtual void tool_key_handler(int key,int modifier) = 0;
+    virtual std::shared_ptr<Action> tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect) = 0;
+    virtual std::shared_ptr<Action> tool_move_handler(Coordinate mousepos) = 0;
+    virtual std::shared_ptr<Action> tool_key_handler(int key,int modifier) = 0;
     virtual Glib::ustring get_tool_cursor_name() = 0;
 
+protected:
+    std::shared_ptr<ActionFactory> _actionfactory;
 };
 /*
 Glib::RefPtr<Gdk::Cursor> View::get_cursor()

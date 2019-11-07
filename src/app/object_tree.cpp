@@ -69,9 +69,15 @@ int ObjectTree::register_component(std::shared_ptr<Component> component)
     if(component->index() == -1)
     {
         if(component->type() == "point")
+        {
             component->index(_point_auto_index);
+            _point_auto_index++;
+        }
         else if(component->type() == "line")
+        {
             component->index(_line_auto_index);
+            _line_auto_index++;
+        }
     }
     else
     {

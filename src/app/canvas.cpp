@@ -32,7 +32,7 @@ Canvas::Canvas(std::shared_ptr<Window> toplevel,
 {
     send_test = true;
     _ebox = std::make_shared<DrawingEventBox>(_cs);
-    _toolmgr = std::make_shared<ToolManager>(_cs);
+    _toolmgr = std::make_shared<ToolManager>(_actionfactory,_objecttree,_cs);
     // Set the object tree for the view
     _ebox->set_object_tree(_objecttree);
     // Add the event box for this canvas to the toplevel window and show
@@ -64,7 +64,9 @@ Canvas::~Canvas()
 
 void Canvas::click_handler(Coordinate mousepos, int button, int modifier, int cselect)
 {
-    _state->active_tool()->tool_click_handler(mousepos,button,modifier,cselect);
+    std::shared_ptr<Action> click_action = _state->active_tool()->tool_click_handler(mousepos,button,modifier,cselect);
+    if(click_action)
+        _new_action.emit(click_action);
     _ebox->force_redraw();
 }
 void Canvas::scroll_handler(Coordinate mousepos, int scroll_dir)
@@ -97,6 +99,7 @@ void Canvas::key_handler(int key,int modifier)
 
 void Canvas::send_test_action(Coordinate x,int y,int z,int t)
 {
+    /*
     if(send_test)
     {
         LineParameters lp;
@@ -109,8 +112,8 @@ void Canvas::send_test_action(Coordinate x,int y,int z,int t)
         verts.push_back(std::make_shared<Vertex>(0,0));
         verts.push_back(std::make_shared<Vertex>(10,10));
         lp.vertices = verts;
-        std::cout << "Emitting new test action command for append line...\n";
         _new_action.emit(_actionfactory->make_action(APPEND_LINE,lp));
         send_test = false;
     }
+    */
 }

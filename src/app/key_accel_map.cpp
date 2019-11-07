@@ -39,10 +39,12 @@ ActionType KeyAccelMap::get_action(KeyModifiers mod, int key)
 void KeyAccelMap::set_defaults()
 {
     key_map.empty();
+    // These are applicable in all tools
     add_pair(CTRL,GDK_KEY_z,UNDO);
     add_pair(CTRL,GDK_KEY_r,REDO);
-//    add_pair(NO_MOD,GDK_KEY_l,SET_TOOL);
-    //add_pair()
+    add_pair(NO_MOD,GDK_KEY_l,SET_TOOL_DRAW_LINE);
+    add_pair(NO_MOD,GDK_KEY_Escape,SET_TOOL_POINTER); // TODO This is tool-specific
+    // E.g. to clean up active lines before changing tools
 }
 
 /*

@@ -30,7 +30,11 @@ Workspace::Workspace(std::shared_ptr<Window> toplevel) :
     _keyaccel = std::make_shared<WorkspaceKeyAccel>(_actionfactory,_keymap); 
     _canvas = std::make_shared<Canvas>(_toplevel,_objecttree,_actionfactory,_keymap);
 
-    _actionfactory->update(_objecttree,_schem,_canvas,_actionstack,_canvas->get_gtkspice_state());
+    _actionfactory->update(
+        _objecttree,
+        _schem,_canvas,_actionstack,
+        _canvas->get_gtkspice_state(),
+        _canvas->get_tool_manager());
 
     _canvas->new_action().connect(sigc::mem_fun(*this,&Workspace::get_action));
 }

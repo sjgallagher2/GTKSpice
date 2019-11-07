@@ -11,29 +11,28 @@
  * You should have received a copy of the GNU General Public License
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef TOOL_DRAW_H
-#define TOOL_DRAW_H
+
+#ifndef TOOL_DRAW_LINE_H
+#define TOOL_DRAW_LINE_H
 
 #include <memory>
 #include <app/object_tree.h>
 #include <app/action.h>
 #include <tools/tool.h>
-#include <app/coordinate.h>
+#include <tools/tool_draw.h>
 
-class DrawTool : public Tool 
+class DrawLineTool : public DrawTool 
 {
 public:
-    DrawTool(std::shared_ptr<ActionFactory> af, 
-        std::shared_ptr<ObjectTree> ot) : Tool(af),_objecttree(ot) {}
-    virtual ~DrawTool() {}
+    DrawLineTool(std::shared_ptr<ActionFactory> af,
+        std::shared_ptr<ObjectTree> ot) : DrawTool(af, ot) {}
+    virtual ~DrawLineTool() {}
 
-    virtual std::shared_ptr<Action> tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect) = 0;
-    virtual std::shared_ptr<Action> tool_move_handler(Coordinate mousepos) = 0;
-    virtual std::shared_ptr<Action> tool_key_handler(int key,int modifier) = 0;
-    virtual Glib::ustring get_tool_cursor_name() = 0;
-
-protected:
-    std::shared_ptr<ObjectTree> _objecttree;
+    virtual std::shared_ptr<Action> tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect);
+    virtual std::shared_ptr<Action> tool_move_handler(Coordinate mousepos);
+    virtual std::shared_ptr<Action> tool_key_handler(int key,int modifier);
+    virtual Glib::ustring get_tool_cursor_name() {return "crosshair";}
 };
 
-#endif /* TOOL_DRAW_H */
+#endif /* TOOL_DRAW_LINE_H */
+

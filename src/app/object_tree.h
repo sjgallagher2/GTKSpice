@@ -50,7 +50,7 @@ public:
     void set_no_line_active();
 
     bool has_active_line();
-    bool has_active_point();
+    bool has_active_wire();
 
     int get_line_under_cursor(Coordinate mousepos);
 
@@ -61,6 +61,7 @@ private:
     std::vector<Tree*> _tree;
     Tree _pointtree;
     Tree _linetree;
+    Tree _wiretree;
 
     int _point_auto_index;
     int _line_auto_index;

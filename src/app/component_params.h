@@ -34,6 +34,11 @@ struct LineParameters
     ComponentParameters cp;
     VertexList vertices;
 };
+struct NetParameters
+{
+    LineParameters lp;
+    int node;
+};
 
 struct PointParameters
 {

@@ -30,6 +30,9 @@ std::shared_ptr<Action> ActionFactory::make_action(ActionType action)
     case SET_TOOL_DRAW_WIRE:
         ret = std::make_shared<SetToolDrawWireAction>(_toolmgr,_state);
         break;
+    case SET_TOOL_DRAW_LINE:
+        ret = std::make_shared<SetToolDrawLineAction>(_toolmgr,_state);
+        break;
     case SET_TOOL_POINTER:
         ret = std::make_shared<SetToolPointerAction>(_toolmgr,_state);
         break;

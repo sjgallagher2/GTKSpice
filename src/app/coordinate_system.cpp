@@ -54,9 +54,9 @@ void CoordinateSystem::zoom_in(Coordinate anchor)
     if(_scale*_scale_factor < MAX_ZOOM_IN)
     {
         _scale = _scale*_scale_factor;
+        Coordinate disp = Transforms::anchored_scale_displacement(anchor,_scale,_scale_factor,true);
+        translate(disp);
     }
-    Coordinate disp = Transforms::anchored_scale_displacement(anchor,_scale,_scale_factor,true);
-    translate(disp);
 }
 
 void CoordinateSystem::zoom_out(Coordinate anchor)
@@ -64,8 +64,8 @@ void CoordinateSystem::zoom_out(Coordinate anchor)
     if(_scale/_scale_factor > MAX_ZOOM_OUT)
     {
         _scale = _scale/_scale_factor;
+        Coordinate disp = Transforms::anchored_scale_displacement(anchor,_scale,_scale_factor,false);
+        translate(disp);
     }
-    Coordinate disp = Transforms::anchored_scale_displacement(anchor,_scale,_scale_factor,false);
-    translate(disp);
 }
 
