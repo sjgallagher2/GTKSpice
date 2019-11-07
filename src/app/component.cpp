@@ -95,6 +95,7 @@ bool Line::move_vertex(Coordinate loc)
 }
 bool Line::is_under_cursor(Coordinate mousepos)
 {
+    _calculate_bounding_box();
     bool underBB = false;
     if(!_bb.empty())
     {

@@ -46,7 +46,6 @@ Canvas::Canvas(std::shared_ptr<Window> toplevel,
     _keymap = keymap;
 
     // Events
-    _ebox->button_click().connect(sigc::mem_fun(*this,&Canvas::send_test_action));
     _ebox->button_click().connect(sigc::mem_fun(*this, &Canvas::click_handler));
     _ebox->mouse_move().connect(sigc::mem_fun(*this, &Canvas::move_handler));
     _ebox->key_press().connect(sigc::mem_fun(*this, &Canvas::key_handler));
@@ -67,6 +66,7 @@ void Canvas::click_handler(Coordinate mousepos, int button, int modifier, int cs
     std::shared_ptr<Action> click_action = _state->active_tool()->tool_click_handler(mousepos,button,modifier,cselect);
     if(click_action)
         _new_action.emit(click_action);
+    update_cursor();
     _ebox->force_redraw();
 }
 void Canvas::scroll_handler(Coordinate mousepos, int scroll_dir)
@@ -85,35 +85,25 @@ void Canvas::move_handler(Coordinate mousepos)
 }
 void Canvas::key_handler(int key,int modifier)
 {
+    // TOOL KEY ACCELERATORS
+    std::shared_ptr<Action> t_action = 
+        _state->active_tool()->tool_key_handler(key,modifier);
+    if(t_action)
+        _new_action.emit(t_action);
+        
     // CANVAS KEY ACCELERATORS
-    ActionType action = _keymap->get_action((KeyModifiers)(modifier),key);
-    if(action != NO_ACTION)
+    ActionType e_action = _keymap->get_action((KeyModifiers)(modifier),key);
+    if(e_action != NO_ACTION)
     {
-        _new_action.emit(_actionfactory->make_action(action));
+        _new_action.emit(_actionfactory->make_action(e_action));
     }
     
-    _state->active_tool()->tool_key_handler(key,modifier);
+    // Redraw
+    update_cursor();
     _ebox->force_redraw();
 }
 
-
-void Canvas::send_test_action(Coordinate x,int y,int z,int t)
+void Canvas::update_cursor()
 {
-    /*
-    if(send_test)
-    {
-        LineParameters lp;
-        lp.cp.editable = false;
-        lp.cp.filled = false;
-        lp.cp.selectable = false;
-        lp.cp.label = "Test line";
-        lp.cp.stroke_thickness = 1;
-        VertexList verts;
-        verts.push_back(std::make_shared<Vertex>(0,0));
-        verts.push_back(std::make_shared<Vertex>(10,10));
-        lp.vertices = verts;
-        _new_action.emit(_actionfactory->make_action(APPEND_LINE,lp));
-        send_test = false;
-    }
-    */
+    _new_cursor.emit(_state->active_tool()->get_tool_cursor_name());
 }

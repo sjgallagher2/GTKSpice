@@ -14,7 +14,6 @@
 #ifndef TOOL_MANAGER_H
 #define TOOL_MANAGER_H
 
-#include <iostream>
 #include <memory>
 #include <map>
 #include <app/coordinate_system.h>
@@ -35,6 +34,7 @@
 class Tool;
 class PointerTool;
 class DrawLineTool;
+class DeleteTool;
 
 class ToolManager
 {
@@ -52,9 +52,11 @@ public:
         _objecttree = ot;
         _pointer = std::static_pointer_cast<Tool>( std::make_shared<PointerTool>(af,cs) );
         _drawline = std::static_pointer_cast<Tool>( std::make_shared<DrawLineTool>(af,ot) );
+        _delete = std::static_pointer_cast<Tool>( std::make_shared<DeleteTool>(af,ot) );
 
         _tool_map->insert(std::pair<ToolTypes,std::shared_ptr<Tool>>(POINTER,_pointer));
         _tool_map->insert(std::pair<ToolTypes,std::shared_ptr<Tool>>(DRAW_LINE,_drawline));
+        _tool_map->insert(std::pair<ToolTypes,std::shared_ptr<Tool>>(DELETE,_delete));
     }
     ~ToolManager() {}
 
@@ -63,13 +65,9 @@ public:
         std::shared_ptr<Tool> ret;
 
         if(_tool_map->find(tool) != _tool_map->end())
-        {
             ret = _tool_map->find(tool)->second;
-        }
         else
-        {
             ret = _pointer; // Default tool
-        }
         return ret;
     }
 
@@ -79,7 +77,8 @@ private:
     std::shared_ptr<ObjectTree> _objecttree;
     std::shared_ptr<CoordinateSystem> _coord_sys;
     std::shared_ptr<Tool> _pointer; 
-    std::shared_ptr<Tool> _drawline;// TODO Add the other tools
+    std::shared_ptr<Tool> _drawline;
+    std::shared_ptr<Tool> _delete; // TODO Add the other tools
 };
 
 #endif /* TOOL_MANAGER_H */

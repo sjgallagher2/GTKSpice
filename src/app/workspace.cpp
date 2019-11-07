@@ -37,6 +37,7 @@ Workspace::Workspace(std::shared_ptr<Window> toplevel) :
         _canvas->get_tool_manager());
 
     _canvas->new_action().connect(sigc::mem_fun(*this,&Workspace::get_action));
+    _canvas->new_cursor().connect(sigc::mem_fun(*this,&Workspace::get_cursor));
 }
 
 Workspace::~Workspace()
@@ -46,4 +47,8 @@ bool Workspace::get_action(std::shared_ptr<Action> a)
 {
     // Push to action stack
     _actionstack->push(a);
+}
+bool Workspace::get_cursor(Glib::ustring cursor)
+{
+    _toplevel->set_new_cursor(cursor);
 }

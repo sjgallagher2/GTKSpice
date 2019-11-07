@@ -79,10 +79,6 @@ private:
     Grid _grid;
     DebugText _dt;
     Coordinate _mouse_pos_d;
-    Glib::RefPtr<Gdk::Cursor> _crosshairs_cursor;
-    Glib::RefPtr<Gdk::Cursor> _pointer_cursor;
-    Glib::RefPtr<Gdk::Cursor> _grabbing_cursor;
-    Glib::RefPtr<Gdk::Cursor> _scissors_cursor;
 };
 
 #endif /* GTKSPICE_VIEW_H */

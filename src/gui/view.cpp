@@ -12,14 +12,12 @@
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
 #include <cairomm/context.h>
 #include <cairomm/surface.h>
 #include <app/coordinate_system.h>
 #include <gui/view.h>
 #include <gui/grid.h>
 #include <app/transforms.h>
-//#include <testing/debug_text.h>
 #include <testing/testdraw.h>
 #include <app/object_tree.h>
 #include <app/gtkspice_state.h>
@@ -28,39 +26,6 @@
  * When the screen is drawn, on_draw() is called, which provides a context object. It
  * seems like you need to use this context instead of keeping one, which means all changes
  * need to occur in on_draw(). 
- * 
- * There are two coordinate systems: the device coordinate system, and the user coordinate
- * system. The device coordinate system is constant, and reflects the position in the window.
- * The user coordinate systme reflects the position in 'Cairo' space, and by extension
- * in the coordinate system of the drawing environment from a programming perspective. The
- * user coordinates define where drawings are placed.
- * 
- * Device coordinates: (0,0) in upper left
- * Device units: Constant, in pixels
- * User coordinate: (0,0) at origin
- * User units: Depends on scale factor
- * 
- * To create a navigable environment with pan and zoom, we have to keep track of the "deltas",
- * how much the user drags for a pan, as well as the zoom factor. In addition, we want to
- * zoom to the mouse position, not to the screen center. 
- * 
- * At the beginning of on_draw(), the device coordinates and user coordinates are the same. 
- * Nothing has been drawn yet. The first transformation moves (0,0) to the center of the window,
- * and adds the total delta (universal offset) and the current pan delta (for current mouse click).
- * (When the mouse is released, the current pan delta is merged with the total delta.) All deltas
- * are stored as device coordinates, which can be converted to user coordinates when necessary.
- * In this case, the device scale and user scale are the same, so it doesn't matter. When scaling/
- * zooming comes in, it will matter.
- * 
- * So the first transformation positions the user origin in the right position, without scale. 
- * There is only one scale operation in Cairo, which scales everything from the user origin. To
- * zoom into a particular coordinate, you first translate to center that coordinate, then scale,
- * then translate back. Each time scale() is called adds to the overall scale. A universal scale
- * is stored in _scale. Each zoom in increases the scale 1.5 times, and zoom out decreases by 1.5.
- * 
- * Scaling is triggered by a callback, and is handled by on_draw(). Normally, no new scaling has
- * occurred, so the scale is simply set to _scale. Because this is the first scaling operation, the
- * device and user factors are equivalent. 
  * 
  */
 
@@ -74,7 +39,6 @@ View::View(std::shared_ptr<CoordinateSystem> cs) :
     signal_button_press_event().connect(sigc::mem_fun(*this, &View::on_button_press));
     signal_button_release_event().connect(sigc::mem_fun(*this, &View::on_button_release));
     signal_scroll_event().connect(sigc::mem_fun(*this, &View::on_scroll_event));
-    //signal_motion_notify_event().connect(sigc::mem_fun(*this, &View::pan));
 
     _cs->snap_grid(true);
     

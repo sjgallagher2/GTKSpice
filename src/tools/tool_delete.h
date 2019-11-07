@@ -14,5 +14,28 @@
 #ifndef TOOL_DELETE_H
 #define TOOL_DELETE_H
 
+#include <memory>
+#include <app/object_tree.h>
+#include <app/action.h>
+#include <tools/tool.h>
+
+
+class DeleteTool : public Tool
+{
+public:
+    DeleteTool(std::shared_ptr<ActionFactory> af,
+        std::shared_ptr<ObjectTree> ot) :
+        Tool(af),
+        _objecttree(ot) {}
+    virtual ~DeleteTool() {}
+
+    virtual std::shared_ptr<Action> tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect);
+    virtual std::shared_ptr<Action> tool_move_handler(Coordinate mousepos);
+    virtual std::shared_ptr<Action> tool_key_handler(int key,int modifier);
+    virtual Glib::ustring get_tool_cursor_name() {return "scissor";}
+
+protected:
+    std::shared_ptr<ObjectTree> _objecttree;
+};
 
 #endif /* TOOL_DELETE_H */

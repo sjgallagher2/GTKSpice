@@ -43,7 +43,8 @@ void KeyAccelMap::set_defaults()
     add_pair(CTRL,GDK_KEY_z,UNDO);
     add_pair(CTRL,GDK_KEY_r,REDO);
     add_pair(NO_MOD,GDK_KEY_l,SET_TOOL_DRAW_LINE);
-    add_pair(NO_MOD,GDK_KEY_Escape,SET_TOOL_POINTER); // TODO This is tool-specific
+    add_pair(NO_MOD,GDK_KEY_Escape,SET_TOOL_POINTER); 
+    add_pair(NO_MOD,GDK_KEY_Delete,SET_TOOL_DELETE);
     // E.g. to clean up active lines before changing tools
 }
 

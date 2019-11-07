@@ -52,10 +52,12 @@ public:
     void move_handler(Coordinate mousepos);
     void key_handler(int key,int modifier);
     void scroll_handler(Coordinate mousepos, int scroll_dir);
+    void update_cursor();
 
-    void send_test_action(Coordinate x,int y,int z,int t);
     typedef sigc::signal<bool,std::shared_ptr<Action>> new_action_type;
     new_action_type new_action() const {return _new_action;}
+    typedef sigc::signal<bool,Glib::ustring> new_cursor_type;
+    new_cursor_type new_cursor() const {return _new_cursor;}
 protected:
     std::shared_ptr<ObjectTree> _objecttree;
     std::shared_ptr<ActionFactory> _actionfactory;
@@ -69,6 +71,7 @@ protected:
     std::shared_ptr<KeyAccelMap> _keymap;
 
     new_action_type _new_action;
+    new_cursor_type _new_cursor;
 
     bool send_test;
 };

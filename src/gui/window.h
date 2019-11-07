@@ -20,6 +20,7 @@
 #include <app/object_tree.h>
 #include <gui/drawingeventbox.h>
 #include <app/gtkspice_state.h>
+#include <gui/cursor_manager.h>
 
 /* 
  * A simple window class. Subclass of Gtk::ApplicationWindow.
@@ -32,11 +33,13 @@ public:
 	~Window();
 
     //void set_view_object_tree(std::shared_ptr<ObjectTree> ot) {_drawevents.set_object_tree(ot);}
+	void set_new_cursor(Glib::ustring cursor);
 
 protected:
 	//DrawingEventBox _drawevents;
 	virtual bool on_key_press_event(GdkEventKey* key_event) override;
 	//void on_action_quit();
+	CursorManager _cmanager;
 };
 
 #endif /* WINDOW_H */

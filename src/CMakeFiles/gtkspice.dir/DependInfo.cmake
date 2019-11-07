@@ -12,9 +12,11 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/sam/Documents/Devel/Cpp/GTKSpice/src/app/coordinate_system.cpp" "/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/gtkspice.dir/app/coordinate_system.cpp.o"
   "/home/sam/Documents/Devel/Cpp/GTKSpice/src/app/gtkspice.cpp" "/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/gtkspice.dir/app/gtkspice.cpp.o"
   "/home/sam/Documents/Devel/Cpp/GTKSpice/src/app/gtkspice_state.cpp" "/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/gtkspice.dir/app/gtkspice_state.cpp.o"
+  "/home/sam/Documents/Devel/Cpp/GTKSpice/src/app/key_accel_map.cpp" "/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/gtkspice.dir/app/key_accel_map.cpp.o"
   "/home/sam/Documents/Devel/Cpp/GTKSpice/src/app/object_tree.cpp" "/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/gtkspice.dir/app/object_tree.cpp.o"
   "/home/sam/Documents/Devel/Cpp/GTKSpice/src/app/schematic.cpp" "/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/gtkspice.dir/app/schematic.cpp.o"
   "/home/sam/Documents/Devel/Cpp/GTKSpice/src/app/spice_data.cpp" "/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/gtkspice.dir/app/spice_data.cpp.o"
+  "/home/sam/Documents/Devel/Cpp/GTKSpice/src/app/state_actions.cpp" "/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/gtkspice.dir/app/state_actions.cpp.o"
   "/home/sam/Documents/Devel/Cpp/GTKSpice/src/app/workspace.cpp" "/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/gtkspice.dir/app/workspace.cpp.o"
   "/home/sam/Documents/Devel/Cpp/GTKSpice/src/app/workspace_keyaccel.cpp" "/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/gtkspice.dir/app/workspace_keyaccel.cpp.o"
   "/home/sam/Documents/Devel/Cpp/GTKSpice/src/gui/drawingeventbox.cpp" "/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/gtkspice.dir/gui/drawingeventbox.cpp.o"
@@ -26,6 +28,10 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/sam/Documents/Devel/Cpp/GTKSpice/src/gui/window.cpp" "/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/gtkspice.dir/gui/window.cpp.o"
   "/home/sam/Documents/Devel/Cpp/GTKSpice/src/testing/debug_text.cpp" "/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/gtkspice.dir/testing/debug_text.cpp.o"
   "/home/sam/Documents/Devel/Cpp/GTKSpice/src/testing/testdraw.cpp" "/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/gtkspice.dir/testing/testdraw.cpp.o"
+  "/home/sam/Documents/Devel/Cpp/GTKSpice/src/tools/tool_delete.cpp" "/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/gtkspice.dir/tools/tool_delete.cpp.o"
+  "/home/sam/Documents/Devel/Cpp/GTKSpice/src/tools/tool_draw_line.cpp" "/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/gtkspice.dir/tools/tool_draw_line.cpp.o"
+  "/home/sam/Documents/Devel/Cpp/GTKSpice/src/tools/tool_draw_wire.cpp" "/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/gtkspice.dir/tools/tool_draw_wire.cpp.o"
+  "/home/sam/Documents/Devel/Cpp/GTKSpice/src/tools/tool_pointer.cpp" "/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/gtkspice.dir/tools/tool_pointer.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

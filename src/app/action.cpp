@@ -171,6 +171,7 @@ void RemoveLineAction::execute()
 }
 void RemoveLineAction::unexecute()
 {
+    // TODO After undo we can't delete lines
     _objecttree->add_component(_lp);
 }
 void MoveLineAction::execute()

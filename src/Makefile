@@ -341,6 +341,33 @@ app/gtkspice_state.cpp.s:
 	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/gtkspice_state.cpp.s
 .PHONY : app/gtkspice_state.cpp.s
 
+app/key_accel_map.o: app/key_accel_map.cpp.o
+
+.PHONY : app/key_accel_map.o
+
+# target to build an object file
+app/key_accel_map.cpp.o:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/key_accel_map.cpp.o
+.PHONY : app/key_accel_map.cpp.o
+
+app/key_accel_map.i: app/key_accel_map.cpp.i
+
+.PHONY : app/key_accel_map.i
+
+# target to preprocess a source file
+app/key_accel_map.cpp.i:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/key_accel_map.cpp.i
+.PHONY : app/key_accel_map.cpp.i
+
+app/key_accel_map.s: app/key_accel_map.cpp.s
+
+.PHONY : app/key_accel_map.s
+
+# target to generate assembly for a file
+app/key_accel_map.cpp.s:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/key_accel_map.cpp.s
+.PHONY : app/key_accel_map.cpp.s
+
 app/object_tree.o: app/object_tree.cpp.o
 
 .PHONY : app/object_tree.o
@@ -421,6 +448,33 @@ app/spice_data.s: app/spice_data.cpp.s
 app/spice_data.cpp.s:
 	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/spice_data.cpp.s
 .PHONY : app/spice_data.cpp.s
+
+app/state_actions.o: app/state_actions.cpp.o
+
+.PHONY : app/state_actions.o
+
+# target to build an object file
+app/state_actions.cpp.o:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/state_actions.cpp.o
+.PHONY : app/state_actions.cpp.o
+
+app/state_actions.i: app/state_actions.cpp.i
+
+.PHONY : app/state_actions.i
+
+# target to preprocess a source file
+app/state_actions.cpp.i:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/state_actions.cpp.i
+.PHONY : app/state_actions.cpp.i
+
+app/state_actions.s: app/state_actions.cpp.s
+
+.PHONY : app/state_actions.s
+
+# target to generate assembly for a file
+app/state_actions.cpp.s:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/state_actions.cpp.s
+.PHONY : app/state_actions.cpp.s
 
 app/workspace.o: app/workspace.cpp.o
 
@@ -719,6 +773,114 @@ testing/testdraw.cpp.s:
 	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/testing/testdraw.cpp.s
 .PHONY : testing/testdraw.cpp.s
 
+tools/tool_delete.o: tools/tool_delete.cpp.o
+
+.PHONY : tools/tool_delete.o
+
+# target to build an object file
+tools/tool_delete.cpp.o:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/tools/tool_delete.cpp.o
+.PHONY : tools/tool_delete.cpp.o
+
+tools/tool_delete.i: tools/tool_delete.cpp.i
+
+.PHONY : tools/tool_delete.i
+
+# target to preprocess a source file
+tools/tool_delete.cpp.i:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/tools/tool_delete.cpp.i
+.PHONY : tools/tool_delete.cpp.i
+
+tools/tool_delete.s: tools/tool_delete.cpp.s
+
+.PHONY : tools/tool_delete.s
+
+# target to generate assembly for a file
+tools/tool_delete.cpp.s:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/tools/tool_delete.cpp.s
+.PHONY : tools/tool_delete.cpp.s
+
+tools/tool_draw_line.o: tools/tool_draw_line.cpp.o
+
+.PHONY : tools/tool_draw_line.o
+
+# target to build an object file
+tools/tool_draw_line.cpp.o:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/tools/tool_draw_line.cpp.o
+.PHONY : tools/tool_draw_line.cpp.o
+
+tools/tool_draw_line.i: tools/tool_draw_line.cpp.i
+
+.PHONY : tools/tool_draw_line.i
+
+# target to preprocess a source file
+tools/tool_draw_line.cpp.i:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/tools/tool_draw_line.cpp.i
+.PHONY : tools/tool_draw_line.cpp.i
+
+tools/tool_draw_line.s: tools/tool_draw_line.cpp.s
+
+.PHONY : tools/tool_draw_line.s
+
+# target to generate assembly for a file
+tools/tool_draw_line.cpp.s:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/tools/tool_draw_line.cpp.s
+.PHONY : tools/tool_draw_line.cpp.s
+
+tools/tool_draw_wire.o: tools/tool_draw_wire.cpp.o
+
+.PHONY : tools/tool_draw_wire.o
+
+# target to build an object file
+tools/tool_draw_wire.cpp.o:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/tools/tool_draw_wire.cpp.o
+.PHONY : tools/tool_draw_wire.cpp.o
+
+tools/tool_draw_wire.i: tools/tool_draw_wire.cpp.i
+
+.PHONY : tools/tool_draw_wire.i
+
+# target to preprocess a source file
+tools/tool_draw_wire.cpp.i:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/tools/tool_draw_wire.cpp.i
+.PHONY : tools/tool_draw_wire.cpp.i
+
+tools/tool_draw_wire.s: tools/tool_draw_wire.cpp.s
+
+.PHONY : tools/tool_draw_wire.s
+
+# target to generate assembly for a file
+tools/tool_draw_wire.cpp.s:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/tools/tool_draw_wire.cpp.s
+.PHONY : tools/tool_draw_wire.cpp.s
+
+tools/tool_pointer.o: tools/tool_pointer.cpp.o
+
+.PHONY : tools/tool_pointer.o
+
+# target to build an object file
+tools/tool_pointer.cpp.o:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/tools/tool_pointer.cpp.o
+.PHONY : tools/tool_pointer.cpp.o
+
+tools/tool_pointer.i: tools/tool_pointer.cpp.i
+
+.PHONY : tools/tool_pointer.i
+
+# target to preprocess a source file
+tools/tool_pointer.cpp.i:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/tools/tool_pointer.cpp.i
+.PHONY : tools/tool_pointer.cpp.i
+
+tools/tool_pointer.s: tools/tool_pointer.cpp.s
+
+.PHONY : tools/tool_pointer.s
+
+# target to generate assembly for a file
+tools/tool_pointer.cpp.s:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/tools/tool_pointer.cpp.s
+.PHONY : tools/tool_pointer.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -752,6 +914,9 @@ help:
 	@echo "... app/gtkspice_state.o"
 	@echo "... app/gtkspice_state.i"
 	@echo "... app/gtkspice_state.s"
+	@echo "... app/key_accel_map.o"
+	@echo "... app/key_accel_map.i"
+	@echo "... app/key_accel_map.s"
 	@echo "... app/object_tree.o"
 	@echo "... app/object_tree.i"
 	@echo "... app/object_tree.s"
@@ -761,6 +926,9 @@ help:
 	@echo "... app/spice_data.o"
 	@echo "... app/spice_data.i"
 	@echo "... app/spice_data.s"
+	@echo "... app/state_actions.o"
+	@echo "... app/state_actions.i"
+	@echo "... app/state_actions.s"
 	@echo "... app/workspace.o"
 	@echo "... app/workspace.i"
 	@echo "... app/workspace.s"
@@ -794,6 +962,18 @@ help:
 	@echo "... testing/testdraw.o"
 	@echo "... testing/testdraw.i"
 	@echo "... testing/testdraw.s"
+	@echo "... tools/tool_delete.o"
+	@echo "... tools/tool_delete.i"
+	@echo "... tools/tool_delete.s"
+	@echo "... tools/tool_draw_line.o"
+	@echo "... tools/tool_draw_line.i"
+	@echo "... tools/tool_draw_line.s"
+	@echo "... tools/tool_draw_wire.o"
+	@echo "... tools/tool_draw_wire.i"
+	@echo "... tools/tool_draw_wire.s"
+	@echo "... tools/tool_pointer.o"
+	@echo "... tools/tool_pointer.i"
+	@echo "... tools/tool_pointer.s"
 .PHONY : help
 
 

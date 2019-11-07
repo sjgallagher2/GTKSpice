@@ -12,13 +12,12 @@
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
 #include <tools/tool_draw_line.h>
 #include <gui/drawingeventbox.h>
 
 std::shared_ptr<Action> DrawLineTool::tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect)
 {
-    // TODO Adding vertices, removing vertices should be actions, not handled directly
+    // TODO Should adding vertices, removing vertices be actions?
     std::shared_ptr<Action> ret = nullptr;
     // Check for active wires (wires being drawn)
     // If double-click, set no line active
@@ -56,6 +55,11 @@ std::shared_ptr<Action> DrawLineTool::tool_move_handler(Coordinate mousepos)
 std::shared_ptr<Action> DrawLineTool::tool_key_handler(int key,int modifier)
 {
     std::shared_ptr<Action> ret = nullptr;
+    if(key == GDK_KEY_Escape && modifier == NO_MOD)
+    {
+        while(_objecttree->has_active_line())
+            _objecttree->remove_line_vertex(Coordinate(0,0));
+    }
     return ret;
 }
 

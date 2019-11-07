@@ -46,6 +46,7 @@ protected:
     std::shared_ptr<KeyAccelMap> _keymap;
 
     bool get_action(std::shared_ptr<Action> a);
+    bool get_cursor(Glib::ustring cursor);
 };
 
 #endif /* WORKSPACE_H */

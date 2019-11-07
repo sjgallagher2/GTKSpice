@@ -15,7 +15,7 @@
 #include <iostream>
 #include <gui/window.h>
 
-Window::Window()
+Window::Window() 
 {
     add_events(Gdk::SCROLL_MASK);
     add_events(Gdk::BUTTON_PRESS_MASK);
@@ -31,13 +31,6 @@ Window::Window()
     set_title("GTKSpice");
     maximize();
     signal_key_press_event().connect(sigc::mem_fun(*this,&Window::on_key_press_event));
-    // TODO Does Window need to see these? Maybe just pass along?
-    /*
-    signal_key_press_event().connect(sigc::mem_fun(_drawevents,&DrawingEventBox::on_key_press_event));
-    signal_button_press_event().connect(sigc::mem_fun(_drawevents, &DrawingEventBox::on_button_press_event));
-    signal_button_release_event().connect(sigc::mem_fun(_drawevents, &DrawingEventBox::on_button_release_event));
-    signal_motion_notify_event().connect(sigc::mem_fun(_drawevents, &DrawingEventBox::on_mouse_move_event));
-    */
 
 }
 Window::~Window()
@@ -46,4 +39,13 @@ Window::~Window()
 bool Window::on_key_press_event(GdkEventKey* key_event)
 {
     return false;
+}
+void Window::set_new_cursor(Glib::ustring cursor)
+{
+    Glib::RefPtr<Gdk::Window> w = this->get_window();
+    Glib::RefPtr<Gdk::Display> disp = this->get_display();
+    _cmanager.cm_init(disp);
+    Glib::RefPtr<Gdk::Cursor> cobj = _cmanager.get_cursor_by_name(cursor);
+    //Glib::RefPtr<Gdk::Cursor> cobj = Gdk::Cursor::create(disp,"default");
+    w->set_cursor(cobj);
 }
