@@ -38,7 +38,7 @@ namespace Transforms
             // Scaling caused everything to move away, we need to bring it back. This comes
             // from Euclidean displacement after multiplying coordinates by scalefactor.
             // The factor is |1-scalefactor| e.g. 1.5x scale means |1-3/2| = 1/2
-            float f = std::abs(1-scale_factor);
+            float f = scale/scale_factor*std::abs(1-scale_factor);
 
             // Return a displacement coordinate
             Coordinate displacement;
@@ -49,7 +49,7 @@ namespace Transforms
         else // Zoom out
         {
             // For zoom out, the distance is |1-1/scalefactor|
-            float f = std::abs(1-1/scale_factor);
+            float f = scale*scale_factor*std::abs(1-1/scale_factor);
             
             Coordinate displacement;
             displacement.x(anchor.x()*f);

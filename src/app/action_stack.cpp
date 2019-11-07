@@ -49,7 +49,6 @@ ActionStack::~ActionStack()
 
 void ActionStack::push(std::shared_ptr<Action> c)
 {
-	// TODO Handle special actions (undo, redo, others?) separately?
 	if(c)
 	{
 		c->execute();
