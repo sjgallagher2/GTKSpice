@@ -19,7 +19,7 @@
 #include <app/action.h>
 #include <tools/tool.h>
 
-
+// TODO Add drag select
 class DeleteTool : public Tool
 {
 public:

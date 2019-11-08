@@ -154,6 +154,10 @@ protected:
     PointParameters _pp;
 };
 
+/* AppendLine Action is used to push a new line onto the stack, typically 
+ * with only two vertices. The key difference is the line remains active
+ * after it is added.
+ */
 class AppendLineAction : public Action
 {
 public:
@@ -170,6 +174,10 @@ protected:
     LineParameters _lp;
     bool _stay_active = true;
 };
+
+/* AddLineAction is used to add a completed line, which will not remain
+ * active after it is added
+ */
 class AddLineAction : public Action
 {
 public:
@@ -231,6 +239,19 @@ protected:
     std::shared_ptr<ObjectTree> _objecttree;
     int _lineindex;
     std::vector<int> _vertexindices;
+};
+class AddRectAction : public Action
+{
+public:
+    AddRectAction();
+    ~AddRectAction();
+
+    void execute();
+    void unexecute();
+private:
+    std::shared_ptr<ObjectTree> _objecttree;
+    RectParameters _rp;
+    bool _stay_active = true;
 };
 
 

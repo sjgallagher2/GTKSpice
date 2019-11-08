@@ -38,4 +38,34 @@ Unlike key accelerators, Tools return fully-formed Actions when their on_click o
 on_key_press callbacks are called. If no Action is required, then a nullptr is 
 returned instead. 
 
+-------------------------
+SPICE core
+-------------------------
+For SPICE we have the following built-in SPICE elements:
+    Resistors (R)
+	Capacitors (C)
+	Inductors (L)
+	Mutual (coupled) inductors (K L L)
+	Switches (S for switch, W for voltage-controlled switch)
+	Independent and dependent sources (V, I, G, E, F, H, B)
+	Transmission Lines (T, O, U)
+	Diodes (D)
+	BJTs (Q)
+	JFETs (J)
+	MOSFETs (M)
+	MESFETs (Z)
+	Subcircuits (X)
+
+Each of these has a number of -element ports-.
+
+Terminology and syntax: 
+The -name- of an element is the reference designator, like R1, COUT, or Q112. 
+The name of a -model- or -subcircuit- is the unique name given to a model, like 
+2N2222 or LM741, supplied as a model name or subcircuit name to a component. 
+A model -type- is one of 15 possible components (components like NPNs, PNPs, 
+P-channel MESFETs, etc). These include 'R', 'C', 'D', 'NMOS', 'NPN, and 'NJF', 
+among others.
+
+Some components, particularly passives, have a -value- which is the resistance, 
+or capacitance, or inductance, etc of that component. 
 

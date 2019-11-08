@@ -133,6 +133,32 @@ bool Line::mouse_nearby(Coordinate mousepos,float tol)
     return false;
 }
 
+Rect::Rect(RectParameters rp) : _rp(rp)
+{
+    // Init
+    _type="rectangle";
+}
+
+void Rect::move_corner(Coordinate newpos)
+{
+    // Move active corner
+    _rp.bottom = newpos.y();
+    _rp.right = newpos.x();
+}
+
+void Rect::draw(Cairo::RefPtr<Cairo::Context> context)
+{
+    context->save();
+    context->set_source_rgba(0,0,0,1.0);
+    context->set_line_width(0.1);
+    context->set_line_cap(Cairo::LINE_CAP_BUTT);
+
+    context->rectangle(_rp.top,_rp.left,(_rp.right - _rp.left),(_rp.top-_rp.bottom));
+
+    context->stroke();
+    context->restore();
+}
+
 /**** PRIVATE METHODS *****/
 void Line::_calculate_bounding_box()
 {

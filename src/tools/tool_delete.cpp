@@ -13,6 +13,7 @@
  */
 
 #include <tools/tool_delete.h>
+#include <app/component_params.h>
 
 
 std::shared_ptr<Action> DeleteTool::tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect)
@@ -22,6 +23,11 @@ std::shared_ptr<Action> DeleteTool::tool_click_handler(Coordinate mousepos,int b
     int undermouse_index = _objecttree->get_line_under_cursor(mousepos);
     if(undermouse_index != -1)
         ret = _actionfactory->make_action(REMOVE_LINE,undermouse_index);
+    else
+    {
+        RectParameters rp;
+        //ret = _actionfactory->make_action(DRAW_RECT);
+    }
     return ret;
 }
 std::shared_ptr<Action> DeleteTool::tool_move_handler(Coordinate mousepos)

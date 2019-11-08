@@ -34,6 +34,11 @@ struct LineParameters
     ComponentParameters cp;
     VertexList vertices;
 };
+struct RectParameters
+{
+    ComponentParameters cp;
+    float left,right,bottom,top;
+};
 struct NetParameters
 {
     LineParameters lp;

@@ -54,6 +54,11 @@ public:
         ret = std::static_pointer_cast<Component>(std::make_shared<Point>(params));
         return ret;
     }
+    std::shared_ptr<Component> CreateComponent(const RectParameters& params)
+    {
+        std::shared_ptr<Component> ret = nullptr;
+        return ret;
+    }
 };
 
 class Component
@@ -129,6 +134,24 @@ protected:
     VIter _get_vertex_from_location(Coordinate loc); // Get a vertex object of a vertex at a specified location
     VIter _get_vertex_from_index(int index); // Get a vertex from its index
     void _calculate_bounding_box();
+};
+
+// TODO Finish this up, add selection rectangles
+class Rect : public Component
+{
+public:
+    enum RectCorner {UPPER_LEFT,UPPER_RIGHT,LOWER_LEFT,LOWER_RIGHT};
+    Rect() {}
+    Rect(RectParameters rp);
+    virtual ~Rect() {}
+
+    virtual void draw(Cairo::RefPtr<Cairo::Context> context);
+    virtual void move_corner(Coordinate newpos);
+
+protected:
+    RectParameters _rp;
+    bool _is_active = false;
+
 };
 
 
