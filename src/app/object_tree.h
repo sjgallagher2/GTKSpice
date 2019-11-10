@@ -61,7 +61,7 @@ private:
     std::vector<Tree*> _tree;
     Tree _pointtree;
     Tree _linetree;
-    Tree _wiretree;
+    Tree _recttree;
 
     int _point_auto_index;
     int _line_auto_index;

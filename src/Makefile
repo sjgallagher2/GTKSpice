@@ -746,6 +746,33 @@ testing/debug_text.cpp.s:
 	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/testing/debug_text.cpp.s
 .PHONY : testing/debug_text.cpp.s
 
+testing/test_spice.o: testing/test_spice.cpp.o
+
+.PHONY : testing/test_spice.o
+
+# target to build an object file
+testing/test_spice.cpp.o:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/testing/test_spice.cpp.o
+.PHONY : testing/test_spice.cpp.o
+
+testing/test_spice.i: testing/test_spice.cpp.i
+
+.PHONY : testing/test_spice.i
+
+# target to preprocess a source file
+testing/test_spice.cpp.i:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/testing/test_spice.cpp.i
+.PHONY : testing/test_spice.cpp.i
+
+testing/test_spice.s: testing/test_spice.cpp.s
+
+.PHONY : testing/test_spice.s
+
+# target to generate assembly for a file
+testing/test_spice.cpp.s:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/testing/test_spice.cpp.s
+.PHONY : testing/test_spice.cpp.s
+
 testing/testdraw.o: testing/testdraw.cpp.o
 
 .PHONY : testing/testdraw.o
@@ -959,6 +986,9 @@ help:
 	@echo "... testing/debug_text.o"
 	@echo "... testing/debug_text.i"
 	@echo "... testing/debug_text.s"
+	@echo "... testing/test_spice.o"
+	@echo "... testing/test_spice.i"
+	@echo "... testing/test_spice.s"
 	@echo "... testing/testdraw.o"
 	@echo "... testing/testdraw.i"
 	@echo "... testing/testdraw.s"

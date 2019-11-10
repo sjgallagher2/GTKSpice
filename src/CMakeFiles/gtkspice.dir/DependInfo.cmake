@@ -27,6 +27,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/sam/Documents/Devel/Cpp/GTKSpice/src/gui/viewport.cpp" "/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/gtkspice.dir/gui/viewport.cpp.o"
   "/home/sam/Documents/Devel/Cpp/GTKSpice/src/gui/window.cpp" "/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/gtkspice.dir/gui/window.cpp.o"
   "/home/sam/Documents/Devel/Cpp/GTKSpice/src/testing/debug_text.cpp" "/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/gtkspice.dir/testing/debug_text.cpp.o"
+  "/home/sam/Documents/Devel/Cpp/GTKSpice/src/testing/test_spice.cpp" "/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/gtkspice.dir/testing/test_spice.cpp.o"
   "/home/sam/Documents/Devel/Cpp/GTKSpice/src/testing/testdraw.cpp" "/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/gtkspice.dir/testing/testdraw.cpp.o"
   "/home/sam/Documents/Devel/Cpp/GTKSpice/src/tools/tool_delete.cpp" "/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/gtkspice.dir/tools/tool_delete.cpp.o"
   "/home/sam/Documents/Devel/Cpp/GTKSpice/src/tools/tool_draw_line.cpp" "/home/sam/Documents/Devel/Cpp/GTKSpice/src/CMakeFiles/gtkspice.dir/tools/tool_draw_line.cpp.o"

@@ -147,8 +147,6 @@ app/coordinate.h
 -
 
 /home/sam/Documents/Devel/Cpp/GTKSpice/src/gui/view.cpp
-iostream
--
 cairomm/context.h
 -
 cairomm/surface.h
@@ -192,6 +190,18 @@ cairomm/context.h
 testing/debug_text.h
 -
 
+/home/sam/Documents/Devel/Cpp/GTKSpice/src/testing/test_spice.cpp
+iostream
+-
+spice/spice_element.h
+-
+spice/spice_deck.h
+-
+spice/spice_directive.h
+-
+spice/spice_model.h
+-
+
 /home/sam/Documents/Devel/Cpp/GTKSpice/src/testing/testdraw.cpp
 gtkmm.h
 -
@@ -206,6 +216,8 @@ librsvg-2.0/librsvg/rsvg.h
 
 /home/sam/Documents/Devel/Cpp/GTKSpice/src/tools/tool_delete.cpp
 tools/tool_delete.h
+-
+app/component_params.h
 -
 
 /home/sam/Documents/Devel/Cpp/GTKSpice/src/tools/tool_draw_line.cpp
@@ -12006,6 +12018,12 @@ app/action.h
 app/key_accel_map.h
 -
 
+src/gui/cursor_manager.h
+gtkmm.h
+-
+map
+-
+
 src/gui/drawingeventbox.h
 memory
 -
@@ -12068,6 +12086,32 @@ app/object_tree.h
 gui/drawingeventbox.h
 -
 app/gtkspice_state.h
+-
+gui/cursor_manager.h
+-
+
+src/spice/spice_deck.h
+iostream
+-
+vector
+-
+spice/spice_element.h
+-
+spice/spice_directive.h
+-
+
+src/spice/spice_directive.h
+gtkmm.h
+-
+string
+-
+
+src/spice/spice_element.h
+gtkmm.h
+-
+
+src/spice/spice_model.h
+gtkmm.h
 -
 
 src/testing/debug_text.h

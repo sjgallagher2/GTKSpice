@@ -37,13 +37,12 @@ Glib::RefPtr<GTKSpice> GTKSpice::create()
 {
 	return Glib::RefPtr<GTKSpice>(new GTKSpice());
 }
-
+void test_spice();
 int main(int argc, char* argv[])
 {
 	auto app =
 			GTKSpice::create();
-
-
+	test_spice();
 	return app->run();
 }
 

@@ -26,6 +26,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/gtkspice.dir/tools/tool_draw_wire.cpp.o"
   "CMakeFiles/gtkspice.dir/tools/tool_pointer.cpp.o"
   "CMakeFiles/gtkspice.dir/testing/debug_text.cpp.o"
+  "CMakeFiles/gtkspice.dir/testing/test_spice.cpp.o"
   "CMakeFiles/gtkspice.dir/testing/testdraw.cpp.o"
   "gtkspice.pdb"
   "gtkspice"
