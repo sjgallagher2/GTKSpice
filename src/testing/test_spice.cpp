@@ -9,6 +9,28 @@
 // TESTING SPICE_ELEMENT
 void test_spice()
 {
+    /* A SUBCIRCUIT */
+    SpiceSubcktDirective stn3nf06l_dir;
+    stn3nf06l_dir.nodes = "1 2 3";
+    stn3nf06l_dir.subname = "STN3NF06L";
+    SpiceInductor lg;
+    lg.name = "LG";
+    lg.nodes = "2 4";
+    lg.value = "7.5n";
+    SpiceInductor ls;
+    ls.name = "LG";
+    ls.nodes = "12 3";
+    ls.value = "7.5n";
+    SpiceEndsDirective stn3nf06l_ends;
+    stn3nf06l_ends.subname = "STN3NF06L";
+
+    SpiceSubcircuitDeck stn3nf06l;
+    stn3nf06l.add_line(stn3nf06l_dir.get_spice_line());
+    stn3nf06l.add_line(lg.get_spice_line());
+    stn3nf06l.add_line(ls.get_spice_line());
+    stn3nf06l.add_line(stn3nf06l_ends.get_spice_line());
+    /****************/
+
     // Models
     SpiceModelR resmodel1;
     resmodel1.TC1 = "0.1";
@@ -84,6 +106,10 @@ void test_spice()
     jfet1.name="J1";
     jfet1.nodes="3 4 0";
     jfet1.modelname=jfetmodel_dir.modelname;
+    SpiceSubcircuit sub1;
+    sub1.name = "X2";
+    sub1.nodes = "2 3 4";
+    sub1.subname = "STN3NF06L";
 
     // Directives (except model directives)
     SpiceTitleDirective title;
@@ -91,10 +117,14 @@ void test_spice()
     SpiceOptionDirective opts;
     opts.keepopinfo = "keepopinfo";
     opts.method = "TRAP";
+    SpiceTranDirective transim;
+    transim.tstop="1m";
+    transim.tstep="400";
     SpiceEndDirective end;
 
     SpiceDeck deck;
     deck.add_line(title.get_spice_line()); // Title
+    deck.add_line(stn3nf06l.get_spice_lines());
     deck.add_line(bjtmodel_dir.get_spice_line());
     deck.add_line(resmodel_dir.get_spice_line());
     deck.add_line(jfetmodel_dir.get_spice_line());
@@ -111,8 +141,11 @@ void test_spice()
     deck.add_line(cap3.get_spice_line());
     deck.add_line(bjt1.get_spice_line());
     deck.add_line(jfet1.get_spice_line());
+    deck.add_line(sub1.get_spice_line());
     deck.add_line(opts.get_spice_line());
+    deck.add_line(transim.get_spice_line());
     deck.add_line(end.get_spice_line());
 
-    deck.print();
+    //deck.print();
+    std::cout << deck.get_spice_lines();
 }

@@ -273,10 +273,11 @@ protected:
 /* @form    */
 struct SpiceEndsDirective : public SpiceDirective 
 {
+    Datafield subname;
     Glib::ustring get_spice_line()
     {
         Glib::ustring ret;
-        ret = name;
+        ret = name+" "+subname;
         return ret.uppercase();
     }
 protected:

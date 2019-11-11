@@ -50,6 +50,22 @@ public:
     {
     }
 
+    /* @brief Return a ustring with all lines, separated by \n newlines
+     * @params None
+     * @return ustring  String containing SPICE deck lines
+     * 
+     */
+    Glib::ustring get_spice_lines()
+    {
+        Glib::ustring ret = "";
+        for(auto it = _lines.begin(); it != _lines.end(); ++it)
+            if(it+1 != _lines.end())
+                ret.append((*it) + "\n");
+            else
+                ret.append(*it);
+        return ret;
+    }
+
     /* @brief Print the SPICE deck 
      * @params None
      * 
@@ -90,8 +106,6 @@ protected:
     std::vector<Glib::ustring> _lines;
 };
 
-
-class SubcircuitDeck : public SpiceDeck
-{};
+typedef SpiceDeck SpiceSubcircuitDeck;
 
 #endif /* SPICE_DECK_H */
