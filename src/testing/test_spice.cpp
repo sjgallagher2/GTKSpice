@@ -122,6 +122,7 @@ void test_spice()
     transim.tstep="400";
     SpiceEndDirective end;
 
+    // Spice deck
     SpiceDeck deck;
     deck.add_line(title.get_spice_line()); // Title
     deck.add_line(stn3nf06l.get_spice_lines());

@@ -27,6 +27,7 @@ struct ComponentParameters
     bool filled;
     bool editable;
     bool selectable;
+    double red,green,blue,alpha;
 };
 
 struct LineParameters

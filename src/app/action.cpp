@@ -114,6 +114,18 @@ std::shared_ptr<Action> ActionFactory::make_action(ActionType action, int index)
 
     return ret;
 }
+std::shared_ptr<Action> ActionFactory::make_action(ActionType action, std::vector<int> indices)
+{
+    std::shared_ptr<Action> ret = nullptr;
+    switch(action)
+    {
+    case REMOVE_LINES:
+        ret = std::make_shared<RemoveLinesAction>(_objecttree, indices);
+        break;
+    }
+
+    return ret;
+}
 
 std::shared_ptr<Action> ActionFactory::make_action(ActionType action, int index, std::vector<int> vertexindices)
 {
@@ -172,6 +184,20 @@ void RemoveLineAction::execute()
 void RemoveLineAction::unexecute()
 {
     _objecttree->add_component(_lp);
+}
+void RemoveLinesAction::execute()
+{
+    _lp.resize(_indices.size());
+    for(int i = 0; i < _indices.size(); i++)
+    {
+        _lp.at(i) = _objecttree->get_line_parameters(_indices.at(i)); // Store line params
+        _objecttree->remove_component("line",_indices.at(i)); // Pop
+    }
+}
+void RemoveLinesAction::unexecute()
+{
+    for(int i = 0; i < _lp.size(); i++)
+        _objecttree->add_component(_lp.at(i));
 }
 void MoveLineAction::execute()
 {

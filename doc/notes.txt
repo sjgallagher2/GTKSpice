@@ -38,34 +38,28 @@ Unlike key accelerators, Tools return fully-formed Actions when their on_click o
 on_key_press callbacks are called. If no Action is required, then a nullptr is 
 returned instead. 
 
--------------------------
-SPICE core
--------------------------
-For SPICE we have the following built-in SPICE elements:
-    Resistors (R)
-	Capacitors (C)
-	Inductors (L)
-	Mutual (coupled) inductors (K L L)
-	Switches (S for switch, W for voltage-controlled switch)
-	Independent and dependent sources (V, I, G, E, F, H, B)
-	Transmission Lines (T, O, U)
-	Diodes (D)
-	BJTs (Q)
-	JFETs (J)
-	MOSFETs (M)
-	MESFETs (Z)
-	Subcircuits (X)
+To create new actions and features, consider the following:
+    1. Do the objects involved in this feature exist? (e.g. Component classes for drawables)
+    2. Do the necessary classes know how to handle this feature? (e.g. ObjectTree having
+        a place for a new type of component)
+    3. What does an Action need in order to invoke things associated with the feature?
+        (e.g. add to the ObjectTree requires access to ObjectTree)
+    4. What information does an object creating the Action need to supply? (e.g. 
+        ComponentParameters)
+    5. Who creates the Action and how does it get to the ActionStack?
 
-Each of these has a number of -element ports-.
+If you can answer these, you're basically done. 
 
-Terminology and syntax: 
-The -name- of an element is the reference designator, like R1, COUT, or Q112. 
-The name of a -model- or -subcircuit- is the unique name given to a model, like 
-2N2222 or LM741, supplied as a model name or subcircuit name to a component. 
-A model -type- is one of 15 possible components (components like NPNs, PNPs, 
-P-channel MESFETs, etc). These include 'R', 'C', 'D', 'NMOS', 'NPN, and 'NJF', 
-among others.
+----------------------------
+Temporary graphics
+----------------------------
+Everything that gets drawn is currently either (a) drawn by the View object (grid,
+origin) or (b) drawn by being stacked on the ObjectTree. So what about temporary
+graphics? For example, selection boxes. These should be temporary objects 
+with a limited lifetime; we could add them to the ObjectTree, but that's not so much
+for objects that aren't part of the actual model; it should be reserved strictly
+for drawing components. 
 
-Some components, particularly passives, have a -value- which is the resistance, 
-or capacitance, or inductance, etc of that component. 
-
+This is where ViewFeatures comes in. This can include methods such as StartTempRectangle()
+and FinishTempRectangle() which simplify the interface and maintain good division of
+purpose. 

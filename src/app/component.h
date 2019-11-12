@@ -122,6 +122,7 @@ public:
     virtual bool active() const {return _is_active;}
     virtual void active(bool a) {_is_active = a;}
     virtual bool is_under_cursor(Coordinate mousepos);
+    virtual bool is_in_selection(const Coordinate& start, const Coordinate& end);
     virtual std::vector<float> get_bounding_box();
     bool mouse_nearby(Coordinate mousepos,float tol=2);
 
@@ -136,7 +137,6 @@ protected:
     void _calculate_bounding_box();
 };
 
-// TODO Finish this up, add selection rectangles
 class Rect : public Component
 {
 public:
@@ -146,7 +146,9 @@ public:
     virtual ~Rect() {}
 
     virtual void draw(Cairo::RefPtr<Cairo::Context> context);
+    virtual void move_anchor(Coordinate newpos);
     virtual void move_corner(Coordinate newpos);
+    virtual void set_params(RectParameters rp) {_rp = rp;}
 
 protected:
     RectParameters _rp;

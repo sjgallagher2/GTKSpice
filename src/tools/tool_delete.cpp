@@ -12,6 +12,7 @@
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <iostream>
 #include <tools/tool_delete.h>
 #include <app/component_params.h>
 
@@ -25,14 +26,27 @@ std::shared_ptr<Action> DeleteTool::tool_click_handler(Coordinate mousepos,int b
         ret = _actionfactory->make_action(REMOVE_LINE,undermouse_index);
     else
     {
-        RectParameters rp;
-        //ret = _actionfactory->make_action(DRAW_RECT);
+        if(button == LEFT_PRESS)
+        {
+            _vfeatures->StartTempRectangle(mousepos);
+            _select_start = mousepos;
+        }
+        else if(button == LEFT_RELEASE)
+        {
+            _vfeatures->FinishTempRectangle();
+            _select_end = mousepos;
+            // Get selected lines, delete them
+            std::vector<int> lines = _objecttree->get_lines_in_selection(_select_start,_select_end);
+            if(!lines.empty())
+                ret = _actionfactory->make_action(REMOVE_LINES,lines);
+        }
     }
     return ret;
 }
 std::shared_ptr<Action> DeleteTool::tool_move_handler(Coordinate mousepos)
 {
     std::shared_ptr<Action> ret = nullptr;
+    _vfeatures->UpdateTempRectangle(mousepos);
     return ret;
 }
 std::shared_ptr<Action> DeleteTool::tool_key_handler(int key,int modifier)

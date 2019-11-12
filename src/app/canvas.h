@@ -32,6 +32,7 @@ class DrawingEventBox;
 class GtkSpiceState;
 class Window;
 class KeyAccelMap;
+class ViewFeatures;
 
 class PointerTool;
 
@@ -47,6 +48,7 @@ public:
     std::shared_ptr<const ObjectTree> get_canvas_object_tree() const {return _objecttree;}
     std::shared_ptr<GtkSpiceState> get_gtkspice_state() const {return _state;}
     std::shared_ptr<ToolManager> get_tool_manager() const {return _toolmgr;}
+    std::shared_ptr<ViewFeatures> get_view_features() const {return _vfeatures;}
 
     void click_handler(Coordinate mousepos, int button, int modifier, int cselect);
     void move_handler(Coordinate mousepos);

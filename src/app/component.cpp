@@ -13,6 +13,7 @@
  */
 
 #include <iostream>
+#include <vector>
 #include <app/component.h>
 #include <app/geometry.h>
 
@@ -111,6 +112,43 @@ bool Line::is_under_cursor(Coordinate mousepos)
     }
     return false;
 }
+
+bool Line::is_in_selection(const Coordinate& start, const Coordinate& end)
+{
+    _calculate_bounding_box();
+    float left,bottom,right,top;
+    if(start.x() < end.x()) 
+    {
+        left = start.x();
+        right = end.x();
+    }
+    else 
+    {
+        left = end.x();
+        right = start.x();
+    }
+    if(start.y() < end.y()) 
+    {
+        top = start.y();
+        bottom = end.y();
+    }
+    else 
+    {
+        top = end.y();
+        bottom = start.y();
+    }
+    bool overBB = false;
+    if(!_bb.empty())
+    {
+        overBB = 
+            (left < _bb.at(0)) && /*left*/
+            (bottom > _bb.at(1)) &&/*bottom*/
+            (right > _bb.at(2)) &&/*right*/
+            (top < _bb.at(3)); /*top*/
+    }
+    return overBB;
+}
+
 std::vector<float> Line::get_bounding_box()
 {
     return _bb;
@@ -139,21 +177,27 @@ Rect::Rect(RectParameters rp) : _rp(rp)
     _type="rectangle";
 }
 
+void Rect::move_anchor(Coordinate newpos)
+{
+    // Move active corner
+    _rp.left = newpos.x();
+    _rp.top = newpos.y();
+}
 void Rect::move_corner(Coordinate newpos)
 {
     // Move active corner
-    _rp.bottom = newpos.y();
     _rp.right = newpos.x();
+    _rp.bottom = newpos.y();
 }
 
 void Rect::draw(Cairo::RefPtr<Cairo::Context> context)
 {
     context->save();
-    context->set_source_rgba(0,0,0,1.0);
-    context->set_line_width(0.1);
+    context->set_source_rgba(_rp.cp.red,_rp.cp.green,_rp.cp.blue,1.0);
+    context->set_line_width(_rp.cp.stroke_thickness);
     context->set_line_cap(Cairo::LINE_CAP_BUTT);
-
-    context->rectangle(_rp.top,_rp.left,(_rp.right - _rp.left),(_rp.top-_rp.bottom));
+    context->set_dash(std::vector<double>{_rp.cp.stroke_thickness},0);
+    context->rectangle(_rp.left,_rp.top,(_rp.right- _rp.left),(_rp.bottom-_rp.top));
 
     context->stroke();
     context->restore();

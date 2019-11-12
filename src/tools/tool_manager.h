@@ -18,6 +18,7 @@
 #include <map>
 #include <app/coordinate_system.h>
 #include <app/object_tree.h>
+#include <gui/view_features.h>
 #include <tools/tool.h>
 #include <tools/tool_component_drag.h>
 #include <tools/tool_component_fliplr.h>
@@ -44,15 +45,17 @@ public:
 
     ToolManager(std::shared_ptr<ActionFactory> af, 
         std::shared_ptr<ObjectTree> ot,
-        std::shared_ptr<CoordinateSystem> cs) :
+        std::shared_ptr<CoordinateSystem> cs,
+        std::shared_ptr<ViewFeatures> vf) :
         _tool_map(std::make_shared<Toolmap>())
     {
         _actionfactory = af;
         _coord_sys = cs;
         _objecttree = ot;
+        _vfeatures = vf;
         _pointer = std::static_pointer_cast<Tool>( std::make_shared<PointerTool>(af,cs) );
         _drawline = std::static_pointer_cast<Tool>( std::make_shared<DrawLineTool>(af,ot) );
-        _delete = std::static_pointer_cast<Tool>( std::make_shared<DeleteTool>(af,ot) );
+        _delete = std::static_pointer_cast<Tool>( std::make_shared<DeleteTool>(af,ot,vf) );
 
         _tool_map->insert(std::pair<ToolTypes,std::shared_ptr<Tool>>(POINTER,_pointer));
         _tool_map->insert(std::pair<ToolTypes,std::shared_ptr<Tool>>(DRAW_LINE,_drawline));
@@ -76,6 +79,7 @@ private:
     std::shared_ptr<ActionFactory> _actionfactory;
     std::shared_ptr<ObjectTree> _objecttree;
     std::shared_ptr<CoordinateSystem> _coord_sys;
+    std::shared_ptr<ViewFeatures> _vfeatures;
     std::shared_ptr<Tool> _pointer; 
     std::shared_ptr<Tool> _drawline;
     std::shared_ptr<Tool> _delete; // TODO Add the other tools

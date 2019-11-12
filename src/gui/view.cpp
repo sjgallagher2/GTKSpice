@@ -22,14 +22,13 @@
 #include <app/object_tree.h>
 #include <app/gtkspice_state.h>
 
-/* THE CAIRO COORDINATE SYSTEM
+/* 
  * When the screen is drawn, on_draw() is called, which provides a context object. It
  * seems like you need to use this context instead of keeping one, which means all changes
  * need to occur in on_draw(). 
  * 
  */
 
-// TODO This needs to be rewritten for new structure
 
 View::View(std::shared_ptr<CoordinateSystem> cs) :
     _cs(cs)
@@ -61,8 +60,6 @@ void View::force_redraw()
 
 bool View::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
 {
-
-    // Cairo context from event, automatically generated
     Gtk::Allocation alloc = get_allocation();
     const int width = alloc.get_width();
     const int height = alloc.get_height();
@@ -83,11 +80,13 @@ bool View::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
     // Now use those to set grid bounds
     _grid.draw_grid(context, _cs->scale(),org.x(),viewarea.x(),org.y(),viewarea.y());
 
+    // Draw ViewFeatures objects
+    if(_vfeatures)
+        _vfeatures->draw_features(context);
+
     // Draw all objects in the object tree
     if(_objecttree)
-    {
         _objecttree->redraw(context);
-    }
 
     // All done
     return true;

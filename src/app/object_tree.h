@@ -53,6 +53,7 @@ public:
     bool has_active_wire();
 
     int get_line_under_cursor(Coordinate mousepos);
+    std::vector<int> get_lines_in_selection(const Coordinate& start, const Coordinate& end);
 
     typedef std::vector<std::shared_ptr<Component>> Tree;
     typedef Tree::iterator OIter;

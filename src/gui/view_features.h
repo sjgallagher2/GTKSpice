@@ -15,14 +15,27 @@
 #ifndef VIEW_FEATURES
 #define VIEW_FEATURES
 
+#include <gtkmm.h>
+#include <vector>
+#include <app/component.h>
+#include <app/component_params.h>
+#include <app/coordinate.h>
+
 class ViewFeatures
 {
 public:
     ViewFeatures();
-    virtual ~ViewFeatures();
+    ~ViewFeatures() {}
 
-protected:
+    void draw_features(const Cairo::RefPtr<Cairo::Context>& context);
 
+    void StartTempRectangle(const Coordinate& mousepos);
+    void UpdateTempRectangle(const Coordinate& mousepos);
+    void FinishTempRectangle();
+
+private:
+    RectParameters _rp;
+    Rect _temp_rect;
 };
 
 #endif /* VIEW_FEATURES */

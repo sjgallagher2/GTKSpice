@@ -62,6 +62,7 @@ enum ActionType
     ADD_LINE,
     APPEND_LINE,
     REMOVE_LINE,
+    REMOVE_LINES,
     MOVE_LINE,
     MOVE_LINE_VERTICES
 };
@@ -91,7 +92,8 @@ public:
         std::shared_ptr<Canvas> canv,
         std::shared_ptr<ActionStack> as,
         std::shared_ptr<GtkSpiceState> state,
-        std::shared_ptr<ToolManager> tlmgr)
+        std::shared_ptr<ToolManager> tlmgr,
+        std::shared_ptr<ViewFeatures> vfeatures)
     {
         _objecttree = ot;
         _schematic = sch;
@@ -99,6 +101,7 @@ public:
         _actionstack = as;
         _state = state;
         _toolmgr = tlmgr;
+        _vfeatures = vfeatures;
     }
 
     std::shared_ptr<Action> make_action(ActionType action);
@@ -106,6 +109,7 @@ public:
     std::shared_ptr<Action> make_action(ActionType action, LineParameters lp);
     std::shared_ptr<Action> make_action(ActionType action, LineParameters lp,std::vector<Vertex> vs);
     std::shared_ptr<Action> make_action(ActionType action, int index);
+    std::shared_ptr<Action> make_action(ActionType action, std::vector<int> index);
     std::shared_ptr<Action> make_action(ActionType action, int index, std::vector<int> vertexindices);
 
 private:
@@ -115,6 +119,7 @@ private:
     std::shared_ptr<ActionStack> _actionstack;
     std::shared_ptr<ToolManager> _toolmgr;
     std::shared_ptr<GtkSpiceState> _state;
+    std::shared_ptr<ViewFeatures> _vfeatures;
 };
 
 class UndoAction : public Action
@@ -208,6 +213,21 @@ protected:
     LineParameters _lp;
     int _index;
 };
+class RemoveLinesAction : public Action
+{
+public:
+    RemoveLinesAction(std::shared_ptr<ObjectTree> ot, std::vector<int> indices) : 
+        _objecttree(ot),_indices(indices){_stackable=true;}
+    virtual ~RemoveLinesAction() {}
+
+    void execute();
+    void unexecute();
+protected:
+    std::shared_ptr<ObjectTree> _objecttree;
+    std::vector<LineParameters> _lp;
+    std::vector<int> _indices;
+
+};
 class MoveLineAction : public Action
 {
 public:
@@ -248,7 +268,7 @@ public:
 
     void execute();
     void unexecute();
-private:
+protected:
     std::shared_ptr<ObjectTree> _objecttree;
     RectParameters _rp;
     bool _stay_active = true;

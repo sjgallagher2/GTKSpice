@@ -201,6 +201,19 @@ int ObjectTree::get_line_under_cursor(Coordinate mousepos)
     }
     return -1;
 }
+std::vector<int> ObjectTree::get_lines_in_selection(const Coordinate& start, const Coordinate& end)
+{
+    std::vector<int> linelist;
+    if(!_linetree.empty())
+    {
+        for(OIter t = _linetree.end()-1; t >= _linetree.begin(); --t)
+        {
+            if(std::static_pointer_cast<Line>(*t)->is_in_selection(start,end))
+                linelist.push_back((*t)->index());
+        }
+    }
+    return linelist;
+}
 
 ObjectTree::OIter ObjectTree::_get_active_line()
 {

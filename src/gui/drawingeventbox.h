@@ -19,6 +19,7 @@
 #include <gtkmm/eventbox.h>
 #include <cairomm/matrix.h>
 #include <app/object_tree.h>
+#include <gui/view_features.h>
 #include <gui/drawingeventbox_keyaccel.h>
 #include <gui/view.h>
 
@@ -38,6 +39,7 @@ public:
     virtual ~DrawingEventBox();
 
     void set_object_tree(std::shared_ptr<ObjectTree> ot); 
+    void set_view_features(std::shared_ptr<ViewFeatures> vf);
 
     Cairo::Matrix get_view_matrix() const {return _view_mat;}
     

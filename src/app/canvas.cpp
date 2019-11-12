@@ -28,13 +28,15 @@ Canvas::Canvas(std::shared_ptr<Window> toplevel,
     _objecttree(ot),
     _state( std::make_shared<GtkSpiceState>() ),
     _actionfactory(af),
-    _cs( std::make_shared<CoordinateSystem>() )
+    _cs( std::make_shared<CoordinateSystem>() ),
+    _vfeatures( std::make_shared<ViewFeatures>() )
 {
     send_test = true;
     _ebox = std::make_shared<DrawingEventBox>(_cs);
-    _toolmgr = std::make_shared<ToolManager>(_actionfactory,_objecttree,_cs);
+    _toolmgr = std::make_shared<ToolManager>(_actionfactory,_objecttree,_cs,_vfeatures);
     // Set the object tree for the view
     _ebox->set_object_tree(_objecttree);
+    _ebox->set_view_features(_vfeatures);
     // Add the event box for this canvas to the toplevel window and show
     _toplevel->add(*_ebox);
     _ebox->show();

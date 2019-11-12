@@ -34,7 +34,8 @@ Workspace::Workspace(std::shared_ptr<Window> toplevel) :
         _objecttree,
         _schem,_canvas,_actionstack,
         _canvas->get_gtkspice_state(),
-        _canvas->get_tool_manager());
+        _canvas->get_tool_manager(),
+        _canvas->get_view_features());
 
     _canvas->new_action().connect(sigc::mem_fun(*this,&Workspace::get_action));
     _canvas->new_cursor().connect(sigc::mem_fun(*this,&Workspace::get_cursor));

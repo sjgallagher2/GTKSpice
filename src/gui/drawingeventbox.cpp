@@ -45,22 +45,20 @@ void DrawingEventBox::set_object_tree(std::shared_ptr<ObjectTree> ot)
 {
     _v->set_object_tree(ot);
 }
+void DrawingEventBox::set_view_features(std::shared_ptr<ViewFeatures> vf)
+{
+    _v->set_view_features(vf);
+}
 
 
 bool DrawingEventBox::on_mouse_cross_event(GdkEventCrossing* cross_event)
 {
     if(cross_event->type == GDK_ENTER_NOTIFY)
     {
-        // TODO Set new cursor depending on tool
-        // Set cursor to tool-specific cursor
- //       auto win = _v.get_window();
- //       win->set_cursor(_v.get_cursor());
-
     }
     else if(cross_event->type == GDK_LEAVE_NOTIFY)
     {
         // Set cursor to default
-        //auto win = _v.get_window();
         _v->unset_cursor();
     }
     _v->force_redraw();
