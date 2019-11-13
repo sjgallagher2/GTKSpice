@@ -89,5 +89,15 @@ private:
     bool _is_active = false;
 };
 
+struct BoundingBox
+{
+    Coordinate anchor; // Bottom left corner
+    double width,height;
+    bool contains(Coordinate pos)
+    {
+        // Check if pos is within the bounding box
+    }
+};
+
 
 #endif /* COORDINATE_H */

@@ -63,3 +63,75 @@ for drawing components.
 This is where ViewFeatures comes in. This can include methods such as StartTempRectangle()
 and FinishTempRectangle() which simplify the interface and maintain good division of
 purpose. 
+
+---------------------------------
+Actions and the Object Model 
+---------------------------------
+Components that have been placed on the schematic are stored in the ObjectTree.
+These objects are modified by either (a) accessing the ObjectTree directly, or 
+(b) passing actions that can be undone. Sometimes a feature will require both of these.
+For example, when moving a component, we only want to overall move action to be 
+undoable, so that should be an Action. In between, however, the component is being 
+dragged around, and on each on_draw() we need to update its position via the 
+ObjectTree. We don't want a bunch of tiny Actions, so we want to mark a component 
+to be in the process of being moved. When the final move is completed, an Action 
+should be used to finalize the new position in an undoable manner. 
+
+The mark that something should follow the mouse is the "active" property. 
+
+Note:
+Don't be afraid to manipulate the ObjectTree directly. The Actions are only there 
+so things can be undone. If something doesn't need to be undoable, it doesn't
+require an Action. 
+
+When a component is active, you can call functions like move_line_vertex().
+This automatically applies to the active object(s) of some type. When we're 
+handling a tool, we assume that there is an active element, and we ask the 
+ObjectTree to perform some task, like moving a Component. Only when the user 
+triggers a callback do we need to initialize an actual Component to be active,
+and this we do with an Action. Then when everything is done, we simply unset
+the Component's active property. In the unexecute() method for the Action, we
+must be careful to store the up-to-date information about the component for any 
+redos. 
+
+
+==========================================
+on_draw() holds a reference to the ObjectTree, and only uses it to call ObjectTree::redraw().
+The ObjectTree is currently responsible for:
+    (a) Adding and removing components 
+    (b) Indexing components 
+    (c) Storing components
+    (d) Providing an interface for accessing components 
+There is a toplevel Tree object, an a Tree object for each type of component 
+within. These are either primitives (points, lines, rectangles) or components 
+(which are made of primitives).
+
+
+
+######################
+NEW OBJECT MODEL
+######################
+Make an object model with a parent Object class, Primitive classes (Line, Rect, 
+Circle, Text), and a CompositeObject class (made up a Symbol and other CompositeObjects). 
+Every Object should be uniquely indexed and should be accessible. Objects should be 
+able to be "active" and should have a draw() function which accepts a Cairo::Context. 
+All objects must have locations and bounding boxes, and given a coordinate we should 
+be able to find different objects which are at or near that location.
+
+Every Object should have a Symbol class which stores drawing information specific to 
+that Object (excluding generic non-editable elements like highlights). Symbols should 
+have drawing settings including stroke and fill settings. The Symbol should be made 
+up of Primitives, Pins, and SymbolAttributes. Pins should also have PinAttributes. 
+
+An Object factory should be used to create Objects based on ObjectParameters classes. 
+Objects should also have non-editable and optionally visible elements such as vertex 
+handlers. Objects should have optional Text which can print the index, name, etc of 
+the Object, and the Text should be moveable by itself, while also moving with the Object.
+
+A Wire class should exist which allows addition to a line, and only orthogonal 
+('ortho') lines are allowed. The ortho mode should have two options, one for 
+each of the two ortho paths that exist between two points. The Wire class should 
+be able to connect nodes of Objects. Moving the wire should not break the connections. 
+Moving the wire should also maintain orthogonality, and should not create awkward 
+overhangs around corners. Vertices which are redundent should be eliminated automatically.
+

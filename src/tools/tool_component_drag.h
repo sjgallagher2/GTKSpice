@@ -14,5 +14,23 @@
 #ifndef TOOL_COMPONENT_DRAG_H
 #define TOOL_COMPONENT_DRAG_H
 
+#include <memory>
+#include <app/object_tree.h>
+#include <app/action.h>
+#include <tools/tool.h>
+#include <tools/tool_component.h>
+
+class DragComponentTool : public ComponentTool 
+{
+public:
+    DragComponentTool(std::shared_ptr<ActionFactory> af,
+        std::shared_ptr<ObjectTree> ot) : ComponentTool(af, ot) {}
+    virtual ~DragComponentTool() {}
+
+    virtual std::shared_ptr<Action> tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect);
+    virtual std::shared_ptr<Action> tool_move_handler(Coordinate mousepos);
+    virtual std::shared_ptr<Action> tool_key_handler(int key,int modifier);
+    virtual Glib::ustring get_tool_cursor_name() {return "grabbing";}
+};
 
 #endif /* TOOL_COMPONENT_DRAG_H */

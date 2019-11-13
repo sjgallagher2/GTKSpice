@@ -1,0 +1,3 @@
+BUG: Change to line tool, click, drag around, press ESC, undo, then redo,
+and you get a segmentation fault
+

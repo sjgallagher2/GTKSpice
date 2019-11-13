@@ -81,15 +81,17 @@
 struct SpiceElement
 {
     typedef Glib::ustring Datafield;
-    Datafield name; // Reference designator, must start with element letter
+    Datafield name; // Reference designator, following prefix (e.g. R143 is prefix R + name 123)
     Datafield nodes;
 
     virtual Glib::ustring get_spice_line()
     {
         Glib::ustring ret  = "";
-        ret = name+" "+nodes;
+        ret = prefix+name+" "+nodes;
         return ret.uppercase();
     }
+protected:
+    Datafield prefix; // Element letter
 };
 
 /* @form RXXXXXXX N1 N2 VALUE */
@@ -99,40 +101,51 @@ struct SpicePassive : public SpiceElement
     virtual Glib::ustring get_spice_line()
     {
         Glib::ustring ret  = "";
-        ret = name+" "+nodes+" "+value;
+        ret = prefix+name+" "+nodes+" "+value;
         return ret.uppercase();
     }
 };
 
 
 /* @form RXXXXXXX N1 N2 VALUE */
-typedef SpicePassive SpiceResistor;
+struct SpiceResistor : public SpicePassive
+{
+    SpiceResistor() {prefix = "R";}
+};
 
-/* @form CXXXXXXX N+ N- VALUE <IC=INCOND> */
 struct SpiceReactive : public SpicePassive
 {
     Glib::ustring ic; // Initial condition in V or A
     virtual Glib::ustring get_spice_line()
     {
         Glib::ustring ret;
-        ret = name+" "+nodes+" "+value;
+        ret = prefix+name+" "+nodes+" "+value;
         if(!ic.empty())
             ret.append(" "+ic);
         return ret.uppercase();
     }
 };
-typedef SpiceReactive SpiceCapacitor;
-typedef SpiceReactive SpiceInductor;
+/* @form CXXXXXXX N+ N- VALUE <IC=INCOND> */
+struct SpiceCapacitor : public SpiceReactive
+{
+    SpiceCapacitor() {prefix = "C";}
+};
+/* @form LXXXXXXX N+ N- VALUE <IC=INCOND> */
+struct SpiceInductor : public SpiceReactive
+{
+    SpiceInductor() {prefix = "L";}
+};
 
 /* @form KXXXXXXX LYYYYYYYY LZZZZZZZ VALUE  */
 struct SpiceCoupledInductors : public SpiceElement
 {
+    SpiceCoupledInductors() {prefix="K";}
     Datafield L1,L2; // Names of coupled inductors
     Datafield value; // Coefficient of coupling, 0 < K < 1
     virtual Glib::ustring get_spice_line()
     {
         Glib::ustring ret  = "";
-        ret = name+" "+L1+" "+L2+" "+value;
+        ret = prefix+name+" "+L1+" "+L2+" "+value;
         return ret.uppercase();
     }
 };
@@ -140,6 +153,7 @@ struct SpiceCoupledInductors : public SpiceElement
 /* @form RXXXXXXX N1 N2 <VALUE> <MNAME> <L=LENGTH> <W=WIDTH> <TEMP=T>  */
 struct SpiceSemiconductorResistor : public SpiceResistor
 {
+    SpiceSemiconductorResistor() {prefix="R";}
     Datafield modelname;
     Datafield length;
     Datafield width;
@@ -147,7 +161,7 @@ struct SpiceSemiconductorResistor : public SpiceResistor
     virtual Glib::ustring get_spice_line()
     {
         Glib::ustring ret  = "";
-        ret.append(name+" "+nodes);
+        ret.append(prefix+name+" "+nodes);
         if(!value.empty())
             ret.append(" "+value);
         if(!modelname.empty())
@@ -164,13 +178,14 @@ struct SpiceSemiconductorResistor : public SpiceResistor
 /* @form CXXXXXXX N1 N2 <VALUE> <MNAME> <L=LENGTH> <W=WIDTH> <IC=VAL>  */
 struct SpiceSemiconductorCapacitor : public SpiceCapacitor
 {
+    SpiceSemiconductorCapacitor() {prefix="C";}
     Datafield modelname;
     Datafield length;
     Datafield width;
     virtual Glib::ustring get_spice_line()
     {
         Glib::ustring ret  = "";
-        ret = name+" "+nodes;
+        ret = prefix+name+" "+nodes;
         if(!value.empty())
             ret.append(" "+value);
         if(!modelname.empty())
@@ -192,7 +207,7 @@ struct SpiceSwitch : public SpiceElement
     virtual Glib::ustring get_spice_line()
     {
         Glib::ustring ret  = "";
-        ret = name+" "+nodes+" "+modelname;
+        ret = prefix+name+" "+nodes+" "+modelname;
         if(!value.empty())
             ret.append(" "+value);
         return ret.uppercase();
@@ -202,13 +217,14 @@ struct SpiceSwitch : public SpiceElement
 /* @form SXXXXXXX N+ N- NC+ NC- MODEL <ON><OFF>  */
 struct SpiceVoltageControlledSwitch : public SpiceSwitch
 {
+    SpiceVoltageControlledSwitch() {prefix="S";}
     Datafield modelname;
     Datafield value;
 
     virtual Glib::ustring get_spice_line()
     {
         Glib::ustring ret  = "";
-        ret = name+" "+nodes;
+        ret = prefix+name+" "+nodes;
         if(!modelname.empty())
             ret.append(" "+modelname);
         if(!value.empty())
@@ -220,11 +236,12 @@ struct SpiceVoltageControlledSwitch : public SpiceSwitch
 /* @form WXXXXXXX N+ N- VNAM MODEL <ON><OFF>  */
 struct SpiceCurrentControlledSwitch : public SpiceSwitch
 {
+    SpiceCurrentControlledSwitch() {prefix="W";}
     Datafield vnam; // Name of voltage supplying current
     virtual Glib::ustring get_spice_line()
     {
         Glib::ustring ret  = "";
-        ret = name+" "+nodes;
+        ret = prefix+name+" "+nodes;
         if(!value.empty())
             ret.append(value);
         return ret.uppercase();
@@ -252,7 +269,7 @@ struct SpiceIndependentSource : public SpiceElement
     virtual Glib::ustring get_spice_line()
     {
         Glib::ustring ret  = "";
-        ret = name+" "+nodes;
+        ret = prefix+name+" "+nodes;
         if(!dc_value.empty())
         {
             if(!dc.empty())
@@ -293,9 +310,15 @@ struct SpiceIndependentSource : public SpiceElement
     }
 };
 /* @form VXXXXXXX N+ N- <<DC> DC/TRAN VALUE> <AC <ACMAG <ACPHASE>>> <DISTOF1 <F1MAG <F1PHASE>>> <DISTOF2 <F2MAG <F2PHASE>>>  */
-typedef SpiceIndependentSource SpiceIndependentVoltage;
+struct SpiceIndependentVoltageSource : SpiceIndependentSource
+{
+    SpiceIndependentVoltageSource() {prefix="V";}
+};
 /* @form IYYYYYYY N+ N- <<DC> DC/TRAN VALUE> <AC <ACMAG <ACPHASE>>> <DISTOF1 <F1MAG <F1PHASE>>> <DISTOF2 <F2MAG <F2PHASE>>>  */
-typedef SpiceIndependentSource SpiceIndependentCurrent;
+struct SpiceIndependentCurrentSource : SpiceIndependentSource
+{
+    SpiceIndependentCurrentSource() {prefix="I";}
+};
 
 // These are time-dependent values for transient analysis
 /* @form PULSE(V1 V2 TD TR TF PW PER)    */
@@ -401,32 +424,45 @@ struct SpiceLinearDependentSource : public SpiceElement
     virtual Glib::ustring get_spice_line()
     {
         Glib::ustring ret  = "";
-        ret = name+" "+nodes+" "+value;
+        ret = prefix+name+" "+nodes+" "+value;
         return ret.uppercase();
     }
 };
 
 /* @form GXXXXXXX N+ N- NC+ NC- VALUE    */
-typedef SpiceLinearDependentSource SpiceLinearVCCS;
+struct SpiceLinearVCCS : public SpiceLinearDependentSource 
+{
+    SpiceLinearVCCS() {prefix = "G";}
+};
 
 /* @form EXXXXXXX N+ N- NC+ NC- VALUE    */
-typedef SpiceLinearDependentSource SpiceLinearVCVS;
+struct SpiceLinearVCVS : public SpiceLinearDependentSource 
+{
+    SpiceLinearVCVS() {prefix = "E";}
+};
 
 /* @form FXXXXXXX N+ N- VNAM VALUE    */
-typedef SpiceLinearDependentSource SpiceLinearCCCS;
+struct SpiceLinearCCCS : public SpiceLinearDependentSource 
+{
+    SpiceLinearCCCS() {prefix = "F";}
+};
 
 /* @form HXXXXXXX N+ N- VNAM VALUE    */
-typedef SpiceLinearDependentSource SpiceLinearCCVS;
+struct SpiceLinearCCVS : public SpiceLinearDependentSource 
+{
+    SpiceLinearCCVS() {prefix = "H";}
+};
 
 /* @form BXXXXXXX N+ N- <I=EXPR> <V=EXPR>    */
 struct SpiceNonlinearDependentSource : public SpiceElement
 {
+    SpiceNonlinearDependentSource() {prefix="B";}
     Datafield Iexpr;
     Datafield Vexpr;
     virtual Glib::ustring get_spice_line()
     {
         Glib::ustring ret  = "";
-        ret = name+" "+nodes;
+        ret = prefix+name+" "+nodes;
         if(!Iexpr.empty())
             ret = ret + " I="+Iexpr;
         if(!Vexpr.empty())
@@ -438,6 +474,7 @@ struct SpiceNonlinearDependentSource : public SpiceElement
 /* @form TXXXXXXX N1 N2 N3 N4 Z0=VALUE <TD=VALUE> <F=FREQ <NL=NRMLEN>> <IC=V1, I1, V2, I2>  */
 struct SpiceLosslessTL : public SpiceElement
 {
+    SpiceLosslessTL() {prefix="T";}
     Datafield Z0;
     Datafield td;
     Datafield f;
@@ -446,7 +483,7 @@ struct SpiceLosslessTL : public SpiceElement
     virtual Glib::ustring get_spice_line()
     {
         Glib::ustring ret  = "";
-        ret = name+" "+nodes+" "+Z0;
+        ret = prefix+name+" "+nodes+" "+Z0;
         if(!td.empty())
             ret = ret+" TD="+td;
         if(!td.empty())
@@ -462,11 +499,12 @@ struct SpiceLosslessTL : public SpiceElement
 /* @form OXXXXXXX N1 N2 N3 N4 MNAME   */
 struct SpiceLossyTL : public SpiceElement
 {
+    SpiceLossyTL() {prefix="O";}
     Datafield modelname;
     virtual Glib::ustring get_spice_line()
     {
         Glib::ustring ret  = "";
-        ret = name+" "+nodes+" "+modelname;
+        ret = prefix+name+" "+nodes+" "+modelname;
         return ret.uppercase();
     }
 };
@@ -474,13 +512,14 @@ struct SpiceLossyTL : public SpiceElement
 /* @form UXXXXXXX N1 N2 N3 MNAME L=LEN <N=LUMPS>   */
 struct SpiceLossyUniformDistributedRCLine : public SpiceElement
 {
+    SpiceLossyUniformDistributedRCLine() {prefix="U";}
     Datafield modelname;
     Datafield len;
     Datafield lumps;
     virtual Glib::ustring get_spice_line()
     {
         Glib::ustring ret  = "";
-        ret = name+" "+nodes+" "+modelname;
+        ret = prefix+name+" "+nodes+" "+modelname;
         if(!len.empty())
             ret.append(" L="+len);
         if(!lumps.empty())
@@ -499,7 +538,7 @@ struct SpiceSemiconductor : public SpiceElement
     virtual Glib::ustring get_spice_line()
     {
         Glib::ustring ret  = "";
-        ret = name+" "+nodes+" "+modelname;
+        ret = prefix+name+" "+nodes+" "+modelname;
         if(!area.empty())
             ret.append(" "+area);
         if(!off.empty())
@@ -513,19 +552,29 @@ struct SpiceSemiconductor : public SpiceElement
 };
 
 /* @form DXXXXXXX N+ N- MNAME <AREA> <OFF> <IC=VD> <TEMP=T> */
-typedef SpiceSemiconductor SpiceJunctionDiode;
+struct SpiceJunctionDiode : public SpiceSemiconductor
+{
+    SpiceJunctionDiode() {prefix = "D";}
+};
 
 /* @form QXXXXXXX NC NB NE <NS> MNAME <AREA> <OFF> <IC=VBE, VCE> <TEMP=T> */
-typedef SpiceSemiconductor SpiceBJT;
+struct SpiceBJT : public SpiceSemiconductor
+{
+    SpiceBJT() {prefix = "Q";}
+};
 
 /* @form JXXXXXXX ND NG NS MNAME <AREA> <OFF> <IC=VDS, VGS> <TEMP=T> */
-typedef SpiceSemiconductor SpiceJFET;
+struct SpiceJFET : public SpiceSemiconductor
+{
+    SpiceJFET() {prefix = "J";}
+};
 
 /* @form MXXXXXXX ND NG NS NB MNAME <L=VAL> <W=VAL> <AD=VAL> <AS=VAL>
          + <PD=VAL> <PS=VAL> <NRD=VAL> <NRS=VAL> <OFF>
          + <IC=VDS, VGS, VBS> <TEMP=T> */
 struct SpiceMOSFET : public SpiceElement
 {
+    SpiceMOSFET() {prefix="M";}
     Datafield modelname;
     Datafield L;
     Datafield W;
@@ -541,7 +590,7 @@ struct SpiceMOSFET : public SpiceElement
     virtual Glib::ustring get_spice_line()
     {
         Glib::ustring ret  = "";
-        ret = name+" "+nodes+" "+modelname;
+        ret = prefix+name+" "+nodes+" "+modelname;
         if(!L.empty())
             ret.append(" L="+L);
         if(!W.empty())
@@ -571,6 +620,7 @@ struct SpiceMOSFET : public SpiceElement
 /* @form ZXXXXXXX ND NG NS MNAME <AREA> <OFF> <IC=VDS, VGS> */
 struct SpiceMESFET : public SpiceElement
 {
+    SpiceMESFET() {prefix="Z";}
     Datafield modelname;
     Datafield area;
     Datafield off;
@@ -578,7 +628,7 @@ struct SpiceMESFET : public SpiceElement
     virtual Glib::ustring get_spice_line()
     {
         Glib::ustring ret;
-        ret = name+" "+nodes+" "+modelname;
+        ret = prefix+name+" "+nodes+" "+modelname;
         if(!area.empty())
             ret.append(" "+area);
         if(!off.empty())
@@ -594,11 +644,12 @@ struct SpiceMESFET : public SpiceElement
  */
 struct SpiceSubcircuit : public SpiceElement
 {
+    SpiceSubcircuit() {prefix="X";}
     Datafield subname;
     virtual Glib::ustring get_spice_line()
     {
         Glib::ustring ret;
-        ret = name+" "+nodes+" "+subname;
+        ret = prefix+name+" "+nodes+" "+subname;
         return ret.uppercase();
     }
 };

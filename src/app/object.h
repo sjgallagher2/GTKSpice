@@ -12,37 +12,37 @@
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <app/gtkspice.h>
-#include <app/object_tree.h>
+#ifndef GTKSPICE_OBJECT_H
+#define GTKSPICE_OBJECT_H
 
-class Window;
+#include <gtkmm.h>
+#include <memory>
+#include <app/coordinate.h>
+#include <app/object_symbol.h>
 
-/* APPLICATION */
-GTKSpice::GTKSpice():
-	Gtk::Application("com.gtkspice.GTKSpice", Gio::APPLICATION_HANDLES_OPEN)
+class Object 
 {
-}
+public:
+    int index;
+    bool active;
+    void draw(Cairo::Context);
+    Coordinate anchor;
+    BoundingBox boundingbox;
+    
+    ObjectSymbol symbol;
+    
+    bool near(Coordinate); // Return true if Coordinate is in the BoundingBox
+    bool on(Coordinate); // Return true if Coordinate is on the Symbol
+};
 
-void GTKSpice::on_activate()
-{
-	// Startup procedure (where there are no input args)
-	// Initialize
-	_win = std::make_shared<Window>();
-	add_window(*_win);
-	_schemspace = std::make_shared<Workspace>(_win);
-	_win->present();
-}
 
-Glib::RefPtr<GTKSpice> GTKSpice::create()
-{
-	return Glib::RefPtr<GTKSpice>(new GTKSpice());
-}
-void test_spice();
-int main(int argc, char* argv[])
-{
-	auto app =
-			GTKSpice::create();
-	test_spice();
-	return app->run();
-}
+class CompositeObject : public Object 
+{};
 
+class Wire : public Object 
+{};
+
+class ObjectFactory 
+{};
+
+#endif /* GTKSPICE_OBJECT_H */

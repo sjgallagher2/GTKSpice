@@ -1,6 +1,6 @@
 format 222
 "gtkspice"
-  revision 3
+  revision 4
   modified_by 88 "sam"
 
 
@@ -8,7 +8,7 @@ format 222
   // class settings
   default_attribute_visibility private default_relation_visibility private default_operation_visibility public
   
-  classdiagramsettings draw_all_relations yes hide_attributes no hide_operations no hide_getset_operations no hide_ports no show_members_full_definition no show_members_visibility no show_members_stereotype no show_members_context no show_members_multiplicity no show_members_initialization no show_attribute_modifiers no member_max_width 127 show_parameter_dir yes show_parameter_name yes package_name_in_tab no class_drawing_mode natural drawing_language uml show_context_mode no auto_label_position yes show_relation_modifiers no show_relation_visibility no show_infonote no shadow yes gradient none show_stereotype_properties no end
+  classdiagramsettings draw_all_relations yes hide_attributes no hide_operations no hide_getset_operations no hide_ports no show_members_full_definition no show_members_visibility no show_members_stereotype no show_members_context no show_members_multiplicity no show_members_initialization no show_attribute_modifiers no member_max_width 127 show_parameter_dir yes show_parameter_name yes package_name_in_tab no class_drawing_mode natural drawing_language c++ show_context_mode no auto_label_position yes show_relation_modifiers no show_relation_visibility no show_infonote no shadow yes gradient none show_stereotype_properties no end
   
   classcompositediagramsettings auto_label_position yes draw_all_relations yes shadow yes gradient none end
   
@@ -34,7 +34,7 @@ format 222
   activitydiagramsettings package_name_in_tab no show_context_mode no show_opaque_action_definition no auto_label_position yes write_label_horizontally no draw_all_relations yes shadow yes gradient none
    show_infonote yes drawing_language uml show_stereotype_properties no end
   
-  class_color yellow duration_color transparent continuation_color gray note_color blue fragment_color transparent subject_color transparent usecase_color yellow package_color transparent component_color green artifact_color green deploymentnode_color gray state_color yellow stateaction_color transparent activity_color transparent activityregion_color transparent activitypartition_color transparent activityaction_color transparent parameterpin_color white generalization_color black 
+  class_color white duration_color transparent continuation_color gray note_color mediumyellow fragment_color transparent subject_color transparent usecase_color yellow package_color transparent component_color green artifact_color green deploymentnode_color gray state_color white stateaction_color transparent activity_color transparent activityregion_color transparent activitypartition_color transparent activityaction_color transparent parameterpin_color white generalization_color black 
   dpi 96
   font_size 11
   diagram_format A4
@@ -1056,6 +1056,394 @@ ${inlines}
       classrelation 148696 // <association>
 	relation_ref 144728 // <association>
       end
+    end
+  end
+
+  classview 134616 "objectmodel"
+    
+    classdiagramsettings member_max_width 0 end
+    
+    classcompositediagramsettings end
+    
+    collaborationdiagramsettings end
+    
+    objectdiagramsettings end
+    
+    objectcompositediagramsettings end
+    
+    sequencediagramsettings end
+    
+    statediagramsettings
+     end
+    
+    
+    activitydiagramsettings
+     end
+    class 150872 "Object"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 156760 // <association>
+	relation 152664 ----
+	  a role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 156760 // <association>
+	  b role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 156888 // <association>
+      end
+
+      classrelation 157016 // <aggregation>
+	relation 152792 o---
+	  a role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 157016 // <aggregation>
+	  b role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 157144 // <aggregation>
+      end
+
+      classrelation 157272 // <aggregation>
+	relation 152920 o---
+	  a role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 157272 // <aggregation>
+	  b role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 157400 // <aggregation>
+      end
+
+      classrelation 157528 // <aggregation>
+	relation 153048 o---
+	  a role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 157528 // <aggregation>
+	  b role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} * ${name}${value};
+"
+	    classrelation_ref 157656 // <aggregation>
+      end
+
+      classrelation 157784 // <composition>
+	relation 153176 *---
+	  a role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 157784 // <composition>
+	  b role_name "" private
+	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
+"
+	    classrelation_ref 157912 // <composition>
+      end
+    end
+
+    class 151000 "Symbol"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 157656 // <aggregation>
+	relation_ref 153048 // <aggregation>
+      end
+    end
+
+    class 151128 "Primitive"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 156504 // <generalisation>
+	relation 152408 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 156504 // <generalisation>
+	  b parent class_ref 150872 // Object
+      end
+    end
+
+    class 151256 "ObjectFactory"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 156888 // <association>
+	relation_ref 152664 // <association>
+      end
+    end
+
+    class 151384 "Line"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 155480 // <generalisation>
+	relation 151384 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 155480 // <generalisation>
+	  b parent class_ref 151128 // Primitive
+      end
+    end
+
+    class 151512 "Rect"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 155608 // <generalisation>
+	relation 151512 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 155608 // <generalisation>
+	  b parent class_ref 151128 // Primitive
+      end
+    end
+
+    class 151640 "Circle"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 155736 // <generalisation>
+	relation 151640 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 155736 // <generalisation>
+	  b parent class_ref 151128 // Primitive
+      end
+    end
+
+    class 152536 "Polygon"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 155992 // <generalisation>
+	relation 151896 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 155992 // <generalisation>
+	  b parent class_ref 151128 // Primitive
+      end
+    end
+
+    class 151768 "Text"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 155864 // <generalisation>
+	relation 151768 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 155864 // <generalisation>
+	  b parent class_ref 151128 // Primitive
+      end
+    end
+
+    class 151896 "CompositeObject"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 156632 // <generalisation>
+	relation 152536 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 156632 // <generalisation>
+	  b parent class_ref 150872 // Object
+      end
+    end
+
+    class 152024 "Wire"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 156376 // <generalisation>
+	relation 152280 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 156376 // <generalisation>
+	  b parent class_ref 150872 // Object
+      end
+    end
+
+    class 152152 "DrawSettings"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+    end
+
+    class 152280 "StrokeSettings"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 156248 // <generalisation>
+	relation 152152 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 156248 // <generalisation>
+	  b parent class_ref 152152 // DrawSettings
+      end
+
+      classrelation 157400 // <aggregation>
+	relation_ref 152920 // <aggregation>
+      end
+    end
+
+    class 152408 "FillSettings"
+      visibility package 
+      cpp_decl "${comment}${template}class ${name}${inherit} {
+${members}};
+${inlines}
+"
+      java_decl ""
+      php_decl ""
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      mysql_decl ""
+      
+      classrelation 156120 // <generalisation>
+	relation 152024 ---|>
+	  a public
+	    cpp default "${type}"
+	    classrelation_ref 156120 // <generalisation>
+	  b parent class_ref 152152 // DrawSettings
+      end
+
+      classrelation 157144 // <aggregation>
+	relation_ref 152792 // <aggregation>
+      end
+
+      classrelation 157912 // <composition>
+	relation_ref 153176 // <composition>
+      end
+    end
+
+    classdiagram 134744 "objectmodel-overview"
+      classdiagramsettings member_max_width 0 end
+      size A4-Landscape
+    end
+
+    classdiagram 134872 "objectmodel-Object"
+      classdiagramsettings member_max_width 0 end
+      size A4
     end
   end
 end

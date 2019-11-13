@@ -12,9 +12,6 @@
  * along with GTKSpice.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* Data structure for storing and drawing objects in order
- *
- */
 
 #ifndef OBJECT_TREE_H
 #define OBJECT_TREE_H
@@ -26,6 +23,9 @@
 #include <app/component.h>
 
 
+/* @brief Data structure for storing and drawing objects in order
+ *
+ */
 class ObjectTree
 {
 public:
@@ -51,6 +51,7 @@ public:
 
     bool has_active_line();
     bool has_active_wire();
+    bool has_active_vertex();
 
     int get_line_under_cursor(Coordinate mousepos);
     std::vector<int> get_lines_in_selection(const Coordinate& start, const Coordinate& end);

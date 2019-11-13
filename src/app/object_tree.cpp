@@ -185,7 +185,9 @@ bool ObjectTree::has_active_line()
         return true;
     return false;
 }
-
+bool ObjectTree::has_active_vertex()
+{
+}
 // TODO Make this general for components
 int ObjectTree::get_line_under_cursor(Coordinate mousepos)
 {

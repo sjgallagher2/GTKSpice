@@ -14,5 +14,26 @@
 #ifndef TOOL_COMPONENT_H
 #define TOOL_COMPONENT_H
 
+#include <memory>
+#include <app/object_tree.h>
+#include <app/action.h>
+#include <tools/tool.h>
+#include <app/coordinate.h>
+
+class ComponentTool : public Tool 
+{
+public:
+    ComponentTool(std::shared_ptr<ActionFactory> af, 
+        std::shared_ptr<ObjectTree> ot) : Tool(af),_objecttree(ot) {}
+    virtual ~ComponentTool() {}
+
+    virtual std::shared_ptr<Action> tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect) = 0;
+    virtual std::shared_ptr<Action> tool_move_handler(Coordinate mousepos) = 0;
+    virtual std::shared_ptr<Action> tool_key_handler(int key,int modifier) = 0;
+    virtual Glib::ustring get_tool_cursor_name() = 0;
+
+protected:
+    std::shared_ptr<ObjectTree> _objecttree;
+};
 
 #endif /* TOOL_COMPONENT_H */
