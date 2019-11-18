@@ -17,6 +17,7 @@
 
 #include <memory>
 #include <vector>
+#include <map>
 #include <app/coordinate.h>
 #include <app/draw_primitives.h>
 
@@ -35,17 +36,42 @@ typedef std::vector<std::shared_ptr<Primitive>> ObjectGeometry;
 class ObjectSymbol 
 {
 public:
-    ObjectSymbol() {init_attributes();}
-    bool under(Coordinate pos); // Return true if visible and selectable parts of Symbol are (almost) under pos
+    ObjectSymbol() {init_attributes();} // TODO Overload constructor for input _geometry and pins
+	ObjectSymbol(ObjectGeometry geom, std::vector<SymbolPin> pins, Coordinate pos, bool visible = true);
+    
+    void position(Coordinate pos) {_position = pos;}
+	Coordinate position() const {return _position;}
+	void visible(bool vis) {_visible = vis;}
+	bool visible() const {return _visible;}
+
+    std::shared_ptr<DrawSettings> get_draw_settings() const {return std::make_shared<DrawSettings>(_drawsettings);}
+    void set_draw_settings(DrawSettings ds) {_drawsettings = ds;}
+
+    std::shared_ptr<SymbolAttribute> get_attribute(Glib::ustring attr_name);
+	void add_attribute(SymbolAttribute attr) 
+        {_attrs.insert(std::pair<Glib::ustring,SymbolAttribute>(attr.name,attr));}
+	bool has_attribute(Glib::ustring attr_name);
+
+    std::shared_ptr<ObjectGeometry> get_geometry() const {return std::make_shared<ObjectGeometry>(_geometry);}
+
+	std::shared_ptr<std::vector<SymbolPin>> get_pins() const {return std::make_shared<std::vector<SymbolPin>>(_pins);}
+    std::shared_ptr<SymbolPin> get_pin(Glib::ustring pin_name);
+	void add_pin(SymbolPin new_pin) {_pins.push_back(new_pin);} // Add a new pin
+	void set_pin(Glib::ustring pin_name, SymbolPin new_pin); // Set the pin with pin_name to new_pin
+
+    void draw(Cairo::RefPtr<Cairo::Context> context);
+    bool under(Coordinate pos); // Return true if visible and selectable parts of Symbol are (roughly) under pos
 
 protected:
     virtual void init_attributes(); // Create default attributes: FILE, NAME, VALUE, and DESCRIPTION
+    virtual bool has_pin(Glib::ustring pin_name);
     DrawSettings _drawsettings;
+    Coordinate _position;
     bool _visible;
     ObjectGeometry _geometry;
     BoundingBox _boundingbox;
     std::vector<SymbolPin> _pins;
-    std::vector<SymbolAttribute> _attrs;
+    std::map<Glib::ustring, SymbolAttribute> _attrs;
 
 };
 

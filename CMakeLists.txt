@@ -12,3 +12,5 @@ add_subdirectory(src)
 
 # Set build type
 set(CMAKE_BUILD_TYPE Debug)
+set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
+

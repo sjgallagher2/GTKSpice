@@ -1,6 +1,6 @@
 format 222
 "gtkspice"
-  revision 4
+  revision 5
   modified_by 88 "sam"
 
 
@@ -1140,17 +1140,6 @@ ${inlines}
 	    classrelation_ref 157656 // <aggregation>
       end
 
-      classrelation 157784 // <composition>
-	relation 153176 *---
-	  a role_name "" private
-	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	    classrelation_ref 157784 // <composition>
-	  b role_name "" private
-	    cpp default "    ${comment}${static}${thread_local}${mutable}${volatile}${const}${type} ${name}${value};
-"
-	    classrelation_ref 157912 // <composition>
-      end
     end
 
     class 151000 "Symbol"
@@ -1431,9 +1420,6 @@ ${inlines}
 	relation_ref 152792 // <aggregation>
       end
 
-      classrelation 157912 // <composition>
-	relation_ref 153176 // <composition>
-      end
     end
 
     classdiagram 134744 "objectmodel-overview"
@@ -1442,7 +1428,7 @@ ${inlines}
     end
 
     classdiagram 134872 "objectmodel-Object"
-      classdiagramsettings member_max_width 0 end
+      classdiagramsettings draw_all_relations no member_max_width 0 end
       size A4
     end
   end

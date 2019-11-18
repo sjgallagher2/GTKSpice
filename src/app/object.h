@@ -25,14 +25,14 @@ class Object
 public:
     int index;
     bool active;
-    void draw(Cairo::Context);
-    Coordinate anchor;
+    void draw(Cairo::RefPtr<Cairo::Context> context);
+    Coordinate position;
     BoundingBox boundingbox;
     
-    ObjectSymbol symbol;
+    std::shared_ptr<ObjectSymbol> symbol;
     
-    bool near(Coordinate); // Return true if Coordinate is in the BoundingBox
-    bool on(Coordinate); // Return true if Coordinate is on the Symbol
+    bool near(const Coordinate& pos); // Return true if Coordinate is in the BoundingBox
+    bool under(const Coordinate& pos); // Return true if Coordinate is on the Symbol
 };
 
 

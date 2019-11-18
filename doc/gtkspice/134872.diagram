@@ -6,11 +6,11 @@ classcanvas 128088 class_ref 150872 // Object
 end
 classcanvas 128216 class_ref 152280 // StrokeSettings
   classdiagramsettings member_max_width 0 end
-  xyz 653 272 2000
+  xyz 331 279 2000
 end
 classcanvas 128344 class_ref 152408 // FillSettings
   classdiagramsettings member_max_width 0 end
-  xyz 657 211 2000
+  xyz 139 303 2000
 end
 classcanvas 128472 class_ref 151000 // Symbol
   classdiagramsettings member_max_width 0 end

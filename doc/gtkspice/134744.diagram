@@ -126,9 +126,4 @@ relationcanvas 131672 relation_ref 153048 // <aggregation>
   no_role_a no_role_b
   no_multiplicity_a no_multiplicity_b
 end
-relationcanvas 131800 relation_ref 153176 // <composition>
-  from ref 128088 z 2001 to ref 129624
-  no_role_a no_role_b
-  no_multiplicity_a no_multiplicity_b
-end
 end

@@ -23,7 +23,7 @@ std::shared_ptr<Action> DragComponentTool::tool_click_handler(Coordinate mousepo
 
     return ret;
 }
-std::shared_ptr<Action> DrawLineTool::tool_move_handler(Coordinate mousepos)
+std::shared_ptr<Action> DragComponentTool::tool_move_handler(Coordinate mousepos)
 {
     mousepos.set_to_snapped();
     std::shared_ptr<Action> ret = nullptr;
@@ -31,7 +31,7 @@ std::shared_ptr<Action> DrawLineTool::tool_move_handler(Coordinate mousepos)
     return ret;
 
 }
-std::shared_ptr<Action> DrawLineTool::tool_key_handler(int key,int modifier)
+std::shared_ptr<Action> DragComponentTool::tool_key_handler(int key,int modifier)
 {
     std::shared_ptr<Action> ret = nullptr;
     if(key == GDK_KEY_Escape && modifier == NO_MOD)

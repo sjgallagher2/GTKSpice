@@ -17,13 +17,14 @@
 
 #include <memory>
 #include <vector>
+#include <map>
 #include <gtkmm.h>
 #include <app/coordinate.h>
 
 struct DrawSettings
 {
     double red=0,green=0,blue=0; // Stroke color
-    double line_width=0.2;
+    double line_width=2;
     Cairo::LineCap line_cap = Cairo::LINE_CAP_BUTT;
     Cairo::LineJoin line_join = Cairo::LINE_JOIN_BEVEL;
     Cairo::Antialias antialias = Cairo::ANTIALIAS_NONE;
@@ -52,12 +53,12 @@ public:
      * 
      */
     virtual void draw(Cairo::RefPtr<Cairo::Context> context, 
-        Coordinate pos, const DrawSettings& drawsettings);
+        Coordinate pos, const DrawSettings& drawsettings) = 0;
 
     bool selectable() const {return _selectable;}
     void selectable(bool s) {_selectable = s;}
 
-    virtual BoundingBox get_bounding_box();
+    virtual BoundingBox get_bounding_box() = 0;
 
 protected:
     PrimitiveType _type;
@@ -77,8 +78,8 @@ public:
 
     virtual BoundingBox get_bounding_box();
 
-    virtual void start(const Coordinate& s) {_start = s;}
-    virtual void end(const Coordinate& e) {_end = e;}
+    virtual void start(Coordinate s) {_start = s;}
+    virtual void end(Coordinate e) {_end = e;}
     virtual Coordinate start() const {return _start;}
     virtual Coordinate end() const {return _end;}
 
@@ -182,6 +183,8 @@ public:
     virtual void draw(Cairo::RefPtr<Cairo::Context> context, 
         Coordinate pos, const DrawSettings& drawsettings);
 
+    virtual BoundingBox get_bounding_box() 
+        {BoundingBox empty;empty.anchor = Coordinate(0,0);empty.width=0;empty.height=0;return empty;}
     virtual BoundingBox get_bounding_box(double fontsize,double fontwidth);
 
     virtual void anchor(Coordinate a) {_anchor = a;}
@@ -207,19 +210,34 @@ struct SymbolPinAttribute
 
 class SymbolPin {
 public:
-    SymbolPin() {init_attributes();}
+    SymbolPin();
 
     /* @brief Draw pin to context, at position pos
      * 
      */
     virtual void draw(Cairo::RefPtr<Cairo::Context> context, 
-        Coordinate pos, const DrawSettings& drawsettings,
+        const Coordinate& pos, const DrawSettings& ds,
         bool highlight = false);
+    
+    virtual void start(Coordinate s) {_start = s;}
+    virtual Coordinate start() const {return _start;}
+
+    std::shared_ptr<SymbolPinAttribute> get_attribute(Glib::ustring attr_name);
+	void add_attribute(SymbolPinAttribute attr) 
+        {_attrs.insert(std::pair<Glib::ustring,SymbolPinAttribute>(attr.name,attr));}
+	bool has_attribute(Glib::ustring attr_name);
+
+    void set_direction(Glib::ustring dir); // LEFT, RIGHT, UP, DOWN
+    Glib::ustring get_direction();
 
     virtual BoundingBox get_bounding_box();
+	virtual bool under(const Coordinate& pos); // True if pos is on top of the pin's active area
 protected:
     virtual void init_attributes();
-    std::vector<SymbolPinAttribute> _attrs;
+    std::map<Glib::ustring,SymbolPinAttribute> _attrs;
+    Coordinate _start;
+    Coordinate _end;
+    Glib::ustring _direction = "LEFT";
 };
 
 

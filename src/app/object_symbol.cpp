@@ -14,6 +14,26 @@
 
 #include <app/object_symbol.h>
 
+ObjectSymbol::ObjectSymbol(ObjectGeometry geom, std::vector<SymbolPin> pins, Coordinate pos, bool visible) :
+    _geometry(geom),
+    _pins(pins),
+    _position(pos),
+    _visible(visible)
+{
+}
+
+void ObjectSymbol::draw( Cairo::RefPtr<Cairo::Context> context )
+{
+    // Draw the symbol primitives and pin
+    if(_visible)
+    {
+        for(auto itr = _geometry.begin(); itr != _geometry.end(); ++itr)
+            (*itr)->draw(context, _position, _drawsettings);
+        for(auto itr = _pins.begin(); itr != _pins.end(); ++itr)
+            (*itr).draw(context, _position, _drawsettings);
+    }
+}
+
 void ObjectSymbol::init_attributes()
 {
     SymbolAttribute symfile_attr;
@@ -49,8 +69,48 @@ void ObjectSymbol::init_attributes()
     desc_attr.editable = true;
 
     _attrs.clear();
-    _attrs.push_back(symfile_attr);
-    _attrs.push_back(name_attr);
-    _attrs.push_back(value_attr);
-    _attrs.push_back(desc_attr);
+    _attrs.insert(std::pair<Glib::ustring, SymbolAttribute>("FILE",symfile_attr));
+    _attrs.insert(std::pair<Glib::ustring, SymbolAttribute>("NAME",name_attr));
+    _attrs.insert(std::pair<Glib::ustring, SymbolAttribute>("VALUE",value_attr));
+    _attrs.insert(std::pair<Glib::ustring, SymbolAttribute>("DESCRIPTION",desc_attr));
+
 }
+
+std::shared_ptr<SymbolAttribute> ObjectSymbol::get_attribute(Glib::ustring attr_name)
+{
+    if(has_attribute(attr_name))
+    {
+        return std::make_shared<SymbolAttribute>(_attrs.find(attr_name)->second);
+    }
+    else
+        return nullptr;
+}
+
+bool ObjectSymbol::has_attribute(Glib::ustring attr_name)
+{
+    return (_attrs.find(attr_name) != _attrs.end());
+}
+
+std::shared_ptr<SymbolPin> ObjectSymbol::get_pin(Glib::ustring pin_name)
+{}
+void ObjectSymbol::set_pin(Glib::ustring pin_name, SymbolPin new_pin)
+{
+    if(has_pin(pin_name))
+    {
+        for(auto itr = _pins.begin(); itr != _pins.end(); ++itr)
+            if(itr->get_attribute("NAME")->name.compare(pin_name) == 0)
+                *itr = new_pin;
+    }
+}
+bool ObjectSymbol::has_pin(Glib::ustring pin_name)
+{
+    for(auto itr = _pins.begin(); itr != _pins.end(); ++itr)
+    {
+        if(itr->has_attribute("NAME"))
+            if(itr->get_attribute("NAME")->name.compare(pin_name) == 0)
+                return true;
+    }
+    return false;
+}
+
+

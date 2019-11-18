@@ -4,7 +4,7 @@ diagrams
   classdiagram_ref 134744 // objectmodel-overview
     1331 656 100 A4-Landscape 0 0
   active  classdiagram_ref 134872 // objectmodel-Object
-    1331 656 100 A4 0 0
+    1664 821 100 A4 0 0
 end
 show_stereotypes
 selected class_ref 150872 // Object

@@ -22,9 +22,15 @@
 #include <app/object_tree.h>
 #include <app/gtkspice_state.h>
 
+
+// FOR TESTING
+#include <app/draw_primitives.h>
+#include <app/object_symbol.h>
+#include <app/object.h>
+
 /* 
- * When the screen is drawn, on_draw() is called, which provides a context object. It
- * seems like you need to use this context instead of keeping one, which means all changes
+ * When the screen is drawn, on_draw() is called, which provides a context object. 
+ * You need to use this context instead of keeping one, which means all changes
  * need to occur in on_draw(). 
  * 
  */
@@ -87,6 +93,62 @@ bool View::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
     // Draw all objects in the object tree
     if(_objecttree)
         _objecttree->redraw(context);
+
+    
+    /******** TESTING ********/
+    DrawSettings ds; // Use defaults
+    ds.font_size = 5;
+
+    Coordinate sympos(10,10);
+
+    LinePrimitive line1;
+    LinePrimitive line2;
+    LinePrimitive line3;
+    line1.start(Coordinate(-5,-15));
+    line1.end(Coordinate(-5,15));
+    line1.draw(context,sympos,ds);
+    line2.start(Coordinate(-5,-15));
+    line2.end(Coordinate(20,0));
+    line2.draw(context,sympos,ds);
+    line3.start(Coordinate(-5,15));
+    line3.end(Coordinate(20,0));
+    line3.draw(context,sympos,ds);
+
+    RectPrimitive rect1;
+    rect1.anchor(Coordinate(-6,5));
+    rect1.height(3);
+    rect1.width(3);
+    rect1.draw(context,sympos,ds);
+    RectPrimitive rect2;
+    rect2.anchor(Coordinate(-6,-5));
+    rect2.height(-3);
+    rect2.width(3);
+    rect2.draw(context,sympos,ds);
+
+    ArcPrimitive arc1;
+    arc1.center(Coordinate(5,0));
+    arc1.radius(3);
+    arc1.set_start_angle_degrees(-90);
+    arc1.set_end_angle_degrees(90);
+    arc1.draw(context,sympos,ds);
+
+    CirclePrimitive circ1;
+    circ1.center(Coordinate(18,0));
+    circ1.radius(3);
+    circ1.draw(context,sympos,ds);
+    CirclePrimitive circ2;
+    circ2.center(Coordinate(21,0));
+    circ2.radius(3);
+    circ2.draw(context,sympos,ds);
+
+    TextPrimitive text1;
+    text1.text("U1");
+    text1.anchor(Coordinate(0,2));
+    text1.draw(context,sympos,ds);
+
+
+    /*************************/
+
 
     // All done
     return true;

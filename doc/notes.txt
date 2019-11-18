@@ -47,6 +47,7 @@ To create new actions and features, consider the following:
     4. What information does an object creating the Action need to supply? (e.g. 
         ComponentParameters)
     5. Who creates the Action and how does it get to the ActionStack?
+    6. When should you create the Action? 
 
 If you can answer these, you're basically done. 
 

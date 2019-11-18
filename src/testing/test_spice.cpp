@@ -13,6 +13,7 @@ void test_spice()
     SpiceSubcktDirective stn3nf06l_dir;
     stn3nf06l_dir.nodes = "1 2 3";
     stn3nf06l_dir.subname = "STN3NF06L";
+
     SpiceInductor lg;
     lg.name = "G";
     lg.nodes = "2 4";
@@ -91,6 +92,7 @@ void test_spice()
 	cap3.value="5u";
     cap3.length="90n";
     cap3.width="1u";
+    cap3.ic = "1.2";
     SpiceSemiconductorResistor res4;
     res4.name="4";
     res4.modelname=resmodel_dir.modelname;
