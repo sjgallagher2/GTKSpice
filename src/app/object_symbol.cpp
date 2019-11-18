@@ -14,7 +14,7 @@
 
 #include <app/object_symbol.h>
 
-ObjectSymbol::ObjectSymbol(ObjectGeometry geom, std::vector<SymbolPin> pins, Coordinate pos, bool visible) :
+ObjectSymbol::ObjectSymbol(ObjectGeometry geom, ObjectPins pins, Coordinate pos, bool visible) :
     _geometry(geom),
     _pins(pins),
     _position(pos),
@@ -30,7 +30,7 @@ void ObjectSymbol::draw( Cairo::RefPtr<Cairo::Context> context )
         for(auto itr = _geometry.begin(); itr != _geometry.end(); ++itr)
             (*itr)->draw(context, _position, _drawsettings);
         for(auto itr = _pins.begin(); itr != _pins.end(); ++itr)
-            (*itr).draw(context, _position, _drawsettings);
+            (*itr)->draw(context, _position, _drawsettings,true);
     }
 }
 
@@ -98,16 +98,16 @@ void ObjectSymbol::set_pin(Glib::ustring pin_name, SymbolPin new_pin)
     if(has_pin(pin_name))
     {
         for(auto itr = _pins.begin(); itr != _pins.end(); ++itr)
-            if(itr->get_attribute("NAME")->name.compare(pin_name) == 0)
-                *itr = new_pin;
+            if((*itr)->get_attribute("NAME")->name.compare(pin_name) == 0)
+                *itr = std::make_shared<SymbolPin>(new_pin);
     }
 }
 bool ObjectSymbol::has_pin(Glib::ustring pin_name)
 {
     for(auto itr = _pins.begin(); itr != _pins.end(); ++itr)
     {
-        if(itr->has_attribute("NAME"))
-            if(itr->get_attribute("NAME")->name.compare(pin_name) == 0)
+        if((*itr)->has_attribute("NAME"))
+            if((*itr)->get_attribute("NAME")->name.compare(pin_name) == 0)
                 return true;
     }
     return false;

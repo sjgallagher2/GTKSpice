@@ -1,0 +1,29 @@
+Example of an LTSpice Schematic:
+/******* DRAFT1.ASC *******/
+  Version 4
+  SHEET 1 880 680
+  SYMBOL res 96 64 R0
+  SYMATTR InstName R1
+  SYMBOL res 208 64 R90
+  WINDOW 0 0 56 VBottom 2
+  WINDOW 3 32 56 VTop 2
+  SYMATTR InstName R2
+  SYMBOL res 288 64 R90
+  WINDOW 0 0 56 VBottom 2
+  WINDOW 3 32 56 VTop 2
+  SYMATTR InstName R3
+  SYMBOL res 352 192 R180
+  WINDOW 0 36 76 Left 2
+  WINDOW 3 36 40 Left 2
+  SYMATTR InstName R4
+/**************************/
+
+SHEET means the sheet we're on, SYMBOL is a component symbol, SYMATTR is a symbol attribute,
+WINDOW is an attribute window showing some attribute as text. When a value is added to a symbol,
+a SYMATTR is added to the schematic. When no components are on the schematic, only Version and
+SHEET are in the file. When one resistor is added, we get a SYMBOL and SYMATTR.
+
+When wires are added, we get a WIRE for each segment. When a resistor is rotated, we get 
+a WINDOW with VBottom alignment and a WINDOW with VTop alignment for the attribute windows
+on that resistor (this just pushes the text around). These appear after the SYMBOL. 
+

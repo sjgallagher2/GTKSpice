@@ -1,0 +1,126 @@
+LTSpice .asy File Standard
+---------------------------------
+ - Header
+	Version <x>			where x is an integer
+	SymbolType <XXXX>	where XXXX is either BLOCK or CELL
+ - Body
+	Geometry (Order: Line, Rectangle, Circle, Arc, Text)
+	Attribute Window
+	Symbol Attribute
+	Pin
+	Pin Attribute
+	Pin 
+	Pin Attribute 
+	...
+	
+=========================================
+
+SymbolType is either:
+	BLOCK	Another page in a hierarchical schematic (should have no attributes?)
+	CELL	A standalone component with attributes
+	
+An Attribute Window is text added to the symbol which shows the value of an attribute.
+
+------------------------------
+GEOMETRY can be one of the following:
+	LINE <Normal> <x1 y1 x2 y2> [linestyle]
+	RECTANGLE <Normal> <x1 y1 x2 y2> [linestyle]
+	CIRCLE <Normal> <x1 y1 x2 y2> [linestyle]
+	ARC <Normal> <x1 y1 x2 y2 x3 y3 x4 y4> [linestyle]
+	TEXT <x1 y1> <Justify> <size> <text string>
+
+<linestyle> can be one of the following:
+	(None)	Solid line is assumed
+	1		Long-dashed line
+	2		Short-dashed line
+	3		Long-short-dashed line
+	4		Long-short-short-dashed line 
+
+<Justify> can be one of the following:
+	Left		Left align
+	Right		Right align
+	Center		Center align
+	Top			Top align
+	Bottom		Bottom align
+	VLeft		Vertical text left align
+	VRight		Vertical text right align
+	VCenter		Vertical text center align
+	VTop		Vertical text top align
+	VBottom		Vertical text bottom align 
+
+<size> is an integer, default is 2, although dialog allows decimals
+
+
+-----------------------------
+WINDOW has the following form:
+	WINDOW <Attr> <x y> <Just> <Size>
+
+<Attr> is one of the following:
+	0		InstName
+	1		Type
+	38		SpiceModel 
+	3		Value
+	123		Value2
+	39		SpiceLine
+	40		SpiceLine2
+The other parameters are the same as for text.
+
+
+-----------------------------
+SYMATTR can be one of the following.
+	Prefix <STRING>
+	SpiceModel <STRING>
+	Value <STRING>
+	Value2 <STRING>
+	SpiceLine <STRING>
+	SpiceLine2 <STRING>
+	Description <STRING>
+	ModelFile <STRING>
+
+------------------------------
+PIN has the following form.
+	PIN <x1 y1> <JUST> <OFFSET>
+
+<JUST> can be one of the following:
+	TOP
+	LEFT 
+	RIGHT 
+	BOTTOM 
+	NONE 
+
+<OFFSET> is an integer >= 0
+
+-----------------------------
+PINATTR has the following form.
+	PINATTR <AttrName> <AttrValue>
+	
+<AttrName> can be one of the following:
+	PinName			<AttrValue> is a string
+	SpiceOrder		<AttrValue> is an int >0
+
+========================================
+EXAMPLE
+
+/****** TEST.ASY ********/
+  Version 4
+  SymbolType CELL
+  LINE Normal 16 0 16 -16
+  LINE Normal 0 32 -16 16 1
+  LINE Normal -30 -37 -49 -16 2
+  LINE Normal -5 -43 -30 -16 3
+  LINE Normal 30 -48 0 -16 4
+  RECTANGLE Normal 48 0 32 -16
+  CIRCLE Normal 48 48 32 32
+  ARC Normal -64 0 -48 16 -51 2 -65 10
+  TEXT -106 -32 Top 3 test
+  WINDOW 38 12 13 Left 3
+  SYMATTR Prefix s
+  SYMATTR SpiceModel <SpiceModel>
+  PIN 96 32 TOP 5
+  PINATTR PinName mypin
+  PINATTR SpiceOrder 1
+  PIN 64 96 RIGHT 8
+  PINATTR PinName otherpin
+  PINATTR SpiceOrder 2
+/**************************/
+

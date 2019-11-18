@@ -99,53 +99,75 @@ bool View::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
     DrawSettings ds; // Use defaults
     ds.font_size = 5;
 
-    Coordinate sympos(10,10);
+    std::shared_ptr<LinePrimitive> line1 = std::make_shared<LinePrimitive>();
+    line1->start(Coordinate(-5,-15));
+    line1->end(Coordinate(-5,15));
+    std::shared_ptr<LinePrimitive> line2 = std::make_shared<LinePrimitive>();
+    line2->start(Coordinate(-5,-15));
+    line2->end(Coordinate(20,0));
+    std::shared_ptr<LinePrimitive> line3 = std::make_shared<LinePrimitive>();
+    line3->start(Coordinate(-5,15));
+    line3->end(Coordinate(20,0));
 
-    LinePrimitive line1;
-    LinePrimitive line2;
-    LinePrimitive line3;
-    line1.start(Coordinate(-5,-15));
-    line1.end(Coordinate(-5,15));
-    line1.draw(context,sympos,ds);
-    line2.start(Coordinate(-5,-15));
-    line2.end(Coordinate(20,0));
-    line2.draw(context,sympos,ds);
-    line3.start(Coordinate(-5,15));
-    line3.end(Coordinate(20,0));
-    line3.draw(context,sympos,ds);
+    std::shared_ptr<RectPrimitive> rect1 = std::make_shared<RectPrimitive>();
+    rect1->anchor(Coordinate(-3,5));
+    rect1->height(3);
+    rect1->width(3);
+    std::shared_ptr<RectPrimitive> rect2 = std::make_shared<RectPrimitive>();
+    rect2->anchor(Coordinate(-3,-5));
+    rect2->height(-3);
+    rect2->width(3);
 
-    RectPrimitive rect1;
-    rect1.anchor(Coordinate(-6,5));
-    rect1.height(3);
-    rect1.width(3);
-    rect1.draw(context,sympos,ds);
-    RectPrimitive rect2;
-    rect2.anchor(Coordinate(-6,-5));
-    rect2.height(-3);
-    rect2.width(3);
-    rect2.draw(context,sympos,ds);
+    std::shared_ptr<ArcPrimitive> arc1 = std::make_shared<ArcPrimitive>();
+    arc1->center(Coordinate(5,0));
+    arc1->radius(3);
+    arc1->set_start_angle_degrees(-90);
+    arc1->set_end_angle_degrees(90);
 
-    ArcPrimitive arc1;
-    arc1.center(Coordinate(5,0));
-    arc1.radius(3);
-    arc1.set_start_angle_degrees(-90);
-    arc1.set_end_angle_degrees(90);
-    arc1.draw(context,sympos,ds);
+    std::shared_ptr<CirclePrimitive> circ1 = std::make_shared<CirclePrimitive>();
+    circ1->center(Coordinate(18,0));
+    circ1->radius(3);
+    std::shared_ptr<CirclePrimitive> circ2 = std::make_shared<CirclePrimitive>();
+    circ2->center(Coordinate(21,0));
+    circ2->radius(3);
 
-    CirclePrimitive circ1;
-    circ1.center(Coordinate(18,0));
-    circ1.radius(3);
-    circ1.draw(context,sympos,ds);
-    CirclePrimitive circ2;
-    circ2.center(Coordinate(21,0));
-    circ2.radius(3);
-    circ2.draw(context,sympos,ds);
+    std::shared_ptr<TextPrimitive> text1 = std::make_shared<TextPrimitive>();
+    text1->text("U1");
+    text1->anchor(Coordinate(0,2));
 
-    TextPrimitive text1;
-    text1.text("U1");
-    text1.anchor(Coordinate(0,2));
-    text1.draw(context,sympos,ds);
+    // Make geometry, pins, set position
 
+    ObjectGeometry sym_geom;
+    sym_geom.push_back(line1);
+    sym_geom.push_back(line2);
+    sym_geom.push_back(line3);
+    sym_geom.push_back(rect1);
+    sym_geom.push_back(rect2);
+    sym_geom.push_back(arc1);
+    sym_geom.push_back(circ1);
+    sym_geom.push_back(circ2);
+    sym_geom.push_back(text1);
+
+    std::shared_ptr<SymbolPin> sym_pin1 = std::make_shared<SymbolPin>();
+    sym_pin1->start(Coordinate(-5,-6.5));
+    std::shared_ptr<SymbolPin> sym_pin2 = std::make_shared<SymbolPin>();
+    sym_pin2->start(Coordinate(-5,6.5));
+
+    ObjectPins sym_pins;
+    sym_pins.push_back(sym_pin1);
+    sym_pins.push_back(sym_pin2);
+    
+    Coordinate sym_pos(20,10);
+
+    std::shared_ptr<ObjectSymbol> opamp_sym = std::make_shared<ObjectSymbol>(sym_geom,sym_pins,sym_pos);
+
+    //GtkSpiceObject opamp;
+    //opamp.index = 0;
+    //opamp.active = false;
+    //opamp.position = sym_pos;
+    //opamp.symbol = opamp_sym;
+    
+    opamp_sym->draw(context);
 
     /*************************/
 

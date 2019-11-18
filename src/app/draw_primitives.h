@@ -186,6 +186,7 @@ public:
     virtual BoundingBox get_bounding_box() 
         {BoundingBox empty;empty.anchor = Coordinate(0,0);empty.width=0;empty.height=0;return empty;}
     virtual BoundingBox get_bounding_box(double fontsize,double fontwidth);
+    virtual BoundingBox get_bounding_box(double fontsize); // Assume W:H ratio of 3:5
 
     virtual void anchor(Coordinate a) {_anchor = a;}
     virtual void text(Glib::ustring s) {_text = s;}
@@ -227,6 +228,7 @@ public:
         {_attrs.insert(std::pair<Glib::ustring,SymbolPinAttribute>(attr.name,attr));}
 	bool has_attribute(Glib::ustring attr_name);
 
+    // TODO set_direction does nothing
     void set_direction(Glib::ustring dir); // LEFT, RIGHT, UP, DOWN
     Glib::ustring get_direction();
 
@@ -238,6 +240,8 @@ protected:
     Coordinate _start;
     Coordinate _end;
     Glib::ustring _direction = "LEFT";
+    double _hbox_size = 2; // Highlight box size
+    double _pin_len = 5; // Pin length
 };
 
 

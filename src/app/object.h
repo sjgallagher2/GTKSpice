@@ -20,9 +20,11 @@
 #include <app/coordinate.h>
 #include <app/object_symbol.h>
 
-class Object 
+class GtkSpiceObject 
 {
 public:
+    GtkSpiceObject() {}
+    virtual ~GtkSpiceObject() {}
     int index;
     bool active;
     void draw(Cairo::RefPtr<Cairo::Context> context);
@@ -36,10 +38,10 @@ public:
 };
 
 
-class CompositeObject : public Object 
+class CompositeObject : public GtkSpiceObject 
 {};
 
-class Wire : public Object 
+class Wire : public GtkSpiceObject 
 {};
 
 class ObjectFactory 

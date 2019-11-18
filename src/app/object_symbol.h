@@ -32,12 +32,13 @@ struct SymbolAttribute
 };
 
 typedef std::vector<std::shared_ptr<Primitive>> ObjectGeometry;
+typedef std::vector<std::shared_ptr<SymbolPin>> ObjectPins;
 
 class ObjectSymbol 
 {
 public:
     ObjectSymbol() {init_attributes();} // TODO Overload constructor for input _geometry and pins
-	ObjectSymbol(ObjectGeometry geom, std::vector<SymbolPin> pins, Coordinate pos, bool visible = true);
+	ObjectSymbol(ObjectGeometry geom, ObjectPins pins, Coordinate pos, bool visible = true);
     
     void position(Coordinate pos) {_position = pos;}
 	Coordinate position() const {return _position;}
@@ -54,9 +55,9 @@ public:
 
     std::shared_ptr<ObjectGeometry> get_geometry() const {return std::make_shared<ObjectGeometry>(_geometry);}
 
-	std::shared_ptr<std::vector<SymbolPin>> get_pins() const {return std::make_shared<std::vector<SymbolPin>>(_pins);}
+	std::shared_ptr<ObjectPins> get_pins() const {return std::make_shared<ObjectPins>(_pins);}
     std::shared_ptr<SymbolPin> get_pin(Glib::ustring pin_name);
-	void add_pin(SymbolPin new_pin) {_pins.push_back(new_pin);} // Add a new pin
+	void add_pin(SymbolPin new_pin) {_pins.push_back(std::make_shared<SymbolPin>(new_pin));} // Add a new pin
 	void set_pin(Glib::ustring pin_name, SymbolPin new_pin); // Set the pin with pin_name to new_pin
 
     void draw(Cairo::RefPtr<Cairo::Context> context);
@@ -70,7 +71,7 @@ protected:
     bool _visible;
     ObjectGeometry _geometry;
     BoundingBox _boundingbox;
-    std::vector<SymbolPin> _pins;
+    ObjectPins _pins;
     std::map<Glib::ustring, SymbolAttribute> _attrs;
 
 };
