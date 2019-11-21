@@ -37,11 +37,7 @@ public:
     bool under(const Coordinate& pos); // Return true if Coordinate is on the Symbol
 };
 
-
-class CompositeObject : public GtkSpiceObject 
-{};
-
-class Wire : public GtkSpiceObject 
+class Wire
 {};
 
 class ObjectFactory 

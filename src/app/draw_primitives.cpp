@@ -102,8 +102,14 @@ void ArcPrimitive::draw(Cairo::RefPtr<Cairo::Context> context,
     context->set_line_join(ds.line_join);
     context->set_antialias(ds.antialias);
 
-    context->arc(pos.x()+_center.x(),pos.y()+_center.y(),_radius,
+    Cairo::Matrix save_matrix = context->get_matrix();
+    context->translate(pos.x()+_center.x(),pos.y()+_center.y());
+    context->scale(1,_vradius/_hradius);
+    context->translate(-pos.x()-_center.x(),-pos.y()-_center.y());
+    context->arc(pos.x()+_center.x(),pos.y()+_center.y(),_hradius,
         _start_angle_deg*M_PI/180,_end_angle_deg*M_PI/180);
+    context->set_matrix(save_matrix);
+
     
     context->stroke();
     
@@ -124,8 +130,13 @@ void CirclePrimitive::draw(Cairo::RefPtr<Cairo::Context> context,
     context->set_line_join(ds.line_join);
     context->set_antialias(ds.antialias);
 
-    context->arc(pos.x()+_center.x(),pos.y()+_center.y(),_radius,0,2*M_PI);
-    
+    Cairo::Matrix save_matrix = context->get_matrix();
+    // With ellipse support (but why someone would use ellipses in a symbol...)
+    context->translate(pos.x()+_center.x(),pos.y()+_center.y());
+    context->scale(1,_vradius/_hradius);
+    context->translate(-pos.x()-_center.x(),-pos.y()-_center.y());
+    context->arc(pos.x()+_center.x(),pos.y()+_center.y(),_hradius,0,2*M_PI);
+    context->set_matrix(save_matrix);
     context->stroke();
 
     //draw_bb(context,pos,ds,get_bounding_box());
@@ -193,10 +204,10 @@ BoundingBox ArcPrimitive::get_bounding_box()
      *  excludes the circle center.
      */
     double x1,x2,y1,y2;
-    x1 = _center.x() + _radius*std::cos(_start_angle_deg*M_PI/180);
-    x2 = _center.x() + _radius*std::cos(_end_angle_deg*M_PI/180);
-    y1 = _center.y() + _radius*std::sin(_start_angle_deg*M_PI/180);
-    y2 = _center.y() + _radius*std::sin(_end_angle_deg*M_PI/180);
+    x1 = _center.x() + _hradius*std::cos(_start_angle_deg*M_PI/180);
+    x2 = _center.x() + _hradius*std::cos(_end_angle_deg*M_PI/180);
+    y1 = _center.y() + _vradius*std::sin(_start_angle_deg*M_PI/180);
+    y2 = _center.y() + _vradius*std::sin(_end_angle_deg*M_PI/180);
 
     bool contains0 = false,contains90 = false,contains180 = false,contains270 = false;
     if(_start_angle_deg < 0 && _end_angle_deg > 0) contains0 = true;
@@ -205,16 +216,16 @@ BoundingBox ArcPrimitive::get_bounding_box()
     if(_start_angle_deg < 270 && _end_angle_deg > 270) contains270 = true;
 
     double r,l,t,b;
-    if(contains0) r = _center.x() + _radius;
+    if(contains0) r = _center.x() + _hradius;
     else r = std::max(x1,x2);
     
-    if(contains180) l = _center.x() - _radius;
+    if(contains180) l = _center.x() - _hradius;
     else l = std::min(x1,x2);
 
-    if(contains90) t = _center.y() + _radius;
+    if(contains90) t = _center.y() + _vradius;
     else t = std::max(y1,y2);
 
-    if(contains270) b = _center.y() - _radius;
+    if(contains270) b = _center.y() - _vradius;
     else b = std::min(y1,y2);
 
     Coordinate anch(l,b);
@@ -227,10 +238,10 @@ BoundingBox ArcPrimitive::get_bounding_box()
 BoundingBox CirclePrimitive::get_bounding_box()
 {
     BoundingBox bb;
-    Coordinate anch(_center.x() - _radius, _center.y() - _radius);
+    Coordinate anch(_center.x() - _hradius, _center.y() - _vradius);
     bb.anchor = anch;
-    bb.width = 2*_radius;
-    bb.height = 2*_radius;
+    bb.width = 2*_hradius;
+    bb.height = 2*_vradius;
     return bb;
 }
 BoundingBox TextPrimitive::get_bounding_box(double fontsize,double fontwidth)
@@ -284,88 +295,21 @@ void SymbolPin::init_attributes()
     name_attr.show_on_schematic = true;
     name_attr.editable = true;
 
-    SymbolPinAttribute dir_attr;
-    dir_attr.name = "DIRECTION";
-    dir_attr.value = "LEFT"; // LEFT, RIGHT, UP, or DOWN
-    dir_attr.removable = false;
-    dir_attr.required = false;
-    dir_attr.show_on_schematic = false;
-    dir_attr.editable = true;
-
     _attrs.clear();
 	_attrs.insert(std::pair<Glib::ustring,SymbolPinAttribute>(spiceorder_attr.name,spiceorder_attr));
 	_attrs.insert(std::pair<Glib::ustring,SymbolPinAttribute>(name_attr.name,name_attr));
-	_attrs.insert(std::pair<Glib::ustring,SymbolPinAttribute>(dir_attr.name,dir_attr));
-}
-
-void SymbolPin::set_direction(Glib::ustring dir)
-{
-    /*
-    if(_attrs.find("DIRECTION") != _attrs.end())
-    {
-        if(_attrs.find("DIRECTION")->second.value.compare("LEFT") == 0)
-            _direction = "LEFT";
-        else if(_attrs.find("DIRECTION")->second.value.compare("RIGHT") == 0)
-            _direction = "RIGHT";
-        else if(_attrs.find("DIRECTION")->second.value.compare("UP") == 0)
-            _direction = "UP";
-        else if(_attrs.find("DIRECTION")->second.value.compare("DOWN") == 0)
-            _direction = "DOWN";
-    }
-    */
-}
-
-Glib::ustring SymbolPin::get_direction()
-{
-    return _direction;
 }
 
 void SymbolPin::draw(Cairo::RefPtr<Cairo::Context> context, 
 	const Coordinate& pos, const DrawSettings& ds,
 	bool highlight)
 {
-    context->save();
-    context->set_source_rgb(ds.red,ds.green,ds.blue);
-    double lw = ds.line_width;
-    context->device_to_user_distance(lw,lw);
-    context->set_line_width(lw);
-    context->set_line_cap(ds.line_cap);
-    context->set_line_join(ds.line_join);
-    context->set_antialias(ds.antialias);
-
-    context->move_to(pos.x(),pos.y());
-
-    context->rel_move_to(_start.x(),_start.y());
-
-	Coordinate hbox_pos; // Bottom left corner of highlight box
-
-    if(_direction == "LEFT")
-    {
-        context->rel_line_to(-_pin_len,0);// Draw to the left
-        hbox_pos = Coordinate(_start.x()-_pin_len-_hbox_size/2, _start.y()-_hbox_size/2);
-    }
-    else if(_direction == "RIGHT")
-    {
-        context->rel_line_to(_pin_len,0);// Draw to the right
-        hbox_pos = Coordinate(_start.x()+_pin_len-_hbox_size/2, _start.y()-_hbox_size/2);
-    }
-    else if(_direction == "DOWN")
-    {
-        context->rel_line_to(0,-_pin_len);// Draw down
-        hbox_pos = Coordinate(_start.x()-_hbox_size/2, _start.y()-_pin_len-_hbox_size/2);
-    }
-    else if(_direction == "UP")
-    {
-        context->rel_line_to(0,_pin_len);// Draw up
-        hbox_pos = Coordinate(_start.x()-_hbox_size/2, _start.y()+_pin_len-_hbox_size/2);
-    }
-    context->stroke();
-    context->restore();
-
 	if(highlight)
 	{
 		context->save();
 		context->set_source_rgb(0.1,0.1,0.9); // PIN HIGHLIGHT COLOR
+        double lw = ds.line_width;
+        context->device_to_user_distance(lw,lw);
 		context->set_line_width(lw);
 		context->set_line_cap(ds.line_cap);
 		context->set_line_join(ds.line_join);
@@ -373,7 +317,7 @@ void SymbolPin::draw(Cairo::RefPtr<Cairo::Context> context,
 
         context->move_to(pos.x(),pos.y());
         
-        context->rel_move_to(hbox_pos.x(),hbox_pos.y());
+        context->rel_move_to(_pinloc.x()-_hbox_size/2,_pinloc.y()-_hbox_size/2);
         context->rel_line_to(0,_hbox_size); // Left wall
         context->rel_line_to(_hbox_size,0); // Top wall
         context->rel_line_to(0,-_hbox_size); // Right wall
@@ -400,36 +344,19 @@ bool SymbolPin::has_attribute(Glib::ustring attr_name)
 }
 bool SymbolPin::under(const Coordinate& pos)
 {
-	BoundingBox hbox; // Highlight box
-    if(_direction == "LEFT")
-        hbox.anchor = Coordinate(_start.x()-_pin_len-_hbox_size/2, _start.y()+_hbox_size/2);
-    if(_direction == "RIGHT")
-        hbox.anchor = Coordinate(_start.x()+_pin_len-_hbox_size/2, _start.y()+_hbox_size/2);
-    if(_direction == "DOWN")
-        hbox.anchor = Coordinate(_start.x()-_hbox_size/2, _start.y()-_pin_len+_hbox_size/2);
-    if(_direction == "UP")
-        hbox.anchor = Coordinate(_start.x()-_hbox_size/2, _start.y()+_pin_len+_hbox_size/2);
-    hbox.width = _hbox_size;
-    hbox.height = _hbox_size;
-
-    return hbox.contains(pos);
+	//BoundingBox hbox; // Highlight box
+    return false;
 }
 BoundingBox SymbolPin::get_bounding_box()
 {
     BoundingBox bb;
-    bb.width = std::abs(_start.x() - _end.x());
-    bb.height = std::abs(_start.y() - _end.y());
+    bb.width = _hbox_size;
+    bb.height = _hbox_size;
 
     Coordinate anch;
-    anch.x(std::min(_start.x(),_end.x()));
-    anch.y(std::min(_start.y(),_end.y()));
+    anch.x(_pinloc.x());
+    anch.y(_pinloc.y());
     bb.anchor = anch;
-
-	// Avoid issues with ortho lines
-	if(bb.width < 1)
-		bb.width = 1;
-	if(bb.height < 1)
-		bb.height = 1;
 
     return bb;
 }

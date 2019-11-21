@@ -27,6 +27,8 @@
 #include <app/draw_primitives.h>
 #include <app/object_symbol.h>
 #include <app/object.h>
+#include <fstream>
+#include <app/ltspice_symbol_parser.h>
 
 /* 
  * When the screen is drawn, on_draw() is called, which provides a context object. 
@@ -99,6 +101,7 @@ bool View::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
     DrawSettings ds; // Use defaults
     ds.font_size = 5;
 
+    /*
     std::shared_ptr<LinePrimitive> line1 = std::make_shared<LinePrimitive>();
     line1->start(Coordinate(-5,-15));
     line1->end(Coordinate(-5,15));
@@ -147,19 +150,10 @@ bool View::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
     sym_geom.push_back(circ1);
     sym_geom.push_back(circ2);
     sym_geom.push_back(text1);
-
-    std::shared_ptr<SymbolPin> sym_pin1 = std::make_shared<SymbolPin>();
-    sym_pin1->start(Coordinate(-5,-6.5));
-    std::shared_ptr<SymbolPin> sym_pin2 = std::make_shared<SymbolPin>();
-    sym_pin2->start(Coordinate(-5,6.5));
-
-    ObjectPins sym_pins;
-    sym_pins.push_back(sym_pin1);
-    sym_pins.push_back(sym_pin2);
+    */
     
-    Coordinate sym_pos(20,10);
+    Coordinate sym_pos(30,10);
 
-    std::shared_ptr<ObjectSymbol> opamp_sym = std::make_shared<ObjectSymbol>(sym_geom,sym_pins,sym_pos);
 
     //GtkSpiceObject opamp;
     //opamp.index = 0;
@@ -167,7 +161,19 @@ bool View::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
     //opamp.position = sym_pos;
     //opamp.symbol = opamp_sym;
     
-    opamp_sym->draw(context);
+    std::ifstream sfilestrm("/home/sam/Documents/Electronics/SPICE/lib/sym/Opamps/LM308.asy",std::fstream::in);
+    LTSpiceSymbolParser parser(sfilestrm);
+    if(parser.parse() == 0)
+    {
+        ObjectGeometry sym_geom = parser.get_geometry();
+        ObjectPins sym_pins = parser.get_pins();
+        std::shared_ptr<ObjectSymbol> test_sym = std::make_shared<ObjectSymbol>(sym_geom,sym_pins,sym_pos);
+        test_sym->draw(context);
+    }
+    else
+    {
+        std::cout << "Encountered error while reading file.\n";
+    }
 
     /*************************/
 

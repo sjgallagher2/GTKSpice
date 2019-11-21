@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
 {
 	auto app =
 			GTKSpice::create();
-	test_spice();
+	//test_spice();
 	return app->run();
 }
 

@@ -121,6 +121,7 @@ protected:
     double _width,_height;
 };
 
+// TODO An alternative is to use 4 vertices to define an elliptical arc
 class ArcPrimitive : public Primitive 
 {
 public:
@@ -135,20 +136,24 @@ public:
     virtual BoundingBox get_bounding_box();
     
     virtual void center(Coordinate c) {_center = c;}
-    virtual void radius(double r) {_radius = r;}
+    virtual void hradius(double r) {_hradius = r;}
+    virtual void vradius(double r) {_vradius = r;}
     virtual void set_start_angle_degrees(double theta_deg) {_start_angle_deg = theta_deg;}
     virtual void set_end_angle_degrees(double theta_deg) {_end_angle_deg = theta_deg;}
     virtual Coordinate center() const {return _center;}
-    virtual double radius() const {return _radius;}
+    virtual double hradius() const {return _hradius;}
+    virtual double vradius() const {return _vradius;}
     virtual double get_start_angle_degrees() const {return _start_angle_deg;}
     virtual double get_end_angle_degrees() const {return _end_angle_deg;}
 
 protected:
     Coordinate _center;
-    double _radius;
+    double _hradius;
+    double _vradius;
     double _start_angle_deg; // Angle in degrees
     double _end_angle_deg; // Angle in degrees
 };
+// TODO An alternative is corner-corner to define the circle
 class CirclePrimitive : public Primitive 
 {
 public:
@@ -163,13 +168,16 @@ public:
     virtual BoundingBox get_bounding_box();
     
     virtual void center(Coordinate c) {_center = c;}
-    virtual void radius(double r) {_radius = r;}
+    virtual void hradius(double r) {_hradius = r;}
+    virtual void vradius(double r) {_vradius = r;}
     virtual Coordinate center() const {return _center;}
-    virtual double radius() const {return _radius;}
+    virtual double hradius() const {return _hradius;}
+    virtual double vradius() const {return _vradius;}
 
 protected:
     Coordinate _center;
-    double _radius;
+    double _hradius;
+    double _vradius;
 };
 
 class TextPrimitive : public Primitive 
@@ -220,8 +228,8 @@ public:
         const Coordinate& pos, const DrawSettings& ds,
         bool highlight = false);
     
-    virtual void start(Coordinate s) {_start = s;}
-    virtual Coordinate start() const {return _start;}
+    virtual void pin_location(Coordinate s) {_pinloc = s;}
+    virtual Coordinate pin_location() const {return _pinloc;}
 
     std::shared_ptr<SymbolPinAttribute> get_attribute(Glib::ustring attr_name);
 	void add_attribute(SymbolPinAttribute attr) 
@@ -237,11 +245,8 @@ public:
 protected:
     virtual void init_attributes();
     std::map<Glib::ustring,SymbolPinAttribute> _attrs;
-    Coordinate _start;
-    Coordinate _end;
-    Glib::ustring _direction = "LEFT";
-    double _hbox_size = 2; // Highlight box size
-    double _pin_len = 5; // Pin length
+    Coordinate _pinloc;
+    double _hbox_size = 1.5; // Highlight box size
 };
 
 

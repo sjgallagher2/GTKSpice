@@ -142,6 +142,17 @@ overhangs around corners. Vertices which are redundent should be eliminated auto
 GTKSpice symbol files can be custom. We should also support importing
 from LTSpice (.asy files).
 
+For using Flex and Bison (instead of FlexC++ and BisonC++ like I did previously) check out this
+link:
+    https://aquamentus.com/flex_bison.html
+I think I'll stick to the nicer C++ utilities; FlexC++ manual is found here:
+	https://fbb-git.gitlab.io/flexcpp/manual/flexc++01.html
+For bisonc++:
+	https://fbb-git.gitlab.io/bisoncpp/manual/bisonc++.html
+Both also have good man pages.
+
+
+
 Example of an LTSpice Schematic:
 /******* DRAFT1.ASC *******/
   Version 4
@@ -170,6 +181,10 @@ SHEET are in the file. When one resistor is added, we get a SYMBOL and SYMATTR.
 When wires are added, we get a WIRE for each segment. When a resistor is rotated, we get 
 a WINDOW with VBottom alignment and a WINDOW with VTop alignment for the attribute windows
 on that resistor (this just pushes the text around). These appear after the SYMBOL. 
+
+
+///////////////////////////////////
+
 
 LTSpice .asy File Standard
 ---------------------------------
