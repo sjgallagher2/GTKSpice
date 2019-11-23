@@ -46,6 +46,7 @@ class LTSpiceSymbolParser: public LTSpiceSymbolParserBase
         ObjectGeometry ogeom_;
         ObjectPins opins_;
         std::shared_ptr<ObjectSymbol> osymbol_;
+
 };
 
 

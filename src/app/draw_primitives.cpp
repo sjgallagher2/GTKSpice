@@ -275,7 +275,8 @@ BoundingBox TextPrimitive::get_bounding_box(double fontsize)
 
 SymbolPin::SymbolPin()
 {
-    init_attributes();
+    if(_attrs.empty())
+        init_attributes();
 }
 void SymbolPin::init_attributes()
 {

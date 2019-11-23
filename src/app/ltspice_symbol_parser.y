@@ -58,8 +58,8 @@
 
 %token <u_str>  PIN 
 %token <u_str>  PINATTR
-//%token <u_str>  PINNAME
-//%token <u_str>  SPICEORDER
+%token <u_str>  PINNAME
+%token <u_str>  SPICEORDER
 
 // Semantic type definitions
 %type <u_str>   ltspicesymbolfile
@@ -76,11 +76,19 @@
 %type <u_str>   textline
 %type <u_str>   windowline
 %type <u_str>   symattrline
-%type <u_str>   symattrstring
+%type <u_str>   symattrprefixstring
+%type <u_str>   symattrmodelstring
+%type <u_str>   symattrvaluestring
+%type <u_str>   symattrvalue2string
+%type <u_str>   symattrspicelinestring
+%type <u_str>   symattrspiceline2string
+%type <u_str>   symattrdescriptionstring
+%type <u_str>   symattrmodelfilestring
 %type <u_str>   pinlines // Collect pins and attributes
 %type <u_str>   pinline // Collect pin with its attributes
 %type <u_str>   pinattrline // Collect pin attributes
-%type <u_str>   pinattrstring // Because attributes can have multi-word strings
+%type <u_int>   pinattrspiceorderstring 
+%type <u_str>   pinattrpinnamestring 
 
 %type <u_str>   string
 %type <u_int>   integer
@@ -269,6 +277,7 @@ pinlines:
         $$ = nullptr;
     }
 ;
+
 pinline:
     PIN ' ' integer ' ' integer ' ' string ' ' integer '\n'
     {
@@ -278,27 +287,59 @@ pinline:
         opins_.push_back(pin1);
     }
 ;
+
 pinattrline:
-    pinattrstring '\n'
+    pinattrpinnamestring '\n'
     {
         $$ = nullptr;
+        if(!opins_.empty())
+            (*(opins_.end()-1))->set_attribute_value("NAME",*($1));
+        else
+            std::cout << "WARNING: Pin attribute found but no pins added.\n";
+    }
+|
+    pinattrspiceorderstring '\n'
+    {
+        $$ = nullptr;
+        if(!opins_.empty())
+            (*(opins_.end()-1))->set_attribute_value("SPICE_ORDER",std::to_string($1));
+        else
+            std::cout << "WARNING: Pin attribute found but no pins added.\n";
     }
 ;
-pinattrstring:
-    pinattrstring ' ' string
+
+pinattrpinnamestring:
+    pinattrpinnamestring ' '
 |
-    pinattrstring ' ' integer
+    PINATTR ' ' PINNAME ' ' integer
+    {
+        $$ = new std::string(std::to_string($5));
+    }
 |
-    pinattrstring ' '
-|
-    PINATTR
+    PINATTR ' ' PINNAME ' ' string
+    {
+        $$ = $5;
+    }
 ;
 
+pinattrspiceorderstring:
+    pinattrspiceorderstring ' '
+|
+    PINATTR ' ' SPICEORDER ' ' integer
+    {
+        $$ = $5;
+    }
+;
 
 
 // BASIC TOKENS
 string:
     STRING
+    {
+        $$ = d_scanner.strVal();
+    }
+|
+    '-'
     {
         $$ = d_scanner.strVal();
     }

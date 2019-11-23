@@ -121,7 +121,6 @@ protected:
     double _width,_height;
 };
 
-// TODO An alternative is to use 4 vertices to define an elliptical arc
 class ArcPrimitive : public Primitive 
 {
 public:
@@ -153,7 +152,7 @@ protected:
     double _start_angle_deg; // Angle in degrees
     double _end_angle_deg; // Angle in degrees
 };
-// TODO An alternative is corner-corner to define the circle
+
 class CirclePrimitive : public Primitive 
 {
 public:
@@ -236,9 +235,62 @@ public:
         {_attrs.insert(std::pair<Glib::ustring,SymbolPinAttribute>(attr.name,attr));}
 	bool has_attribute(Glib::ustring attr_name);
 
-    // TODO set_direction does nothing
-    void set_direction(Glib::ustring dir); // LEFT, RIGHT, UP, DOWN
-    Glib::ustring get_direction();
+    Glib::ustring get_attribute_value(Glib::ustring attr_name)
+    {
+        if(has_attribute(attr_name))
+            return _attrs.find(attr_name)->second.value;
+        return "";
+    }
+    bool get_attribute_removable(Glib::ustring attr_name)
+    {
+        if(has_attribute(attr_name))
+            return _attrs.find(attr_name)->second.removable;
+        return false;
+    }
+    bool get_attribute_required(Glib::ustring attr_name)
+    {
+        if(has_attribute(attr_name))
+            return _attrs.find(attr_name)->second.required;
+        return false;
+    }
+    bool get_attribute_show_on_schematic(Glib::ustring attr_name)
+    {
+        if(has_attribute(attr_name))
+            return _attrs.find(attr_name)->second.show_on_schematic;
+        return false;
+    }
+    bool get_attribute_editable(Glib::ustring attr_name)
+    {
+        if(has_attribute(attr_name))
+            return _attrs.find(attr_name)->second.editable;
+        return false;
+    }
+
+    void set_attribute_value(Glib::ustring attr_name, Glib::ustring value)
+    {
+        if(has_attribute(attr_name))
+            _attrs.find(attr_name)->second.value = value;
+    }
+    void set_attribute_removable(Glib::ustring attr_name, bool removable)
+    {
+        if(has_attribute(attr_name))
+            _attrs.find(attr_name)->second.removable = removable;
+    }
+    void set_attribute_required(Glib::ustring attr_name, bool required)
+    {
+        if(has_attribute(attr_name))
+            _attrs.find(attr_name)->second.required = required;
+    }
+    void set_attribute_show_on_schematic(Glib::ustring attr_name, bool show)
+    {
+        if(has_attribute(attr_name))
+            _attrs.find(attr_name)->second.show_on_schematic = show;
+    }
+    void set_attribute_editable(Glib::ustring attr_name, bool editable)
+    {
+        if(has_attribute(attr_name))
+            _attrs.find(attr_name)->second.editable = editable;
+    }
 
     virtual BoundingBox get_bounding_box();
 	virtual bool under(const Coordinate& pos); // True if pos is on top of the pin's active area

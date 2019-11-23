@@ -98,70 +98,18 @@ bool View::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
 
     
     /******** TESTING ********/
-    DrawSettings ds; // Use defaults
-    ds.font_size = 5;
-
-    /*
-    std::shared_ptr<LinePrimitive> line1 = std::make_shared<LinePrimitive>();
-    line1->start(Coordinate(-5,-15));
-    line1->end(Coordinate(-5,15));
-    std::shared_ptr<LinePrimitive> line2 = std::make_shared<LinePrimitive>();
-    line2->start(Coordinate(-5,-15));
-    line2->end(Coordinate(20,0));
-    std::shared_ptr<LinePrimitive> line3 = std::make_shared<LinePrimitive>();
-    line3->start(Coordinate(-5,15));
-    line3->end(Coordinate(20,0));
-
-    std::shared_ptr<RectPrimitive> rect1 = std::make_shared<RectPrimitive>();
-    rect1->anchor(Coordinate(-3,5));
-    rect1->height(3);
-    rect1->width(3);
-    std::shared_ptr<RectPrimitive> rect2 = std::make_shared<RectPrimitive>();
-    rect2->anchor(Coordinate(-3,-5));
-    rect2->height(-3);
-    rect2->width(3);
-
-    std::shared_ptr<ArcPrimitive> arc1 = std::make_shared<ArcPrimitive>();
-    arc1->center(Coordinate(5,0));
-    arc1->radius(3);
-    arc1->set_start_angle_degrees(-90);
-    arc1->set_end_angle_degrees(90);
-
-    std::shared_ptr<CirclePrimitive> circ1 = std::make_shared<CirclePrimitive>();
-    circ1->center(Coordinate(18,0));
-    circ1->radius(3);
-    std::shared_ptr<CirclePrimitive> circ2 = std::make_shared<CirclePrimitive>();
-    circ2->center(Coordinate(21,0));
-    circ2->radius(3);
-
-    std::shared_ptr<TextPrimitive> text1 = std::make_shared<TextPrimitive>();
-    text1->text("U1");
-    text1->anchor(Coordinate(0,2));
-
-    // Make geometry, pins, set position
-
-    ObjectGeometry sym_geom;
-    sym_geom.push_back(line1);
-    sym_geom.push_back(line2);
-    sym_geom.push_back(line3);
-    sym_geom.push_back(rect1);
-    sym_geom.push_back(rect2);
-    sym_geom.push_back(arc1);
-    sym_geom.push_back(circ1);
-    sym_geom.push_back(circ2);
-    sym_geom.push_back(text1);
-    */
-    
-    Coordinate sym_pos(30,10);
-
 
     //GtkSpiceObject opamp;
     //opamp.index = 0;
     //opamp.active = false;
     //opamp.position = sym_pos;
     //opamp.symbol = opamp_sym;
+
+    DrawSettings ds; // Use most defaults
+    ds.font_size = 5;
     
-    std::ifstream sfilestrm("/home/sam/Documents/Electronics/SPICE/lib/sym/Opamps/LM308.asy",std::fstream::in);
+    Coordinate sym_pos(30,10);
+    std::ifstream sfilestrm("/home/sam/Documents/Electronics/SPICE/lib/sym/SOAtherm-HeatSink.asy",std::fstream::in);
     LTSpiceSymbolParser parser(sfilestrm);
     if(parser.parse() == 0)
     {

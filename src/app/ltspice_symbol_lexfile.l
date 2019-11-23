@@ -23,10 +23,12 @@ window               {sval_ = matched(); return LTSpiceSymbolParser::WINDOW;}
 symattr              {sval_ = matched(); return LTSpiceSymbolParser::SYMATTR;}
 pin                  {sval_ = matched(); return LTSpiceSymbolParser::PIN;}
 pinattr              {sval_ = matched(); return LTSpiceSymbolParser::PINATTR;}
+pinname              {sval_ = matched(); return LTSpiceSymbolParser::PINNAME;}
+spiceorder           {sval_ = matched(); return LTSpiceSymbolParser::SPICEORDER;}
 
 // Strings
 [a-zA-Z_\+\=\(\)\*\<\>\/\[\]\!\@\#\$\%\^\&\'\"][a-zA-Z0-9_\+\-\=\(\)\*\<\>\/\[\]\!\@\#\$\%\^\&\'\"\.]*       {sval_ = matched(); return LTSpiceSymbolParser::STRING;}
-[-]/[ ]  {sval_ = matched(); return LTSpiceSymbolParser::STRING;}
+[\-]  {sval_ = matched(); return matched()[0];}
 [\n]+                       return matched()[0];
 
 // Integers 
