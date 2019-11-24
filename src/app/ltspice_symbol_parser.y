@@ -47,14 +47,14 @@
 // Attributes and pins
 %token <u_str>  WINDOW
 %token <u_str>  SYMATTR
-//%token <u_str>  PREFIX
-//%token <u_str>  SPICEMODEL
-//%token <u_str>  VALUE
-//%token <u_str>  VALUE2
-//%token <u_str>  SPICELINE
-//%token <u_str>  SPICELINE2
-//%token <u_str>  DESCRIPTION
-//%token <u_str>  MODELFILE
+%token <u_str>  PREFIX
+%token <u_str>  SPICEMODEL
+%token <u_str>  VALUE
+%token <u_str>  VALUE2
+%token <u_str>  SPICELINE
+%token <u_str>  SPICELINE2
+%token <u_str>  DESCRIPTION
+%token <u_str>  MODELFILE
 
 %token <u_str>  PIN 
 %token <u_str>  PINATTR
@@ -162,8 +162,8 @@ lineline:
     {
         $$ = nullptr;
         std::shared_ptr<LinePrimitive> line = std::make_shared<LinePrimitive>();
-        line->start(Coordinate(($5)/3.0,($7)/3.0));
-        line->end(Coordinate(($9)/3.0,($11)/3.0));
+        line->start(Coordinate(($5)/LTSPICE_SCALE_FACTOR,($7)/LTSPICE_SCALE_FACTOR));
+        line->end(Coordinate(($9)/LTSPICE_SCALE_FACTOR,($11)/LTSPICE_SCALE_FACTOR));
         ogeom_.push_back(line);
     }
 |
@@ -172,8 +172,8 @@ lineline:
         $$ = nullptr;
         // NOTE: Ignoring line styles, because why have those in a symbol
         std::shared_ptr<LinePrimitive> line = std::make_shared<LinePrimitive>();
-        line->start(Coordinate(($5)/3.0,($7)/3.0));
-        line->end(Coordinate(($9)/3.0,($11)/3.0));
+        line->start(Coordinate(($5)/LTSPICE_SCALE_FACTOR,($7)/LTSPICE_SCALE_FACTOR));
+        line->end(Coordinate(($9)/LTSPICE_SCALE_FACTOR,($11)/LTSPICE_SCALE_FACTOR));
         ogeom_.push_back(line);
     }
 ;
@@ -182,9 +182,9 @@ rectangleline:
     {
         $$ = nullptr;
         std::shared_ptr<RectPrimitive> rect = std::make_shared<RectPrimitive>();
-        rect->anchor(Coordinate(($5)/3.0, ($7)/3.0));
-        rect->height(($11-$7)/3.0);
-        rect->width(($9-$5)/3.0);
+        rect->anchor(Coordinate(($5)/LTSPICE_SCALE_FACTOR, ($7)/LTSPICE_SCALE_FACTOR));
+        rect->height(($11-$7)/LTSPICE_SCALE_FACTOR);
+        rect->width(($9-$5)/LTSPICE_SCALE_FACTOR);
         ogeom_.push_back(rect);
     }
 ;
@@ -193,9 +193,9 @@ circleline:
     {
         $$ = nullptr;
         std::shared_ptr<CirclePrimitive> circ = std::make_shared<CirclePrimitive>();
-        circ->hradius( ($9 - $5)/6.0 );
-        circ->vradius(($11-$7)/6.0);
-        circ->center( Coordinate( ($5)/3.0 + circ->hradius(), ($7)/3.0 + circ->vradius() ));
+        circ->hradius( ($9 - $5)/2.0 / LTSPICE_SCALE_FACTOR);
+        circ->vradius(($11-$7)/2.0 / LTSPICE_SCALE_FACTOR);
+        circ->center( Coordinate( ($5)/LTSPICE_SCALE_FACTOR + circ->hradius(), ($7)/LTSPICE_SCALE_FACTOR + circ->vradius() ));
         ogeom_.push_back(circ);
     }
 |
@@ -203,9 +203,9 @@ circleline:
     {
         $$ = nullptr;
         std::shared_ptr<CirclePrimitive> circ = std::make_shared<CirclePrimitive>();
-        circ->hradius( ($9 - $5)/6.0 );
-        circ->vradius(($11-$7)/6.0);
-        circ->center( Coordinate( ($5)/3.0 + circ->hradius(), ($7)/3.0 + circ->vradius() ));
+        circ->hradius( ($9 - $5)/2.0 / LTSPICE_SCALE_FACTOR );
+        circ->vradius(($11-$7)/2.0 / LTSPICE_SCALE_FACTOR);
+        circ->center( Coordinate( ($5)/LTSPICE_SCALE_FACTOR + circ->hradius(), ($7)/LTSPICE_SCALE_FACTOR + circ->vradius() ));
         ogeom_.push_back(circ);
     }
 ;
@@ -216,14 +216,14 @@ arcline:
 
         // Get source circle
         std::shared_ptr<ArcPrimitive> arc = std::make_shared<ArcPrimitive>();
-        arc->hradius( ($9-$5) / 6.0 );
-        arc->vradius(($11-$7) / 6.0);
-        arc->center( Coordinate( ($5) / 3.0 + arc->hradius(), ($7) / 3.0 + arc->vradius() ));
+        arc->hradius( ($9-$5) / 2.0 / LTSPICE_SCALE_FACTOR );
+        arc->vradius(($11-$7) / 2.0 / LTSPICE_SCALE_FACTOR);
+        arc->center( Coordinate( ($5) / LTSPICE_SCALE_FACTOR + arc->hradius(), ($7) / LTSPICE_SCALE_FACTOR + arc->vradius() ));
 
         // Now get angles
         // We have a point for each, use atan2() to get angle relative to circle center
-        Coordinate p1_abs(($13)/3.0 - arc->center().x(), ($15)/3.0 - arc->center().y());
-        Coordinate p2_abs(($17)/3.0 - arc->center().x(), ($19)/3.0 - arc->center().y());
+        Coordinate p1_abs(($13)/LTSPICE_SCALE_FACTOR - arc->center().x(), ($15)/LTSPICE_SCALE_FACTOR - arc->center().y());
+        Coordinate p2_abs(($17)/LTSPICE_SCALE_FACTOR - arc->center().x(), ($19)/LTSPICE_SCALE_FACTOR - arc->center().y());
         float angle1 = std::atan2(p1_abs.y(),p1_abs.x()) / M_PI*180.0;
         float angle2 = std::atan2(p2_abs.y(),p2_abs.x()) / M_PI*180.0;
         
@@ -251,19 +251,228 @@ windowline:
     }
 ;
 symattrline:
-    symattrstring '\n'
+    symattrprefixstring '\n'
     {
         $$ = nullptr;
+        osymbol_.set_attribute_value("PREFIX",*($1));
+        delete $1;
+    }
+|
+    symattrmodelstring '\n'
+    {
+        $$ = nullptr;
+        osymbol_.set_attribute_value("SPICEMODEL",*($1));
+        delete $1;
+    }
+|
+    symattrvaluestring '\n'
+    {
+        $$ = nullptr;
+        osymbol_.set_attribute_value("VALUE",*($1));
+        delete $1;
+    }
+|
+    symattrvalue2string '\n'
+    {
+        $$ = nullptr;
+        delete $1;
+    }
+|
+    symattrspicelinestring '\n'
+    {
+        $$ = nullptr;
+        osymbol_.set_attribute_value("SPICELINE",*($1));
+        delete $1;
+    }
+|
+    symattrspiceline2string '\n'
+    {
+        $$ = nullptr;
+        delete $1;
+    }
+|
+    symattrdescriptionstring '\n'
+    {
+        $$ = nullptr;
+        osymbol_.set_attribute_value("DESCRIPTION",*($1));
+        delete $1;
+    }
+|
+    symattrmodelfilestring '\n'
+    {
+        $$ = nullptr;
+        osymbol_.set_attribute_value("MODELFILE",*($1));
+        delete $1;
     }
 ;
-symattrstring:
-    symattrstring ' ' string
+symattrprefixstring:
+    symattrprefixstring ' '
 |
-    symattrstring ' ' integer
+    SYMATTR ' ' PREFIX ' ' string
+    {
+        $$ = $5;
+    }
+;
+symattrmodelstring:
+    symattrmodelstring ' '
 |
-    symattrstring ' '
+    SYMATTR ' ' SPICEMODEL ' ' string
+    {
+        $$ = $5;
+    }
+;
+symattrvaluestring:
+    symattrvaluestring string
+    {
+        $$ = new std::string(*($1) + *($2));
+        delete $1;
+    }
 |
-    SYMATTR
+    symattrvaluestring integer
+    {
+        $$ = new std::string(*($1) + std::to_string($2));
+        delete $1;
+    }
+|
+    symattrvaluestring ' '
+    {
+        $$ = new std::string(*($1) + " ");
+        delete $1;
+    }
+|
+    SYMATTR ' ' VALUE ' ' string
+    {
+        $$ = $5;
+    }
+|
+    SYMATTR ' ' VALUE ' ' integer
+    {
+        $$ = new std::string(std::to_string($5));
+    }
+;
+symattrvalue2string:
+    symattrvalue2string string
+    {
+        $$ = new std::string(*($1) + *($2));
+        delete $1;
+    }
+|
+    symattrvalue2string integer
+    {
+        $$ = new std::string(*($1) + std::to_string($2));
+        delete $1;
+    }
+|
+    symattrvalue2string ' '
+    {
+        $$ = new std::string(*($1) + " ");
+        delete $1;
+    }
+|
+    SYMATTR ' ' VALUE2 ' ' string
+    {
+        $$ = $5;
+    }
+|
+    SYMATTR ' ' VALUE2 ' ' integer
+    {
+        $$ = new std::string(std::to_string($5));
+    }
+;
+symattrspicelinestring:
+    symattrspicelinestring string
+    {
+        $$ = new std::string(*($1) + *($2));
+        delete $1;
+    }
+|
+    symattrspicelinestring integer
+    {
+        $$ = new std::string(*($1) + std::to_string($2));
+        delete $1;
+    }
+|
+    symattrspicelinestring ' '
+    {
+        $$ = new std::string(*($1) + " ");
+        delete $1;
+    }
+|
+    SYMATTR ' ' SPICELINE ' ' string
+    {
+        $$ = $5;
+    }
+|
+    SYMATTR ' ' SPICELINE ' ' integer
+    {
+        $$ = new std::string(std::to_string($5));
+    }
+;
+symattrspiceline2string:
+    symattrspiceline2string string
+    {
+        $$ = new std::string(*($1) + *($2));
+        delete $1;
+    }
+|
+    symattrspiceline2string integer
+    {
+        $$ = new std::string(*($1) + std::to_string($2));
+        delete $1;
+    }
+|
+    symattrspiceline2string ' '
+    {
+        $$ = new std::string(*($1) + " ");
+        delete $1;
+    }
+|
+    SYMATTR ' ' SPICELINE2 ' ' string
+    {
+        $$ = $5;
+    }
+;
+symattrdescriptionstring:
+    symattrdescriptionstring string
+    {
+        $$ = new std::string(*($1) + *($2));
+        delete $1;
+    }
+|
+    symattrdescriptionstring integer
+    {
+        $$ = new std::string(*($1) + std::to_string($2));
+        delete $1;
+    }
+|
+    symattrdescriptionstring ' '
+    {
+        $$ = new std::string(*($1) + " ");
+        delete $1;
+    }
+|
+    SYMATTR ' ' DESCRIPTION ' ' string
+    {
+        $$ = $5;
+    }
+;
+symattrmodelfilestring:
+    symattrmodelfilestring string
+    {
+        $$ = new std::string(*($1) + *($2));
+        delete $1;
+    }
+|
+    symattrmodelfilestring integer
+    {
+        $$ = new std::string(*($1) + std::to_string($2));
+        delete $1;
+    }
+|
+    SYMATTR ' ' MODELFILE ' ' string
+    {
+        $$ = $5;
+    }
 ;
 
 pinlines:
@@ -283,7 +492,7 @@ pinline:
     {
         $$ = nullptr;
         std::shared_ptr<SymbolPin> pin1 = std::make_shared<SymbolPin>();
-        pin1->pin_location(Coordinate(($3)/3.0,($5)/3.0));
+        pin1->pin_location(Coordinate(($3)/LTSPICE_SCALE_FACTOR,($5)/LTSPICE_SCALE_FACTOR));
         opins_.push_back(pin1);
     }
 ;
@@ -296,6 +505,7 @@ pinattrline:
             (*(opins_.end()-1))->set_attribute_value("NAME",*($1));
         else
             std::cout << "WARNING: Pin attribute found but no pins added.\n";
+        delete $1;
     }
 |
     pinattrspiceorderstring '\n'

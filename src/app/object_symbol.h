@@ -52,6 +52,62 @@ public:
 	void add_attribute(SymbolAttribute attr) 
         {_attrs.insert(std::pair<Glib::ustring,SymbolAttribute>(attr.name,attr));}
 	bool has_attribute(Glib::ustring attr_name);
+    Glib::ustring get_attribute_value(Glib::ustring attr_name)
+    {
+        if(has_attribute(attr_name))
+            return _attrs.find(attr_name)->second.value;
+        return "";
+    }
+    bool get_attribute_removable(Glib::ustring attr_name)
+    {
+        if(has_attribute(attr_name))
+            return _attrs.find(attr_name)->second.removable;
+        return false;
+    }
+    bool get_attribute_required(Glib::ustring attr_name)
+    {
+        if(has_attribute(attr_name))
+            return _attrs.find(attr_name)->second.required;
+        return false;
+    }
+    bool get_attribute_show_on_schematic(Glib::ustring attr_name)
+    {
+        if(has_attribute(attr_name))
+            return _attrs.find(attr_name)->second.show_on_schematic;
+        return false;
+    }
+    bool get_attribute_editable(Glib::ustring attr_name)
+    {
+        if(has_attribute(attr_name))
+            return _attrs.find(attr_name)->second.editable;
+        return false;
+    }
+
+    void set_attribute_value(Glib::ustring attr_name, Glib::ustring value)
+    {
+        if(has_attribute(attr_name))
+            _attrs.find(attr_name)->second.value = value;
+    }
+    void set_attribute_removable(Glib::ustring attr_name, bool removable)
+    {
+        if(has_attribute(attr_name))
+            _attrs.find(attr_name)->second.removable = removable;
+    }
+    void set_attribute_required(Glib::ustring attr_name, bool required)
+    {
+        if(has_attribute(attr_name))
+            _attrs.find(attr_name)->second.required = required;
+    }
+    void set_attribute_show_on_schematic(Glib::ustring attr_name, bool show)
+    {
+        if(has_attribute(attr_name))
+            _attrs.find(attr_name)->second.show_on_schematic = show;
+    }
+    void set_attribute_editable(Glib::ustring attr_name, bool editable)
+    {
+        if(has_attribute(attr_name))
+            _attrs.find(attr_name)->second.editable = editable;
+    }
 
     std::shared_ptr<ObjectGeometry> get_geometry() const {return std::make_shared<ObjectGeometry>(_geometry);}
 
@@ -59,6 +115,8 @@ public:
     std::shared_ptr<SymbolPin> get_pin(Glib::ustring pin_name);
 	void add_pin(SymbolPin new_pin) {_pins.push_back(std::make_shared<SymbolPin>(new_pin));} // Add a new pin
 	void set_pin(Glib::ustring pin_name, SymbolPin new_pin); // Set the pin with pin_name to new_pin
+    void set_pins(ObjectPins pins) {_pins = pins;}
+    void set_geometry(ObjectGeometry geom) {_geometry = geom;}
 
     void draw(Cairo::RefPtr<Cairo::Context> context);
     bool under(Coordinate pos); // Return true if visible and selectable parts of Symbol are (roughly) under pos

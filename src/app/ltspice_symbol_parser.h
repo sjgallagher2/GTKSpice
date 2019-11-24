@@ -24,9 +24,13 @@ class LTSpiceSymbolParser: public LTSpiceSymbolParserBase
         LTSpiceSymbolParser(std::ifstream& inputstream,std::ostream& outputstream=std::cout)
          : d_scanner(inputstream,outputstream) {}
         int parse();
-        bool symbol_available() {return savail_;}
-        ObjectGeometry get_geometry() const {return ogeom_;}
-        ObjectPins get_pins() const {return opins_;}
+        ObjectSymbol get_symbol() 
+        {
+            osymbol_.set_pins(opins_);
+            osymbol_.set_geometry(ogeom_);
+            osymbol_.visible(true);
+            return osymbol_;
+        }
 
     private:
         void error(char const *msg);    // called on (syntax) errors
@@ -41,12 +45,11 @@ class LTSpiceSymbolParser: public LTSpiceSymbolParserBase
         void nextToken();
         void print__();
         void exceptionHandler__(std::exception const &exc);
-        bool savail_ = false; // True when symbol object is complete and available
 
         ObjectGeometry ogeom_;
         ObjectPins opins_;
-        std::shared_ptr<ObjectSymbol> osymbol_;
-
+        ObjectSymbol osymbol_;
+        const double LTSPICE_SCALE_FACTOR = 2; // Distances are divided by this factor
 };
 
 

@@ -5,6 +5,10 @@
 %lex-source = "ltspice_symbol_lexer.cpp"
 //%print-tokens
 
+// TODO: Can't recognize e.g. the word "transmission line" because it has
+// a keyword (LINE) in it. Normally the answer would be mini-scanning, but
+// it didn't work for me in flexc++. 
+
 %%
 
 
@@ -25,6 +29,14 @@ pin                  {sval_ = matched(); return LTSpiceSymbolParser::PIN;}
 pinattr              {sval_ = matched(); return LTSpiceSymbolParser::PINATTR;}
 pinname              {sval_ = matched(); return LTSpiceSymbolParser::PINNAME;}
 spiceorder           {sval_ = matched(); return LTSpiceSymbolParser::SPICEORDER;}
+prefix               {sval_ = matched(); return LTSpiceSymbolParser::PREFIX;}
+spicemodel           {sval_ = matched(); return LTSpiceSymbolParser::SPICEMODEL;}
+value                {sval_ = matched(); return LTSpiceSymbolParser::VALUE;}
+value2               {sval_ = matched(); return LTSpiceSymbolParser::VALUE2;}
+spiceline            {sval_ = matched(); return LTSpiceSymbolParser::SPICELINE;}
+spiceline2           {sval_ = matched(); return LTSpiceSymbolParser::SPICELINE2;}
+description          {sval_ = matched(); return LTSpiceSymbolParser::DESCRIPTION;}
+modelfile            {sval_ = matched(); return LTSpiceSymbolParser::MODELFILE;}
 
 // Strings
 [a-zA-Z_\+\=\(\)\*\<\>\/\[\]\!\@\#\$\%\^\&\'\"][a-zA-Z0-9_\+\-\=\(\)\*\<\>\/\[\]\!\@\#\$\%\^\&\'\"\.]*       {sval_ = matched(); return LTSpiceSymbolParser::STRING;}

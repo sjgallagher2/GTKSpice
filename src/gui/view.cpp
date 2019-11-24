@@ -99,24 +99,20 @@ bool View::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
     
     /******** TESTING ********/
 
-    //GtkSpiceObject opamp;
-    //opamp.index = 0;
-    //opamp.active = false;
-    //opamp.position = sym_pos;
-    //opamp.symbol = opamp_sym;
-
     DrawSettings ds; // Use most defaults
     ds.font_size = 5;
     
     Coordinate sym_pos(30,10);
-    std::ifstream sfilestrm("/home/sam/Documents/Electronics/SPICE/lib/sym/SOAtherm-HeatSink.asy",std::fstream::in);
+    std::ifstream sfilestrm("/home/sam/Documents/Electronics/SPICE/lib/sym/polcap.asy",std::fstream::in);
     LTSpiceSymbolParser parser(sfilestrm);
     if(parser.parse() == 0)
     {
-        ObjectGeometry sym_geom = parser.get_geometry();
-        ObjectPins sym_pins = parser.get_pins();
-        std::shared_ptr<ObjectSymbol> test_sym = std::make_shared<ObjectSymbol>(sym_geom,sym_pins,sym_pos);
-        test_sym->draw(context);
+        ObjectSymbol test_sym = parser.get_symbol();
+        test_sym.position(sym_pos);
+        //std::cout << "Symbol prefix: " << test_sym.get_attribute_value("PREFIX") << "\n";
+        //std::cout << "Symbol value: " << test_sym.get_attribute_value("VALUE") << "\n";
+        //std::cout << "Symbol description: " << test_sym.get_attribute_value("DESCRIPTION") << "\n";
+        test_sym.draw(context);
     }
     else
     {

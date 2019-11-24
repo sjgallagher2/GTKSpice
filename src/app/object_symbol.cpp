@@ -20,6 +20,8 @@ ObjectSymbol::ObjectSymbol(ObjectGeometry geom, ObjectPins pins, Coordinate pos,
     _position(pos),
     _visible(visible)
 {
+    if(_attrs.empty())
+        init_attributes();
 }
 
 void ObjectSymbol::draw( Cairo::RefPtr<Cairo::Context> context )
@@ -44,13 +46,13 @@ void ObjectSymbol::init_attributes()
     symfile_attr.show_on_schematic = false;
     symfile_attr.editable = false;
 
-    SymbolAttribute name_attr;
-    name_attr.name = "NAME";
-    name_attr.value = "";
-    name_attr.removable = false;
-    name_attr.required = true;
-    name_attr.show_on_schematic = true;
-    name_attr.editable = true;
+    SymbolAttribute prefix_attr;
+    prefix_attr.name = "PREFIX";
+    prefix_attr.value = "";
+    prefix_attr.removable = false;
+    prefix_attr.required = true;
+    prefix_attr.show_on_schematic = true;
+    prefix_attr.editable = true;
 
     SymbolAttribute value_attr;
     value_attr.name = "VALUE";
@@ -59,6 +61,30 @@ void ObjectSymbol::init_attributes()
     value_attr.required = false;
     value_attr.show_on_schematic = false;
     value_attr.editable = true;
+
+    SymbolAttribute model_attr;
+    model_attr.name = "SPICEMODEL";
+    model_attr.value = "";
+    model_attr.removable = false;
+    model_attr.required = false;
+    model_attr.show_on_schematic = false;
+    model_attr.editable = true;
+
+    SymbolAttribute modelfile_attr;
+    modelfile_attr.name = "MODELFILE";
+    modelfile_attr.value = "";
+    modelfile_attr.removable = false;
+    modelfile_attr.required = false;
+    modelfile_attr.show_on_schematic = false;
+    modelfile_attr.editable = true;
+
+    SymbolAttribute spiceline_attr;
+    spiceline_attr.name = "SPICELINE";
+    spiceline_attr.value = "";
+    spiceline_attr.removable = false;
+    spiceline_attr.required = false;
+    spiceline_attr.show_on_schematic = false;
+    spiceline_attr.editable = true;
 
     SymbolAttribute desc_attr;
     desc_attr.name = "DESCRIPTION";
@@ -70,8 +96,11 @@ void ObjectSymbol::init_attributes()
 
     _attrs.clear();
     _attrs.insert(std::pair<Glib::ustring, SymbolAttribute>("FILE",symfile_attr));
-    _attrs.insert(std::pair<Glib::ustring, SymbolAttribute>("NAME",name_attr));
+    _attrs.insert(std::pair<Glib::ustring, SymbolAttribute>("PREFIX",prefix_attr));
     _attrs.insert(std::pair<Glib::ustring, SymbolAttribute>("VALUE",value_attr));
+    _attrs.insert(std::pair<Glib::ustring, SymbolAttribute>("SPICEMODEL",model_attr));
+    _attrs.insert(std::pair<Glib::ustring, SymbolAttribute>("MODELFILE",modelfile_attr));
+    _attrs.insert(std::pair<Glib::ustring, SymbolAttribute>("SPICELINE",spiceline_attr));
     _attrs.insert(std::pair<Glib::ustring, SymbolAttribute>("DESCRIPTION",desc_attr));
 
 }
