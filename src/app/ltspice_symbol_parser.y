@@ -245,9 +245,43 @@ textline:
     }
 ;
 windowline:
-    WINDOW ' ' integer ' ' integer ' ' integer ' ' string  ' 'integer '\n'
+    WINDOW ' ' integer ' ' integer ' ' integer ' ' string  ' ' integer '\n'
     {
         $$ = nullptr;
+        switch($3)
+        {
+        case 0:
+            // Instname
+            std::cout << "Showing INSTNAME attribute\n";
+            osymbol_.set_attribute_show_on_schematic("INSTNAME",true);
+            osymbol_.set_attribute_text_position("INSTNAME",Coordinate($5 / LTSPICE_SCALE_FACTOR,$7 / LTSPICE_SCALE_FACTOR));
+            break;
+        case 1:
+            // Type
+            break;
+        case 3:
+            // Value 
+            std::cout << "Showing VALUE attribute\n";
+            osymbol_.set_attribute_show_on_schematic("VALUE",true);
+            osymbol_.set_attribute_text_position("VALUE",Coordinate($5 / LTSPICE_SCALE_FACTOR,$7 / LTSPICE_SCALE_FACTOR));
+            break;
+        case 38:
+            // SpiceModel
+            osymbol_.set_attribute_show_on_schematic("SPICEMODEL",true);
+            osymbol_.set_attribute_text_position("SPICEMODEL",Coordinate($5 / LTSPICE_SCALE_FACTOR,$7 / LTSPICE_SCALE_FACTOR));
+            break;
+        case 39:
+            // SpiceLine
+            osymbol_.set_attribute_show_on_schematic("SPICELINE",true);
+            osymbol_.set_attribute_text_position("SPICELINE",Coordinate($5 / LTSPICE_SCALE_FACTOR,$7 / LTSPICE_SCALE_FACTOR));
+            break;
+        case 40:
+            // SpiceLine2
+            break;
+        case 123:
+            // Value2
+            break;
+        }
     }
 ;
 symattrline:

@@ -119,6 +119,9 @@ public:
     void set_pins(ObjectPins pins) {_pins = pins;}
     void set_geometry(ObjectGeometry geom) {_geometry = geom;}
 
+    void set_attribute_text_position(Glib::ustring attr, Coordinate pos)
+        {if(has_attribute(attr)) _attr_texts.find(attr)->second->anchor(pos);}
+
     void draw(Cairo::RefPtr<Cairo::Context> context);
     bool under(Coordinate pos); // Return true if visible and selectable parts of Symbol are (roughly) under pos
 

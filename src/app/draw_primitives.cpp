@@ -153,6 +153,7 @@ void TextPrimitive::draw(Cairo::RefPtr<Cairo::Context> context,
     context->select_font_face(ds.font_family,ds.font_slant,ds.font_weight);
     context->set_font_size (ds.font_size);
 
+    context->rel_move_to(_anchor.x(),_anchor.y());
     context->move_to(pos.x(),pos.y());
     context->show_text(_text);
     
@@ -170,6 +171,7 @@ void TextRefPrimitive::draw(Cairo::RefPtr<Cairo::Context> context,
     context->set_font_size (ds.font_size);
 
     context->move_to(pos.x(),pos.y());
+    context->rel_move_to(_anchor.x(),_anchor.y());
     context->show_text(_text_ref);
     
     //draw_bb(context,pos,ds,get_bounding_box(ds.font_size));
