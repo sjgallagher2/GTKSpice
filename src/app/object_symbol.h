@@ -33,6 +33,7 @@ struct SymbolAttribute
 
 typedef std::vector<std::shared_ptr<Primitive>> ObjectGeometry;
 typedef std::vector<std::shared_ptr<SymbolPin>> ObjectPins;
+typedef std::map<Glib::ustring, std::shared_ptr<TextRefPrimitive>> ObjectAttributeTexts;
 
 class ObjectSymbol 
 {
@@ -130,6 +131,7 @@ protected:
     ObjectGeometry _geometry;
     BoundingBox _boundingbox;
     ObjectPins _pins;
+    ObjectAttributeTexts _attr_texts; // Texts showing attribute values
     std::map<Glib::ustring, SymbolAttribute> _attrs;
 
 };
