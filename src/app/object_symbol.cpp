@@ -30,9 +30,6 @@ void ObjectSymbol::draw( Cairo::RefPtr<Cairo::Context> context )
     // Draw the symbol primitives and pin
     if(_visible)
     {
-        // Update instname attribute TODO this is fake
-        _attrs.find("INSTNAME")->second.value = _attrs.find("PREFIX")->second.value + "123";
-
         for(auto itr = _geometry.begin(); itr != _geometry.end(); ++itr)
             (*itr)->draw(context, _position, _drawsettings);
         for(auto itr = _pins.begin(); itr != _pins.end(); ++itr)

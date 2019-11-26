@@ -123,7 +123,8 @@ public:
         {if(has_attribute(attr)) _attr_texts.find(attr)->second->anchor(pos);}
 
     void draw(Cairo::RefPtr<Cairo::Context> context);
-    bool under(Coordinate pos); // Return true if visible and selectable parts of Symbol are (roughly) under pos
+    bool under(const Coordinate& pos); // Return true if visible and selectable parts of Symbol are (roughly) under pos
+    bool near(const Coordinate& pos);
 
 protected:
     virtual void init_attributes(); // Create default attributes: FILE, NAME, VALUE, and DESCRIPTION

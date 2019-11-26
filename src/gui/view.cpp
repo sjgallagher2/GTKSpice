@@ -26,9 +26,7 @@
 // FOR TESTING
 #include <app/draw_primitives.h>
 #include <app/object_symbol.h>
-#include <app/object.h>
-#include <fstream>
-#include <app/ltspice_symbol_parser.h>
+#include <app/gtkspice_object.h>
 
 /* 
  * When the screen is drawn, on_draw() is called, which provides a context object. 
@@ -102,25 +100,13 @@ bool View::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
     DrawSettings ds; // Use most defaults
     ds.font_size = 5;
     
-    Coordinate sym_pos(30,10);
-    std::ifstream sfilestrm("/home/sam/Documents/Electronics/SPICE/lib/sym/polcap.asy",std::fstream::in);
-    LTSpiceSymbolParser parser(sfilestrm);
-    if(parser.parse() == 0)
-    {
-        ObjectSymbol test_sym = parser.get_symbol();
-        test_sym.position(sym_pos);
-        //std::cout << "Symbol prefix: " << test_sym.get_attribute_value("PREFIX") << "\n";
-        //std::cout << "Symbol value: " << test_sym.get_attribute_value("VALUE") << "\n";
-        //std::cout << "Symbol description: " << test_sym.get_attribute_value("DESCRIPTION") << "\n";
-        test_sym.draw(context);
-    }
-    else
-    {
-        std::cout << "Encountered error while reading file.\n";
-    }
+    Coordinate o_pos(30,10);
+    GtkSpiceObject obj("/home/sam/Documents/Electronics/SPICE/lib/sym/sw.asy");
+    obj.set_name("123");
+    obj.set_position(o_pos);
+    obj.draw(context);
 
     /*************************/
-
 
     // All done
     return true;
