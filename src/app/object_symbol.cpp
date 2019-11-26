@@ -30,19 +30,24 @@ void ObjectSymbol::draw( Cairo::RefPtr<Cairo::Context> context )
     // Draw the symbol primitives and pin
     if(_visible)
     {
-        // Update instname attribute
-        _attrs.find("INSTNAME")->second.value = "hello";
-        std::cout << "INSTNAME ref text: " << _attrs.find("INSTNAME")->second.value << "\n";
-        std::cout << "INSTNAME text: " << _attr_texts.find("INSTNAME")->second->text() << "\n";
+        // Update instname attribute TODO this is fake
+        _attrs.find("INSTNAME")->second.value = _attrs.find("PREFIX")->second.value + "123";
 
         for(auto itr = _geometry.begin(); itr != _geometry.end(); ++itr)
             (*itr)->draw(context, _position, _drawsettings);
         for(auto itr = _pins.begin(); itr != _pins.end(); ++itr)
             (*itr)->draw(context, _position, _drawsettings,true);
         for(auto itr = _attrs.begin(); itr != _attrs.end(); ++itr)
+        {
             if(itr->second.show_on_schematic)
+            {
                 if(_attr_texts.find(itr->first) != _attr_texts.end())
+                {
+                    _attr_texts.find(itr->first)->second->text(itr->second.value);
                     _attr_texts.find(itr->first)->second->draw(context,_position,_drawsettings);
+                }
+            }
+        }
     }
 }
 
@@ -122,18 +127,18 @@ void ObjectSymbol::init_attributes()
     _attrs.insert(std::pair<Glib::ustring, SymbolAttribute>("DESCRIPTION",desc_attr));
     _attrs.insert(std::pair<Glib::ustring, SymbolAttribute>("INSTNAME",instname_attr));
 
-    _attr_texts.insert(std::pair<Glib::ustring,std::shared_ptr<TextRefPrimitive>>(
-        "FILE",std::make_shared<TextRefPrimitive>(_attrs.find("FILE")->second.value)));
-    _attr_texts.insert(std::pair<Glib::ustring,std::shared_ptr<TextRefPrimitive>>(
-        "VALUE",std::make_shared<TextRefPrimitive>(_attrs.find("VALUE")->second.value)));
-    _attr_texts.insert(std::pair<Glib::ustring,std::shared_ptr<TextRefPrimitive>>(
-        "SPICEMODEL",std::make_shared<TextRefPrimitive>(_attrs.find("SPICEMODEL")->second.value)));
-    _attr_texts.insert(std::pair<Glib::ustring,std::shared_ptr<TextRefPrimitive>>(
-        "SPICELINE",std::make_shared<TextRefPrimitive>(_attrs.find("SPICELINE")->second.value)));
-    _attr_texts.insert(std::pair<Glib::ustring,std::shared_ptr<TextRefPrimitive>>(
-        "DESCRIPTION",std::make_shared<TextRefPrimitive>(_attrs.find("DESCRIPTION")->second.value)));
-    _attr_texts.insert(std::pair<Glib::ustring,std::shared_ptr<TextRefPrimitive>>(
-        "INSTNAME",std::make_shared<TextRefPrimitive>(_attrs.find("INSTNAME")->second.value)));
+    _attr_texts.insert(std::pair<Glib::ustring,std::shared_ptr<TextPrimitive>>(
+        "FILE",std::make_shared<TextPrimitive>()));
+    _attr_texts.insert(std::pair<Glib::ustring,std::shared_ptr<TextPrimitive>>(
+        "VALUE",std::make_shared<TextPrimitive>()));
+    _attr_texts.insert(std::pair<Glib::ustring,std::shared_ptr<TextPrimitive>>(
+        "SPICEMODEL",std::make_shared<TextPrimitive>()));
+    _attr_texts.insert(std::pair<Glib::ustring,std::shared_ptr<TextPrimitive>>(
+        "SPICELINE",std::make_shared<TextPrimitive>()));
+    _attr_texts.insert(std::pair<Glib::ustring,std::shared_ptr<TextPrimitive>>(
+        "DESCRIPTION",std::make_shared<TextPrimitive>()));
+    _attr_texts.insert(std::pair<Glib::ustring,std::shared_ptr<TextPrimitive>>(
+        "INSTNAME",std::make_shared<TextPrimitive>()));
 
 }
 

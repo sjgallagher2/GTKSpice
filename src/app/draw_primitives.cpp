@@ -153,26 +153,9 @@ void TextPrimitive::draw(Cairo::RefPtr<Cairo::Context> context,
     context->select_font_face(ds.font_family,ds.font_slant,ds.font_weight);
     context->set_font_size (ds.font_size);
 
-    context->rel_move_to(_anchor.x(),_anchor.y());
     context->move_to(pos.x(),pos.y());
+    context->rel_move_to(_anchor.x(),_anchor.y());
     context->show_text(_text);
-    
-    //draw_bb(context,pos,ds,get_bounding_box(ds.font_size));
-
-    context->restore();
-}
-void TextRefPrimitive::draw(Cairo::RefPtr<Cairo::Context> context, 
-    Coordinate pos, const DrawSettings& ds)
-{
-    context->save();
-    context->set_source_rgb(0.1,0.1,0.9);
-    context->set_antialias(ds.antialias);
-    context->select_font_face(ds.font_family,ds.font_slant,ds.font_weight);
-    context->set_font_size (ds.font_size);
-
-    context->move_to(pos.x(),pos.y());
-    context->rel_move_to(_anchor.x(),_anchor.y());
-    context->show_text(_text_ref);
     
     //draw_bb(context,pos,ds,get_bounding_box(ds.font_size));
 
@@ -287,34 +270,6 @@ BoundingBox TextPrimitive::get_bounding_box(double fontsize)
     bb.anchor = _anchor;
     bb.height = -fontsize;
     bb.width = _text.size()*fontsize*(3.0/5.0);
-
-    return bb;
-}
-BoundingBox TextRefPrimitive::get_bounding_box(double fontsize,double fontwidth)
-{
-    BoundingBox bb;
-    /* NOTE This isn't so simple, even with a monospace font. We can do it
-     * through the Cairo context with get_text_extents. Do this with
-     * a single character, pass the width to this method, or try
-     * a fixed ratio.
-     */
-
-    bb.anchor = _anchor;
-    bb.height = -fontsize;
-    bb.width = _text_ref.size()*fontwidth;
-
-    return bb;
-}
-BoundingBox TextRefPrimitive::get_bounding_box(double fontsize)
-{
-    BoundingBox bb;
-    /* NOTE This overload assumes a 3/5 ratio.
-     * A ratio of 3/5 is somewhat common in monospace fonts.
-     */
-
-    bb.anchor = _anchor;
-    bb.height = -fontsize;
-    bb.width = _text_ref.size()*fontsize*(3.0/5.0);
 
     return bb;
 }

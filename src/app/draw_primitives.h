@@ -204,31 +204,6 @@ protected:
     Glib::ustring _text;
     Coordinate _anchor;
 };
-class TextRefPrimitive : public Primitive 
-{
-public:
-    TextRefPrimitive(Glib::ustring& text_ref) : 
-        _text_ref(text_ref) {_type=TEXT_PRIMITIVE;}
-
-    /* @brief Draw primitive to context, at position pos
-     * 
-     */
-    virtual void draw(Cairo::RefPtr<Cairo::Context> context, 
-        Coordinate pos, const DrawSettings& drawsettings);
-
-    virtual BoundingBox get_bounding_box() 
-        {BoundingBox empty;empty.anchor = Coordinate(0,0);empty.width=0;empty.height=0;return empty;}
-    virtual BoundingBox get_bounding_box(double fontsize,double fontwidth);
-    virtual BoundingBox get_bounding_box(double fontsize); // Assume W:H ratio of 3:5
-
-    virtual void anchor(Coordinate a) {_anchor = a;}
-    virtual Coordinate anchor() const {return _anchor;}
-    virtual Glib::ustring& text() const {return _text_ref;}
-
-protected:
-    Glib::ustring& _text_ref;
-    Coordinate _anchor = Coordinate(0,0);
-};
 
 
 struct SymbolPinAttribute 

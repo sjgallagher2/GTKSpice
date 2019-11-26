@@ -252,7 +252,6 @@ windowline:
         {
         case 0:
             // Instname
-            std::cout << "Showing INSTNAME attribute\n";
             osymbol_.set_attribute_show_on_schematic("INSTNAME",true);
             osymbol_.set_attribute_text_position("INSTNAME",Coordinate($5 / LTSPICE_SCALE_FACTOR,$7 / LTSPICE_SCALE_FACTOR));
             break;
@@ -261,7 +260,6 @@ windowline:
             break;
         case 3:
             // Value 
-            std::cout << "Showing VALUE attribute\n";
             osymbol_.set_attribute_show_on_schematic("VALUE",true);
             osymbol_.set_attribute_text_position("VALUE",Coordinate($5 / LTSPICE_SCALE_FACTOR,$7 / LTSPICE_SCALE_FACTOR));
             break;

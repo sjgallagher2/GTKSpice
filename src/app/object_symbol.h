@@ -33,7 +33,7 @@ struct SymbolAttribute
 
 typedef std::vector<std::shared_ptr<Primitive>> ObjectGeometry;
 typedef std::vector<std::shared_ptr<SymbolPin>> ObjectPins;
-typedef std::map<Glib::ustring, std::shared_ptr<TextRefPrimitive>> ObjectAttributeTexts;
+typedef std::map<Glib::ustring, std::shared_ptr<TextPrimitive>> ObjectAttributeTexts;
 
 class ObjectSymbol 
 {
