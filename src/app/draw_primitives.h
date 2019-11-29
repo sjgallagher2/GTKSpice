@@ -59,6 +59,10 @@ public:
     void selectable(bool s) {_selectable = s;}
 
     virtual BoundingBox get_bounding_box() = 0;
+	virtual bool under(Coordinate pos, float tol = 0.1)
+    {
+        return false;
+    }
 
 protected:
     PrimitiveType _type;
@@ -82,6 +86,8 @@ public:
     virtual void end(Coordinate e) {_end = e;}
     virtual Coordinate start() const {return _start;}
     virtual Coordinate end() const {return _end;}
+
+    virtual bool under(Coordinate pos, float tol = 0.1);
 
 protected:
     Coordinate _start,_end;
@@ -108,6 +114,8 @@ public:
     virtual Coordinate anchor() const {return _anchor;}
     virtual double width() const {return _width;}
     virtual double height() const {return _height;}
+    
+    virtual bool under(Coordinate pos, float tol = 0.1);
 
     virtual void set_rect(Coordinate anchor, double width, double height)
     {
@@ -145,6 +153,8 @@ public:
     virtual double get_start_angle_degrees() const {return _start_angle_deg;}
     virtual double get_end_angle_degrees() const {return _end_angle_deg;}
 
+    virtual bool under(Coordinate pos, float tol = 0.1);
+
 protected:
     Coordinate _center;
     double _hradius;
@@ -173,6 +183,8 @@ public:
     virtual double hradius() const {return _hradius;}
     virtual double vradius() const {return _vradius;}
 
+    virtual bool under(Coordinate pos, float tol = 0.1);
+
 protected:
     Coordinate _center;
     double _hradius;
@@ -199,6 +211,11 @@ public:
     virtual void text(Glib::ustring s) {_text = s;}
     virtual Coordinate anchor() const {return _anchor;}
     virtual Glib::ustring text() const {return _text;}
+    
+	virtual bool under(const Coordinate& pos, float tol = 0.1)
+    {
+        return get_bounding_box().contains(pos);
+    }
 
 protected:
     Glib::ustring _text;
@@ -293,7 +310,10 @@ public:
     }
 
     virtual BoundingBox get_bounding_box();
-	virtual bool under(const Coordinate& pos); // True if pos is on top of the pin's active area
+	virtual bool under(Coordinate pos,float tol = 0.1)
+    {
+        return get_bounding_box().contains(pos);
+    }
 protected:
     virtual void init_attributes();
     std::map<Glib::ustring,SymbolPinAttribute> _attrs;

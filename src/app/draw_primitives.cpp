@@ -13,6 +13,7 @@
  */
 
 #include <app/draw_primitives.h>
+#include <app/geometry.h>
 #include <algorithm>
 #include <cmath>
 
@@ -63,6 +64,12 @@ void LinePrimitive::draw(Cairo::RefPtr<Cairo::Context> context,
 
     context->restore();
 }
+bool LinePrimitive::under(Coordinate pos, float tol)
+{
+    // Check if the line is under pos
+    float dist = Geometry::distance_from_line(pos,_start,_end);
+    return dist < tol;
+}
 
 void RectPrimitive::draw(Cairo::RefPtr<Cairo::Context> context, 
     Coordinate pos, const DrawSettings& ds)
@@ -88,6 +95,12 @@ void RectPrimitive::draw(Cairo::RefPtr<Cairo::Context> context,
     //draw_bb(context,pos,ds,get_bounding_box());
 
     context->restore();
+}
+bool RectPrimitive::under(Coordinate pos, float tol)
+{
+    // Check if the line is under pos
+    float dist = Geometry::distance_from_rect(pos,_anchor,_width,_height);
+    return dist < tol;
 }
 
 void ArcPrimitive::draw(Cairo::RefPtr<Cairo::Context> context, 
@@ -117,6 +130,18 @@ void ArcPrimitive::draw(Cairo::RefPtr<Cairo::Context> context,
 
     context->restore();
 }
+bool ArcPrimitive::under(Coordinate pos, float tol)
+{
+    // Check if the line is under pos
+    // TODO Elliptical arcs
+    if(_vradius - _hradius < tol) // Nearly circular
+    {
+        float dist = Geometry::distance_from_arc(pos,_center,_vradius,_start_angle_deg,_end_angle_deg);
+        return dist < tol;
+    }
+    else
+        return false;
+}
 
 void CirclePrimitive::draw(Cairo::RefPtr<Cairo::Context> context, 
     Coordinate pos, const DrawSettings& ds)
@@ -142,6 +167,18 @@ void CirclePrimitive::draw(Cairo::RefPtr<Cairo::Context> context,
     //draw_bb(context,pos,ds,get_bounding_box());
 
     context->restore();
+}
+bool CirclePrimitive::under(Coordinate pos, float tol)
+{
+    // Check if the line is under pos
+    // TODO Adapt for ellipses
+    if(_vradius - _hradius < tol) // Nearly circular
+    {
+        float dist = Geometry::distance_from_circle(pos,_center,_vradius);
+        return dist < tol;
+    }
+    else
+        return false;
 }
 
 void TextPrimitive::draw(Cairo::RefPtr<Cairo::Context> context, 
@@ -342,11 +379,6 @@ bool SymbolPin::has_attribute(Glib::ustring attr_name)
 {
     if(_attrs.find(attr_name) != _attrs.end())
         return true;
-    return false;
-}
-bool SymbolPin::under(const Coordinate& pos)
-{
-	//BoundingBox hbox; // Highlight box
     return false;
 }
 BoundingBox SymbolPin::get_bounding_box()

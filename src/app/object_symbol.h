@@ -41,7 +41,7 @@ public:
     ObjectSymbol() {init_attributes();} // TODO Overload constructor for input _geometry and pins
 	ObjectSymbol(ObjectGeometry geom, ObjectPins pins, Coordinate pos, bool visible = true);
     
-    void position(Coordinate pos) {_position = pos;}
+    void position(Coordinate pos) {_position = pos;_calculate_bounding_box();}
 	Coordinate position() const {return _position;}
 	void visible(bool vis) {_visible = vis;}
 	bool visible() const {return _visible;}
@@ -117,7 +117,7 @@ public:
 	void add_pin(SymbolPin new_pin) {_pins.push_back(std::make_shared<SymbolPin>(new_pin));} // Add a new pin
 	void set_pin(Glib::ustring pin_name, SymbolPin new_pin); // Set the pin with pin_name to new_pin
     void set_pins(ObjectPins pins) {_pins = pins;}
-    void set_geometry(ObjectGeometry geom) {_geometry = geom;}
+    void set_geometry(ObjectGeometry geom) {_geometry = geom;_calculate_bounding_box();}
 
     void set_attribute_text_position(Glib::ustring attr, Coordinate pos)
         {if(has_attribute(attr)) _attr_texts.find(attr)->second->anchor(pos);}
@@ -129,6 +129,7 @@ public:
 protected:
     virtual void init_attributes(); // Create default attributes: FILE, NAME, VALUE, and DESCRIPTION
     virtual bool has_pin(Glib::ustring pin_name);
+    virtual void _calculate_bounding_box();
     DrawSettings _drawsettings;
     Coordinate _position;
     bool _visible;

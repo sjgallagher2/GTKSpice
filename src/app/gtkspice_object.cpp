@@ -65,15 +65,3 @@ void GtkSpiceObject::draw(Cairo::RefPtr<Cairo::Context> context)
     if(_symbol)
         _symbol->draw(context);
 }
-
-bool GtkSpiceObject::near(const Coordinate& pos)
-{
-    //return _symbol->near(pos); TODO
-    return false;
-}
-
-bool GtkSpiceObject::under(const Coordinate& pos)
-{
-    //return _symbol->under(pos);
-    return false;
-}

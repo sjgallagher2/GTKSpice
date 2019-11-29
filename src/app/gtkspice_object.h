@@ -39,14 +39,20 @@ public:
     void set_position(Coordinate pos) {_position = pos; if(_symbol) _symbol->position(_position);}
     Coordinate get_position() const {return _position;}
 
-    bool near(const Coordinate& pos); // Return true if Coordinate is in the BoundingBox
-    bool under(const Coordinate& pos); // Return true if Coordinate is on the Symbol
+    bool near(const Coordinate& pos)
+    {
+        return _symbol->near(pos);
+    }
+    bool under(const Coordinate& pos)
+    {
+        return _symbol->under(pos);
+    }
 protected:
     std::shared_ptr<ObjectSymbol> _symbol;
     Coordinate _position;
     bool _active;
     Glib::ustring _inst_name; // Prefix + name
-    
+
 };
 
 class Wire

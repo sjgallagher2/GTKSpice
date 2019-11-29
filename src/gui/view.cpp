@@ -22,6 +22,8 @@
 #include <app/object_tree.h>
 #include <app/gtkspice_state.h>
 
+#include <iostream>
+
 
 // FOR TESTING
 #include <app/draw_primitives.h>
@@ -101,11 +103,12 @@ bool View::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
     ds.font_size = 5;
     
     Coordinate o_pos(30,10);
-    GtkSpiceObject obj("/home/sam/Documents/Electronics/SPICE/lib/sym/sw.asy");
+    GtkSpiceObject obj("/home/sam/Documents/Electronics/SPICE/lib/sym/ind.asy");
     obj.set_name("123");
     obj.set_position(o_pos);
     obj.draw(context);
-
+    std::cout << "Is near? " << obj.near(Coordinate(40,30)) << "\n";
+    std::cout << "Is under? " << obj.under(Coordinate(40,30)) << "\n";
     /*************************/
 
     // All done

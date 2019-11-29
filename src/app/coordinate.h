@@ -96,6 +96,14 @@ struct BoundingBox
     bool contains(Coordinate pos)
     {
         // Check if pos is within the bounding box
+        if(pos.x() > anchor.x() &&
+           pos.x() < anchor.x() + width &&
+           pos.y() > anchor.y() &&
+           pos.y() < anchor.y() + height)
+        {
+           return true;
+        }
+        return false;
     }
 };
 

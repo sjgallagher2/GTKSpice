@@ -14,6 +14,7 @@
 
 #include <app/object_symbol.h>
 #include <iostream>
+#include <algorithm>
 
 ObjectSymbol::ObjectSymbol(ObjectGeometry geom, ObjectPins pins, Coordinate pos, bool visible) :
     _geometry(geom),
@@ -23,6 +24,7 @@ ObjectSymbol::ObjectSymbol(ObjectGeometry geom, ObjectPins pins, Coordinate pos,
 {
     if(_attrs.empty())
         init_attributes();
+    _calculate_bounding_box();
 }
 
 void ObjectSymbol::draw( Cairo::RefPtr<Cairo::Context> context )
@@ -175,5 +177,50 @@ bool ObjectSymbol::has_pin(Glib::ustring pin_name)
     }
     return false;
 }
+void ObjectSymbol::_calculate_bounding_box()
+{
+    BoundingBox geom_bb = _geometry.at(0)->get_bounding_box();
+    double left,right,bottom,top;
+    left = geom_bb.anchor.x();
+    right = geom_bb.anchor.x() + geom_bb.width;
+    bottom = geom_bb.anchor.y();
+    top = geom_bb.anchor.y() + geom_bb.height;
 
+    for(auto itr = _geometry.begin(); itr != _geometry.end(); ++itr)
+    {
+        // Adjust boundaries
+        BoundingBox geom_bb = (*itr)->get_bounding_box();
+        double tleft,tright,tbottom,ttop;
+        tleft = geom_bb.anchor.x();
+        tright = geom_bb.anchor.x() + geom_bb.width;
+        tbottom = geom_bb.anchor.y();
+        ttop = geom_bb.anchor.y() + geom_bb.height;
+
+
+        left = std::min(left,tleft);
+        right = std::min(right,tright);
+        bottom = std::min(bottom,tbottom);
+        top = std::min(top,ttop);
+    }
+    _boundingbox.anchor.x(_position.x() + left);
+    _boundingbox.anchor.y(_position.y() + bottom);
+    _boundingbox.width = right - left;
+    _boundingbox.height = top-bottom;
+}
+
+bool ObjectSymbol::under(const Coordinate& pos)
+{
+    // Check if any geometry is under pos
+    bool is_under = false;
+    for(auto itr = _geometry.begin(); itr != _geometry.end(); ++itr)
+    {
+        is_under = is_under | (*itr)->under(pos);
+    }
+    return is_under;
+}
+bool ObjectSymbol::near(const Coordinate& pos)
+{
+    // Check if pos is in bounding box
+    return _boundingbox.contains(pos);
+}
 
