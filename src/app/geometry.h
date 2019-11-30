@@ -134,7 +134,7 @@ namespace Geometry
     // TODO Elliptical arcs
     inline float distance_from_arc(Coordinate p, Coordinate center, float radius, float start_angle_d, float end_angle_d)
     {
-        float distance;
+        float distance = 0;
         if(start_angle_d != end_angle_d)
         {
             // Normalize and get endpoints
@@ -147,6 +147,13 @@ namespace Geometry
 
             float start_angle = start_angle_d*M_PI/180;
             float end_angle = end_angle_d*M_PI/180;
+
+            while(start_angle < 0)
+            {
+                start_angle += 2*M_PI;
+                end_angle += 2*M_PI;
+            }
+
             if(std::abs(end_angle - start_angle) < 2*M_PI) // If the arc is not a full circle
             {
                 // Start and end points on arc

@@ -212,9 +212,11 @@ bool ObjectSymbol::under(const Coordinate& pos)
 {
     // Check if any geometry is under pos
     bool is_under = false;
+    Coordinate offset_pos(pos.x() - _position.x(), pos.y() - _position.y());
+
     for(auto itr = _geometry.begin(); itr != _geometry.end(); ++itr)
     {
-        is_under = is_under | (*itr)->under(pos);
+        is_under = is_under | (*itr)->under(offset_pos);
     }
     return is_under;
 }
