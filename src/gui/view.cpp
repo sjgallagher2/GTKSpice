@@ -103,7 +103,7 @@ bool View::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
     ds.font_size = 5;
     
     Coordinate o_pos(30,10);
-    GtkSpiceObject obj("/home/sam/Documents/Electronics/SPICE/lib/sym/ind.asy");
+    GtkSpiceElement obj("/home/sam/Documents/Electronics/SPICE/lib/sym/ind.asy");
     obj.set_name("123");
     obj.set_position(o_pos);
     obj.draw(context);

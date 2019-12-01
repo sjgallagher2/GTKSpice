@@ -317,6 +317,31 @@ EXAMPLE
 /**************************/
 
 
+///////////////////////////////
+The program functionality needs to be reworked. The Component objects, 
+their associated Actions, and the Tools that work with them need to be
+re-implemented. Need to figure out how to manage the GtkSpiceObjects 
+with respect to SPICE proper, i.e. node connections, and how to connect 
+these to the Schematic object. Some drawing methods still need to be 
+implemented, namely elliptical arc and circle distances (should be fairly
+simple with radius multipliers) and symbol rotation (rotating all points
+in the symbol about the symbol origin). Wires are not yet implemented,
+should have an active mode which keeps adding vertices to the wire 
+(Line component should help with this), and only ortho editing. 
 
+There should be something of a focus on minimizing the work involved. 
+For example, making the most use of the SPICE lines by storing strings 
+instead of actual logical data. We're sort of doing this, but it comes
+up when putting the ObjectTree into the Schematic object. 
+
+SpiceElements should be accessed by their inst_name, so we could store
+elements in a map. But we need to auto-name all elements, so we need to 
+check what names are available (numerically) and this is strictly dependent
+on the prefix (we only need to check other elements with the same prefix).
+So a sorted list would also be desirable. Conversely, we can check through 
+the map for identical names incrementally, but this requires searching
+the map over and over again. We're only working with at most, say, 
+a thousand components, so this isn't really that critical in terms of 
+data accessing speed, as long as its not more than a few hundred ms.
 
 

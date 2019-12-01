@@ -1,0 +1,35 @@
+format 222
+
+classcanvas 128088 class_ref 150872 // Object
+  classdiagramsettings member_max_width 0 end
+  xyz 268 113 2000
+end
+classcanvas 128216 class_ref 152280 // StrokeSettings
+  classdiagramsettings member_max_width 0 end
+  xyz 331 279 2000
+end
+classcanvas 128344 class_ref 152408 // FillSettings
+  classdiagramsettings member_max_width 0 end
+  xyz 139 303 2000
+end
+classcanvas 128472 class_ref 151000 // Symbol
+  classdiagramsettings member_max_width 0 end
+  xyz 655 120 2005
+end
+relationcanvas 128600 relation_ref 152792 // <aggregation>
+  decenter_end 538
+  from ref 128088 z 2001 to ref 128344
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 128728 relation_ref 152920 // <aggregation>
+  from ref 128088 z 2001 to ref 128216
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 128856 relation_ref 153048 // <aggregation>
+  from ref 128088 z 2006 to ref 128472
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+end

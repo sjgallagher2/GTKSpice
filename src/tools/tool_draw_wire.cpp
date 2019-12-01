@@ -17,7 +17,7 @@
 std::shared_ptr<Action> DrawWireTool::tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect)
 {
     std::shared_ptr<Action> ret = nullptr;
-    if(_objecttree->has_active_line());
+    //if(_objecttree->has_active_line());
     // Check for active wires (wires being drawn)
     // If double-click, set no line active
     // If right-click, remove line vertex

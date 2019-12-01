@@ -225,4 +225,17 @@ bool ObjectSymbol::near(const Coordinate& pos)
     // Check if pos is in bounding box
     return _boundingbox.contains(pos);
 }
-
+bool ObjectSymbol::within(const Coordinate& start, const Coordinate& end)
+{
+    bool within = false;
+    BoundingBox bb;
+    bb.anchor = start;
+    bb.width = end.x()-start.x();
+    bb.height = end.y()-start.y();
+    within = bb.contains(Coordinate(_boundingbox.anchor.x(),
+        _boundingbox.anchor.y()));
+    within = within & bb.contains(Coordinate(_boundingbox.anchor.x() + _boundingbox.width,
+        _boundingbox.anchor.y()+_boundingbox.height));
+    
+    return within;
+}

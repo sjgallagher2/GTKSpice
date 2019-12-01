@@ -18,14 +18,16 @@
 
 #include <vector>
 #include <memory>
-#include <app/component.h>
 #include <app/coordinate.h>
-#include <app/component.h>
+#include <app/gtkspice_object.h>
 
+
+typedef std::vector<std::shared_ptr<GtkSpiceElement>> GtkSpiceTree;
 
 /* @brief Data structure for storing and drawing objects in order
  *
  */
+/*
 class ObjectTree
 {
 public:
@@ -34,44 +36,23 @@ public:
 
     void redraw(const Cairo::RefPtr<Cairo::Context>& context);
 
-    int add_component(PointParameters pp);
-    int add_component(LineParameters lp);
-    bool remove_component(Glib::ustring type,int index);
-
-    LineParameters get_line_parameters(int index);
-    // Move the active vertex of the active line
-    bool move_line_vertex(Coordinate pos);
-    // NOTE: If you want to move a line's vertex outside of line editing,
-    // use a move vertex action
-    bool add_line_vertex(Coordinate pos);
-    bool remove_line_vertex(Coordinate pos);
-    void finish_line(); // Remove floating vertex and deactivate
-    void set_line_active(int index,bool active = true);
-    void set_no_line_active();
-
-    bool has_active_line();
+    void add_object(const Glib::ustring& sym_file, Coordinate pos);
+    bool remove_component();
     bool has_active_wire();
-    bool has_active_vertex();
-
-    int get_line_under_cursor(Coordinate mousepos);
-    std::vector<int> get_lines_in_selection(const Coordinate& start, const Coordinate& end);
-
-    typedef std::vector<std::shared_ptr<Component>> Tree;
-    typedef Tree::iterator OIter;
+    bool has_active_object();
+    void get_object_under_cursor(Coordinate mousepos);
+    void get_objects_in_selection(const Coordinate& start, const Coordinate& end);
     
 private:
-    std::vector<Tree*> _tree;
-    Tree _pointtree;
-    Tree _linetree;
-    Tree _recttree;
+    std::vector<GtkSpiceTree*> _tree;
+    GtkSpiceTree _objecttree;
+    GtkSpiceTree _wiretree;
 
-    int _point_auto_index;
-    int _line_auto_index;
-    int register_component(std::shared_ptr<Component> component);
+    int _object_auto_index;
+    int _wire_auto_index;
+    int register_component(std::shared_ptr<GtkSpiceObject> obj);
     void unregister_component(int index);
-
-    OIter _get_active_line();
-    std::shared_ptr<ComponentFactory> _factory;
 };
+*/
 
 #endif /* OBJECT_TREE_H */

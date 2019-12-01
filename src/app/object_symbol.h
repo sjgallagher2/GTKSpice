@@ -35,6 +35,10 @@ typedef std::vector<std::shared_ptr<Primitive>> ObjectGeometry;
 typedef std::vector<std::shared_ptr<SymbolPin>> ObjectPins;
 typedef std::map<Glib::ustring, std::shared_ptr<TextPrimitive>> ObjectAttributeTexts;
 
+/* TODO Symbol rotation
+ *
+ */
+
 class ObjectSymbol 
 {
 public:
@@ -125,6 +129,7 @@ public:
     void draw(Cairo::RefPtr<Cairo::Context> context);
     bool under(const Coordinate& pos); // Return true if visible and selectable parts of Symbol are (roughly) under pos
     bool near(const Coordinate& pos);
+    bool within(const Coordinate& start, const Coordinate& end);
 
 protected:
     virtual void init_attributes(); // Create default attributes: FILE, NAME, VALUE, and DESCRIPTION

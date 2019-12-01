@@ -44,6 +44,7 @@ enum PrimitiveType {
     TEXT_PRIMITIVE
 };
 
+// TODO Primitive rotation about an anchor
 class Primitive
 {
 public:
@@ -63,6 +64,8 @@ public:
     {
         return false;
     }
+    virtual void rotate90(const Coordinate& anchor) = 0;
+    virtual void flip(const Coordinate& axis) = 0;
 
 protected:
     PrimitiveType _type;
@@ -88,6 +91,8 @@ public:
     virtual Coordinate end() const {return _end;}
 
     virtual bool under(Coordinate pos, float tol = 1);
+    virtual void rotate90(const Coordinate& anchor) = 0;
+    virtual void flip(const Coordinate& axis) = 0;
 
 protected:
     Coordinate _start,_end;
@@ -116,6 +121,8 @@ public:
     virtual double height() const {return _height;}
     
     virtual bool under(Coordinate pos, float tol = 1);
+    virtual void rotate90(const Coordinate& anchor) = 0;
+    virtual void flip(const Coordinate& axis) = 0;
 
     virtual void set_rect(Coordinate anchor, double width, double height)
     {
@@ -154,6 +161,8 @@ public:
     virtual double get_end_angle_degrees() const {return _end_angle_deg;}
 
     virtual bool under(Coordinate pos, float tol = 1);
+    virtual void rotate90(const Coordinate& anchor) = 0;
+    virtual void flip(const Coordinate& axis) = 0;
 
 protected:
     Coordinate _center;
@@ -184,6 +193,8 @@ public:
     virtual double vradius() const {return _vradius;}
 
     virtual bool under(Coordinate pos, float tol = 1);
+    virtual void rotate90(const Coordinate& anchor) = 0;
+    virtual void flip(const Coordinate& axis) = 0;
 
 protected:
     Coordinate _center;
@@ -216,6 +227,8 @@ public:
     {
         return get_bounding_box().contains(pos);
     }
+    virtual void rotate90(const Coordinate& anchor) = 0;
+    virtual void flip(const Coordinate& axis) = 0;
 
 protected:
     Glib::ustring _text;
@@ -314,6 +327,9 @@ public:
     {
         return get_bounding_box().contains(pos);
     }
+    virtual void rotate90(const Coordinate& anchor) = 0;
+    virtual void flip(const Coordinate& axis) = 0;
+
 protected:
     virtual void init_attributes();
     std::map<Glib::ustring,SymbolPinAttribute> _attrs;

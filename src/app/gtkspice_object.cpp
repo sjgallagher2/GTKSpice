@@ -16,7 +16,7 @@
 #include <app/gtkspice_object.h>
 #include <app/ltspice_symbol_parser.h>
 
-GtkSpiceObject::GtkSpiceObject(const Glib::ustring& symbol_file)
+GtkSpiceElement::GtkSpiceElement(const Glib::ustring& symbol_file)
 {
     std::ifstream sfilestrm(symbol_file,std::fstream::in);
     if(sfilestrm.good())
@@ -31,7 +31,7 @@ GtkSpiceObject::GtkSpiceObject(const Glib::ustring& symbol_file)
         std::cerr << "Error: Could not open file: " << symbol_file << "\n";
 }
 
-bool GtkSpiceObject::set_symbol_file(const Glib::ustring& symbol_file)
+bool GtkSpiceElement::set_symbol_file(const Glib::ustring& symbol_file)
 {
     std::ifstream sfilestrm(symbol_file,std::fstream::in);
     if(sfilestrm.good())
@@ -50,7 +50,7 @@ bool GtkSpiceObject::set_symbol_file(const Glib::ustring& symbol_file)
     return false;
 }
 
-void GtkSpiceObject::set_name(Glib::ustring name)
+void GtkSpiceElement::set_name(Glib::ustring name)
 {
     // Note: It is the schematic's responsibility to manage names
     if(_symbol)
@@ -60,7 +60,7 @@ void GtkSpiceObject::set_name(Glib::ustring name)
     }
 }
 
-void GtkSpiceObject::draw(Cairo::RefPtr<Cairo::Context> context)
+void GtkSpiceElement::draw(Cairo::RefPtr<Cairo::Context> context)
 {
     if(_symbol)
         _symbol->draw(context);

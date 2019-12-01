@@ -22,6 +22,7 @@ std::shared_ptr<Action> DrawLineTool::tool_click_handler(Coordinate mousepos,int
     // Check for active wires (wires being drawn)
     // If double-click, set no line active
     // If right-click, remove line vertex
+    /*
     mousepos.set_to_snapped();
     if(_objecttree->has_active_line())
     {
@@ -42,24 +43,29 @@ std::shared_ptr<Action> DrawLineTool::tool_click_handler(Coordinate mousepos,int
             ret = _actionfactory->make_action(APPEND_LINE,lp);
         }
     }
+    */
     return ret;
 }
 std::shared_ptr<Action> DrawLineTool::tool_move_handler(Coordinate mousepos)
 {
+    /*
     mousepos.set_to_snapped();
     std::shared_ptr<Action> ret = nullptr;
     _objecttree->move_line_vertex(mousepos);
     return ret;
+    */
 
 }
 std::shared_ptr<Action> DrawLineTool::tool_key_handler(int key,int modifier)
 {
     std::shared_ptr<Action> ret = nullptr;
+    /*
     if(key == GDK_KEY_Escape && modifier == NO_MOD)
     {
         while(_objecttree->has_active_line())
             _objecttree->remove_line_vertex(Coordinate(0,0));
     }
+    */
     return ret;
 }
 

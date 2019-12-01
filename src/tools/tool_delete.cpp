@@ -21,6 +21,7 @@ std::shared_ptr<Action> DeleteTool::tool_click_handler(Coordinate mousepos,int b
 {
     std::shared_ptr<Action> ret = nullptr;
     // Get component under mouse and delete it
+    /*
     int undermouse_index = _objecttree->get_line_under_cursor(mousepos);
     if(undermouse_index != -1)
         ret = _actionfactory->make_action(REMOVE_LINE,undermouse_index);
@@ -41,6 +42,7 @@ std::shared_ptr<Action> DeleteTool::tool_click_handler(Coordinate mousepos,int b
                 ret = _actionfactory->make_action(REMOVE_LINES,lines);
         }
     }
+    */
     return ret;
 }
 std::shared_ptr<Action> DeleteTool::tool_move_handler(Coordinate mousepos)

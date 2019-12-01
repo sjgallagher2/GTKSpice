@@ -105,12 +105,12 @@ public:
     }
 
     std::shared_ptr<Action> make_action(ActionType action);
-    std::shared_ptr<Action> make_action(ActionType action, PointParameters pp);
-    std::shared_ptr<Action> make_action(ActionType action, LineParameters lp);
-    std::shared_ptr<Action> make_action(ActionType action, LineParameters lp,std::vector<Vertex> vs);
-    std::shared_ptr<Action> make_action(ActionType action, int index);
-    std::shared_ptr<Action> make_action(ActionType action, std::vector<int> index);
-    std::shared_ptr<Action> make_action(ActionType action, int index, std::vector<int> vertexindices);
+    //std::shared_ptr<Action> make_action(ActionType action, PointParameters pp);
+    //std::shared_ptr<Action> make_action(ActionType action, LineParameters lp);
+    //std::shared_ptr<Action> make_action(ActionType action, LineParameters lp,std::vector<Vertex> vs);
+    //std::shared_ptr<Action> make_action(ActionType action, int index);
+    //std::shared_ptr<Action> make_action(ActionType action, std::vector<int> index);
+    //std::shared_ptr<Action> make_action(ActionType action, int index, std::vector<int> vertexindices);
 
 private:
     std::shared_ptr<ObjectTree> _objecttree;
@@ -144,12 +144,13 @@ protected:
     std::shared_ptr<ActionStack> _actionstack;
 };
 
+// TODO Keep this as an unstackable for drawing connections with wires? Otherwise get rid of it
 class DrawPointAction : public Action
 {
 public:
     DrawPointAction(std::shared_ptr<ObjectTree> ot, PointParameters pp) : 
         _objecttree(ot), _pp(pp)
-    {_stackable = true;}
+    {_stackable = false;}
     virtual ~DrawPointAction() {}
 
     void execute();
@@ -162,7 +163,7 @@ protected:
 /* AppendLine Action is used to push a new line onto the stack, typically 
  * with only two vertices. The key difference is the line remains active
  * after it is added.
- */
+
 class AppendLineAction : public Action
 {
 public:
@@ -179,10 +180,11 @@ protected:
     LineParameters _lp;
     bool _stay_active = true;
 };
+*/
 
 /* AddLineAction is used to add a completed line, which will not remain
  * active after it is added
- */
+
 class AddLineAction : public Action
 {
 public:
@@ -273,6 +275,7 @@ protected:
     RectParameters _rp;
     bool _stay_active = true;
 };
+*/
 
 
 #endif /* ACTION_H */

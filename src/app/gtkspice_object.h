@@ -17,15 +17,21 @@
 
 #include <gtkmm.h>
 #include <memory>
+#include <vector>
 #include <app/coordinate.h>
 #include <app/object_symbol.h>
 
-class GtkSpiceObject 
+/* Object representing circuit elements and on-screen SPICE directives
+ * 
+ * TODO Add node management, SpiceDeck, get_spice_line() function
+ */
+
+class GtkSpiceElement 
 {
 public:
-    GtkSpiceObject() {}
-    GtkSpiceObject(const Glib::ustring& symbol_file);
-    virtual ~GtkSpiceObject() {}
+    GtkSpiceElement() {}
+    GtkSpiceElement(const Glib::ustring& symbol_file);
+    virtual ~GtkSpiceElement() {}
 
     bool set_symbol_file(const Glib::ustring& symbol_file);
     void set_symbol(std::shared_ptr<ObjectSymbol> sym) {_symbol = sym;}
@@ -47,18 +53,24 @@ public:
     {
         return _symbol->under(pos);
     }
+    bool within(const Coordinate& start, const Coordinate& end)
+    {
+        return _symbol->within(start,end);
+    }
+
+    bool connect_pin_to_node(const Glib::ustring& pin_name, int node);
+    Glib::ustring get_spice_line(); // TODO
+
 protected:
     std::shared_ptr<ObjectSymbol> _symbol;
     Coordinate _position;
     bool _active;
     Glib::ustring _inst_name; // Prefix + name
+    std::vector<int> _nodes; // Nodes associated with pins, in SPICE_ORDER of pins
 
 };
 
 class Wire
-{};
-
-class ObjectFactory 
 {};
 
 #endif /* GTKSPICE_OBJECT_H */
