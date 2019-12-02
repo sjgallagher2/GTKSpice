@@ -106,9 +106,10 @@ bool View::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
     obj.set_name("123");
     obj.set_position(o_pos);
     obj.rotate90();
+    obj.rotate90();
+    obj.hflip();
+    obj.vflip();
     obj.draw(context);
-    std::cout << "Is near? " << obj.near(Coordinate(40,30)) << "\n";
-    std::cout << "Is under? " << obj.under(Coordinate(40,30)) << "\n";
     /*************************/
 
     // All done

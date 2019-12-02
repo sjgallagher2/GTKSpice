@@ -220,13 +220,8 @@ void ArcPrimitive::vflip()
     _center.y(-_center.y());
     
     double tstart_angle = _start_angle_deg;
-    _start_angle_deg = _end_angle_deg + 180;
-    _end_angle_deg = tstart_angle + 180;
-    if(_end_angle_deg >= 360)
-    {
-        _start_angle_deg -= 360;
-        _end_angle_deg -= 360;
-    }
+    _start_angle_deg = -_end_angle_deg;
+    _end_angle_deg = -tstart_angle;
 }
 
 void CirclePrimitive::draw(Cairo::RefPtr<Cairo::Context> context, 
