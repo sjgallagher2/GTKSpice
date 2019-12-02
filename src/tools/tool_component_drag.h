@@ -15,7 +15,6 @@
 #define TOOL_COMPONENT_DRAG_H
 
 #include <memory>
-#include <app/object_tree.h>
 #include <app/action.h>
 #include <tools/tool.h>
 #include <tools/tool_component.h>
@@ -23,8 +22,7 @@
 class DragComponentTool : public ComponentTool 
 {
 public:
-    DragComponentTool(std::shared_ptr<ActionFactory> af,
-        std::shared_ptr<ObjectTree> ot) : ComponentTool(af, ot) {}
+    DragComponentTool(std::shared_ptr<ActionFactory> af) : ComponentTool(af) {}
     virtual ~DragComponentTool() {}
 
     virtual std::shared_ptr<Action> tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect);

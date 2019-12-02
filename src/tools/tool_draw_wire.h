@@ -16,7 +16,6 @@
 #define TOOL_DRAW_WIRE_H
 
 #include <memory>
-#include <app/object_tree.h>
 #include <app/action.h>
 #include <tools/tool.h>
 #include <tools/tool_draw.h>
@@ -24,8 +23,7 @@
 class DrawWireTool : public DrawTool 
 {
 public:
-    DrawWireTool(std::shared_ptr<ActionFactory> af, 
-        std::shared_ptr<ObjectTree> ot) : DrawTool(af,ot) {}
+    DrawWireTool(std::shared_ptr<ActionFactory> af) : DrawTool(af) {}
     virtual ~DrawWireTool() {}
 
     virtual std::shared_ptr<Action> tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect);

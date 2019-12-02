@@ -31,7 +31,7 @@
 #include <gtkmm.h>
 #include <gtkmm/drawingarea.h>
 #include <gui/view_features.h>
-#include <app/object_tree.h>
+#include <app/element_map.h>
 #include <app/coordinate_system.h>
 #include <app/coordinate.h>
 #include <gui/grid.h>
@@ -51,7 +51,7 @@ public:
 
     //CoordinateSystem get_coordinate_system() {return &_cs;}
     Cairo::Matrix tmatrix() {return _tmat;}
-    void set_object_tree(std::shared_ptr<ObjectTree> os) {_objecttree = os;}
+    void set_element_map(std::shared_ptr<GtkSpiceElementMap> em) {_elementmap = em;}
     void set_view_features(std::shared_ptr<ViewFeatures> os) {_vfeatures = os;}
 
     //Glib::RefPtr<Gdk::Cursor> get_cursor();
@@ -74,7 +74,7 @@ private:
 
 
     Cairo::RefPtr<Cairo::Context> _context;
-    std::shared_ptr<ObjectTree> _objecttree;
+    std::shared_ptr<GtkSpiceElementMap> _elementmap;
     std::shared_ptr<ViewFeatures> _vfeatures;
     Cairo::Matrix _tmat;
 

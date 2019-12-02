@@ -17,7 +17,6 @@
 
 #include <memory>
 #include <gtkmm.h>
-#include <app/object_tree.h>
 #include <gui/drawingeventbox.h>
 #include <app/gtkspice_state.h>
 #include <gui/cursor_manager.h>

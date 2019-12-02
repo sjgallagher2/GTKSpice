@@ -15,7 +15,6 @@
 #define TOOL_DRAW_H
 
 #include <memory>
-#include <app/object_tree.h>
 #include <app/action.h>
 #include <tools/tool.h>
 #include <app/coordinate.h>
@@ -23,8 +22,7 @@
 class DrawTool : public Tool 
 {
 public:
-    DrawTool(std::shared_ptr<ActionFactory> af, 
-        std::shared_ptr<ObjectTree> ot) : Tool(af),_objecttree(ot) {}
+    DrawTool(std::shared_ptr<ActionFactory> af) : Tool(af) {}
     virtual ~DrawTool() {}
 
     virtual std::shared_ptr<Action> tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect) = 0;
@@ -33,7 +31,7 @@ public:
     virtual Glib::ustring get_tool_cursor_name() = 0;
 
 protected:
-    std::shared_ptr<ObjectTree> _objecttree;
+    // TODO
 };
 
 #endif /* TOOL_DRAW_H */

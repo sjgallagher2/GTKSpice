@@ -70,6 +70,28 @@ bool LinePrimitive::under(Coordinate pos, float tol)
     float dist = Geometry::distance_from_line(pos,_start,_end);
     return dist < tol;
 }
+void LinePrimitive::rotate90()
+{
+    // Rotate 90 degrees about origin
+    Coordinate tstart = _start;
+    Coordinate tend = _end;
+    _start.x(-_start.y());
+    _start.y(tstart.x());
+    _end.x(_end.x());
+    _end.y(tend.x());
+}
+void LinePrimitive::hflip()
+{
+    // Mirror horizontally across origin
+    _start.x(-_start.x());
+    _end.x(-_end.x());
+}
+void LinePrimitive::vflip()
+{
+    // Mirror vertically across origin
+    _start.y(-_start.y());
+    _end.y(-_end.y());
+}
 
 void RectPrimitive::draw(Cairo::RefPtr<Cairo::Context> context, 
     Coordinate pos, const DrawSettings& ds)
@@ -101,6 +123,28 @@ bool RectPrimitive::under(Coordinate pos, float tol)
     // Check if the line is under pos
     float dist = Geometry::distance_from_rect(pos,_anchor,_width,_height);
     return dist < tol;
+}
+void RectPrimitive::rotate90()
+{
+    // Rotate about origin
+    Coordinate tanchor = _anchor;
+    _anchor.x(-_anchor.y());
+    _anchor.y(tanchor.x());
+    double twidth = _width;
+    _width = -_height;
+    _height = twidth;
+}
+void RectPrimitive::hflip()
+{
+    // Mirror horizontally across origin
+    _anchor.x(_anchor.x());
+    _width = -_width;
+}
+void RectPrimitive::vflip()
+{
+    // Mirror vertically across origin
+    _anchor.y(_anchor.y());
+    _height = -_height;
 }
 
 void ArcPrimitive::draw(Cairo::RefPtr<Cairo::Context> context, 
@@ -142,6 +186,48 @@ bool ArcPrimitive::under(Coordinate pos, float tol)
     else
         return false;
 }
+void ArcPrimitive::rotate90()
+{
+    // Rotate about origin
+    Coordinate tcenter = _center;
+    _center.x(-_center.y());
+    _center.y(tcenter.x());
+    _start_angle_deg += 90;
+    _end_angle_deg += 90;
+    if(_end_angle_deg >= 360)
+    {
+        _start_angle_deg -= 360;
+        _end_angle_deg -= 360;
+    }
+}
+void ArcPrimitive::hflip()
+{
+    // Mirror horizontally across origin
+    _center.x(-_center.x());
+    
+    double tstart_angle = _start_angle_deg;
+    _start_angle_deg = 180 - _end_angle_deg;
+    _end_angle_deg = 180 - tstart_angle;
+    if(_end_angle_deg <= -360)
+    {
+        _start_angle_deg += 360;
+        _end_angle_deg += 360;
+    }
+}
+void ArcPrimitive::vflip()
+{
+    // Mirror vertically across origin
+    _center.y(-_center.y());
+    
+    double tstart_angle = _start_angle_deg;
+    _start_angle_deg = _end_angle_deg + 180;
+    _end_angle_deg = tstart_angle + 180;
+    if(_end_angle_deg >= 360)
+    {
+        _start_angle_deg -= 360;
+        _end_angle_deg -= 360;
+    }
+}
 
 void CirclePrimitive::draw(Cairo::RefPtr<Cairo::Context> context, 
     Coordinate pos, const DrawSettings& ds)
@@ -180,6 +266,24 @@ bool CirclePrimitive::under(Coordinate pos, float tol)
     else
         return false;
 }
+void CirclePrimitive::rotate90()
+{
+    // Rotate about origin
+    Coordinate tcenter = _center;
+    _center.x(-_center.y());
+    _center.y(tcenter.x());
+    
+}
+void CirclePrimitive::hflip()
+{
+    // Mirror horizontally across origin
+    _center.x(-_center.x());
+}
+void CirclePrimitive::vflip()
+{
+    // Mirror vertically across origin
+    _center.y(-_center.y());
+}
 
 void TextPrimitive::draw(Cairo::RefPtr<Cairo::Context> context, 
     Coordinate pos, const DrawSettings& ds)
@@ -197,6 +301,23 @@ void TextPrimitive::draw(Cairo::RefPtr<Cairo::Context> context,
     //draw_bb(context,pos,ds,get_bounding_box(ds.font_size));
 
     context->restore();
+}
+void TextPrimitive::rotate90()
+{
+    // Rotate about origin
+    Coordinate tanchor = _anchor;
+    _anchor.x(-_anchor.y());
+    _anchor.y(tanchor.x());
+}
+void TextPrimitive::hflip()
+{
+    // Mirror horizontally across origin
+    _anchor.x(-_anchor.x());
+}
+void TextPrimitive::vflip()
+{
+    // Mirror vertically across origin
+    _anchor.y(-_anchor.y());
 }
 
 BoundingBox LinePrimitive::get_bounding_box()
@@ -393,4 +514,21 @@ BoundingBox SymbolPin::get_bounding_box()
     bb.anchor = anch;
 
     return bb;
+}
+void SymbolPin::rotate90()
+{
+    // Rotate about origin
+    Coordinate tpinloc = _pinloc;
+    _pinloc.x(-_pinloc.y());
+    _pinloc.y(tpinloc.x());
+}
+void SymbolPin::hflip()
+{
+    // Mirror horizontally across origin
+    _pinloc.x(-_pinloc.x());
+}
+void SymbolPin::vflip()
+{
+    // Mirror vertically across origin
+    _pinloc.y(-_pinloc.y());
 }

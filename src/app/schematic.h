@@ -15,16 +15,16 @@
 #ifndef SCHEMATIC_H
 #define SCHEMATIC_H
 
-#include <app/object_tree.h>
 #include <memory>
+#include <app/element_map.h>
 
 class Schematic
 {
 public:
-    Schematic(std::shared_ptr<ObjectTree> ot);
+    Schematic(std::shared_ptr<GtkSpiceElementMap> em);
     ~Schematic();
 private:
-    std::shared_ptr<ObjectTree> _objecttree;
+    std::shared_ptr<GtkSpiceElementMap> _elementmap;
 };
 
 #endif /* SCHEMATIC_H */

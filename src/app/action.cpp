@@ -64,82 +64,6 @@ std::shared_ptr<Action> ActionFactory::make_action(ActionType action)
     return ret;
 }
 
-std::shared_ptr<Action> ActionFactory::make_action(ActionType action, PointParameters pp)
-{
-    std::shared_ptr<Action> ret = nullptr;
-    switch(action)
-    {
-    case DRAW_POINT:
-        ret = std::make_shared<DrawPointAction>(_objecttree,pp);
-        break;
-    }
-    return ret;
-}
-
-std::shared_ptr<Action> ActionFactory::make_action(ActionType action, LineParameters lp,std::vector<Vertex> vs)
-{
-    std::shared_ptr<Action> ret = nullptr;
-    switch(action)
-    {
-    case ADD_LINE:
-        ret = std::make_shared<AddLineAction>(_objecttree,lp,vs);
-        break;
-    }
-
-    return ret;
-}
-
-std::shared_ptr<Action> ActionFactory::make_action(ActionType action, LineParameters lp)
-{
-    std::shared_ptr<Action> ret = nullptr;
-    switch(action)
-    {
-    case APPEND_LINE:
-        ret = std::make_shared<AppendLineAction>(_objecttree,lp);
-        break;
-    }
-
-    return ret;
-}
-
-std::shared_ptr<Action> ActionFactory::make_action(ActionType action, int index)
-{
-    std::shared_ptr<Action> ret = nullptr;
-    switch(action)
-    {
-    case REMOVE_LINE:
-        ret = std::make_shared<RemoveLineAction>(_objecttree, index);
-        break;
-    }
-
-    return ret;
-}
-std::shared_ptr<Action> ActionFactory::make_action(ActionType action, std::vector<int> indices)
-{
-    std::shared_ptr<Action> ret = nullptr;
-    switch(action)
-    {
-    case REMOVE_LINES:
-        ret = std::make_shared<RemoveLinesAction>(_objecttree, indices);
-        break;
-    }
-
-    return ret;
-}
-
-std::shared_ptr<Action> ActionFactory::make_action(ActionType action, int index, std::vector<int> vertexindices)
-{
-    std::shared_ptr<Action> ret = nullptr;
-    switch(action)
-    {
-    case MOVE_LINE_VERTICES:
-        ret = std::make_shared<MoveLineVerticesAction>(_objecttree, index,vertexindices);
-        break;
-    }
-
-    return ret;
-}
-
 void UndoAction::execute()
 {
     _actionstack->undo();
@@ -148,6 +72,7 @@ void RedoAction::execute()
 {
     _actionstack->redo();
 }
+/*
 void DrawPointAction::execute()
 {
     _objecttree->add_component(_pp);
@@ -211,4 +136,5 @@ void MoveLineVerticesAction::execute()
 void MoveLineVerticesAction::unexecute()
 {
 }
+*/
 

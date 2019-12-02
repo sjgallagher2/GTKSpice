@@ -29,12 +29,10 @@
 
 #include <memory>
 #include <gtkmm.h>
-#include <app/object_tree.h>
-#include <app/component_params.h>
+#include <app/element_map.h>
 #include <app/gtkspice_state.h>
 #include <app/action_stack.h>
 #include <app/canvas.h>
-#include <app/object_tree.h>
 #include <app/schematic.h>
 #include <app/spice_data.h>
 #include <tools/tool_manager.h>
@@ -87,7 +85,7 @@ public:
 
     ~ActionFactory() {}
 
-    void update(std::shared_ptr<ObjectTree> ot, 
+    void update(std::shared_ptr<GtkSpiceElementMap> em, 
         std::shared_ptr<Schematic> sch, 
         std::shared_ptr<Canvas> canv,
         std::shared_ptr<ActionStack> as,
@@ -95,7 +93,7 @@ public:
         std::shared_ptr<ToolManager> tlmgr,
         std::shared_ptr<ViewFeatures> vfeatures)
     {
-        _objecttree = ot;
+        _elementmap = em;
         _schematic = sch;
         _canvas = canv;
         _actionstack = as;
@@ -113,7 +111,7 @@ public:
     //std::shared_ptr<Action> make_action(ActionType action, int index, std::vector<int> vertexindices);
 
 private:
-    std::shared_ptr<ObjectTree> _objecttree;
+    std::shared_ptr<GtkSpiceElementMap> _elementmap;
     std::shared_ptr<Schematic> _schematic;
     std::shared_ptr<Canvas> _canvas;
     std::shared_ptr<ActionStack> _actionstack;
@@ -145,6 +143,7 @@ protected:
 };
 
 // TODO Keep this as an unstackable for drawing connections with wires? Otherwise get rid of it
+/*
 class DrawPointAction : public Action
 {
 public:
@@ -159,6 +158,7 @@ protected:
     std::shared_ptr<ObjectTree> _objecttree;
     PointParameters _pp;
 };
+*/
 
 /* AppendLine Action is used to push a new line onto the stack, typically 
  * with only two vertices. The key difference is the line remains active

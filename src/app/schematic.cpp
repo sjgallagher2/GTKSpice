@@ -14,7 +14,7 @@
 
 #include <app/schematic.h>
 
-Schematic::Schematic(std::shared_ptr<ObjectTree> ot) : _objecttree(ot)
+Schematic::Schematic(std::shared_ptr<GtkSpiceElementMap> em) : _elementmap(em)
 {}
 
 Schematic::~Schematic() 

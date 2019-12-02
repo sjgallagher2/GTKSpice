@@ -17,7 +17,7 @@
 #include <app/component.h>
 #include <app/geometry.h>
 
-
+/*
 bool Component::is_under_cursor(Coordinate mousepos)
 {
     return false;
@@ -94,25 +94,26 @@ bool Line::move_vertex(Coordinate loc)
     _calculate_bounding_box();
     return false;
 }
-bool Line::is_under_cursor(Coordinate mousepos)
-{
-    _calculate_bounding_box();
-    bool underBB = false;
-    if(!_bb.empty())
-    {
-        underBB = 
-            (mousepos.x() > _bb.at(0)) && /*left*/
-            (mousepos.y() < _bb.at(1)) && /*bottom*/
-            (mousepos.x() < _bb.at(2)) && /*right*/
-            (mousepos.y() > _bb.at(3)); /*top*/
-    }
-    if(underBB)
-    {
-        return mouse_nearby(mousepos);
-    }
-    return false;
-}
-
+*/
+//bool Line::is_under_cursor(Coordinate mousepos)
+//{
+//    _calculate_bounding_box();
+//    bool underBB = false;
+//    if(!_bb.empty())
+//    {
+//        underBB = 
+//            (mousepos.x() > _bb.at(0)) && /*left*/
+//            (mousepos.y() < _bb.at(1)) && /*bottom*/
+//            (mousepos.x() < _bb.at(2)) && /*right*/
+//            (mousepos.y() > _bb.at(3)); /*top*/
+//    }
+//    if(underBB)
+//    {
+//        return mouse_nearby(mousepos);
+//    }
+//    return false;
+//}
+/*
 bool Line::is_in_selection(const Coordinate& start, const Coordinate& end)
 {
     _calculate_bounding_box();
@@ -138,29 +139,31 @@ bool Line::is_in_selection(const Coordinate& start, const Coordinate& end)
         bottom = start.y();
     }
     bool overBB = false;
-    if(!_bb.empty())
-    {
-        overBB = 
-            (left < _bb.at(0)) && /*left*/
-            (bottom > _bb.at(1)) &&/*bottom*/
-            (right > _bb.at(2)) &&/*right*/
-            (top < _bb.at(3)); /*top*/
-    }
-    return overBB;
-}
-
+*/
+//    if(!_bb.empty())
+//    {
+//        overBB = 
+//            (left < _bb.at(0)) && /*left*/
+//            (bottom > _bb.at(1)) &&/*bottom*/
+//            (right > _bb.at(2)) &&/*right*/
+//            (top < _bb.at(3)); /*top*/
+//    }
+//    return overBB;
+//}
+/*
 std::vector<float> Line::get_bounding_box()
 {
     return _bb;
 }
 bool Line::mouse_nearby(Coordinate mousepos,float tol)
-{
+{*/
     /*
     More intensive computation, check if mouse is within tol distance 
     at any point along the line
     The algorithm should determine if the mouse is "close" to the interpolated
     vertices. This means calculating a distance from many straight lines.
     */
+   /*
     float d;
     for(int i = 0; i < _lp.vertices.size()-1;i++)
     {
@@ -169,8 +172,8 @@ bool Line::mouse_nearby(Coordinate mousepos,float tol)
             return true;
     }
     return false;
-}
-
+}*/
+/*
 Rect::Rect(RectParameters rp) : _rp(rp)
 {
     // Init
@@ -202,8 +205,9 @@ void Rect::draw(Cairo::RefPtr<Cairo::Context> context)
     context->stroke();
     context->restore();
 }
-
+*/
 /**** PRIVATE METHODS *****/
+/*
 void Line::_calculate_bounding_box()
 {
     if(!_lp.vertices.empty())
@@ -264,3 +268,5 @@ Line::VIter Line::_get_vertex_from_location(Coordinate loc)
     }
     return _lp.vertices.end();
 }
+*/
+

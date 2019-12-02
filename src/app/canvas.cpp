@@ -14,18 +14,17 @@
 
 #include <app/vertex_list.h>
 #include <app/canvas.h>
-#include <app/component_params.h>
 #include <app/coordinate.h>
 #include <app/key_accel_map.h>
 #include <iostream>
 
 
 Canvas::Canvas(std::shared_ptr<Window> toplevel, 
-    std::shared_ptr<ObjectTree> ot, 
+    std::shared_ptr<GtkSpiceElementMap> em, 
     std::shared_ptr<ActionFactory> af,
     std::shared_ptr<KeyAccelMap> keymap) : 
     _toplevel(toplevel),
-    _objecttree(ot),
+    _elementmap(em),
     _state( std::make_shared<GtkSpiceState>() ),
     _actionfactory(af),
     _cs( std::make_shared<CoordinateSystem>() ),
@@ -33,9 +32,9 @@ Canvas::Canvas(std::shared_ptr<Window> toplevel,
 {
     send_test = true;
     _ebox = std::make_shared<DrawingEventBox>(_cs);
-    _toolmgr = std::make_shared<ToolManager>(_actionfactory,_objecttree,_cs,_vfeatures);
+    _toolmgr = std::make_shared<ToolManager>(_actionfactory,_elementmap,_cs,_vfeatures);
     // Set the object tree for the view
-    _ebox->set_object_tree(_objecttree);
+    _ebox->set_element_map(_elementmap);
     _ebox->set_view_features(_vfeatures);
     // Add the event box for this canvas to the toplevel window and show
     _toplevel->add(*_ebox);

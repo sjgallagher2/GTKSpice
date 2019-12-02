@@ -15,7 +15,7 @@
 #define TOOL_DELETE_H
 
 #include <memory>
-#include <app/object_tree.h>
+#include <app/element_map.h>
 #include <gui/view_features.h>
 #include <app/action.h>
 #include <tools/tool.h>
@@ -25,10 +25,10 @@ class DeleteTool : public Tool
 {
 public:
     DeleteTool(std::shared_ptr<ActionFactory> af,
-        std::shared_ptr<ObjectTree> ot,
+        std::shared_ptr<GtkSpiceElementMap> em,
         std::shared_ptr<ViewFeatures> vf) :
         Tool(af),
-        _objecttree(ot),
+        _elementmap(em),
         _vfeatures(vf) {}
     virtual ~DeleteTool() {}
 
@@ -38,7 +38,7 @@ public:
     virtual Glib::ustring get_tool_cursor_name() {return "scissor";}
 
 protected:
-    std::shared_ptr<ObjectTree> _objecttree;
+    std::shared_ptr<GtkSpiceElementMap> _elementmap;
     std::shared_ptr<ViewFeatures> _vfeatures;
     Coordinate _select_start;
     Coordinate _select_end;

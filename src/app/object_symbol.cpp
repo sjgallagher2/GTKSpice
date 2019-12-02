@@ -239,3 +239,33 @@ bool ObjectSymbol::within(const Coordinate& start, const Coordinate& end)
     
     return within;
 }
+
+void ObjectSymbol::rotate90()
+{
+    for(auto& itr : _geometry)
+        itr->rotate90();
+    for(auto& itr : _pins)
+        itr->rotate90();
+    for(auto& itr : _attr_texts)
+        itr.second->rotate90();
+}
+void ObjectSymbol::hflip()
+{
+    for(auto& itr : _geometry)
+        itr->hflip();
+    for(auto& itr : _pins)
+        itr->hflip();
+    for(auto& itr : _attr_texts)
+        itr.second->hflip();
+
+}
+void ObjectSymbol::vflip()
+{
+    for(auto& itr : _geometry)
+        itr->vflip();
+    for(auto& itr : _pins)
+        itr->vflip();
+    for(auto& itr : _attr_texts)
+        itr.second->vflip();
+
+}

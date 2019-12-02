@@ -17,6 +17,7 @@
 
 #include <memory>
 #include <gui/window.h>
+#include <app/element_map.h>
 #include <app/spice_data.h>
 #include <app/schematic.h>
 #include <app/workspace_keyaccel.h>
@@ -31,12 +32,12 @@ public:
     Workspace(std::shared_ptr<Window> toplevel);
     ~Workspace();
     
-    std::shared_ptr<ObjectTree> get_workspace_object_tree() const {return _objecttree;}
+    std::shared_ptr<GtkSpiceElementMap> get_workspace_element_map() const {return _elementmap;}
 
 protected:
     std::shared_ptr<Window> _toplevel;
     std::shared_ptr<ActionFactory> _actionfactory;
-    std::shared_ptr<ObjectTree> _objecttree;
+    std::shared_ptr<GtkSpiceElementMap> _elementmap;
     std::shared_ptr<SpiceData> _spicedata;
     std::shared_ptr<ActionStack> _actionstack;
     std::shared_ptr<Schematic> _schem;

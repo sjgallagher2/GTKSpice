@@ -131,6 +131,10 @@ public:
     bool near(const Coordinate& pos);
     bool within(const Coordinate& start, const Coordinate& end);
 
+    void rotate90();
+    void hflip();
+    void vflip();
+
 protected:
     virtual void init_attributes(); // Create default attributes: FILE, NAME, VALUE, and DESCRIPTION
     virtual bool has_pin(Glib::ustring pin_name);

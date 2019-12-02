@@ -13,7 +13,6 @@
  */
 
 #include <app/gtkspice.h>
-#include <app/object_tree.h>
 
 class Window;
 

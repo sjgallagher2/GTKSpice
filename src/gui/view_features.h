@@ -18,7 +18,6 @@
 #include <gtkmm.h>
 #include <vector>
 #include <app/component.h>
-#include <app/component_params.h>
 #include <app/coordinate.h>
 
 class ViewFeatures
@@ -34,8 +33,8 @@ public:
     void FinishTempRectangle();
 
 private:
-    RectParameters _rp;
-    Rect _temp_rect;
+    //RectParameters _rp;
+    //Rect _temp_rect;
 };
 
 #endif /* VIEW_FEATURES */

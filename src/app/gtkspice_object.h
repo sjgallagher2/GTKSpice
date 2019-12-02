@@ -57,6 +57,10 @@ public:
     {
         return _symbol->within(start,end);
     }
+    
+    void rotate90() {_symbol->rotate90();}
+    void hflip() {_symbol->hflip();}
+    void vflip() {_symbol->vflip();}
 
     bool connect_pin_to_node(const Glib::ustring& pin_name, int node);
     Glib::ustring get_spice_line(); // TODO

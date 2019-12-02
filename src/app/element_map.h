@@ -32,7 +32,7 @@ public:
     std::shared_ptr<GtkSpiceElement> find_element(const Glib::ustring& inst_name);
     std::shared_ptr<GtkSpiceElement> get_active_element(); // Return element being moved/dropped
     std::shared_ptr<GtkSpiceElement> get_element_under_cursor(const Coordinate& mousepos);
-    std::shared_ptr<GtkSpiceElement> get_elements_in_selection(const Coordinate& start, const Coordinate& end);
+    std::vector<std::shared_ptr<GtkSpiceElement>> get_elements_in_selection(const Coordinate& start, const Coordinate& end);
 
 private:
     typedef std::map<Glib::ustring, std::shared_ptr<GtkSpiceElement>> ElementMap;

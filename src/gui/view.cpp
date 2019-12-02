@@ -19,7 +19,6 @@
 #include <gui/grid.h>
 #include <app/transforms.h>
 #include <testing/testdraw.h>
-#include <app/object_tree.h>
 #include <app/gtkspice_state.h>
 
 #include <iostream>
@@ -93,8 +92,8 @@ bool View::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
         _vfeatures->draw_features(context);
 
     // Draw all objects in the object tree
-    if(_objecttree)
-        _objecttree->redraw(context);
+    if(_elementmap)
+        _elementmap->redraw(context);
 
     
     /******** TESTING ********/
@@ -106,6 +105,7 @@ bool View::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
     GtkSpiceElement obj("/home/sam/Documents/Electronics/SPICE/lib/sym/ind.asy");
     obj.set_name("123");
     obj.set_position(o_pos);
+    obj.rotate90();
     obj.draw(context);
     std::cout << "Is near? " << obj.near(Coordinate(40,30)) << "\n";
     std::cout << "Is under? " << obj.under(Coordinate(40,30)) << "\n";

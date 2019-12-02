@@ -52,7 +52,7 @@ bool GtkSpiceElement::set_symbol_file(const Glib::ustring& symbol_file)
 
 void GtkSpiceElement::set_name(Glib::ustring name)
 {
-    // Note: It is the schematic's responsibility to manage names
+    // Note: It is the Schematic's responsibility to manage names
     if(_symbol)
     {
         _inst_name = _symbol->get_attribute_value("PREFIX") + name;

@@ -18,7 +18,6 @@
 #include <memory>
 #include <gui/drawingeventbox.h>
 #include <app/coordinate.h>
-#include <app/component_params.h>
 
 class Tool;
 

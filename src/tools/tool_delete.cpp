@@ -14,7 +14,6 @@
 
 #include <iostream>
 #include <tools/tool_delete.h>
-#include <app/component_params.h>
 
 
 std::shared_ptr<Action> DeleteTool::tool_click_handler(Coordinate mousepos,int button,int modifier,int cselect)

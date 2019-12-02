@@ -24,7 +24,6 @@
 #include <gtkmm.h>
 #include <gtkmm/drawingarea.h>
 #include <app/vertex_list.h>
-#include <app/component_params.h>
 
 // TODO Add wire, circuitelement, subcircuit
 // TODO Remove direct drawing information, separate component model and
@@ -32,7 +31,7 @@
 // Idea: Keep these components as GUI components, make all symbols a drawline
 // actions for on_draw() which contains lines and points. These are more
 // like 'primitives' or 'drawables'
-
+/*
 class Component;
 class Point;
 class Line;
@@ -155,6 +154,6 @@ protected:
     bool _is_active = false;
 
 };
-
+*/
 
 #endif /* COMPONENT_H */

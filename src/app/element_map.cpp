@@ -13,6 +13,8 @@
  */
 
 #include <string>
+#include <vector>
+#include <algorithm>
 #include <app/element_map.h>
 
 GtkSpiceElementMap::GtkSpiceElementMap()
@@ -59,18 +61,61 @@ std::shared_ptr<GtkSpiceElement> GtkSpiceElementMap::get_active_element()
 }
 std::shared_ptr<GtkSpiceElement> GtkSpiceElementMap::get_element_under_cursor(const Coordinate& mousepos)
 {
-    // TODO Iterate through all elements' near() and under() functions
+    for(auto& itr : _element_map)
+        if(itr.second->near(mousepos))
+            if(itr.second->under(mousepos))
+                return itr.second;
     return nullptr;
 }
-std::shared_ptr<GtkSpiceElement> GtkSpiceElementMap::get_elements_in_selection(const Coordinate& start, const Coordinate& end)
+std::vector<std::shared_ptr<GtkSpiceElement>> GtkSpiceElementMap::get_elements_in_selection(const Coordinate& start, const Coordinate& end)
 {
-    // TODO Iterate through all elements' within() functions
-    return nullptr;
+    std::vector<std::shared_ptr<GtkSpiceElement>> ret;
+    for(auto& itr : _element_map)
+        if(itr.second->within(start,end))
+            ret.push_back(itr.second);
+    return ret;
 }
 
-void _auto_name(GtkSpiceElement& element)
+void GtkSpiceElementMap::_auto_name(GtkSpiceElement& element)
 {
     // Use element prefix to get first available name (default names are numbers) 
+    // Note: use std::map's lower_bound and upper_bound with the prefix to 
+    // get a range to search within, and then iterate through this range
+    // checking object names. Use std::stoi to check if name is a number 
+    // before recording into a vector and sorting. Find first missing number
+    // and use as the name.
+
+    Glib::ustring prefix = element.get_symbol()->get_attribute_value("PREFIX");
+
+    int element_namei = 0;
+    std::vector<int> namesi;
+
+    // Fill in a vector of the names as ints
+    if(_element_map.lower_bound(prefix) != _element_map.upper_bound(prefix))
+    {
+        for(auto itr = _element_map.lower_bound(prefix); itr != _element_map.upper_bound(prefix); ++itr)
+        {
+            size_t next_char;
+            int current_namei;
+            try
+            {
+                // Try/catch is for stoi if name is not a number
+                current_namei = std::stoi(_element_map.lower_bound(prefix)->second->get_inst_name(),&next_char);
+                if (next_char == 0)
+                    namesi.push_back(current_namei);
+            }catch (std::invalid_argument){}
+        }
+    }
+    std::sort( namesi.begin(), namesi.end() );
+    // This iterates through all values in the list assuming no gaps, and does a binary
+    // search to determine if the name is taken. If it isn't, take it.
+    // Note that we iterate from 0 to size() inclusion, so if all names are taken so far,
+    // the next name (incrementally) is used.
+    for(int m = 0; m <= namesi.size(); m++)
+        if(std::binary_search(namesi.begin(),namesi.end(),m) == false)
+            element_namei = m;
+    
+    element.set_name(std::to_string(element_namei));
 }
 
 
