@@ -77,7 +77,7 @@ void LinePrimitive::rotate90()
     Coordinate tend = _end;
     _start.x(-_start.y());
     _start.y(tstart.x());
-    _end.x(_end.x());
+    _end.x(-_end.y());
     _end.y(tend.x());
 }
 void LinePrimitive::hflip()

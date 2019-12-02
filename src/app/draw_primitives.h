@@ -28,7 +28,7 @@ struct DrawSettings
     Cairo::LineCap line_cap = Cairo::LINE_CAP_BUTT;
     Cairo::LineJoin line_join = Cairo::LINE_JOIN_BEVEL;
     Cairo::Antialias antialias = Cairo::ANTIALIAS_NONE;
-    double font_size = 10;
+    double font_size = 7;
     Glib::ustring font_family = "monospace";
     Cairo::FontSlant font_slant = Cairo::FONT_SLANT_NORMAL;
     Cairo::FontWeight font_weight = Cairo::FONT_WEIGHT_NORMAL;

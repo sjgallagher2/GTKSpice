@@ -17,6 +17,8 @@
 #include <algorithm>
 #include <app/element_map.h>
 
+#include <iostream>
+
 GtkSpiceElementMap::GtkSpiceElementMap()
 {
 }
@@ -36,6 +38,7 @@ void GtkSpiceElementMap::redraw(const Cairo::RefPtr<Cairo::Context>& context)
 void GtkSpiceElementMap::add_element(const Glib::ustring& sym_file, Coordinate pos)
 {
     GtkSpiceElement obj(sym_file);
+    obj.set_position(pos);
     _auto_name(obj);
     _element_map.insert(ElementPair(obj.get_inst_name(),std::make_shared<GtkSpiceElement>(obj)));
 }
@@ -91,17 +94,23 @@ void GtkSpiceElementMap::_auto_name(GtkSpiceElement& element)
     std::vector<int> namesi;
 
     // Fill in a vector of the names as ints
-    if(_element_map.lower_bound(prefix) != _element_map.upper_bound(prefix))
+    auto lowerbound = _element_map.lower_bound(prefix);
+    auto upperbound = _element_map.upper_bound(prefix);
+
+    if(lowerbound != _element_map.end())
     {
-        for(auto itr = _element_map.lower_bound(prefix); itr != _element_map.upper_bound(prefix); ++itr)
+        if(lowerbound == upperbound) // upper_bound will default to last element
+            upperbound = _element_map.end();
+        for(auto itr = lowerbound; itr != upperbound; ++itr)
         {
             size_t next_char;
             int current_namei;
             try
             {
                 // Try/catch is for stoi if name is not a number
-                current_namei = std::stoi(_element_map.lower_bound(prefix)->second->get_inst_name(),&next_char);
-                if (next_char == 0)
+                Glib::ustring current_name = itr->second->get_name();
+                current_namei = std::stoi(current_name,&next_char);
+                if (next_char == current_name.size())
                     namesi.push_back(current_namei);
             }catch (std::invalid_argument){}
         }

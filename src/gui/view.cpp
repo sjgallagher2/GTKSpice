@@ -98,18 +98,19 @@ bool View::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
     
     /******** TESTING ********/
 
-    DrawSettings ds; // Use most defaults
-    ds.font_size = 5;
+    if(_elementmap->empty())
+    {
+        Coordinate o_pos1(10,30);
+        Coordinate o_pos2(30,20);
+        Coordinate o_pos3(45,30);
+        _elementmap->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/current.asy",o_pos1);
+        _elementmap->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/res.asy",o_pos2);
+        _elementmap->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/res.asy",o_pos3);
+        _elementmap->find_element("R1")->rotate90();
+        _elementmap->find_element("R1")->hflip();
+        _elementmap->redraw(context);
+    }
     
-    Coordinate o_pos(30,10);
-    GtkSpiceElement obj("/home/sam/Documents/Electronics/SPICE/lib/sym/ind.asy");
-    obj.set_name("123");
-    obj.set_position(o_pos);
-    obj.rotate90();
-    obj.rotate90();
-    obj.hflip();
-    obj.vflip();
-    obj.draw(context);
     /*************************/
 
     // All done

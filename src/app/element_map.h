@@ -26,6 +26,9 @@ public:
     GtkSpiceElementMap();
     ~GtkSpiceElementMap();
 
+    bool empty() const {return _element_map.empty();}
+    int size() const {return _element_map.size();}
+
     void redraw(const Cairo::RefPtr<Cairo::Context>& context);
     void add_element(const Glib::ustring& sym_file, Coordinate pos);
     bool remove_element(const Glib::ustring& inst_name);

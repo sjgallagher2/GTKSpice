@@ -55,6 +55,7 @@ void GtkSpiceElement::set_name(Glib::ustring name)
     // Note: It is the Schematic's responsibility to manage names
     if(_symbol)
     {
+        _name_no_prefix = name;
         _inst_name = _symbol->get_attribute_value("PREFIX") + name;
         _symbol->set_attribute_value("INSTNAME",_inst_name);
     }

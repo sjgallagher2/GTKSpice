@@ -42,6 +42,7 @@ public:
 
     void set_name(Glib::ustring name);
     Glib::ustring get_inst_name() const {return _inst_name;}
+    Glib::ustring get_name() const {return _name_no_prefix;}
     void set_position(Coordinate pos) {_position = pos; if(_symbol) _symbol->position(_position);}
     Coordinate get_position() const {return _position;}
 
@@ -70,6 +71,7 @@ protected:
     Coordinate _position;
     bool _active;
     Glib::ustring _inst_name; // Prefix + name
+    Glib::ustring _name_no_prefix;
     std::vector<int> _nodes; // Nodes associated with pins, in SPICE_ORDER of pins
 
 };

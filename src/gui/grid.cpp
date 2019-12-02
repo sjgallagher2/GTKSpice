@@ -49,10 +49,14 @@ void Grid::draw_grid(const Cairo::RefPtr<Cairo::Context>& context,const float sc
     context->save();
     float sf = 2; // Dot scale factor
     float s = sf/scale;
-    float inc = 10; // Dot spacing
+    float inc = 20; // Dot spacing
     if(scale > 6)
     {
         inc = 1; // Smaller dot spacing for smaller grid
+    }
+    else if(scale > 2)
+    {
+        inc = 10;
     }
     Coordinate::grid(inc);
 
