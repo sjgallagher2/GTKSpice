@@ -104,6 +104,7 @@ bool View::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
         Coordinate o_pos2(30,20);
         Coordinate o_pos3(45,30);
         _elementmap->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/current.asy",o_pos1);
+        _elementmap->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/current.asy",Coordinate(0,0));
         _elementmap->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/res.asy",o_pos2);
         _elementmap->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/res.asy",o_pos3);
         _elementmap->find_element("R1")->rotate90();

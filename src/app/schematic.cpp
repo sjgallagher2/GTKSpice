@@ -14,7 +14,7 @@
 
 #include <app/schematic.h>
 
-Schematic::Schematic(std::shared_ptr<GtkSpiceElementMap> em) : _elementmap(em)
+Schematic::Schematic(std::shared_ptr<GtkSpiceElementList> em) : _elementmap(em)
 {}
 
 Schematic::~Schematic() 

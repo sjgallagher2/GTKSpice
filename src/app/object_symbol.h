@@ -116,6 +116,7 @@ public:
 
     std::shared_ptr<ObjectGeometry> get_geometry() const {return std::make_shared<ObjectGeometry>(_geometry);}
 
+    int pin_count() const {return _pins.size();}
 	std::shared_ptr<ObjectPins> get_pins() const {return std::make_shared<ObjectPins>(_pins);}
     std::shared_ptr<SymbolPin> get_pin(Glib::ustring pin_name);
 	void add_pin(SymbolPin new_pin) {_pins.push_back(std::make_shared<SymbolPin>(new_pin));} // Add a new pin
@@ -126,7 +127,7 @@ public:
     void set_attribute_text_position(Glib::ustring attr, Coordinate pos)
         {if(has_attribute(attr)) _attr_texts.find(attr)->second->anchor(pos);}
 
-    void draw(Cairo::RefPtr<Cairo::Context> context);
+    void draw(Cairo::RefPtr<Cairo::Context> context,std::vector<int> pin_highlights = {});
     bool under(const Coordinate& pos); // Return true if visible and selectable parts of Symbol are (roughly) under pos
     bool near(const Coordinate& pos);
     bool within(const Coordinate& start, const Coordinate& end);

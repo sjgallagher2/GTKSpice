@@ -16,15 +16,15 @@
 #define SCHEMATIC_H
 
 #include <memory>
-#include <app/element_map.h>
+#include <app/gtkspice_object_list.h>
 
 class Schematic
 {
 public:
-    Schematic(std::shared_ptr<GtkSpiceElementMap> em);
+    Schematic(std::shared_ptr<GtkSpiceElementList> em);
     ~Schematic();
 private:
-    std::shared_ptr<GtkSpiceElementMap> _elementmap;
+    std::shared_ptr<GtkSpiceElementList> _elementmap;
 };
 
 #endif /* SCHEMATIC_H */

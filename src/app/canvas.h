@@ -21,7 +21,7 @@
 #include <gui/window.h>
 #include <gui/drawingeventbox.h>
 #include <gui/view_features.h>
-#include <app/element_map.h>
+#include <app/gtkspice_object_list.h>
 #include <app/gtkspice_state.h>
 #include <app/action.h>
 #include <app/coordinate_system.h>
@@ -41,12 +41,12 @@ class Canvas
 {
 public:
     Canvas(std::shared_ptr<Window> toplevel, 
-        std::shared_ptr<GtkSpiceElementMap> em, 
+        std::shared_ptr<GtkSpiceElementList> em, 
         std::shared_ptr<ActionFactory> af,
         std::shared_ptr<KeyAccelMap> keymap);
     virtual ~Canvas();
 
-    std::shared_ptr<const GtkSpiceElementMap> get_canvas_element_map() const {return _elementmap;}
+    std::shared_ptr<const GtkSpiceElementList> get_canvas_element_map() const {return _elementmap;}
     std::shared_ptr<GtkSpiceState> get_gtkspice_state() const {return _state;}
     std::shared_ptr<ToolManager> get_tool_manager() const {return _toolmgr;}
     std::shared_ptr<ViewFeatures> get_view_features() const {return _vfeatures;}
@@ -62,7 +62,7 @@ public:
     typedef sigc::signal<bool,Glib::ustring> new_cursor_type;
     new_cursor_type new_cursor() const {return _new_cursor;}
 protected:
-    std::shared_ptr<GtkSpiceElementMap> _elementmap;
+    std::shared_ptr<GtkSpiceElementList> _elementmap;
     std::shared_ptr<ActionFactory> _actionfactory;
     std::shared_ptr<Window> _toplevel;
     std::shared_ptr<DrawingEventBox> _ebox;

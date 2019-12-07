@@ -266,6 +266,8 @@ struct SpiceIndependentSource : public SpiceElement
     Datafield distof2_f2mag;
     Datafield distof2_f2phase;
 
+    Datafield value; // Transient waveform (pulse, sin, etc)
+
     virtual Glib::ustring get_spice_line()
     {
         Glib::ustring ret  = "";
@@ -306,6 +308,9 @@ struct SpiceIndependentSource : public SpiceElement
                     ret.append(" "+distof2_f2phase);
             }
         }
+        if(!value.empty())
+            ret.append(" "+value);
+        
         return ret.uppercase();
     }
 };

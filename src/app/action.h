@@ -29,7 +29,7 @@
 
 #include <memory>
 #include <gtkmm.h>
-#include <app/element_map.h>
+#include <app/gtkspice_object_list.h>
 #include <app/gtkspice_state.h>
 #include <app/action_stack.h>
 #include <app/canvas.h>
@@ -85,7 +85,7 @@ public:
 
     ~ActionFactory() {}
 
-    void update(std::shared_ptr<GtkSpiceElementMap> em, 
+    void update(std::shared_ptr<GtkSpiceElementList> em, 
         std::shared_ptr<Schematic> sch, 
         std::shared_ptr<Canvas> canv,
         std::shared_ptr<ActionStack> as,
@@ -111,7 +111,7 @@ public:
     //std::shared_ptr<Action> make_action(ActionType action, int index, std::vector<int> vertexindices);
 
 private:
-    std::shared_ptr<GtkSpiceElementMap> _elementmap;
+    std::shared_ptr<GtkSpiceElementList> _elementmap;
     std::shared_ptr<Schematic> _schematic;
     std::shared_ptr<Canvas> _canvas;
     std::shared_ptr<ActionStack> _actionstack;

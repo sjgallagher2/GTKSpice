@@ -41,7 +41,7 @@ DrawingEventBox::DrawingEventBox(std::shared_ptr<CoordinateSystem> cs) :
 DrawingEventBox::~DrawingEventBox()
 {}
 
-void DrawingEventBox::set_element_map(std::shared_ptr<GtkSpiceElementMap> em)
+void DrawingEventBox::set_element_map(std::shared_ptr<GtkSpiceElementList> em)
 {
     _v->set_element_map(em);
 }

@@ -17,7 +17,7 @@
 #include <memory>
 #include <map>
 #include <app/coordinate_system.h>
-#include <app/element_map.h>
+#include <app/gtkspice_object_list.h>
 #include <gui/view_features.h>
 #include <tools/tool.h>
 #include <tools/tool_component_drag.h>
@@ -44,7 +44,7 @@ public:
     typedef std::map<ToolTypes,std::shared_ptr<Tool>> Toolmap;
 
     ToolManager(std::shared_ptr<ActionFactory> af, 
-        std::shared_ptr<GtkSpiceElementMap> em,
+        std::shared_ptr<GtkSpiceElementList> em,
         std::shared_ptr<CoordinateSystem> cs,
         std::shared_ptr<ViewFeatures> vf) :
         _tool_map(std::make_shared<Toolmap>())
@@ -77,7 +77,7 @@ public:
 private:
     std::shared_ptr<Toolmap> _tool_map;
     std::shared_ptr<ActionFactory> _actionfactory;
-    std::shared_ptr<GtkSpiceElementMap> _elementmap;
+    std::shared_ptr<GtkSpiceElementList> _elementmap;
     std::shared_ptr<CoordinateSystem> _coord_sys;
     std::shared_ptr<ViewFeatures> _vfeatures;
     std::shared_ptr<Tool> _pointer; 

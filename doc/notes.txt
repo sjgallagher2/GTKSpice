@@ -318,30 +318,61 @@ EXAMPLE
 
 
 ///////////////////////////////
-The program functionality needs to be reworked. The Component objects, 
-their associated Actions, and the Tools that work with them need to be
-re-implemented. Need to figure out how to manage the GtkSpiceObjects 
-with respect to SPICE proper, i.e. node connections, and how to connect 
-these to the Schematic object. Some drawing methods still need to be 
-implemented, namely elliptical arc and circle distances (should be fairly
-simple with radius multipliers) and symbol rotation (rotating all points
-in the symbol about the symbol origin). Wires are not yet implemented,
-should have an active mode which keeps adding vertices to the wire 
-(Line component should help with this), and only ortho editing. 
+Time to handle wires (nets). A -node- is a conceptual connection, which
+has a name (a string). From a modelling standpoing, nets don't 
+exist. Only nodes exist, and each node is numbered starting with "0" 
+(reserved for ground) followed by 1, 2, ... by default, and generally
+nodes are named with strings. GtkSpiceObjects maintain a list of nodes 
+in SpiceOrder, which means "connecting" two components with wires 
+involves (direct method):
+I. Initialization of a wire
+	a. If this is a new wire (free wire or unconnected pin), give it 
+		a new node name, connect the pin to this node
+	b. If this wire starts on another node (a wire or connected pin)
+		use the existing node name
+II. Connection of a wire
+	a. If the connection is free, start a new wire after this wire
+	b. If the connection is to another node (a wire or connected pin)
+		somehow merge the two node names, renaming all connections, 
+		finish wire.
+	c. If the connection is to an unconnected pin, set the connection 
+		for that pin, finish wire.
+	d. Optionally finish the wire
 
-There should be something of a focus on minimizing the work involved. 
-For example, making the most use of the SPICE lines by storing strings 
-instead of actual logical data. We're sort of doing this, but it comes
-up when putting the ObjectTree into the Schematic object. 
+From this, we have the following actions required:
+	- Creating a new node
+	- Connecting a node to a pin
+	- Merging two nodes
+	- Renaming a node
+We cannot simply store node names. If we did, then renaming a node would
+become much more difficult (we would have to search all elements for their
+pin connections and manually change any that match). Instead, we need to 
+have the Schematic own a collection of GtkSpiceNodes, and it shares pointers 
+to those nodes with GtkSpiceElements when necessary.
 
-SpiceElements should be accessed by their inst_name, so we could store
-elements in a map. But we need to auto-name all elements, so we need to 
-check what names are available (numerically) and this is strictly dependent
-on the prefix (we only need to check other elements with the same prefix).
-So a sorted list would also be desirable. Conversely, we can check through 
-the map for identical names incrementally, but this requires searching
-the map over and over again. We're only working with at most, say, 
-a thousand components, so this isn't really that critical in terms of 
-data accessing speed, as long as its not more than a few hundred ms.
+Fortunately, the Schematic also owns the GtkSpiceElements, so connecting is
+relatively straightforward, we just need a connect() function:
+	connect(Element,Node)
+And a merge() function:
+	merge(Node, Node)
+Which is equivalent to connecting two Nodes. This presents the problem that
+we need to now make sure all Elements which are connected to the old Node(s)
+have their pointers updated to point to the new Node. 
+
+The following configurations should be considered:
+	Element stores connections to Nodes
+	Nodes store connections to Elements
+	A third party stores this information
+The first is appealing for its directness, the second is appealing because
+it makes merging nodes straightforward. The last is less appealing. 
+
+== NODES VS WIRES ==
+A -Wire- is a drawable which is associated with a single Node. The user 
+interacts with Wires, while Nodes are managed by the Schematic. But when a 
+Wire starts or ends on an Element's pin, or another Wire, a connection must 
+be made. The Wire object can do this, using its own data to call connect(). 
+Alternatively, we can simply update the Wire geometry (adding a point for 
+mid-wire connections) and we can handle the connect() externally. 
+
 
 

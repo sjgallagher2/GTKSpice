@@ -20,7 +20,7 @@
 
 
 Canvas::Canvas(std::shared_ptr<Window> toplevel, 
-    std::shared_ptr<GtkSpiceElementMap> em, 
+    std::shared_ptr<GtkSpiceElementList> em, 
     std::shared_ptr<ActionFactory> af,
     std::shared_ptr<KeyAccelMap> keymap) : 
     _toplevel(toplevel),

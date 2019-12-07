@@ -22,7 +22,7 @@ Workspace::Workspace(std::shared_ptr<Window> toplevel) :
     _keymap->set_defaults();
     _actionfactory = std::make_shared<ActionFactory>();
 
-    _elementmap = std::make_shared<GtkSpiceElementMap>();
+    _elementmap = std::make_shared<GtkSpiceElementList>();
     _spicedata = std::make_shared<SpiceData>();
     _actionstack = std::make_shared<ActionStack>();
     

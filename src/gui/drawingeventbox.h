@@ -18,7 +18,7 @@
 #include <memory>
 #include <gtkmm/eventbox.h>
 #include <cairomm/matrix.h>
-#include <app/element_map.h>
+#include <app/gtkspice_object_list.h>
 #include <gui/view_features.h>
 #include <gui/drawingeventbox_keyaccel.h>
 #include <gui/view.h>
@@ -38,7 +38,7 @@ public:
     DrawingEventBox(std::shared_ptr<CoordinateSystem> cs);
     virtual ~DrawingEventBox();
 
-    void set_element_map(std::shared_ptr<GtkSpiceElementMap> em); 
+    void set_element_map(std::shared_ptr<GtkSpiceElementList> em); 
     void set_view_features(std::shared_ptr<ViewFeatures> vf);
 
     Cairo::Matrix get_view_matrix() const {return _view_mat;}

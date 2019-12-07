@@ -16,8 +16,10 @@
 #define GTKSPICE_OBJECT_H
 
 #include <gtkmm.h>
+#include <iostream>
 #include <memory>
 #include <vector>
+#include <map>
 #include <app/coordinate.h>
 #include <app/object_symbol.h>
 
@@ -63,7 +65,24 @@ public:
     void hflip() {_symbol->hflip();}
     void vflip() {_symbol->vflip();}
 
-    bool connect_pin_to_node(const Glib::ustring& pin_name, int node);
+    void connect_pin(int pin_order, std::string node)
+    {
+        if(pin_order < _pin_nodes.size())
+        {
+            _pin_nodes.at(pin_order) = node;
+        }
+    }
+    std::string get_pin_name(int pin_order)
+    {
+        return "";
+    }
+    bool pin_has_node(int pin_order)
+    {
+        if (pin_order < _pin_nodes.size())
+            return (_pin_nodes.at(pin_order) > "");
+        else return false;
+    }
+    
     Glib::ustring get_spice_line(); // TODO
 
 protected:
@@ -72,11 +91,102 @@ protected:
     bool _active;
     Glib::ustring _inst_name; // Prefix + name
     Glib::ustring _name_no_prefix;
-    std::vector<int> _nodes; // Nodes associated with pins, in SPICE_ORDER of pins
 
+    std::vector<int> _pin_highlights; // Vector of pins which are not connected, indexed by SPICE_ORDER
+    std::vector<std::string> _pin_nodes; // node of pins, indexed by SPICE_ORDER
 };
 
-class Wire
+class GtkSpiceNode
+{
+public:
+    GtkSpiceNode(Glib::ustring name) : _name(name) {}
+    ~GtkSpiceNode() {}
+    void rename(Glib::ustring name) 
+    {
+        _name = name;
+        for(auto& itr : _connections)
+        {
+            itr.first->connect_pin(itr.second,_name);
+        }
+    }
+    std::string get_name() const {return _name;}
+    
+    void add_connection(std::shared_ptr<GtkSpiceElement> elem, int pin)
+    {
+        _connections.insert(std::pair<std::shared_ptr<GtkSpiceElement>, int>(elem, pin));
+        elem->connect_pin(pin,_name);
+    }
+    void remove_connection(std::shared_ptr<GtkSpiceElement> elem, int pin)
+    {
+        if(_connections.find(elem) != _connections.end())
+        {
+            auto itrs = _connections.equal_range(elem);
+            for(auto itr = itrs.first; itr != itrs.second; ++itr)
+            {
+                if(itr->second == pin)
+                {
+                    _connections.erase(itr);
+                    elem->connect_pin(pin,"");
+                }
+            }
+        }
+    }
+    
+    std::multimap<std::shared_ptr<GtkSpiceElement>,int> get_connections() const {return _connections;}
+    
+private:
+    Glib::ustring _name;
+    std::multimap<std::shared_ptr<GtkSpiceElement>, int> _connections; // <element,pin> for pin indexed by SPICE_ORDER
+};
+
+class NodeManager
+{
+public:
+    NodeManager() {}
+    ~NodeManager() {}
+    
+    void add_node(Glib::ustring node_name)
+        { _node_map.insert(NodeKeyPair(node_name,std::make_shared<GtkSpiceNode>(node_name))); }
+    void combine_nodes(Glib::ustring node1, Glib::ustring node2)
+        {} // TODO
+    
+    void rename_node(Glib::ustring node_name, Glib::ustring new_name)
+    {
+        if( _node_map.find(node_name) != _node_map.end())
+        {
+            _node_map.find(node_name)->second->rename(new_name);
+            std::shared_ptr<GtkSpiceNode> tnode = _node_map.find(node_name)->second;
+            _node_map.erase(node_name);
+            _node_map.insert(NodeKeyPair(new_name,tnode));
+        }
+    }
+    
+    void connect_node(Glib::ustring node_name,std::shared_ptr<GtkSpiceElement> elem,int pin_order)
+    {
+        if( _node_map.find(node_name) != _node_map.end())
+        {
+            if( !elem->pin_has_node(pin_order) )
+                _node_map.find(node_name)->second->add_connection(elem, pin_order);
+            else
+                std::cerr << "WARNING: Element pin already has a node. \n";
+        }
+    }
+    
+    void break_connection(Glib::ustring node_name, std::shared_ptr<GtkSpiceElement> elem, int pin_order)
+    {
+        if( _node_map.find(node_name) != _node_map.end())
+            if( elem->pin_has_node(pin_order) )
+                _node_map.find(node_name)->second->remove_connection(elem, pin_order);
+    }
+    
+private:
+    typedef std::map<Glib::ustring,std::shared_ptr<GtkSpiceNode>> NodeMap;
+    typedef std::pair<Glib::ustring,std::shared_ptr<GtkSpiceNode>> NodeKeyPair;
+    
+    NodeMap _node_map;
+};
+
+class GtkSpiceWire
 {};
 
 #endif /* GTKSPICE_OBJECT_H */
