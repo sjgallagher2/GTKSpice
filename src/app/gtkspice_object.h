@@ -186,7 +186,37 @@ private:
     NodeMap _node_map;
 };
 
+/* 
+ * 
+ */
 class GtkSpiceWire
-{};
+{
+public:
+    GtkSpiceWire() {};
+    ~GtkSpiceWire() {};
+
+    void draw(Cairo::RefPtr<Cairo::Context> context);
+    void start(Coordinate s) {_start = s;}
+    void end(Coordinate e) 
+    {
+        // Enforce orthogonality of wires
+        _end = _start;
+        Coordinate delta = e - _start; 
+        if(delta.x() > delta.y())
+            _end.x(e.x());
+        else if(delta.y() > delta.x())
+            _end.y(e.y());
+        else
+            _end.x(e.x()); // Default to horizontal wire
+    }
+    Coordinate start() const {return _start;}
+    Coordinate end() const {return _end;}
+    bool under(Coordinate pos, float tol = 1);
+
+private:
+    std::shared_ptr<GtkSpiceNode> _node;
+    Coordinate _start,_end;
+    double _height,_width;
+};
 
 #endif /* GTKSPICE_OBJECT_H */

@@ -16,6 +16,7 @@
 #include <app/gtkspice_object.h>
 #include <app/ltspice_symbol_parser.h>
 #include <spice/spice_element.h>
+#include <app/geometry.h>
 
 GtkSpiceElement::GtkSpiceElement(const Glib::ustring& symbol_file)
 {
@@ -117,4 +118,28 @@ Glib::ustring GtkSpiceElement::get_spice_line()
     spice_line.append("\n");
 
     return spice_line.uppercase();
+}
+
+void GtkSpiceWire::draw(Cairo::RefPtr<Cairo::Context> context)
+{
+    context->save();
+    context->set_source_rgb(0.0,0.0,0.0);
+    double lw = 2;
+    context->device_to_user_distance(lw,lw);
+    context->set_line_width(lw);
+    context->set_line_cap(Cairo::LINE_CAP_BUTT);
+    context->set_line_join(Cairo::LINE_JOIN_BEVEL);
+    context->set_antialias(Cairo::ANTIALIAS_NONE);
+
+    context->move_to(_start.x(),_start.y());
+    context->line_to(_end.x(),_end.y());
+    context->stroke();
+
+    context->restore();
+}
+
+bool GtkSpiceWire::under(Coordinate pos, float tol)
+{
+    float dist = Geometry::distance_from_line(pos,_start,_end);
+    return dist < tol;
 }

@@ -25,13 +25,11 @@ class GtkSpiceObjectList
 public:
     GtkSpiceObjectList() {}
     virtual ~GtkSpiceObjectList() {}
-    virtual bool empty() = 0;
-    virtual int size() = 0;
+    virtual bool empty() const = 0;
+    virtual int size() const = 0;
 
     virtual void redraw(const Cairo::RefPtr<Cairo::Context>& context) = 0;
 
-protected:
-    virtual void _auto_name() = 0;
 };
 
 class GtkSpiceElementList : public GtkSpiceObjectList
@@ -68,8 +66,8 @@ public:
     GtkSpiceWireList();
     virtual ~GtkSpiceWireList();
 
-    virtual bool empty();
-    virtual int size();
+    virtual bool empty() {}
+    virtual int size() {}
 
     virtual void redraw(const Cairo::RefPtr<Cairo::Context>& context);
     void add_wire();
@@ -79,8 +77,6 @@ public:
     std::shared_ptr<GtkSpiceWire> get_wire_under_cursor(const Coordinate& mousepos);
     std::vector<std::shared_ptr<GtkSpiceWire>> get_wires_in_selection(const Coordinate& start, const Coordinate& end);
 
-protected:
-    virtual void _auto_name(GtkSpiceWire& element);
 private:
     typedef std::map<Glib::ustring, std::shared_ptr<GtkSpiceWire>> WireList;
     typedef std::pair<Glib::ustring, std::shared_ptr<GtkSpiceWire>> WirePair;
