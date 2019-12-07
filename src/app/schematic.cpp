@@ -14,10 +14,13 @@
 
 #include <app/schematic.h>
 
-Schematic::Schematic(std::shared_ptr<GtkSpiceElementList> em) : _elementmap(em)
+SchematicSheet::SchematicSheet() : 
+    _elementlist(std::make_shared<GtkSpiceElementList>()),
+    _wirelist(std::make_shared<GtkSpiceWireList>()),
+    _nodemanager(std::make_shared<NodeManager>())
 {}
 
-Schematic::~Schematic() 
+SchematicSheet::~SchematicSheet() 
 {}
 
 

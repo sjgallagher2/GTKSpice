@@ -32,15 +32,12 @@ public:
     Workspace(std::shared_ptr<Window> toplevel);
     ~Workspace();
     
-    std::shared_ptr<GtkSpiceElementList> get_workspace_element_map() const {return _elementmap;}
-
 protected:
     std::shared_ptr<Window> _toplevel;
     std::shared_ptr<ActionFactory> _actionfactory;
-    std::shared_ptr<GtkSpiceElementList> _elementmap;
     std::shared_ptr<SpiceData> _spicedata;
     std::shared_ptr<ActionStack> _actionstack;
-    std::shared_ptr<Schematic> _schem;
+    std::shared_ptr<GtkSpiceSchematic> _schem;
     std::shared_ptr<WorkspaceKeyAccel> _keyaccel;
     std::shared_ptr<Canvas> _canvas;
 

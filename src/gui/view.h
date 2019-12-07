@@ -51,7 +51,6 @@ public:
 
     //CoordinateSystem get_coordinate_system() {return &_cs;}
     Cairo::Matrix tmatrix() {return _tmat;}
-    void set_element_map(std::shared_ptr<GtkSpiceElementList> em) {_elementmap = em;}
     void set_view_features(std::shared_ptr<ViewFeatures> os) {_vfeatures = os;}
 
     //Glib::RefPtr<Gdk::Cursor> get_cursor();
@@ -74,7 +73,6 @@ private:
 
 
     Cairo::RefPtr<Cairo::Context> _context;
-    std::shared_ptr<GtkSpiceElementList> _elementmap;
     std::shared_ptr<ViewFeatures> _vfeatures;
     Cairo::Matrix _tmat;
 

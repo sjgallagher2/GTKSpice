@@ -20,11 +20,9 @@
 
 
 Canvas::Canvas(std::shared_ptr<Window> toplevel, 
-    std::shared_ptr<GtkSpiceElementList> em, 
     std::shared_ptr<ActionFactory> af,
     std::shared_ptr<KeyAccelMap> keymap) : 
     _toplevel(toplevel),
-    _elementmap(em),
     _state( std::make_shared<GtkSpiceState>() ),
     _actionfactory(af),
     _cs( std::make_shared<CoordinateSystem>() ),
@@ -32,9 +30,8 @@ Canvas::Canvas(std::shared_ptr<Window> toplevel,
 {
     send_test = true;
     _ebox = std::make_shared<DrawingEventBox>(_cs);
-    _toolmgr = std::make_shared<ToolManager>(_actionfactory,_elementmap,_cs,_vfeatures);
+    _toolmgr = std::make_shared<ToolManager>(_actionfactory,_cs,_vfeatures);
     // Set the object tree for the view
-    _ebox->set_element_map(_elementmap);
     _ebox->set_view_features(_vfeatures);
     // Add the event box for this canvas to the toplevel window and show
     _toplevel->add(*_ebox);

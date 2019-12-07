@@ -28,7 +28,7 @@ public:
     virtual bool empty() const = 0;
     virtual int size() const = 0;
 
-    virtual void redraw(const Cairo::RefPtr<Cairo::Context>& context) = 0;
+    virtual void draw(const Cairo::RefPtr<Cairo::Context>& context) = 0;
 
 };
 
@@ -41,7 +41,7 @@ public:
     virtual bool empty() const {return _element_list.empty();}
     virtual int size() const {return _element_list.size();}
 
-    virtual void redraw(const Cairo::RefPtr<Cairo::Context>& context);
+    virtual void draw(const Cairo::RefPtr<Cairo::Context>& context);
     void add_element(const Glib::ustring& sym_file, Coordinate pos);
     bool remove_element(const Glib::ustring& inst_name);
     std::shared_ptr<GtkSpiceElement> find_element(const Glib::ustring& inst_name);
@@ -66,10 +66,10 @@ public:
     GtkSpiceWireList();
     virtual ~GtkSpiceWireList();
 
-    virtual bool empty() {}
-    virtual int size() {}
+    virtual bool empty() const {}
+    virtual int size() const {}
 
-    virtual void redraw(const Cairo::RefPtr<Cairo::Context>& context);
+    virtual void draw(const Cairo::RefPtr<Cairo::Context>& context);
     void add_wire();
     bool remove_wire(const Glib::ustring& wire_name);
     std::shared_ptr<GtkSpiceWire> find_wire(const Glib::ustring& wire_name);

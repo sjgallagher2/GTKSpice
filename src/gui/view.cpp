@@ -91,28 +91,6 @@ bool View::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
     if(_vfeatures)
         _vfeatures->draw_features(context);
 
-    // Draw all objects in the object tree
-    if(_elementmap)
-        _elementmap->redraw(context);
-
-    
-    /******** TESTING ********/
-
-    if(_elementmap->empty())
-    {
-        Coordinate o_pos1(10,30);
-        Coordinate o_pos2(30,20);
-        Coordinate o_pos3(45,30);
-        _elementmap->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/current.asy",o_pos1);
-        _elementmap->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/current.asy",Coordinate(-10,0));
-        _elementmap->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/res.asy",o_pos2);
-        _elementmap->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/res.asy",o_pos3);
-        _elementmap->find_element("R1")->rotate90();
-        _elementmap->find_element("R1")->hflip();
-        _elementmap->redraw(context);
-    }
-    
-    /*************************/
 
     // All done
     return true;

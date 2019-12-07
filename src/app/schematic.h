@@ -17,14 +17,44 @@
 
 #include <memory>
 #include <app/gtkspice_object_list.h>
+#include <app/gtkspice_object.h>
 
-class Schematic
+class SchematicSheet
 {
 public:
-    Schematic(std::shared_ptr<GtkSpiceElementList> em);
-    ~Schematic();
+    SchematicSheet();
+    ~SchematicSheet();
+
+    void draw(Cairo::RefPtr<Cairo::Context> context)
+    {
+        _elementlist->draw(context);
+        _wirelist->draw(context);
+    }
+    int get_id() const {return _sheet_id;}
+    void set_id(int id) {_sheet_id = id;}
+
 private:
-    std::shared_ptr<GtkSpiceElementList> _elementmap;
+    std::shared_ptr<GtkSpiceElementList> _elementlist;
+    std::shared_ptr<GtkSpiceWireList> _wirelist;
+    std::shared_ptr<NodeManager> _nodemanager;
+    int _sheet_id;
+};
+
+class GtkSpiceSchematic
+{
+public:
+    GtkSpiceSchematic() {}
+    ~GtkSpiceSchematic() {}
+
+    void redraw(Cairo::RefPtr<Cairo::Context> context, int sheet)
+    {
+        if(sheet < _sheets.size())
+            _sheets.at(sheet)->draw(context);
+    }
+
+private:
+    std::vector<std::shared_ptr<SchematicSheet>> _sheets;
+
 };
 
 #endif /* SCHEMATIC_H */

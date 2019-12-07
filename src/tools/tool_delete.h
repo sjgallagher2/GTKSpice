@@ -25,10 +25,8 @@ class DeleteTool : public Tool
 {
 public:
     DeleteTool(std::shared_ptr<ActionFactory> af,
-        std::shared_ptr<GtkSpiceElementList> em,
         std::shared_ptr<ViewFeatures> vf) :
         Tool(af),
-        _elementmap(em),
         _vfeatures(vf) {}
     virtual ~DeleteTool() {}
 
@@ -38,7 +36,6 @@ public:
     virtual Glib::ustring get_tool_cursor_name() {return "scissor";}
 
 protected:
-    std::shared_ptr<GtkSpiceElementList> _elementmap;
     std::shared_ptr<ViewFeatures> _vfeatures;
     Coordinate _select_start;
     Coordinate _select_end;

@@ -38,7 +38,6 @@ public:
     DrawingEventBox(std::shared_ptr<CoordinateSystem> cs);
     virtual ~DrawingEventBox();
 
-    void set_element_map(std::shared_ptr<GtkSpiceElementList> em); 
     void set_view_features(std::shared_ptr<ViewFeatures> vf);
 
     Cairo::Matrix get_view_matrix() const {return _view_mat;}

@@ -22,16 +22,14 @@ Workspace::Workspace(std::shared_ptr<Window> toplevel) :
     _keymap->set_defaults();
     _actionfactory = std::make_shared<ActionFactory>();
 
-    _elementmap = std::make_shared<GtkSpiceElementList>();
     _spicedata = std::make_shared<SpiceData>();
     _actionstack = std::make_shared<ActionStack>();
     
-    _schem = std::make_shared<Schematic>(_elementmap);
+    _schem = std::make_shared<GtkSpiceSchematic>();
     _keyaccel = std::make_shared<WorkspaceKeyAccel>(_actionfactory,_keymap); 
-    _canvas = std::make_shared<Canvas>(_toplevel,_elementmap,_actionfactory,_keymap);
+    _canvas = std::make_shared<Canvas>(_toplevel,_actionfactory,_keymap);
 
     _actionfactory->update(
-        _elementmap,
         _schem,_canvas,_actionstack,
         _canvas->get_gtkspice_state(),
         _canvas->get_tool_manager(),

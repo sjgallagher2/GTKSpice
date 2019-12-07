@@ -27,7 +27,7 @@ GtkSpiceElementList::~GtkSpiceElementList()
 {
 }
 
-void GtkSpiceElementList::redraw(const Cairo::RefPtr<Cairo::Context>& context)
+void GtkSpiceElementList::draw(const Cairo::RefPtr<Cairo::Context>& context)
 {
     for(auto t = _element_list.begin(); t != _element_list.end(); ++t)
     {
@@ -136,8 +136,10 @@ GtkSpiceWireList::~GtkSpiceWireList()
 {
 }
 
-void GtkSpiceWireList::redraw(const Cairo::RefPtr<Cairo::Context>& context)
+void GtkSpiceWireList::draw(const Cairo::RefPtr<Cairo::Context>& context)
 {
+    for(auto& itr : _wire_list)
+        itr.second->draw(context);
 }
 
 void GtkSpiceWireList::add_wire()
