@@ -57,8 +57,38 @@ std::shared_ptr<GtkSpiceElement> GtkSpiceElementList::find_element(const Glib::u
     if(_element_list.find(inst_name) != _element_list.end())
         return _element_list.find(inst_name)->second;
     return nullptr;
-    
 }
+bool GtkSpiceElementList::set_active_element(const Glib::ustring& inst_name)
+{
+    if(_element_list.find(inst_name) != _element_list.end() )
+    {
+        _active_element = _element_list.find(inst_name)->second;
+        return true;
+    }
+    return false;
+}
+bool GtkSpiceElementList::set_active_element(const Coordinate& pos)
+{
+    for(auto& itr : _element_list)
+    {
+        if(itr.second->near(pos))
+        {
+            _active_element = itr.second;
+            return true;
+        }
+    }
+    return false;
+}
+bool GtkSpiceElementList::set_active_element(std::shared_ptr<GtkSpiceElement> elem)
+{
+    if(_element_list.find(elem->get_inst_name()) != _element_list.end() )
+    {
+        _active_element = elem;
+        return true;
+    }
+    return false;
+}
+
 std::shared_ptr<GtkSpiceElement> GtkSpiceElementList::get_active_element()
 {
     return _active_element;
@@ -163,10 +193,28 @@ bool GtkSpiceWireList::remove_wire(std::shared_ptr<GtkSpiceWire> wire)
     }
     return false;
 }
-std::shared_ptr<GtkSpiceWire> GtkSpiceWireList::get_active_wire()
+
+bool GtkSpiceWireList::set_active_wire(const Coordinate& pos)
 {
-    return _active_wire;
+    // Find any grabpoints under pos
+    for(auto& itr : _wire_list)
+    {
+        if( Geometry::magnitude(itr.second->start() - pos) < 1 )
+        {
+            _active_wire = itr.second;
+            _active_wire_grabpoint = 0;
+            return true;
+        }
+        else if( Geometry::magnitude(itr.second->end() - pos) < 1 )
+        {
+            _active_wire = itr.second;
+            _active_wire_grabpoint = 1;
+            return true;
+        }
+    }
+    return false;
 }
+
 std::shared_ptr<GtkSpiceWire> GtkSpiceWireList::get_wire_under_cursor(const Coordinate& mousepos)
 {
     for(auto& itr : _wire_list)
