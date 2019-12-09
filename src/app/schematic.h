@@ -30,12 +30,14 @@ public:
     {
         _elementlist->draw(context);
         _wirelist->draw(context);
+        _portlist->draw(context);
     }
 
     std::shared_ptr<GtkSpiceElementList> get_element_list() const {return _elementlist;}
     std::shared_ptr<GtkSpiceWireList> get_wire_list() const {return _wirelist;}
+    std::shared_ptr<GtkSpicePortList> get_port_list() const {return _portlist;}
     std::shared_ptr<NodeManager> get_node_manager() const {return _nodemanager;}
-    std::vector<Glib::ustring> get_node_list(); // TODO
+    std::vector<Glib::ustring> get_node_list() const; // TODO
     
     std::shared_ptr<GtkSpiceElement> get_element_under_cursor(Coordinate pos);
     std::shared_ptr<GtkSpiceWire> get_wire_under_cursor(Coordinate pos);
@@ -43,6 +45,7 @@ public:
 private:
     std::shared_ptr<GtkSpiceElementList> _elementlist;
     std::shared_ptr<GtkSpiceWireList> _wirelist;
+    std::shared_ptr<GtkSpicePortList> _portlist;
     std::shared_ptr<NodeManager> _nodemanager;
 };
 

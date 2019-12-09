@@ -161,6 +161,7 @@ public:
     std::shared_ptr<GtkSpiceNode> get_node() const {return _node;}
     Glib::ustring get_node_name() const {return _node->get_name();}
 
+
 private:
     std::shared_ptr<GtkSpiceNode> _node;
     Coordinate _start,_end;
@@ -170,38 +171,71 @@ private:
 class GtkSpicePort
 {
 public:
-    GtkSpicePort();
-    virtual ~GtkSpicePort();
+    GtkSpicePort() {}
+    virtual ~GtkSpicePort() {}
+
+    virtual void draw(Cairo::RefPtr<Cairo::Context> context) { if(_symbol) _symbol->draw(context,{_highlight} ); };
+    
+    void set_position(Coordinate pos) {_position = pos; if(_symbol) _symbol->position(_position);}
+    Coordinate get_position() const {return _position;}
+    Glib::ustring get_node_name() const {return _node_name;}
+
+    bool near(const Coordinate& pos) const {return _symbol->near(pos);}
+    bool under(const Coordinate& pos) const { return _symbol->under(pos); }
+    bool within(const Coordinate& start, const Coordinate& end) const { return _symbol->within(start,end); }
+    
+    void rotate90() {_symbol->rotate90();}
+    void hflip() {_symbol->hflip();}
+    void vflip() {_symbol->vflip();}
+
+    void set_highlight(bool h) {_highlight = h;}
+
+protected:
+    Glib::ustring _node_name;
+    Coordinate _position;
+    std::shared_ptr<ObjectSymbol> _symbol;
+    bool _highlight = true;
+
 };
 class GtkSpiceInPort : public GtkSpicePort
 {
 public:
-    GtkSpiceInPort();
-    virtual ~GtkSpiceInPort();
+    GtkSpiceInPort(Glib::ustring node_name);
+    virtual ~GtkSpiceInPort() {}
+    
+protected:
 };
 class GtkSpiceOutPort : public GtkSpicePort
 {
 public:
-    GtkSpiceOutPort();
-    virtual ~GtkSpiceOutPort();
+    GtkSpiceOutPort(Glib::ustring node_name);
+    virtual ~GtkSpiceOutPort() {}
+
+protected:
 };
 class GtkSpiceInoutPort : public GtkSpicePort
 {
 public:
-    GtkSpiceInoutPort();
-    virtual ~GtkSpiceInoutPort();
+    GtkSpiceInoutPort(Glib::ustring node_name);
+    virtual ~GtkSpiceInoutPort() {}
+
+protected:
 };
 class GtkSpiceGndPort : public GtkSpicePort
 {
 public:
     GtkSpiceGndPort();
-    virtual ~GtkSpiceGndPort();
+    virtual ~GtkSpiceGndPort() {}
+    
+protected:
 };
 class GtkSpiceGlobalPort : public GtkSpicePort
 {
 public:
-    GtkSpiceGlobalPort();
-    virtual ~GtkSpiceGlobalPort();
+    GtkSpiceGlobalPort(Glib::ustring node_name);
+    virtual ~GtkSpiceGlobalPort() {}
+
+protected:
 };
 
 

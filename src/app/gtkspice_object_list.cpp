@@ -160,6 +160,95 @@ void GtkSpiceElementList::_auto_name(GtkSpiceElement& element)
 }
 
 
+
+void GtkSpicePortList::draw(const Cairo::RefPtr<Cairo::Context>& context)
+{
+    for(auto t = _port_list.begin(); t != _port_list.end(); ++t)
+    {
+        t->second->draw(context);
+    }
+}
+
+void GtkSpicePortList::add_gnd_port(Coordinate pos)
+{
+    std::shared_ptr<GtkSpiceGndPort> gndport = std::make_shared<GtkSpiceGndPort>();
+    gndport->set_position(pos);
+    _port_list.insert(PortPair("0",gndport));
+}
+
+bool GtkSpicePortList::remove_port(const Glib::ustring& node_name)
+{
+    if(_port_list.find(node_name) != _port_list.end())
+    {
+        _port_list.erase(node_name);
+        return true;
+    }
+    return false;
+}
+
+std::shared_ptr<GtkSpicePort> GtkSpicePortList::find_port(const Glib::ustring& node_name)
+{
+    if(_port_list.find(node_name) != _port_list.end())
+        return _port_list.find(node_name)->second;
+    return nullptr;
+}
+
+bool GtkSpicePortList::set_active_port(const Glib::ustring& node_name)
+{
+    if(_port_list.find(node_name) != _port_list.end() )
+    {
+        _active_port = _port_list.find(node_name)->second;
+        return true;
+    }
+    return false;
+}
+
+bool GtkSpicePortList::set_active_port(const Coordinate& pos)
+{
+    for(auto& itr : _port_list)
+    {
+        if(itr.second->near(pos))
+        {
+            _active_port = itr.second;
+            return true;
+        }
+    }
+    return false;
+}
+
+bool GtkSpicePortList::set_active_port(std::shared_ptr<GtkSpicePort> port)
+{
+    if(_port_list.find(port->get_node_name()) != _port_list.end() )
+    {
+        _active_port = port;
+        return true;
+    }
+    return false;
+}
+
+std::shared_ptr<GtkSpicePort> GtkSpicePortList::get_active_port()
+{
+    return _active_port;
+}
+
+std::shared_ptr<GtkSpicePort> GtkSpicePortList::get_port_under_cursor(const Coordinate& mousepos)
+{
+    for(auto& itr : _port_list)
+        if(itr.second->near(mousepos))
+            if(itr.second->under(mousepos))
+                return itr.second;
+    return nullptr;
+}
+
+std::vector<std::shared_ptr<GtkSpicePort>> GtkSpicePortList::get_ports_in_selection(const Coordinate& start, const Coordinate& end)
+{
+    std::vector<std::shared_ptr<GtkSpicePort>> ret;
+    for(auto& itr : _port_list)
+        if(itr.second->within(start,end))
+            ret.push_back(itr.second);
+    return ret;
+}
+
 GtkSpiceWireList::GtkSpiceWireList()
 {
 }

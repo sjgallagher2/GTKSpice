@@ -14,6 +14,7 @@
 
 #include <fstream>
 #include <app/gtkspice_object.h>
+#include <app/draw_primitives.h>
 #include <app/ltspice_symbol_parser.h>
 #include <spice/spice_element.h>
 #include <app/geometry.h>
@@ -221,5 +222,55 @@ bool GtkSpiceWire::within(const Coordinate& begin, const Coordinate& end)
     bb.height = end.y()-begin.y();
     bool ret = bb.contains(_start) | bb.contains(_end);
     return ret;
+}
+
+GtkSpiceInPort::GtkSpiceInPort(Glib::ustring node_name)
+{
+    _node_name = node_name;
+}
+GtkSpiceOutPort::GtkSpiceOutPort(Glib::ustring node_name)
+{
+    _node_name = node_name;
+}
+GtkSpiceInoutPort::GtkSpiceInoutPort(Glib::ustring node_name)
+{
+    _node_name = node_name;
+}
+GtkSpiceGlobalPort::GtkSpiceGlobalPort(Glib::ustring node_name)
+{
+    _node_name = node_name;
+}
+
+GtkSpiceGndPort::GtkSpiceGndPort()
+{
+    // Create geometry
+    ObjectGeometry geom;
+    ObjectPins pins;
+    Coordinate pos = Coordinate(0,0);
+
+    std::shared_ptr<LinePrimitive> line1,line2,line3,line4;
+    line1 = std::make_shared<LinePrimitive>();
+    line2 = std::make_shared<LinePrimitive>();
+    line3 = std::make_shared<LinePrimitive>();
+    line4 = std::make_shared<LinePrimitive>();
+    line1->start(Coordinate(0,16));
+    line1->end(Coordinate(0,24));
+    line2->start(Coordinate(-8,24));
+    line2->end(Coordinate(8,24));
+    line3->start(Coordinate(-8,24));
+    line3->end(Coordinate(0,32));
+    line4->start(Coordinate(0,32));
+    line4->end(Coordinate(8,24));
+    geom.push_back(line1);
+    geom.push_back(line2);
+    geom.push_back(line3);
+    geom.push_back(line4);
+
+    std::shared_ptr<SymbolPin> pin1 = std::make_shared<SymbolPin>();
+    pin1->pin_location(Coordinate(0,16));
+    pin1->set_attribute_value("SPICE_ORDER","1"); // This doesn't actually have any meaning for SPICE
+    pins.push_back(pin1);
+
+    _symbol = std::make_shared<ObjectSymbol>(geom,pins,pos,true);
 }
 

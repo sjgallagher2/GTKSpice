@@ -37,7 +37,7 @@ public:
     bool set_active_element(const Glib::ustring& inst_name);
     bool set_active_element(const Coordinate& pos);
     bool set_active_element(std::shared_ptr<GtkSpiceElement> elem);
-    bool has_active_element() { return (_active_element == nullptr);}
+    bool has_active_element() { return (_active_element != nullptr);}
     void move_active_element(const Coordinate& pos)
     {
         if(_active_element)
@@ -57,6 +57,48 @@ private:
     std::shared_ptr<GtkSpiceElement> _active_element = nullptr; // Active element
     std::shared_ptr<GtkSpiceElement> _floating_element = nullptr; // Element which is "floating" (being dropped)
 };
+
+class GtkSpicePortList
+{
+public:
+    GtkSpicePortList() {}
+    virtual ~GtkSpicePortList() {}
+
+    virtual bool empty() const {return _port_list.empty();}
+    virtual int size() const {return _port_list.size();}
+
+    virtual void draw(const Cairo::RefPtr<Cairo::Context>& context);
+    
+    void add_in_port(Glib::ustring node_name, Coordinate pos);
+    void add_out_port(Glib::ustring node_name, Coordinate pos);
+    void add_inout_port(Glib::ustring node_name, Coordinate pos);
+    void add_gnd_port(Coordinate pos);
+    void add_global_port(Coordinate pos);
+
+    bool remove_port(const Glib::ustring& node_name);
+    std::shared_ptr<GtkSpicePort> find_port(const Glib::ustring& node_name);
+    bool set_active_port(const Glib::ustring& node_name);
+    bool set_active_port(const Coordinate& pos);
+    bool set_active_port(std::shared_ptr<GtkSpicePort> port);
+    bool has_active_port() { return (_active_port != nullptr);}
+    void move_active_port(const Coordinate& pos)
+    {
+        if(_active_port)
+            _active_port->set_position(pos);
+    }
+    std::shared_ptr<GtkSpicePort> get_active_port(); // Return port being moved/dropped
+    std::shared_ptr<GtkSpicePort> get_port_under_cursor(const Coordinate& mousepos);
+    std::vector<std::shared_ptr<GtkSpicePort>> get_ports_in_selection(const Coordinate& start, const Coordinate& end);
+
+private:
+    typedef std::map<Glib::ustring, std::shared_ptr<GtkSpicePort>> PortList;
+    typedef std::pair<Glib::ustring, std::shared_ptr<GtkSpicePort>> PortPair;
+    PortList _port_list;
+
+    std::shared_ptr<GtkSpicePort> _active_port = nullptr; // Active element
+    std::shared_ptr<GtkSpicePort> _floating_port = nullptr; // Element which is "floating" (being dropped)
+};
+
 
 class GtkSpiceWireList
 {

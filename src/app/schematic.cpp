@@ -17,6 +17,7 @@
 SchematicSheet::SchematicSheet() : 
     _elementlist(std::make_shared<GtkSpiceElementList>()),
     _wirelist(std::make_shared<GtkSpiceWireList>()),
+    _portlist(std::make_shared<GtkSpicePortList>()),
     _nodemanager(std::make_shared<NodeManager>())
 {}
 
