@@ -91,6 +91,9 @@ bool View::on_draw(const Cairo::RefPtr<Cairo::Context>& context)
     if(_vfeatures)
         _vfeatures->draw_features(context);
 
+    // Draw Schematic's active Sheet
+    if(_schematic)
+        _schematic->redraw(context);
 
     // All done
     return true;

@@ -1,12 +1,13 @@
-window_sizes 960 1016 250 704 821 136
+window_sizes 1920 1016 250 1664 821 136
 cleanlooks_style
 diagrams
-  active  classdiagram_ref 141400 // spicemodel
-    704 821 100 A4 0 0
+  active  classdiagram_ref 128088 // Overview
+    1331 656 100 A4-Landscape 11 0
 end
 show_stereotypes
-selected attribute_ref 138200 // nodes
+selected class_ref 166872 // SpiceElement
 open
+  classview_ref 128088 // app
   class_ref 159064 // SymbolPin
   class_ref 159704 // ObjectSymbol
   class_ref 159832 // GtkSpiceElement

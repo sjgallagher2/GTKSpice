@@ -21,7 +21,7 @@
 #include <gui/window.h>
 #include <gui/drawingeventbox.h>
 #include <gui/view_features.h>
-#include <app/gtkspice_object_list.h>
+#include <app/schematic.h>
 #include <app/gtkspice_state.h>
 #include <app/action.h>
 #include <app/coordinate_system.h>
@@ -37,10 +37,18 @@ class ViewFeatures;
 
 class PointerTool;
 
+/* A Canvas is owned by a Workspace and represents the user-interface
+ * side of the Workspace. It maintains ViewFeatures (like selection rectangles),
+ * the GtkSpiceState (managing active tools etc), and the EventBox which 
+ * contains the View that does all the drawing. 
+ *
+ */
+
 class Canvas
 {
 public:
-    Canvas(std::shared_ptr<Window> toplevel, 
+    Canvas(std::shared_ptr<Window> toplevel,
+        std::shared_ptr<GtkSpiceSchematic> sch,
         std::shared_ptr<ActionFactory> af,
         std::shared_ptr<KeyAccelMap> keymap);
     virtual ~Canvas();
@@ -62,6 +70,7 @@ public:
 protected:
     std::shared_ptr<ActionFactory> _actionfactory;
     std::shared_ptr<Window> _toplevel;
+    std::shared_ptr<GtkSpiceSchematic> _schematic;
     std::shared_ptr<DrawingEventBox> _ebox;
     std::shared_ptr<ViewFeatures> _vfeatures;
     std::shared_ptr<GtkSpiceState> _state;

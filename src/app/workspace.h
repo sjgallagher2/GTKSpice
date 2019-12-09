@@ -17,7 +17,7 @@
 
 #include <memory>
 #include <gui/window.h>
-#include <app/gtkspice_object_list.h>
+#include <app/schematic.h>
 #include <app/spice_data.h>
 #include <app/schematic.h>
 #include <app/workspace_keyaccel.h>
@@ -26,6 +26,11 @@
 #include <app/action_stack.h>
 #include <app/key_accel_map.h>
 
+/* A Workspace represents the program session for one or more schematics,
+ * managing the Canvas, ActionStack, Schematic, and SimulationData for
+ * the current session. 
+ *
+ */
 class Workspace
 {
 public:

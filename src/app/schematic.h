@@ -16,6 +16,7 @@
 #define SCHEMATIC_H
 
 #include <memory>
+#include <algorithm>
 #include <app/gtkspice_object_list.h>
 #include <app/gtkspice_object.h>
 
@@ -30,30 +31,67 @@ public:
         _elementlist->draw(context);
         _wirelist->draw(context);
     }
-    int get_id() const {return _sheet_id;}
-    void set_id(int id) {_sheet_id = id;}
+
+    void add_element(const Glib::ustring& sym_file, Coordinate pos);
+    void add_wire();
+    std::vector<Glib::ustring> get_node_list();
+    
+    std::shared_ptr<GtkSpiceElement> get_element_under_cursor(Coordinate pos);
+    std::shared_ptr<GtkSpiceWire> get_wire_under_cursor(Coordinate pos);
+
+
+
 
 private:
     std::shared_ptr<GtkSpiceElementList> _elementlist;
     std::shared_ptr<GtkSpiceWireList> _wirelist;
     std::shared_ptr<NodeManager> _nodemanager;
-    int _sheet_id;
 };
 
 class GtkSpiceSchematic
 {
 public:
-    GtkSpiceSchematic() {}
+    GtkSpiceSchematic() 
+    {
+        _sheets.push_back(std::make_shared<SchematicSheet>());
+        _active_sheet = _sheets.at(0);
+    }
     ~GtkSpiceSchematic() {}
 
-    void redraw(Cairo::RefPtr<Cairo::Context> context, int sheet)
+    int add_sheet() {_sheets.push_back(std::make_shared<SchematicSheet>());return _sheets.size()-1;}
+    void remove_sheet(int index) 
     {
-        if(sheet < _sheets.size())
-            _sheets.at(sheet)->draw(context);
+        if(index < _sheets.size())
+        {
+            if(_sheets.at(index) != _active_sheet)
+                _sheets.erase(_sheets.begin() + index);
+            else
+            {
+                _sheets.erase(_sheets.begin()+index);
+                _active_sheet = _sheets.at(index-1); // Set prev sheet to active
+            }
+        }
+    }
+    std::shared_ptr<SchematicSheet> get_sheet(int index) {if(index < _sheets.size()) return _sheets.at(index);}
+
+    void set_active_sheet(int index) {if(index < _sheets.size()) _active_sheet = _sheets.at(index);}
+    std::shared_ptr<SchematicSheet> get_active_sheet() {return _active_sheet;}
+    int get_active_sheet_index() 
+    {
+        auto itr = std::find(_sheets.begin(),_sheets.end(),_active_sheet);
+        int index = std::distance(_sheets.begin(),itr);
+        return index;
+    }
+
+    void redraw(Cairo::RefPtr<Cairo::Context> context)
+    {
+        if(_active_sheet != nullptr)
+            _active_sheet->draw(context);
     }
 
 private:
     std::vector<std::shared_ptr<SchematicSheet>> _sheets;
+    std::shared_ptr<SchematicSheet> _active_sheet;
 
 };
 

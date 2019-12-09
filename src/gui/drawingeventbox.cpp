@@ -45,6 +45,10 @@ void DrawingEventBox::set_view_features(std::shared_ptr<ViewFeatures> vf)
 {
     _v->set_view_features(vf);
 }
+void DrawingEventBox::set_view_schematic(std::shared_ptr<GtkSpiceSchematic> sch)
+{
+    _v->set_schematic(sch);
+}
 
 
 bool DrawingEventBox::on_mouse_cross_event(GdkEventCrossing* cross_event)

@@ -143,3 +143,14 @@ bool GtkSpiceWire::under(Coordinate pos, float tol)
     float dist = Geometry::distance_from_line(pos,_start,_end);
     return dist < tol;
 }
+
+bool GtkSpiceWire::within(const Coordinate& begin, const Coordinate& end)
+{
+    BoundingBox bb;
+    bb.anchor = begin;
+    bb.width = end.x()-begin.x();
+    bb.height = end.y()-begin.y();
+    bool ret = bb.contains(_start) | bb.contains(_end);
+    return ret;
+}
+

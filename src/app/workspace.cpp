@@ -27,7 +27,7 @@ Workspace::Workspace(std::shared_ptr<Window> toplevel) :
     
     _schem = std::make_shared<GtkSpiceSchematic>();
     _keyaccel = std::make_shared<WorkspaceKeyAccel>(_actionfactory,_keymap); 
-    _canvas = std::make_shared<Canvas>(_toplevel,_actionfactory,_keymap);
+    _canvas = std::make_shared<Canvas>(_toplevel,_schem,_actionfactory,_keymap);
 
     _actionfactory->update(
         _schem,_canvas,_actionstack,
@@ -37,6 +37,13 @@ Workspace::Workspace(std::shared_ptr<Window> toplevel) :
 
     _canvas->new_action().connect(sigc::mem_fun(*this,&Workspace::get_action));
     _canvas->new_cursor().connect(sigc::mem_fun(*this,&Workspace::get_cursor));
+
+    /* TESTING */
+    if(_schem->get_active_sheet())
+    {
+        //
+    }
+    /***********/
 }
 
 Workspace::~Workspace()

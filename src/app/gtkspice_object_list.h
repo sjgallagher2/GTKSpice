@@ -18,21 +18,10 @@
 #include <gtkmm.h>
 #include <memory>
 #include <map>
+#include <set>
 #include <app/gtkspice_object.h>
 
-class GtkSpiceObjectList
-{
-public:
-    GtkSpiceObjectList() {}
-    virtual ~GtkSpiceObjectList() {}
-    virtual bool empty() const = 0;
-    virtual int size() const = 0;
-
-    virtual void draw(const Cairo::RefPtr<Cairo::Context>& context) = 0;
-
-};
-
-class GtkSpiceElementList : public GtkSpiceObjectList
+class GtkSpiceElementList
 {
 public:
     GtkSpiceElementList();
@@ -60,7 +49,7 @@ private:
     std::shared_ptr<GtkSpiceElement> _floating_element = nullptr; // Element which is "floating" (being dropped)
 };
 
-class GtkSpiceWireList : public GtkSpiceObjectList
+class GtkSpiceWireList
 {
 public:
     GtkSpiceWireList();
@@ -70,19 +59,25 @@ public:
     virtual int size() const {}
 
     virtual void draw(const Cairo::RefPtr<Cairo::Context>& context);
-    void add_wire();
-    bool remove_wire(const Glib::ustring& wire_name);
-    std::shared_ptr<GtkSpiceWire> find_wire(const Glib::ustring& wire_name);
+    void add_wire(std::shared_ptr<GtkSpiceNode> node, Coordinate start, Coordinate end);
+    bool remove_wire(std::shared_ptr<GtkSpiceWire> wire);
+    bool remove_wire(int wire_index);
+    std::shared_ptr<GtkSpiceWire> find_wire(int wire_index);
     std::shared_ptr<GtkSpiceWire> get_active_wire(); // Return element being moved/dropped
     std::shared_ptr<GtkSpiceWire> get_wire_under_cursor(const Coordinate& mousepos);
     std::vector<std::shared_ptr<GtkSpiceWire>> get_wires_in_selection(const Coordinate& start, const Coordinate& end);
+    std::vector<std::shared_ptr<GtkSpiceWire>> get_wires_by_node(std::shared_ptr<GtkSpiceNode> node);
+    std::vector<std::shared_ptr<GtkSpiceWire>> get_wires_by_node(const Glib::ustring& node_name);
 
+    // Returns a vector of Coordinate representing Wire intersections (only when sharing node)
+    std::vector<Coordinate> get_intersections();
 private:
-    typedef std::map<Glib::ustring, std::shared_ptr<GtkSpiceWire>> WireList;
-    typedef std::pair<Glib::ustring, std::shared_ptr<GtkSpiceWire>> WirePair;
-    WireList _wire_list;
-
+    typedef std::multimap<Glib::ustring,std::shared_ptr<GtkSpiceWire>> WireMap;
+    typedef std::pair<Glib::ustring,std::shared_ptr<GtkSpiceWire>> WireMapPair;
+    WireMap _wire_list; // <node name, wire>
     std::shared_ptr<GtkSpiceWire> _active_wire = nullptr; // Active element
+
+    std::set<Glib::ustring> _node_names; // List of all node names
 };
 
 #endif /* GTKSPICE_OBJECT_LIST_H */

@@ -16,6 +16,7 @@
 #include <vector>
 #include <algorithm>
 #include <app/gtkspice_object_list.h>
+#include <app/geometry.h>
 
 #include <iostream>
 
@@ -99,7 +100,7 @@ void GtkSpiceElementList::_auto_name(GtkSpiceElement& element)
 
     if(lowerbound != _element_list.end())
     {
-        if(lowerbound == upperbound) // upper_bound will default to last element
+        if(lowerbound == upperbound) // upper_bound will default to last element instead of end
             upperbound = _element_list.end();
         for(auto itr = lowerbound; itr != upperbound; ++itr)
         {
@@ -142,11 +143,24 @@ void GtkSpiceWireList::draw(const Cairo::RefPtr<Cairo::Context>& context)
         itr.second->draw(context);
 }
 
-void GtkSpiceWireList::add_wire()
+void GtkSpiceWireList::add_wire(std::shared_ptr<GtkSpiceNode> node, Coordinate start, Coordinate end)
 {
+    _wire_list.insert(WireMapPair(node->get_name(),std::make_shared<GtkSpiceWire>(node,start,end)));
+    if(!_node_names.count(node->get_name()))
+        _node_names.insert(node->get_name());
 }
-bool GtkSpiceWireList::remove_wire(const Glib::ustring& inst_name)
+bool GtkSpiceWireList::remove_wire(std::shared_ptr<GtkSpiceWire> wire)
 {
+    for(auto itr = _wire_list.begin(); itr != _wire_list.end(); ++itr)
+    {
+        if (itr->second == wire)
+        {
+            if(_node_names.count(wire->get_node_name()) == 1)
+                _node_names.erase(wire->get_node_name());
+            _wire_list.erase(itr);
+            return true;
+        }
+    }
     return false;
 }
 std::shared_ptr<GtkSpiceWire> GtkSpiceWireList::get_active_wire()
@@ -155,11 +169,72 @@ std::shared_ptr<GtkSpiceWire> GtkSpiceWireList::get_active_wire()
 }
 std::shared_ptr<GtkSpiceWire> GtkSpiceWireList::get_wire_under_cursor(const Coordinate& mousepos)
 {
+    for(auto& itr : _wire_list)
+        if(itr.second->under(mousepos))
+            return itr.second;
     return nullptr;
 }
 std::vector<std::shared_ptr<GtkSpiceWire>> GtkSpiceWireList::get_wires_in_selection(const Coordinate& start, const Coordinate& end)
 {
     std::vector<std::shared_ptr<GtkSpiceWire>> ret;
+    for(auto& itr : _wire_list)
+        if(itr.second->within(start,end))
+            ret.push_back(itr.second);
+    return ret;
+}
+std::vector<std::shared_ptr<GtkSpiceWire>> GtkSpiceWireList::get_wires_by_node(std::shared_ptr<GtkSpiceNode> node)
+{
+    std::vector<std::shared_ptr<GtkSpiceWire>> ret;
+    for(auto& itr : _wire_list)
+        if(itr.second->get_node() == node)
+            ret.push_back(itr.second);
+    return ret;
+}
+std::vector<std::shared_ptr<GtkSpiceWire>> GtkSpiceWireList::get_wires_by_node(const Glib::ustring& node_name)
+{
+    std::vector<std::shared_ptr<GtkSpiceWire>> ret;
+    auto rng = _wire_list.equal_range(node_name);
+    for(auto itr = rng.first; itr != rng.second; ++itr)
+        ret.push_back(itr->second);
     return ret;
 }
 
+std::vector<Coordinate> GtkSpiceWireList::get_intersections()
+{
+    // Find all wires on a node and where they intersect
+    // An intersection occurs when two wires have the same node and
+    // overlap, except at their endpoints
+
+    // TODO This is really expensive and ugly. Instead, we could 
+    // find intersections whenever a wire moves or is added, and maintain
+    // this in the Schematic. For now though this will stay...
+
+    std::vector<Coordinate> ret;
+    for(auto& n_itr : _node_names)
+    {
+        auto rng = _wire_list.equal_range(n_itr);
+        // For each wire with a given node, find all other wires with
+        // that node that are under either of this wire's endpoints
+        for(auto w_itr = rng.first; w_itr != rng.second; ++w_itr)
+        {
+            for(auto w_itr2 = rng.first; w_itr2 != rng.second; ++w_itr2 )
+            {
+                if(w_itr2 != w_itr)
+                {
+                    bool under_s = w_itr2->second->under(w_itr->second->start());
+                    bool under_e = w_itr2->second->under(w_itr->second->end());
+                    if(under_s)
+                        if(Geometry::magnitude(w_itr2->second->start() - w_itr->second->start()) > 1)
+                            if(Geometry::magnitude(w_itr2->second->end() - w_itr->second->start()) > 1)
+                                ret.push_back(w_itr->second->start());
+                    else if(under_e) // should not be under both
+                        if(Geometry::magnitude(w_itr2->second->start() - w_itr->second->end()) > 1)
+                            if(Geometry::magnitude(w_itr2->second->end() - w_itr->second->end()) > 1)
+                                ret.push_back(w_itr->second->end());
+                }
+            }
+        }
+    } 
+
+    return ret;
+}

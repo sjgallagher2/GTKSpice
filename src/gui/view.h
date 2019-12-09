@@ -31,7 +31,7 @@
 #include <gtkmm.h>
 #include <gtkmm/drawingarea.h>
 #include <gui/view_features.h>
-#include <app/gtkspice_object_list.h>
+#include <app/schematic.h>
 #include <app/coordinate_system.h>
 #include <app/coordinate.h>
 #include <gui/grid.h>
@@ -52,6 +52,7 @@ public:
     //CoordinateSystem get_coordinate_system() {return &_cs;}
     Cairo::Matrix tmatrix() {return _tmat;}
     void set_view_features(std::shared_ptr<ViewFeatures> os) {_vfeatures = os;}
+    void set_schematic(std::shared_ptr<GtkSpiceSchematic> sch) {_schematic = sch;}
 
     //Glib::RefPtr<Gdk::Cursor> get_cursor();
 
@@ -74,6 +75,7 @@ private:
 
     Cairo::RefPtr<Cairo::Context> _context;
     std::shared_ptr<ViewFeatures> _vfeatures;
+    std::shared_ptr<GtkSpiceSchematic> _schematic; // Consists of one or more SchematicSheets
     Cairo::Matrix _tmat;
 
     std::shared_ptr<CoordinateSystem> _cs;

@@ -192,7 +192,8 @@ private:
 class GtkSpiceWire
 {
 public:
-    GtkSpiceWire(std::shared_ptr<GtkSpiceNode> node) : _node(node) {};
+    GtkSpiceWire(std::shared_ptr<GtkSpiceNode> node, Coordinate start, Coordinate end) : 
+        _node(node),_start(start),_end(end) {}
     ~GtkSpiceWire() {};
 
     void draw(Cairo::RefPtr<Cairo::Context> context);
@@ -212,6 +213,7 @@ public:
     Coordinate start() const {return _start;}
     Coordinate end() const {return _end;}
     bool under(Coordinate pos, float tol = 1);
+    bool within(const Coordinate& begin, const Coordinate& end);
 
     void assign_node(std::shared_ptr<GtkSpiceNode> node) {_node = node;}
     std::shared_ptr<GtkSpiceNode> get_node() const {return _node;}
