@@ -127,7 +127,7 @@ public:
     void set_attribute_text_position(Glib::ustring attr, Coordinate pos)
         {if(has_attribute(attr)) _attr_texts.find(attr)->second->anchor(pos);}
 
-    void draw(Cairo::RefPtr<Cairo::Context> context,std::vector<int> pin_highlights = {});
+    void draw(Cairo::RefPtr<Cairo::Context> context,std::vector<bool> pin_highlights = {});
     bool under(const Coordinate& pos); // Return true if visible and selectable parts of Symbol are (roughly) under pos
     bool near(const Coordinate& pos);
     bool within(const Coordinate& start, const Coordinate& end);

@@ -32,15 +32,13 @@ public:
         _wirelist->draw(context);
     }
 
-    void add_element(const Glib::ustring& sym_file, Coordinate pos);
-    void add_wire();
-    std::vector<Glib::ustring> get_node_list();
+    std::shared_ptr<GtkSpiceElementList> get_element_list() const {return _elementlist;}
+    std::shared_ptr<GtkSpiceWireList> get_wire_list() const {return _wirelist;}
+    std::shared_ptr<NodeManager> get_node_manager() const {return _nodemanager;}
+    std::vector<Glib::ustring> get_node_list(); // TODO
     
     std::shared_ptr<GtkSpiceElement> get_element_under_cursor(Coordinate pos);
     std::shared_ptr<GtkSpiceWire> get_wire_under_cursor(Coordinate pos);
-
-
-
 
 private:
     std::shared_ptr<GtkSpiceElementList> _elementlist;

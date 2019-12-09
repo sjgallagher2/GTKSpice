@@ -48,34 +48,16 @@ public:
     void set_position(Coordinate pos) {_position = pos; if(_symbol) _symbol->position(_position);}
     Coordinate get_position() const {return _position;}
 
-    bool near(const Coordinate& pos)
-    {
-        return _symbol->near(pos);
-    }
-    bool under(const Coordinate& pos)
-    {
-        return _symbol->under(pos);
-    }
-    bool within(const Coordinate& start, const Coordinate& end)
-    {
-        return _symbol->within(start,end);
-    }
+    bool near(const Coordinate& pos) const {return _symbol->near(pos);}
+    bool under(const Coordinate& pos) const { return _symbol->under(pos); }
+    bool within(const Coordinate& start, const Coordinate& end) const { return _symbol->within(start,end); }
     
     void rotate90() {_symbol->rotate90();}
     void hflip() {_symbol->hflip();}
     void vflip() {_symbol->vflip();}
 
-    void connect_pin(int pin_order, std::string node)
-    {
-        if(pin_order < _pin_nodes.size())
-        {
-            _pin_nodes.at(pin_order) = node;
-        }
-    }
-    std::string get_pin_name(int pin_order)
-    {
-        return "";
-    }
+    void connect_pin(int pin_order, std::string node);
+    std::string get_pin_name(int pin_order) { return ""; } // TODO
     bool pin_has_node(int pin_order)
     {
         if (pin_order < _pin_nodes.size())
@@ -92,45 +74,21 @@ protected:
     Glib::ustring _inst_name; // Prefix + name
     Glib::ustring _name_no_prefix;
 
-    std::vector<int> _pin_highlights; // Vector of pins which are not connected, indexed by SPICE_ORDER
-    std::vector<std::string> _pin_nodes; // node of pins, indexed by SPICE_ORDER
+    std::vector<bool> _pin_highlights; // Vector of pin highlight booleans, indexed as SPICE_ORDER-1
+    std::vector<std::string> _pin_nodes; // node of pins, indexed as SPICE_ORDER
 };
+
 
 class GtkSpiceNode
 {
 public:
     GtkSpiceNode(Glib::ustring name) : _name(name) {}
     ~GtkSpiceNode() {}
-    void rename(Glib::ustring name) 
-    {
-        _name = name;
-        for(auto& itr : _connections)
-        {
-            itr.first->connect_pin(itr.second,_name);
-        }
-    }
+    void rename(Glib::ustring name);
     std::string get_name() const {return _name;}
     
-    void add_connection(std::shared_ptr<GtkSpiceElement> elem, int pin)
-    {
-        _connections.insert(std::pair<std::shared_ptr<GtkSpiceElement>, int>(elem, pin));
-        elem->connect_pin(pin,_name);
-    }
-    void remove_connection(std::shared_ptr<GtkSpiceElement> elem, int pin)
-    {
-        if(_connections.find(elem) != _connections.end())
-        {
-            auto itrs = _connections.equal_range(elem);
-            for(auto itr = itrs.first; itr != itrs.second; ++itr)
-            {
-                if(itr->second == pin)
-                {
-                    _connections.erase(itr);
-                    elem->connect_pin(pin,"");
-                }
-            }
-        }
-    }
+    void add_connection(std::shared_ptr<GtkSpiceElement> elem, int pin);
+    void remove_connection(std::shared_ptr<GtkSpiceElement> elem, int pin);
     
     std::multimap<std::shared_ptr<GtkSpiceElement>,int> get_connections() const {return _connections;}
     
@@ -144,40 +102,24 @@ class NodeManager
 public:
     NodeManager() {}
     ~NodeManager() {}
+
+    bool empty() const {return _node_map.empty();}
+    int size() const {return _node_map.size();}
     
+    std::shared_ptr<GtkSpiceNode> find_node(Glib::ustring node_name)
+    {
+        if(_node_map.find(node_name) != _node_map.end())
+            return _node_map.find(node_name)->second;
+    }
+
     void add_node(Glib::ustring node_name)
         { _node_map.insert(NodeKeyPair(node_name,std::make_shared<GtkSpiceNode>(node_name))); }
     void combine_nodes(Glib::ustring node1, Glib::ustring node2)
         {} // TODO
     
-    void rename_node(Glib::ustring node_name, Glib::ustring new_name)
-    {
-        if( _node_map.find(node_name) != _node_map.end())
-        {
-            _node_map.find(node_name)->second->rename(new_name);
-            std::shared_ptr<GtkSpiceNode> tnode = _node_map.find(node_name)->second;
-            _node_map.erase(node_name);
-            _node_map.insert(NodeKeyPair(new_name,tnode));
-        }
-    }
-    
-    void connect_node(Glib::ustring node_name,std::shared_ptr<GtkSpiceElement> elem,int pin_order)
-    {
-        if( _node_map.find(node_name) != _node_map.end())
-        {
-            if( !elem->pin_has_node(pin_order) )
-                _node_map.find(node_name)->second->add_connection(elem, pin_order);
-            else
-                std::cerr << "WARNING: Element pin already has a node. \n";
-        }
-    }
-    
-    void break_connection(Glib::ustring node_name, std::shared_ptr<GtkSpiceElement> elem, int pin_order)
-    {
-        if( _node_map.find(node_name) != _node_map.end())
-            if( elem->pin_has_node(pin_order) )
-                _node_map.find(node_name)->second->remove_connection(elem, pin_order);
-    }
+    void rename_node(Glib::ustring node_name, Glib::ustring new_name);
+    void connect_node(Glib::ustring node_name,std::shared_ptr<GtkSpiceElement> elem,int pin_order);
+    void break_connection(Glib::ustring node_name, std::shared_ptr<GtkSpiceElement> elem, int pin_order);
     
 private:
     typedef std::map<Glib::ustring,std::shared_ptr<GtkSpiceNode>> NodeMap;
@@ -224,5 +166,43 @@ private:
     Coordinate _start,_end;
     double _height,_width;
 };
+
+class GtkSpicePort
+{
+public:
+    GtkSpicePort();
+    virtual ~GtkSpicePort();
+};
+class GtkSpiceInPort : public GtkSpicePort
+{
+public:
+    GtkSpiceInPort();
+    virtual ~GtkSpiceInPort();
+};
+class GtkSpiceOutPort : public GtkSpicePort
+{
+public:
+    GtkSpiceOutPort();
+    virtual ~GtkSpiceOutPort();
+};
+class GtkSpiceInoutPort : public GtkSpicePort
+{
+public:
+    GtkSpiceInoutPort();
+    virtual ~GtkSpiceInoutPort();
+};
+class GtkSpiceGndPort : public GtkSpicePort
+{
+public:
+    GtkSpiceGndPort();
+    virtual ~GtkSpiceGndPort();
+};
+class GtkSpiceGlobalPort : public GtkSpicePort
+{
+public:
+    GtkSpiceGlobalPort();
+    virtual ~GtkSpiceGlobalPort();
+};
+
 
 #endif /* GTKSPICE_OBJECT_H */

@@ -38,8 +38,8 @@ GtkSpiceElement::GtkSpiceElement(const Glib::ustring& symbol_file)
         _pin_highlights.resize(_symbol->pin_count());
         for(int i = 0; i < _symbol->pin_count(); i++)
         {
-            _pin_nodes.at(i) = "NC"; // Default to -1 (invalid node)
-            _pin_highlights.at(i) = i+1; 
+            _pin_nodes.at(i) = ""; // Default to -1 (invalid node)
+            _pin_highlights.at(i) = true; 
         }
     }
 }
@@ -57,8 +57,8 @@ bool GtkSpiceElement::set_symbol_file(const Glib::ustring& symbol_file)
             _pin_highlights.resize(_symbol->pin_count());
             for(int i = 0; i < _symbol->pin_count(); i++)
             {
-                _pin_nodes.at(i) = "NC"; // Default to null
-                _pin_highlights.at(i) = i+1;
+                _pin_nodes.at(i) = ""; // Default to null
+                _pin_highlights.at(i) = true;
             }
             return true;
         }
@@ -78,6 +78,15 @@ void GtkSpiceElement::set_name(Glib::ustring name)
         _name_no_prefix = name;
         _inst_name = _symbol->get_attribute_value("PREFIX") + name;
         _symbol->set_attribute_value("INSTNAME",_inst_name);
+    }
+}
+
+void GtkSpiceElement::connect_pin(int pin_order, std::string node)
+{
+    if(pin_order < _pin_nodes.size())
+    {
+        _pin_nodes.at(pin_order) = node;
+        _pin_highlights.at(pin_order) = false;
     }
 }
 
@@ -123,7 +132,7 @@ Glib::ustring GtkSpiceElement::get_spice_line()
 void GtkSpiceWire::draw(Cairo::RefPtr<Cairo::Context> context)
 {
     context->save();
-    context->set_source_rgb(0.0,0.0,0.0);
+    context->set_source_rgb(0.2,0.2,0.8);
     double lw = 2;
     context->device_to_user_distance(lw,lw);
     context->set_line_width(lw);
@@ -137,6 +146,66 @@ void GtkSpiceWire::draw(Cairo::RefPtr<Cairo::Context> context)
 
     context->restore();
 }
+
+void GtkSpiceNode::rename(Glib::ustring name)
+{
+    _name = name;
+    for(auto& itr : _connections)
+    {
+        itr.first->connect_pin(itr.second,_name);
+    }
+}
+
+void GtkSpiceNode::add_connection(std::shared_ptr<GtkSpiceElement> elem, int pin)
+{
+    _connections.insert(std::pair<std::shared_ptr<GtkSpiceElement>, int>(elem, pin));
+    elem->connect_pin(pin,_name);
+}
+void GtkSpiceNode::remove_connection(std::shared_ptr<GtkSpiceElement> elem, int pin)
+{
+    if(_connections.find(elem) != _connections.end())
+    {
+        auto itrs = _connections.equal_range(elem);
+        for(auto itr = itrs.first; itr != itrs.second; ++itr)
+        {
+            if(itr->second == pin)
+            {
+                _connections.erase(itr);
+                elem->connect_pin(pin,"");
+            }
+        }
+    }
+}
+
+void NodeManager::rename_node(Glib::ustring node_name, Glib::ustring new_name)
+{
+    if( _node_map.find(node_name) != _node_map.end())
+    {
+        _node_map.find(node_name)->second->rename(new_name);
+        std::shared_ptr<GtkSpiceNode> tnode = _node_map.find(node_name)->second;
+        _node_map.erase(node_name);
+        _node_map.insert(NodeKeyPair(new_name,tnode));
+    }
+}
+
+void NodeManager::connect_node(Glib::ustring node_name,std::shared_ptr<GtkSpiceElement> elem,int pin_order)
+{
+    if( _node_map.find(node_name) != _node_map.end())
+    {
+        if( !elem->pin_has_node(pin_order) )
+            _node_map.find(node_name)->second->add_connection(elem, pin_order);
+        else
+            std::cerr << "WARNING: Element pin already has a node. \n";
+    }
+}
+
+void NodeManager::break_connection(Glib::ustring node_name, std::shared_ptr<GtkSpiceElement> elem, int pin_order)
+{
+    if( _node_map.find(node_name) != _node_map.end())
+        if( elem->pin_has_node(pin_order) )
+            _node_map.find(node_name)->second->remove_connection(elem, pin_order);
+}
+
 
 bool GtkSpiceWire::under(Coordinate pos, float tol)
 {

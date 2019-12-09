@@ -36,12 +36,13 @@ void GtkSpiceElementList::draw(const Cairo::RefPtr<Cairo::Context>& context)
     }
 }
 
-void GtkSpiceElementList::add_element(const Glib::ustring& sym_file, Coordinate pos)
+Glib::ustring GtkSpiceElementList::add_element(const Glib::ustring& sym_file, Coordinate pos)
 {
     GtkSpiceElement obj(sym_file);
     obj.set_position(pos);
     _auto_name(obj);
     _element_list.insert(ElementPair(obj.get_inst_name(),std::make_shared<GtkSpiceElement>(obj)));
+    return obj.get_inst_name();
 }
 bool GtkSpiceElementList::remove_element(const Glib::ustring& inst_name)
 {

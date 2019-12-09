@@ -28,7 +28,7 @@ ObjectSymbol::ObjectSymbol(ObjectGeometry geom, ObjectPins pins, Coordinate pos,
     _calculate_bounding_box();
 }
 
-void ObjectSymbol::draw( Cairo::RefPtr<Cairo::Context> context, std::vector<int> pin_highlights)
+void ObjectSymbol::draw( Cairo::RefPtr<Cairo::Context> context, std::vector<bool> pin_highlights)
 {
     // Draw the symbol primitives and pin
     if(_visible)
@@ -37,11 +37,8 @@ void ObjectSymbol::draw( Cairo::RefPtr<Cairo::Context> context, std::vector<int>
             (*itr)->draw(context, _position, _drawsettings);
         for(auto itr = _pins.begin(); itr != _pins.end(); ++itr)
         {
-            bool highlight = false;
             int spice_order = std::stoi((*itr)->get_attribute_value("SPICE_ORDER"));
-            if(std::binary_search(pin_highlights.begin(),pin_highlights.end(),spice_order))
-                highlight = true;
-            (*itr)->draw(context, _position, _drawsettings,highlight);
+            (*itr)->draw(context, _position, _drawsettings,pin_highlights.at(spice_order-1));
         }
         for(auto itr = _attrs.begin(); itr != _attrs.end(); ++itr)
         {
