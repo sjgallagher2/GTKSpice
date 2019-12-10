@@ -118,7 +118,7 @@ Glib::ustring GtkSpiceElement::get_spice_line()
         elem_nodes.append(itr+" ");
     // Note elem_nodes ends with a space
 
-    spice_line.append(elem_nodes);
+    spice_line.append(" "+elem_nodes);
     if(!elem_value.empty())
         spice_line.append(elem_value);
     if(!elem_spicemodel.empty())

@@ -38,15 +38,45 @@ public:
     std::shared_ptr<GtkSpicePortList> get_port_list() const {return _portlist;}
     std::shared_ptr<NodeManager> get_node_manager() const {return _nodemanager;}
     std::vector<Glib::ustring> get_node_list() const; // TODO
-    
+
+    Glib::ustring get_spice_lines();
+
     std::shared_ptr<GtkSpiceElement> get_element_under_cursor(Coordinate pos);
     std::shared_ptr<GtkSpiceWire> get_wire_under_cursor(Coordinate pos);
+    std::shared_ptr<GtkSpicePort> get_port_under_cursor(Coordinate pos);
+    std::vector<std::shared_ptr<GtkSpiceElement>> get_elements_in_selection(const Coordinate& start, const Coordinate& end);
+    std::vector<std::shared_ptr<GtkSpiceWire>> get_wires_in_selection(const Coordinate& start, const Coordinate& end);
+    std::vector<std::shared_ptr<GtkSpicePort>> get_ports_in_selection(const Coordinate& start, const Coordinate& end);
+
+    // TODO Implement these methods to create a facade for the whole schematic sheet
+    void add_element(bool floating = false);
+    void add_wire(bool active = false);
+    void add_gnd_port(bool floating = false); 
+
+    void find_element();
+    
+    void move_active_objects();
+    void remove_active_objects();
+    void unset_active_objects();
+    void move_floating_objects();
+    void remove_floating_objects();
+    void drop_floating_objects();
+
+    void get_active_elements();
+    void get_active_ports();
+
+    void remove_element();
+    void remove_wire();
+    void remove_port();
 
 private:
+    void _update_intersections();
+
     std::shared_ptr<GtkSpiceElementList> _elementlist;
     std::shared_ptr<GtkSpiceWireList> _wirelist;
     std::shared_ptr<GtkSpicePortList> _portlist;
     std::shared_ptr<NodeManager> _nodemanager;
+    // TODO Add method of storing drawing intersection connections
 };
 
 class GtkSpiceSchematic
@@ -59,30 +89,15 @@ public:
     }
     ~GtkSpiceSchematic() {}
 
+    Glib::ustring get_spice_lines();
+
     int add_sheet() {_sheets.push_back(std::make_shared<SchematicSheet>());return _sheets.size()-1;}
-    void remove_sheet(int index) 
-    {
-        if(index < _sheets.size())
-        {
-            if(_sheets.at(index) != _active_sheet)
-                _sheets.erase(_sheets.begin() + index);
-            else
-            {
-                _sheets.erase(_sheets.begin()+index);
-                _active_sheet = _sheets.at(index-1); // Set prev sheet to active
-            }
-        }
-    }
+    void remove_sheet(int index);
     std::shared_ptr<SchematicSheet> get_sheet(int index) {if(index < _sheets.size()) return _sheets.at(index);}
 
     void set_active_sheet(int index) {if(index < _sheets.size()) _active_sheet = _sheets.at(index);}
     std::shared_ptr<SchematicSheet> get_active_sheet() {return _active_sheet;}
-    int get_active_sheet_index() 
-    {
-        auto itr = std::find(_sheets.begin(),_sheets.end(),_active_sheet);
-        int index = std::distance(_sheets.begin(),itr);
-        return index;
-    }
+    int get_active_sheet_index();
 
     void redraw(Cairo::RefPtr<Cairo::Context> context)
     {

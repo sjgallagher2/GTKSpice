@@ -25,7 +25,7 @@
 
 /* Object representing circuit elements and on-screen SPICE directives
  * 
- * TODO Add node management, SpiceDeck, get_spice_line() function
+ * TODO Add SPICE directive text element
  */
 
 class GtkSpiceElement 

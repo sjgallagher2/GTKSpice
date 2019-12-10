@@ -202,9 +202,9 @@ void ObjectSymbol::_calculate_bounding_box()
 
 
         left = std::min(left,tleft);
-        right = std::min(right,tright);
+        right = std::max(right,tright);
         bottom = std::min(bottom,tbottom);
-        top = std::min(top,ttop);
+        top = std::max(top,ttop);
     }
     _boundingbox.anchor.x(_position.x() + left);
     _boundingbox.anchor.y(_position.y() + bottom);
@@ -227,6 +227,7 @@ bool ObjectSymbol::under(const Coordinate& pos)
 bool ObjectSymbol::near(const Coordinate& pos)
 {
     // Check if pos is in bounding box
+    // Note: Boundingbox is already adjusted to new position
     return _boundingbox.contains(pos);
 }
 bool ObjectSymbol::within(const Coordinate& start, const Coordinate& end)

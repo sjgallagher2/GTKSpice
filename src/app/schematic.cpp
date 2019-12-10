@@ -24,4 +24,38 @@ SchematicSheet::SchematicSheet() :
 SchematicSheet::~SchematicSheet() 
 {}
 
+Glib::ustring SchematicSheet::get_spice_lines()
+{
+    return _elementlist->get_spice_lines();
+}
 
+Glib::ustring GtkSpiceSchematic::get_spice_lines()
+{
+    Glib::ustring lines = "";
+    for(auto& itr : _sheets)
+    {
+        lines.append(itr->get_spice_lines());
+    }
+    return lines;
+}
+
+void GtkSpiceSchematic::remove_sheet(int index) 
+{
+    if(index < _sheets.size())
+    {
+        if(_sheets.at(index) != _active_sheet)
+            _sheets.erase(_sheets.begin() + index);
+        else
+        {
+            _sheets.erase(_sheets.begin()+index);
+            _active_sheet = _sheets.at(index-1); // Set prev sheet to active
+        }
+    }
+}
+
+int GtkSpiceSchematic::get_active_sheet_index() 
+{
+    auto itr = std::find(_sheets.begin(),_sheets.end(),_active_sheet);
+    int index = std::distance(_sheets.begin(),itr);
+    return index;
+}

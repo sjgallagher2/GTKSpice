@@ -21,6 +21,11 @@
 #include <set>
 #include <app/gtkspice_object.h>
 
+// TODO Fix "active" element/port/wire stuff to support multiple
+// active elements, and generally improve the system to support
+// (1) moving elements/ports/wires, (2) dropping elements and ports,
+// and (3) moving one end of a wire vs the whole wire vs drawing
+
 class GtkSpiceElementList
 {
 public:
@@ -31,6 +36,8 @@ public:
     virtual int size() const {return _element_list.size();}
 
     virtual void draw(const Cairo::RefPtr<Cairo::Context>& context);
+    Glib::ustring get_spice_lines();
+
     Glib::ustring add_element(const Glib::ustring& sym_file, Coordinate pos);
     bool remove_element(const Glib::ustring& inst_name);
     std::shared_ptr<GtkSpiceElement> find_element(const Glib::ustring& inst_name);
@@ -145,7 +152,7 @@ private:
     typedef std::pair<Glib::ustring,std::shared_ptr<GtkSpiceWire>> WireMapPair;
     WireMap _wire_list; // <node name, wire>
     std::shared_ptr<GtkSpiceWire> _active_wire = nullptr; // Active element
-    int _active_wire_grabpoint = 1; // 0 = start, 1 = end; determines which end of wire is being moved
+    int _active_wire_grabpoint = 1; // 0 = start, 1 = end, 2 = both; determines which end of wire is being moved
 
     std::set<Glib::ustring> _node_names; // List of all node names
 };

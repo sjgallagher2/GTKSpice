@@ -36,6 +36,16 @@ void GtkSpiceElementList::draw(const Cairo::RefPtr<Cairo::Context>& context)
     }
 }
 
+Glib::ustring GtkSpiceElementList::get_spice_lines()
+{
+    Glib::ustring lines = "";
+    for(auto& itr : _element_list)
+    {
+        lines.append(itr.second->get_spice_line());
+    }
+    return lines;
+}
+
 Glib::ustring GtkSpiceElementList::add_element(const Glib::ustring& sym_file, Coordinate pos)
 {
     GtkSpiceElement obj(sym_file);
@@ -235,8 +245,8 @@ std::shared_ptr<GtkSpicePort> GtkSpicePortList::get_port_under_cursor(const Coor
 {
     for(auto& itr : _port_list)
         if(itr.second->near(mousepos))
-            if(itr.second->under(mousepos))
-                return itr.second;
+            return itr.second;
+            //if(itr.second->under(mousepos))
     return nullptr;
 }
 

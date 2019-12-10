@@ -55,9 +55,19 @@ Workspace::Workspace(std::shared_ptr<Window> toplevel) :
             elems->find_element(res1name)->rotate90();
             wires->add_wire(nodemgr->find_node("vin"),Coordinate(10,18),Coordinate(10,8));
             wires->add_wire(nodemgr->find_node("vin"),Coordinate(10,8),Coordinate(32,8));
+            wires->add_wire(nodemgr->find_node("vout"),Coordinate(72,8),Coordinate(88,8));
+
             ports->add_gnd_port(Coordinate(10,48));
+            wires->add_wire(nodemgr->find_node("0"),Coordinate(10,58),Coordinate(10,68));
+            if(ports->get_port_under_cursor(Coordinate(10,69)))
+                ports->get_port_under_cursor(Coordinate(10,69))->set_highlight(false);
+
             nodemgr->connect_node("vin",elems->find_element(res1name),1);
             nodemgr->connect_node("vin",elems->find_element(v1name),0);
+            nodemgr->connect_node("0",elems->find_element(v1name),1);
+            nodemgr->connect_node("vout", elems->find_element(res1name),0);
+
+            std::cout << _schem->get_spice_lines() << "\n";
         }
     }
     /***********/
