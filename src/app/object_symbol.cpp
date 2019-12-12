@@ -161,7 +161,19 @@ bool ObjectSymbol::has_attribute(Glib::ustring attr_name)
 }
 
 std::shared_ptr<SymbolPin> ObjectSymbol::get_pin(Glib::ustring pin_name)
-{}
+{
+    for(auto itr = _pins.begin(); itr != _pins.end(); ++itr)
+        if((*itr)->get_attribute_value("NAME") == pin_name)
+            return *itr;
+    return nullptr;
+}
+std::shared_ptr<SymbolPin> ObjectSymbol::get_pin(int pin_order)
+{
+    for(auto itr = _pins.begin(); itr != _pins.end(); ++itr)
+        if(std::stoi((*itr)->get_attribute_value("SPICE_ORDER")) == pin_order)
+            return *itr;
+    return nullptr;
+}
 void ObjectSymbol::set_pin(Glib::ustring pin_name, SymbolPin new_pin)
 {
     if(has_pin(pin_name))

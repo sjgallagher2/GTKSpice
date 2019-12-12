@@ -129,10 +129,19 @@ Glib::ustring GtkSpiceElement::get_spice_line()
 
     return spice_line.uppercase();
 }
+int GtkSpiceElement::pin_under(const Coordinate& pos)
+{
+    std::shared_ptr<ObjectPins> pins = _symbol->get_pins();
+    for(auto& itr : *pins)
+        if(itr->under(pos))
+            return std::stoi(itr->get_attribute_value("SPICE_ORDER"));
+    return -1;
+}
 
 void GtkSpiceWire::draw(Cairo::RefPtr<Cairo::Context> context)
 {
     context->save();
+
     context->set_source_rgb(0.2,0.2,0.8);
     double lw = 2;
     context->device_to_user_distance(lw,lw);
@@ -146,6 +155,15 @@ void GtkSpiceWire::draw(Cairo::RefPtr<Cairo::Context> context)
     context->stroke();
 
     context->restore();
+}
+
+int GtkSpiceWire::pin_under(const Coordinate& pos)
+{
+    if(Geometry::magnitude(_end-pos) < 1)
+        return 1;
+    else if(Geometry::magnitude(_start-pos) < 1)
+        return 0;
+    return -1;
 }
 
 void GtkSpiceNode::rename(Glib::ustring name)
@@ -176,6 +194,24 @@ void GtkSpiceNode::remove_connection(std::shared_ptr<GtkSpiceElement> elem, int 
             }
         }
     }
+}
+
+Glib::ustring NodeManager::add_auto_node()
+{
+    // Create a new node, autoname it
+    for(int i = 1; i <= _node_map.size(); i++)
+    {
+        // i is the autoname incrementer
+        // Just move from 1 to the end searching for free spaces
+        // No prefixes to worry about
+        Glib::ustring i_str = std::to_string(i);
+        if(_node_map.find(i_str) == _node_map.end())
+        {
+            _node_map.insert(NodeKeyPair(i_str,std::make_shared<GtkSpiceNode>(i_str)));
+            return i_str;
+        }
+    }
+    return "NODE_ERROR"; // Should not get to this
 }
 
 void NodeManager::rename_node(Glib::ustring node_name, Glib::ustring new_name)
@@ -222,6 +258,15 @@ bool GtkSpiceWire::within(const Coordinate& begin, const Coordinate& end)
     bb.height = end.y()-begin.y();
     bool ret = bb.contains(_start) | bb.contains(_end);
     return ret;
+}
+
+bool GtkSpicePort::pin_under(const Coordinate& pos)
+{
+    std::shared_ptr<ObjectPins> pins = _symbol->get_pins();
+    for(auto& itr : *pins)
+        if(itr->under(pos))
+            return true;
+    return false;
 }
 
 GtkSpiceInPort::GtkSpiceInPort(Glib::ustring node_name)

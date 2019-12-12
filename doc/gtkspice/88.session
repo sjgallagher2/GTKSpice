@@ -2,10 +2,11 @@ window_sizes 1920 1016 250 1664 821 136
 cleanlooks_style
 diagrams
   active  classdiagram_ref 128088 // Overview
-    1331 656 100 A4-Landscape 11 0
+    1331 656 100 A4-Landscape 36 0
 end
 show_stereotypes
-selected class_ref 166872 // SpiceElement
+selected 
+package_ref 129 // gtkspice
 open
   classview_ref 128088 // app
   class_ref 159064 // SymbolPin

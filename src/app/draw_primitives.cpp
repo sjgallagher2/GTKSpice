@@ -160,6 +160,7 @@ void ArcPrimitive::draw(Cairo::RefPtr<Cairo::Context> context,
     context->set_antialias(ds.antialias);
 
     Cairo::Matrix save_matrix = context->get_matrix();
+    context->stroke(); // Clear any previous lines etc 
     context->translate(pos.x()+_center.x(),pos.y()+_center.y());
     context->scale(1,_vradius/_hradius);
     context->translate(-pos.x()-_center.x(),-pos.y()-_center.y());
@@ -283,6 +284,7 @@ void CirclePrimitive::vflip()
 void TextPrimitive::draw(Cairo::RefPtr<Cairo::Context> context, 
     Coordinate pos, const DrawSettings& ds)
 {
+    
     context->save();
     context->set_source_rgb(ds.red,ds.green,ds.blue);
     context->set_antialias(ds.antialias);
@@ -296,6 +298,7 @@ void TextPrimitive::draw(Cairo::RefPtr<Cairo::Context> context,
     //draw_bb(context,pos,ds,get_bounding_box(ds.font_size));
 
     context->restore();
+    
 }
 void TextPrimitive::rotate90()
 {

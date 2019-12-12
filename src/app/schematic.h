@@ -49,25 +49,27 @@ public:
     std::vector<std::shared_ptr<GtkSpicePort>> get_ports_in_selection(const Coordinate& start, const Coordinate& end);
 
     // TODO Implement these methods to create a facade for the whole schematic sheet
-    void add_element(bool floating = false);
-    void add_wire(bool active = false);
-    void add_gnd_port(bool floating = false); 
+    Glib::ustring add_element(const Glib::ustring& sym_file, Coordinate pos, bool floating = false);
+    void add_wire(Coordinate start, Coordinate end, bool active = false);
+    void add_gnd_port(Coordinate pos, bool floating = false); 
 
-    void find_element();
+    std::shared_ptr<GtkSpiceElement> find_element(const Glib::ustring& inst_name);
     
-    void move_active_objects();
+    void move_active_objects(Coordinate delta); // TODO how to handle this?
     void remove_active_objects();
     void unset_active_objects();
-    void move_floating_objects();
+    void move_floating_objects(Coordinate delta); // TODO
+    void rotate_floating_object(); // Valid when only one object is floating
     void remove_floating_objects();
     void drop_floating_objects();
 
-    void get_active_elements();
-    void get_active_ports();
+    std::vector<std::shared_ptr<GtkSpiceElement>> get_active_elements();
+    std::vector<std::shared_ptr<GtkSpicePort>> get_active_ports();
 
-    void remove_element();
-    void remove_wire();
-    void remove_port();
+    void remove_element(std::shared_ptr<GtkSpiceElement> elem);
+    void remove_element(const Glib::ustring& inst_name);
+    void remove_wire(std::shared_ptr<GtkSpiceWire> wire);
+    void remove_port(std::shared_ptr<GtkSpicePort> port);
 
 private:
     void _update_intersections();

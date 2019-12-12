@@ -46,6 +46,19 @@ Glib::ustring GtkSpiceElementList::get_spice_lines()
     return lines;
 }
 
+int GtkSpiceElementList::get_pin_under(const Glib::ustring inst_name, const Coordinate& pos)
+{
+    if(_element_list.find(inst_name) != _element_list.end())
+        _element_list.find(inst_name)->second->pin_under(pos);
+}
+std::pair<std::shared_ptr<GtkSpiceElement>,int> GtkSpiceElementList::get_pin_under(const Coordinate& pos)
+{
+    for(auto& itr : _element_list)
+        if(itr.second->pin_under(pos) != -1)
+            return std::pair<std::shared_ptr<GtkSpiceElement>,int>(itr.second,itr.second->pin_under(pos));
+    return std::pair<std::shared_ptr<GtkSpiceElement>,int>(nullptr,-1);
+}
+
 Glib::ustring GtkSpiceElementList::add_element(const Glib::ustring& sym_file, Coordinate pos)
 {
     GtkSpiceElement obj(sym_file);
@@ -69,40 +82,82 @@ std::shared_ptr<GtkSpiceElement> GtkSpiceElementList::find_element(const Glib::u
         return _element_list.find(inst_name)->second;
     return nullptr;
 }
-bool GtkSpiceElementList::set_active_element(const Glib::ustring& inst_name)
+bool GtkSpiceElementList::set_element_active(const Glib::ustring& inst_name)
 {
     if(_element_list.find(inst_name) != _element_list.end() )
     {
-        _active_element = _element_list.find(inst_name)->second;
+        _element_list.find(inst_name)->second->set_active();
         return true;
     }
     return false;
 }
-bool GtkSpiceElementList::set_active_element(const Coordinate& pos)
+bool GtkSpiceElementList::set_element_active(const Coordinate& pos)
 {
     for(auto& itr : _element_list)
     {
         if(itr.second->near(pos))
         {
-            _active_element = itr.second;
+            itr.second->set_active();
             return true;
         }
     }
     return false;
 }
-bool GtkSpiceElementList::set_active_element(std::shared_ptr<GtkSpiceElement> elem)
+bool GtkSpiceElementList::set_element_active(std::shared_ptr<GtkSpiceElement> elem)
 {
     if(_element_list.find(elem->get_inst_name()) != _element_list.end() )
     {
-        _active_element = elem;
+        elem->set_active();
         return true;
     }
     return false;
 }
 
-std::shared_ptr<GtkSpiceElement> GtkSpiceElementList::get_active_element()
+bool GtkSpiceElementList::set_element_floating(const Glib::ustring& inst_name)
 {
-    return _active_element;
+    if(_element_list.find(inst_name) != _element_list.end() )
+    {
+        _element_list.find(inst_name)->second->set_floating();
+        return true;
+    }
+    return false;
+}
+bool GtkSpiceElementList::set_element_floating(const Coordinate& pos)
+{
+    for(auto& itr : _element_list)
+    {
+        if(itr.second->near(pos))
+        {
+            itr.second->set_floating();
+            return true;
+        }
+    }
+    return false;
+}
+bool GtkSpiceElementList::set_element_floating(std::shared_ptr<GtkSpiceElement> elem)
+{
+    if(_element_list.find(elem->get_inst_name()) != _element_list.end() )
+    {
+        elem->set_floating();
+        return true;
+    }
+    return false;
+}
+std::vector<std::shared_ptr<GtkSpiceElement>> GtkSpiceElementList::get_active_elements()
+{
+    std::vector<std::shared_ptr<GtkSpiceElement>> ret;
+    for(auto& itr : _element_list)
+        if(itr.second->is_active())
+            ret.push_back(itr.second);
+    return ret;
+}
+std::vector<std::shared_ptr<GtkSpiceElement>> GtkSpiceElementList::get_floating_elements()
+{
+    std::vector<std::shared_ptr<GtkSpiceElement>> ret;
+    for(auto& itr : _element_list)
+        if(itr.second->is_floating())
+            ret.push_back(itr.second);
+    return ret;
 }
 std::shared_ptr<GtkSpiceElement> GtkSpiceElementList::get_element_under_cursor(const Coordinate& mousepos)
 {
@@ -186,59 +241,44 @@ void GtkSpicePortList::add_gnd_port(Coordinate pos)
     _port_list.insert(PortPair("0",gndport));
 }
 
-bool GtkSpicePortList::remove_port(const Glib::ustring& node_name)
+bool GtkSpicePortList::remove_port(std::shared_ptr<GtkSpicePort> node)
 {
-    if(_port_list.find(node_name) != _port_list.end())
-    {
-        _port_list.erase(node_name);
-        return true;
-    }
     return false;
 }
-
+/*
 std::shared_ptr<GtkSpicePort> GtkSpicePortList::find_port(const Glib::ustring& node_name)
 {
     if(_port_list.find(node_name) != _port_list.end())
         return _port_list.find(node_name)->second;
     return nullptr;
-}
+}*/
 
-bool GtkSpicePortList::set_active_port(const Glib::ustring& node_name)
-{
-    if(_port_list.find(node_name) != _port_list.end() )
-    {
-        _active_port = _port_list.find(node_name)->second;
-        return true;
-    }
-    return false;
-}
-
-bool GtkSpicePortList::set_active_port(const Coordinate& pos)
+bool GtkSpicePortList::set_port_active(const Coordinate& pos)
 {
     for(auto& itr : _port_list)
     {
         if(itr.second->near(pos))
         {
-            _active_port = itr.second;
+            itr.second->set_active();
             return true;
         }
     }
     return false;
 }
 
-bool GtkSpicePortList::set_active_port(std::shared_ptr<GtkSpicePort> port)
+bool GtkSpicePortList::set_port_active(std::shared_ptr<GtkSpicePort> port)
 {
-    if(_port_list.find(port->get_node_name()) != _port_list.end() )
-    {
-        _active_port = port;
-        return true;
-    }
-    return false;
+    port->set_active();
+    return true;
 }
 
-std::shared_ptr<GtkSpicePort> GtkSpicePortList::get_active_port()
+std::vector<std::shared_ptr<GtkSpicePort>> GtkSpicePortList::get_active_ports()
 {
-    return _active_port;
+    std::vector<std::shared_ptr<GtkSpicePort>> ret;
+    for(auto& itr : _port_list)
+        if(itr.second->is_active())
+            ret.push_back(itr.second);
+    return ret; 
 }
 
 std::shared_ptr<GtkSpicePort> GtkSpicePortList::get_port_under_cursor(const Coordinate& mousepos)
@@ -257,6 +297,13 @@ std::vector<std::shared_ptr<GtkSpicePort>> GtkSpicePortList::get_ports_in_select
         if(itr.second->within(start,end))
             ret.push_back(itr.second);
     return ret;
+}
+std::shared_ptr<GtkSpicePort> GtkSpicePortList::get_port_pin_under(const Coordinate& pos)
+{
+    for(auto& itr : _port_list)
+        if(itr.second->pin_under(pos))
+            return itr.second;
+    return nullptr;
 }
 
 GtkSpiceWireList::GtkSpiceWireList()
@@ -345,6 +392,13 @@ std::vector<std::shared_ptr<GtkSpiceWire>> GtkSpiceWireList::get_wires_by_node(c
     for(auto itr = rng.first; itr != rng.second; ++itr)
         ret.push_back(itr->second);
     return ret;
+}
+std::pair<std::shared_ptr<GtkSpiceWire>,int> GtkSpiceWireList::get_wire_pin_under(const Coordinate& pos)
+{
+    for(auto& itr : _wire_list)
+        if(itr.second->pin_under(pos) != -1)
+            return std::pair<std::shared_ptr<GtkSpiceWire>,int>(itr.second,itr.second->pin_under(pos));
+    return std::pair<std::shared_ptr<GtkSpiceWire>,int>(nullptr,-1);
 }
 
 std::vector<Coordinate> GtkSpiceWireList::get_intersections()

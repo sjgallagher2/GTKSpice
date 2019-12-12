@@ -29,6 +29,205 @@ Glib::ustring SchematicSheet::get_spice_lines()
     return _elementlist->get_spice_lines();
 }
 
+std::shared_ptr<GtkSpiceElement> SchematicSheet::get_element_under_cursor(Coordinate pos)
+{
+    return _elementlist->get_element_under_cursor(pos);
+}
+std::shared_ptr<GtkSpiceWire> SchematicSheet::get_wire_under_cursor(Coordinate pos)
+{
+    return _wirelist->get_wire_under_cursor(pos);
+}
+std::shared_ptr<GtkSpicePort> SchematicSheet::get_port_under_cursor(Coordinate pos)
+{
+    return _portlist->get_port_under_cursor(pos);
+}
+std::vector<std::shared_ptr<GtkSpiceElement>> SchematicSheet::get_elements_in_selection(const Coordinate& start, const Coordinate& end)
+{
+    return _elementlist->get_elements_in_selection(start,end);
+}
+std::vector<std::shared_ptr<GtkSpiceWire>> SchematicSheet::get_wires_in_selection(const Coordinate& start, const Coordinate& end)
+{
+    return _wirelist->get_wires_in_selection(start,end);
+}
+std::vector<std::shared_ptr<GtkSpicePort>> SchematicSheet::get_ports_in_selection(const Coordinate& start, const Coordinate& end)
+{
+    return _portlist->get_ports_in_selection(start,end);
+}
+Glib::ustring SchematicSheet::add_element(const Glib::ustring& sym_file, Coordinate pos, bool floating)
+{
+    // This should add the element at location 'pos'
+    // Check the pins for overlaps with wires and other pins
+    // Make necessary connections by first adding a wire (of zero length)
+    // and then making a node or selecting the node from a port on the net
+
+    Glib::ustring elemname = _elementlist->add_element(sym_file,pos);
+    if(floating)
+        _elementlist->set_element_floating(elemname);
+    
+    auto pins = _elementlist->get_element_pins(elemname);
+    
+    for(auto itr = pins->begin(); itr != pins->end(); ++itr)
+    {
+        // Iterating over pins
+        Coordinate pin_pos = (*itr)->pin_location();
+        //_elementlist->find_element(elemname)->get_position();
+        
+        // Check other elements
+        std::pair<std::shared_ptr<GtkSpiceElement>,int> under_e;
+        under_e = _elementlist->get_pin_under(pin_pos);
+        if(under_e.first != nullptr && under_e.second != -1)
+        {
+            // This element's pin is under our pin
+            // Connect them with a wire of length zero
+            if(under_e.first->pin_has_node(under_e.second))
+            {
+                auto node = _nodemanager->find_node(under_e.first->get_pin_node(under_e.second));
+                _wirelist->add_wire(node,pin_pos,pin_pos);
+                _nodemanager->connect_node(node->get_name(),_elementlist->find_element(elemname),std::stoi((*itr)->get_attribute_value("SPICE_ORDER")));
+            }
+            else
+            {
+                Glib::ustring newnode = _nodemanager->add_auto_node();
+                _wirelist->add_wire(_nodemanager->find_node(newnode),pin_pos,pin_pos);
+                _nodemanager->connect_node(newnode,_elementlist->find_element(elemname),std::stoi((*itr)->get_attribute_value("SPICE_ORDER")));
+                _nodemanager->connect_node(newnode,under_e.first,under_e.second);
+            }
+        }
+
+        // Check wires
+        std::pair<std::shared_ptr<GtkSpiceWire>,int> under_w;
+        under_w = _wirelist->get_wire_pin_under(pin_pos);
+        if(under_w.first != nullptr && under_w.second != -1)
+        {
+            // This wire's pin is under our pin
+            // Connect them
+            _nodemanager->connect_node(under_w.first->get_node_name() ,_elementlist->find_element(elemname),std::stoi((*itr)->get_attribute_value("SPICE_ORDER")));
+        }
+        else
+        {
+            if(std::shared_ptr<GtkSpiceWire> wire = _wirelist->get_wire_under_cursor(pin_pos))
+            {
+                // This wire is under our pin as a junction
+                // Connect them with a wire of length zero, add intersection?
+                _wirelist->add_wire(wire->get_node(),pin_pos,pin_pos);
+                _nodemanager->connect_node(wire->get_node_name(),_elementlist->find_element(elemname),std::stoi((*itr)->get_attribute_value("SPICE_ORDER")));
+            }
+        }
+
+        // Check ports
+        std::shared_ptr<GtkSpicePort> port = _portlist->get_port_pin_under(pin_pos);
+        if(port)
+        {
+            // This port's pin is under our pin
+            // Connect them with a wire of length zero
+            _wirelist->add_wire(_nodemanager->find_node(port->get_node_name()),pin_pos,pin_pos);
+            _nodemanager->connect_node(port->get_node_name(),_elementlist->find_element(elemname),std::stoi((*itr)->get_attribute_value("SPICE_ORDER")));
+        }
+        
+
+    }
+    return elemname;
+}
+void SchematicSheet::add_wire(Coordinate start, Coordinate end, bool active)
+{
+    // This should add a wire from 'start' to 'end', checking endpoints
+    // for new connections. If no new connection (no pins or wires under
+    // endpoints) make a new node. Otherwise, connect to node of new
+    // connection. 
+}
+void SchematicSheet::add_gnd_port(Coordinate pos, bool floating)
+{
+    // This should add a ground port, check if the pin is connected, and if
+    // it is, it should rename whatever node it is attached to, to "0".
+    // If deleted, all renamed nodes should be autonamed again, using
+    // ports to set node names and otherwise using automatic names
+}
+
+std::shared_ptr<GtkSpiceElement> SchematicSheet::find_element(const Glib::ustring& inst_name)
+{
+    return _elementlist->find_element(inst_name);
+}
+
+void SchematicSheet::move_active_objects(Coordinate delta) // TODO how to handle this?
+{
+    // All active objects (elements, ports, wires) should store the position
+    // they were in when they were first made active. When this is called, 
+    // the 'delta' (change in position) of all elements is updated. When 
+    // the elements are unset being active, the delta is combined with the
+    // position to get the new position; keep in mind this needs to be 
+    // undoable, so starting positions of all active objects need to be 
+    // stored by the Action, thus it needs access to all active objects.
+}
+void SchematicSheet::remove_active_objects()
+{
+    // This should delete all active objects (elements, ports, wires). If
+    // ports are deleted, their nodes should be autonamed. If wires are
+    // deleted, the nodes on either side of the wire must be autonamed,
+    // unless the other side of the wire was also active and is being
+    // deleted, in which case nothing happens. If elements are deleted,
+    // their pin nodes should be autonamed(?).
+}
+void SchematicSheet::unset_active_objects()
+{
+    // This should set all 'active' properties to false
+}
+void SchematicSheet::move_floating_objects(Coordinate delta) // TODO
+{
+    // A floating object is one which is not instantiated yet
+    // This is for dropping objects (like ports and elements)
+    // onto the schematic
+}
+void SchematicSheet::rotate_floating_object() 
+{
+    // Valid when only one object is floating
+}
+void SchematicSheet::remove_floating_objects()
+{
+    // This should remove all floating objects, resulting in no
+    // changes (this is for e.g. pressing escape while moving
+    // new or pasted objects on the schematic)
+}
+void SchematicSheet::drop_floating_objects()
+{
+    // This should add all the floating objects (elements, ports, and
+    // wires) to the SchematicSheet
+}
+
+std::vector<std::shared_ptr<GtkSpiceElement>> SchematicSheet::get_active_elements()
+{
+    // Return a vector of the active elements
+}
+std::vector<std::shared_ptr<GtkSpicePort>> SchematicSheet::get_active_ports()
+{
+    // Return a vector of the active ports
+}
+
+void SchematicSheet::remove_element(std::shared_ptr<GtkSpiceElement> elem)
+{
+    // This should remove an element, no nodes need to be autonamed
+}
+void SchematicSheet::remove_element(const Glib::ustring& inst_name)
+{
+    // This should remove an element, no nodes need to be autonamed
+}
+void SchematicSheet::remove_wire(std::shared_ptr<GtkSpiceWire> wire)
+{
+    // This should remove a wire; the nodes on either side of the wire
+    // should be autonamed
+}
+void SchematicSheet::remove_port(std::shared_ptr<GtkSpicePort> port)
+{
+    // This should remove a port; the wire connected to the pin should
+    // be autonamed
+}
+
+void SchematicSheet::_update_intersections()
+{
+    // This should be called after a wire or element is dropped or
+    // moved. The list of intersection points is used to draw
+    // junction squares
+}
+
 Glib::ustring GtkSpiceSchematic::get_spice_lines()
 {
     Glib::ustring lines = "";
@@ -59,3 +258,4 @@ int GtkSpiceSchematic::get_active_sheet_index()
     int index = std::distance(_sheets.begin(),itr);
     return index;
 }
+

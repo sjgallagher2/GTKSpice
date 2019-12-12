@@ -50,8 +50,12 @@ Workspace::Workspace(std::shared_ptr<Window> toplevel) :
             nodemgr->add_node("0");
             nodemgr->add_node("vin");
             nodemgr->add_node("vout");
+
+            std::shared_ptr<SchematicSheet> sheet = _schem->get_active_sheet();
+            sheet->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/cap.asy",Coordinate(80,8));
+
             Glib::ustring v1name = elems->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/voltage.asy",Coordinate(10,10));
-            Glib::ustring res1name = elems->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/res.asy",Coordinate(80,0));
+            Glib::ustring res1name = elems->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/ind.asy",Coordinate(80,0));
             elems->find_element(res1name)->rotate90();
             wires->add_wire(nodemgr->find_node("vin"),Coordinate(10,18),Coordinate(10,8));
             wires->add_wire(nodemgr->find_node("vin"),Coordinate(10,8),Coordinate(32,8));
@@ -67,7 +71,8 @@ Workspace::Workspace(std::shared_ptr<Window> toplevel) :
             nodemgr->connect_node("0",elems->find_element(v1name),1);
             nodemgr->connect_node("vout", elems->find_element(res1name),0);
 
-            std::cout << _schem->get_spice_lines() << "\n";
+            std::string spicelines = _schem->get_spice_lines();
+            std::cout << spicelines;
         }
     }
     /***********/

@@ -48,6 +48,13 @@ public:
     void set_position(Coordinate pos) {_position = pos; if(_symbol) _symbol->position(_position);}
     Coordinate get_position() const {return _position;}
 
+    void set_active() {_active = true;}
+    void set_floating() {_floating = true;}
+    void unset_active() {_active = false;}
+    void drop() {_floating = false;}
+    bool is_active() const {return _active;}
+    bool is_floating() const {return _floating;}
+
     bool near(const Coordinate& pos) const {return _symbol->near(pos);}
     bool under(const Coordinate& pos) const { return _symbol->under(pos); }
     bool within(const Coordinate& start, const Coordinate& end) const { return _symbol->within(start,end); }
@@ -57,12 +64,23 @@ public:
     void vflip() {_symbol->vflip();}
 
     void connect_pin(int pin_order, std::string node);
-    std::string get_pin_name(int pin_order) { return ""; } // TODO
+    std::string get_pin_name(int pin_order) { return _symbol->get_pin(pin_order)->get_attribute_value("NAME"); } // TODO
+    std::shared_ptr<ObjectPins> get_pins() const {return _symbol->get_pins();}
+    std::shared_ptr<SymbolPin> get_pin(Glib::ustring pin_name) const {return _symbol->get_pin(pin_name);}
+    std::shared_ptr<SymbolPin> get_pin(int pin_order) const {return _symbol->get_pin(pin_order);}
+    int pin_count() const {return _symbol->pin_count();}
+    int pin_under(const Coordinate& pos); // Return SPICE_ORDER of pin under pos, or -1 if none
     bool pin_has_node(int pin_order)
     {
         if (pin_order < _pin_nodes.size())
             return (_pin_nodes.at(pin_order) > "");
         else return false;
+    }
+    std::string get_pin_node(int pin_order)
+    {
+        if(pin_order < _pin_nodes.size())
+            return _pin_nodes.at(pin_order);
+        return "";
     }
     
     Glib::ustring get_spice_line(); // TODO
@@ -71,6 +89,7 @@ protected:
     std::shared_ptr<ObjectSymbol> _symbol;
     Coordinate _position;
     bool _active;
+    bool _floating;
     Glib::ustring _inst_name; // Prefix + name
     Glib::ustring _name_no_prefix;
 
@@ -114,6 +133,7 @@ public:
 
     void add_node(Glib::ustring node_name)
         { _node_map.insert(NodeKeyPair(node_name,std::make_shared<GtkSpiceNode>(node_name))); }
+    Glib::ustring add_auto_node(); // Adds a new node which is autonamed
     void combine_nodes(Glib::ustring node1, Glib::ustring node2)
         {} // TODO
     
@@ -161,11 +181,22 @@ public:
     std::shared_ptr<GtkSpiceNode> get_node() const {return _node;}
     Glib::ustring get_node_name() const {return _node->get_name();}
 
+    void set_active() {_active = true;}
+    void set_floating() {_floating = true;}
+    void unset_active() {_active = false;}
+    void drop() {_floating = false;}
+    bool is_active() const {return _active;}
+    bool is_floating() const {return _floating;}
+
+    int pin_under(const Coordinate& pos); // Returns 0 (start) or 1 (end) or -1 (none)
+    // Defaults to end if start==end
 
 private:
     std::shared_ptr<GtkSpiceNode> _node;
     Coordinate _start,_end;
     double _height,_width;
+    bool _active = false;
+    bool _floating = false;
 };
 
 class GtkSpicePort
@@ -180,9 +211,17 @@ public:
     Coordinate get_position() const {return _position;}
     Glib::ustring get_node_name() const {return _node_name;}
 
+    void set_active() {_active = true;}
+    void set_floating() {_floating = true;}
+    void unset_active() {_active = false;}
+    void drop() {_floating = false;}
+    bool is_active() const {return _active;}
+    bool is_floating() const {return _floating;}
+
     bool near(const Coordinate& pos) const {return _symbol->near(pos);}
     bool under(const Coordinate& pos) const { return _symbol->under(pos); }
     bool within(const Coordinate& start, const Coordinate& end) const { return _symbol->within(start,end); }
+    bool pin_under(const Coordinate& pos);
     
     void rotate90() {_symbol->rotate90();}
     void hflip() {_symbol->hflip();}
@@ -195,6 +234,8 @@ protected:
     Coordinate _position;
     std::shared_ptr<ObjectSymbol> _symbol;
     bool _highlight = true;
+    bool _active = false;
+    bool _floating = false;
 
 };
 class GtkSpiceInPort : public GtkSpicePort

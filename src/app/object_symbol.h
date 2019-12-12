@@ -119,6 +119,7 @@ public:
     int pin_count() const {return _pins.size();}
 	std::shared_ptr<ObjectPins> get_pins() const {return std::make_shared<ObjectPins>(_pins);}
     std::shared_ptr<SymbolPin> get_pin(Glib::ustring pin_name);
+    std::shared_ptr<SymbolPin> get_pin(int pin_order);
 	void add_pin(SymbolPin new_pin) {_pins.push_back(std::make_shared<SymbolPin>(new_pin));} // Add a new pin
 	void set_pin(Glib::ustring pin_name, SymbolPin new_pin); // Set the pin with pin_name to new_pin
     void set_pins(ObjectPins pins) {_pins = pins;}

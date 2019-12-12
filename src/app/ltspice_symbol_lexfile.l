@@ -39,7 +39,7 @@ description          {sval_ = matched(); return LTSpiceSymbolParser::DESCRIPTION
 modelfile            {sval_ = matched(); return LTSpiceSymbolParser::MODELFILE;}
 
 // Strings
-[a-zA-Z_\+\=\(\)\*\<\>\/\[\]\!\@\#\$\%\^\&\'\"][a-zA-Z0-9_\+\-\=\(\)\*\<\>\/\[\]\!\@\#\$\%\^\&\'\"\.]*       {sval_ = matched(); return LTSpiceSymbolParser::STRING;}
+[a-zA-Z_\+\=\(\)\*\<\>\/\[\]\!\@\#\$\%\^\&\'\"][a-zA-Z0-9_\+\-\=\(\)\*\<\>\/\[\]\!\@\#\$\%\^\&\'\"\.\,]*       {sval_ = matched(); return LTSpiceSymbolParser::STRING;}
 [\-]  {sval_ = matched(); return matched()[0];}
 [\n]+                       return matched()[0];
 
