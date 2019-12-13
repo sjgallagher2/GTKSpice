@@ -320,11 +320,13 @@ void GtkSpiceWireList::draw(const Cairo::RefPtr<Cairo::Context>& context)
         itr.second->draw(context);
 }
 
-void GtkSpiceWireList::add_wire(std::shared_ptr<GtkSpiceNode> node, Coordinate start, Coordinate end)
+std::shared_ptr<GtkSpiceWire> GtkSpiceWireList::add_wire(Glib::ustring node, Coordinate start, Coordinate end)
 {
-    _wire_list.insert(WireMapPair(node->get_name(),std::make_shared<GtkSpiceWire>(node,start,end)));
-    if(!_node_names.count(node->get_name()))
-        _node_names.insert(node->get_name());
+    std::shared_ptr<GtkSpiceWire> wire = std::make_shared<GtkSpiceWire>(node,start,end);
+    _wire_list.insert(WireMapPair(node,wire));
+    if(!_node_names.count(node))
+        _node_names.insert(node);
+    return wire;
 }
 bool GtkSpiceWireList::remove_wire(std::shared_ptr<GtkSpiceWire> wire)
 {
@@ -374,14 +376,6 @@ std::vector<std::shared_ptr<GtkSpiceWire>> GtkSpiceWireList::get_wires_in_select
     std::vector<std::shared_ptr<GtkSpiceWire>> ret;
     for(auto& itr : _wire_list)
         if(itr.second->within(start,end))
-            ret.push_back(itr.second);
-    return ret;
-}
-std::vector<std::shared_ptr<GtkSpiceWire>> GtkSpiceWireList::get_wires_by_node(std::shared_ptr<GtkSpiceNode> node)
-{
-    std::vector<std::shared_ptr<GtkSpiceWire>> ret;
-    for(auto& itr : _wire_list)
-        if(itr.second->get_node() == node)
             ret.push_back(itr.second);
     return ret;
 }

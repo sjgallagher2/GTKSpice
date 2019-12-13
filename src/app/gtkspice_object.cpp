@@ -173,12 +173,21 @@ void GtkSpiceNode::rename(Glib::ustring name)
     {
         itr.first->connect_pin(itr.second,_name);
     }
+    for(auto& itr : _wires)
+    {
+        itr->assign_node(_name);
+    }
 }
 
 void GtkSpiceNode::add_connection(std::shared_ptr<GtkSpiceElement> elem, int pin)
 {
     _connections.insert(std::pair<std::shared_ptr<GtkSpiceElement>, int>(elem, pin));
     elem->connect_pin(pin,_name);
+}
+void GtkSpiceNode::connect_wire(std::shared_ptr<GtkSpiceWire> wire)
+{
+    _wires.push_back(wire);
+    wire->assign_node(_name);
 }
 void GtkSpiceNode::remove_connection(std::shared_ptr<GtkSpiceElement> elem, int pin)
 {
@@ -195,7 +204,17 @@ void GtkSpiceNode::remove_connection(std::shared_ptr<GtkSpiceElement> elem, int 
         }
     }
 }
-
+void GtkSpiceNode::disconnect_wire(std::shared_ptr<GtkSpiceWire> wire)
+{
+    for(auto itr = _wires.begin(); itr != _wires.end(); ++itr)
+    {
+        if((*itr) == wire)
+        {
+            _wires.erase(itr);
+            wire->assign_node("");
+        }
+    }
+}
 Glib::ustring NodeManager::add_auto_node()
 {
     // Create a new node, autoname it
@@ -233,7 +252,20 @@ void NodeManager::connect_node(Glib::ustring node_name,std::shared_ptr<GtkSpiceE
             _node_map.find(node_name)->second->add_connection(elem, pin_order);
         else
         {
-            std::cerr << "WARNING: Element " << elem->get_inst_name() << " pin " << pin_order << " already has a node. \n";
+            std::cerr << "WARNING: Element " << elem->get_inst_name() << " pin " << pin_order << " already has a node. Did you forget to call break_connection()?\n";
+        }
+    }
+}
+
+void NodeManager::connect_node(Glib::ustring node_name,std::shared_ptr<GtkSpiceWire> wire)
+{
+    if( _node_map.find(node_name) != _node_map.end())
+    {
+        if( wire->get_node_name() == "" )
+            _node_map.find(node_name)->second->connect_wire(wire);
+        else
+        {
+            std::cerr << "WARNING: Wire already has a node. Did you forget to call break_connection()?\n";
         }
     }
 }
@@ -244,7 +276,12 @@ void NodeManager::break_connection(Glib::ustring node_name, std::shared_ptr<GtkS
         if( elem->pin_has_node(pin_order) )
             _node_map.find(node_name)->second->remove_connection(elem, pin_order);
 }
-void NodeManager::merge_nodes(Glib::ustring node1, Glib::ustring node2,int node1_priority, int node2_priority)
+void NodeManager::break_connection(Glib::ustring node_name, std::shared_ptr<GtkSpiceWire> wire)
+{
+    if( _node_map.find(node_name) != _node_map.end())
+        _node_map.find(node_name)->second->disconnect_wire(wire);
+}
+Glib::ustring NodeManager::merge_nodes(Glib::ustring node1, Glib::ustring node2)
 {
     // Merge two nodes
     /* Node priority
@@ -253,62 +290,70 @@ void NodeManager::merge_nodes(Glib::ustring node1, Glib::ustring node2,int node1
      *  2   Medium priority, only merge if other node has more connections or is higher priority
      *  3   High priority (typ. for ports), try to use this node, otherwise default to node1
      */
-    if(node1_priority >= 0 && node2_priority >= 0 && node1_priority <= 3 && node2_priority <= 3)
+    if(_node_map.find(node1) != _node_map.end() && _node_map.find(node2) != _node_map.end())
     {
-        if(_node_map.find(node1) != _node_map.end() && _node_map.find(node2) != _node_map.end())
-        {
-            std::shared_ptr<GtkSpiceNode> ex_node;
-            std::shared_ptr<GtkSpiceNode> keep_node;
+        int node1_priority = _node_map.find(node1)->second->get_priority();
+        int node2_priority = _node_map.find(node2)->second->get_priority();
+        std::shared_ptr<GtkSpiceNode> ex_node;
+        std::shared_ptr<GtkSpiceNode> keep_node;
 
-            if(node1_priority < node2_priority)
-            {
-                // Merge node1 with node2
-                ex_node = _node_map.find(node1)->second;
-                keep_node = _node_map.find(node2)->second;                
-            }
-            else if(node2_priority < node1_priority)
+        if(node1_priority < node2_priority)
+        {
+            // Merge node1 with node2
+            ex_node = _node_map.find(node1)->second;
+            keep_node = _node_map.find(node2)->second;                
+        }
+        else if(node2_priority < node1_priority)
+        {
+            // Merge node2 with node1
+            ex_node = _node_map.find(node2)->second;
+            keep_node = _node_map.find(node1)->second;                
+        }
+        else
+        {
+            // Equal priorities
+            if(node1_priority == 0)
             {
                 // Merge node2 with node1
                 ex_node = _node_map.find(node2)->second;
                 keep_node = _node_map.find(node1)->second;                
             }
-            else
+            else if(node1_priority == 1)
             {
-                // Equal priorities
-                if(node1_priority == 0)
-                {
-                    // Merge node2 with node1
-                    ex_node = _node_map.find(node2)->second;
-                    keep_node = _node_map.find(node1)->second;                
-                }
-                else if(node1_priority == 1)
-                {
-                    // Merge node2 with node1
-                    ex_node = _node_map.find(node2)->second;
-                    keep_node = _node_map.find(node1)->second;                
-                }
-                else if(node1_priority == 2)
-                {
-                    // Compare number of connections, go with higher (actually just use node1)
-                    ex_node = _node_map.find(node2)->second;
-                    keep_node = _node_map.find(node1)->second;                
-                }
-                else if(node1_priority == 3)
-                {
-                    // Merge node2 with node1
-                    ex_node = _node_map.find(node2)->second;
-                    keep_node = _node_map.find(node1)->second;                
-                }
+                // Merge node2 with node1
+                ex_node = _node_map.find(node2)->second;
+                keep_node = _node_map.find(node1)->second;                
             }
-
-            // Now simply change all connections for ex_node to refer
-            // to keep_node
-            for(auto& itr : ex_node->get_connections())
+            else if(node1_priority == 2)
             {
-                keep_node->add_connection(itr.first,itr.second);
+                // Compare number of connections, go with higher (actually just use node1)
+                ex_node = _node_map.find(node2)->second;
+                keep_node = _node_map.find(node1)->second;                
+            }
+            else if(node1_priority == 3)
+            {
+                // Merge node2 with node1
+                ex_node = _node_map.find(node2)->second;
+                keep_node = _node_map.find(node1)->second;                
             }
         }
+
+        // Now simply change all connections for ex_node to refer
+        // to keep_node
+        for(auto& itr : ex_node->get_connections())
+        {
+            ex_node->remove_connection(itr.first,itr.second);
+            keep_node->add_connection(itr.first,itr.second);
+        }
+        for(auto& itr : ex_node->get_wires())
+        {
+            ex_node->disconnect_wire(itr);
+            keep_node->connect_wire(itr);
+        }
+        _node_map.erase(ex_node->get_name());
+        return keep_node->get_name();
     }
+    return "";
 }
 
 

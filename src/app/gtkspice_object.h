@@ -28,6 +28,8 @@
  * TODO Add SPICE directive text element
  */
 
+class GtkSpiceWire;
+
 class GtkSpiceElement 
 {
 public:
@@ -108,12 +110,22 @@ public:
     
     void add_connection(std::shared_ptr<GtkSpiceElement> elem, int pin);
     void remove_connection(std::shared_ptr<GtkSpiceElement> elem, int pin);
+    void connect_wire(std::shared_ptr<GtkSpiceWire> wire);
+    void disconnect_wire(std::shared_ptr<GtkSpiceWire> wire);
     
     std::multimap<std::shared_ptr<GtkSpiceElement>,int> get_connections() const {return _connections;}
+    std::vector<std::shared_ptr<GtkSpiceWire>> get_wires() const {return _wires;}
     
+    // Set priority forces, add priority either increases the priority or keeps it the same
+    void set_priority(int priority) {if(priority >= 0 && priority <= 3) _priority = priority;}
+    void add_priority(int priority) {if(priority >= 0 && priority <= 3 && priority > _priority) _priority = priority;}
+    int get_priority() const {return _priority;}
+
 private:
     Glib::ustring _name;
     std::multimap<std::shared_ptr<GtkSpiceElement>, int> _connections; // <element,pin> for pin indexed by SPICE_ORDER
+    std::vector<std::shared_ptr<GtkSpiceWire>> _wires; // Wires connected with this node
+    int _priority = 0; // Priorities for merges (see NodeManager::merge_nodes())
 };
 
 class NodeManager
@@ -134,11 +146,13 @@ public:
     void add_node(Glib::ustring node_name)
         { _node_map.insert(NodeKeyPair(node_name,std::make_shared<GtkSpiceNode>(node_name))); }
     Glib::ustring add_auto_node(); // Adds a new node which is autonamed
-    void merge_nodes(Glib::ustring node1, Glib::ustring node2,int node1_priority = 0,int node2_priority = 0);
+    Glib::ustring merge_nodes(Glib::ustring node1, Glib::ustring node2);
     
     void rename_node(Glib::ustring node_name, Glib::ustring new_name);
     void connect_node(Glib::ustring node_name,std::shared_ptr<GtkSpiceElement> elem,int pin_order);
+    void connect_node(Glib::ustring node_name,std::shared_ptr<GtkSpiceWire> wire);
     void break_connection(Glib::ustring node_name, std::shared_ptr<GtkSpiceElement> elem, int pin_order);
+    void break_connection(Glib::ustring node_name, std::shared_ptr<GtkSpiceWire> wire);
     
 private:
     typedef std::map<Glib::ustring,std::shared_ptr<GtkSpiceNode>> NodeMap;
@@ -153,7 +167,7 @@ private:
 class GtkSpiceWire
 {
 public:
-    GtkSpiceWire(std::shared_ptr<GtkSpiceNode> node, Coordinate start, Coordinate end) : 
+    GtkSpiceWire(Glib::ustring node, Coordinate start, Coordinate end) : 
         _node(node),_start(start),_end(end) {}
     ~GtkSpiceWire() {};
 
@@ -176,9 +190,8 @@ public:
     bool under(Coordinate pos, float tol = 1);
     bool within(const Coordinate& begin, const Coordinate& end);
 
-    void assign_node(std::shared_ptr<GtkSpiceNode> node) {_node = node;}
-    std::shared_ptr<GtkSpiceNode> get_node() const {return _node;}
-    Glib::ustring get_node_name() const {return _node->get_name();}
+    void assign_node(Glib::ustring node) {_node = node;}
+    Glib::ustring get_node_name() const {return _node;}
 
     void set_active() {_active = true;}
     void set_floating() {_floating = true;}
@@ -191,7 +204,7 @@ public:
     // Defaults to end if start==end
 
 private:
-    std::shared_ptr<GtkSpiceNode> _node;
+    Glib::ustring _node;
     Coordinate _start,_end;
     double _height,_width;
     bool _active = false;

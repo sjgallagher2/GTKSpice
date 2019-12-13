@@ -81,17 +81,21 @@ Glib::ustring SchematicSheet::add_element(const Glib::ustring& sym_file, Coordin
             if(under_e.first->pin_has_node(under_e.second))
             {
                 // Other element already has a node/wire
-                auto node = _nodemanager->find_node(under_e.first->get_pin_node(under_e.second));
-                _wirelist->add_wire(node,pin_pos,pin_pos);
-                _nodemanager->connect_node(node->get_name(),_elementlist->find_element(elemname),std::stoi((*itr)->get_attribute_value("SPICE_ORDER")));
+                Glib::ustring node = under_e.first->get_pin_node(under_e.second);
+                std::shared_ptr<GtkSpiceWire> newwire = _wirelist->add_wire(node,pin_pos,pin_pos);
+                _nodemanager->connect_node(node,_elementlist->find_element(elemname),std::stoi((*itr)->get_attribute_value("SPICE_ORDER")));
+                _nodemanager->connect_node(node,newwire);
+                _nodemanager->find_node(node)->add_priority(2);
             }
             else
             {
                 // Neither element has a node/wire
                 Glib::ustring newnode = _nodemanager->add_auto_node();
-                _wirelist->add_wire(_nodemanager->find_node(newnode),pin_pos,pin_pos);
+                std::shared_ptr<GtkSpiceWire> newwire = _wirelist->add_wire(newnode,pin_pos,pin_pos);
                 _nodemanager->connect_node(newnode,_elementlist->find_element(elemname),std::stoi((*itr)->get_attribute_value("SPICE_ORDER")));
                 _nodemanager->connect_node(newnode,under_e.first,under_e.second);
+                _nodemanager->connect_node(newnode,newwire);
+                _nodemanager->find_node(newnode)->add_priority(2);
             }
         }
 
@@ -103,6 +107,7 @@ Glib::ustring SchematicSheet::add_element(const Glib::ustring& sym_file, Coordin
             // This wire's pin is under our pin
             // Connect them
             _nodemanager->connect_node(under_w.first->get_node_name() ,_elementlist->find_element(elemname),std::stoi((*itr)->get_attribute_value("SPICE_ORDER")));
+            _nodemanager->find_node(under_w.first->get_node_name())->add_priority(2);
         }
         else
         {
@@ -110,8 +115,10 @@ Glib::ustring SchematicSheet::add_element(const Glib::ustring& sym_file, Coordin
             {
                 // This wire is under our pin as a junction
                 // Connect them with a wire of length zero, add intersection?
-                _wirelist->add_wire(wire->get_node(),pin_pos,pin_pos);
+                std::shared_ptr<GtkSpiceWire> newwire = _wirelist->add_wire(wire->get_node_name(),pin_pos,pin_pos);
                 _nodemanager->connect_node(wire->get_node_name(),_elementlist->find_element(elemname),std::stoi((*itr)->get_attribute_value("SPICE_ORDER")));
+                _nodemanager->connect_node(wire->get_node_name(),newwire);
+                _nodemanager->find_node(wire->get_node_name())->add_priority(2);
             }
         }
 
@@ -121,8 +128,10 @@ Glib::ustring SchematicSheet::add_element(const Glib::ustring& sym_file, Coordin
         {
             // This port's pin is under our pin
             // Connect them with a wire of length zero
-            _wirelist->add_wire(_nodemanager->find_node(port->get_node_name()),pin_pos,pin_pos);
+            std::shared_ptr<GtkSpiceWire> wire = _wirelist->add_wire(port->get_node_name(),pin_pos,pin_pos);
             _nodemanager->connect_node(port->get_node_name(),_elementlist->find_element(elemname),std::stoi((*itr)->get_attribute_value("SPICE_ORDER")));
+            _nodemanager->connect_node(port->get_node_name(),wire);
+            _nodemanager->find_node(port->get_node_name())->add_priority(3);
         }
         
 
@@ -141,14 +150,6 @@ void SchematicSheet::add_wire(Coordinate start, Coordinate end, bool active)
     std::shared_ptr<GtkSpiceNode> node1 = nullptr; // Start position node
     std::shared_ptr<GtkSpiceNode> node2 = nullptr; // End position node
     // We'll check later if these are the same, and we'll merge if needed
-    int start_priority = 0; // Priority for net node selection (in case of conflict)
-    int end_priority = 0; 
-    /* Priority levels:
-     *  0   No node, no priority
-     *  1   New node, can be immediately merged
-     *  2   Existing node, evaluate before merging
-     *  3   Node from port, should always take priority
-     */  
     
     // Check start position for other wires
     std::pair<std::shared_ptr<GtkSpiceWire>,int> under_w;
@@ -157,10 +158,14 @@ void SchematicSheet::add_wire(Coordinate start, Coordinate end, bool active)
     {
         // This wire's pin is under our wire's pin, connect them
         if(!node1)
+        {
             node1 = _nodemanager->find_node(under_w.first->get_node_name());
+            node1->set_priority(1);
+        }
         else if(_nodemanager->find_node(under_w.first->get_node_name()) != node1)
         {
-            // Conflict TODO
+            Glib::ustring mergenodename = _nodemanager->merge_nodes(node1->get_name(),under_w.first->get_node_name());
+            node1 = _nodemanager->find_node(mergenodename);
         }
     }
     else if(std::shared_ptr<GtkSpiceWire> wire = _wirelist->get_wire_under_cursor(start))
@@ -170,7 +175,8 @@ void SchematicSheet::add_wire(Coordinate start, Coordinate end, bool active)
             node1 = _nodemanager->find_node(wire->get_node_name());
         else if(_nodemanager->find_node(wire->get_node_name()) != node1)
         {
-            // Conflict TODO
+            Glib::ustring mergenodename = _nodemanager->merge_nodes(node1->get_name(),wire->get_node_name());
+            node1 = _nodemanager->find_node(mergenodename);
         }
         
     }
@@ -179,11 +185,12 @@ void SchematicSheet::add_wire(Coordinate start, Coordinate end, bool active)
     if(under_w.first != nullptr && under_w.second != -1)
     {
         // This wire's pin is under our wire's pin, connect them
-        if(!node1)
+        if(!node2)
             node2 = _nodemanager->find_node(under_w.first->get_node_name());
         else if(_nodemanager->find_node(under_w.first->get_node_name()) != node1)
         {
-            // Conflict TODO
+            Glib::ustring mergenodename = _nodemanager->merge_nodes(node2->get_name(),under_w.first->get_node_name());
+            node2 = _nodemanager->find_node(mergenodename);
         }
     }
     else if(std::shared_ptr<GtkSpiceWire> wire = _wirelist->get_wire_under_cursor(end))
@@ -193,7 +200,8 @@ void SchematicSheet::add_wire(Coordinate start, Coordinate end, bool active)
             node2 = _nodemanager->find_node(wire->get_node_name());
         else if(_nodemanager->find_node(wire->get_node_name()) != node1)
         {
-            // Conflict TODO
+            Glib::ustring mergenodename = _nodemanager->merge_nodes(node1->get_name(),wire->get_node_name());
+            node2 = _nodemanager->find_node(mergenodename);
         }
     }
 
@@ -211,7 +219,8 @@ void SchematicSheet::add_wire(Coordinate start, Coordinate end, bool active)
                 node1 = _nodemanager->find_node(under_e.first->get_pin_node(under_e.second));
             else 
             {
-                // Conflict TODO
+                Glib::ustring mergenodename = _nodemanager->merge_nodes(node1->get_name(),under_e.first->get_pin_node(under_e.second));
+                node1 = _nodemanager->find_node(mergenodename);
             }
         }
         else
@@ -234,7 +243,8 @@ void SchematicSheet::add_wire(Coordinate start, Coordinate end, bool active)
             }
             else
             {
-                // Conflict TODO
+                Glib::ustring mergenodename = _nodemanager->merge_nodes(node1->get_name(),under_e.first->get_pin_node(under_e.second));
+                node1 = _nodemanager->find_node(mergenodename);
             }
         }
     }
@@ -251,7 +261,8 @@ void SchematicSheet::add_wire(Coordinate start, Coordinate end, bool active)
                 node2 = _nodemanager->find_node(under_e.first->get_pin_node(under_e.second));
             else
             {
-                // Conflict TODO
+                Glib::ustring mergenodename = _nodemanager->merge_nodes(node2->get_name(),under_e.first->get_pin_node(under_e.second));
+                node2 = _nodemanager->find_node(mergenodename);
             }
         }
         else
@@ -274,7 +285,8 @@ void SchematicSheet::add_wire(Coordinate start, Coordinate end, bool active)
             }
             else 
             {
-                // Conflict TODO
+                Glib::ustring mergenodename = _nodemanager->merge_nodes(node1->get_name(),node2->get_name());
+                node2 = _nodemanager->find_node(mergenodename);
             }
         }
     }
@@ -287,11 +299,12 @@ void SchematicSheet::add_wire(Coordinate start, Coordinate end, bool active)
         if(!node1)
         {
             node1 = _nodemanager->find_node(port->get_node_name());
-            start_priority = 3;
+            node1->add_priority(3);
         }
         else if(_nodemanager->find_node(port->get_node_name()) != node1)
         {
-            // Conflict TODO
+            Glib::ustring mergenodename = _nodemanager->merge_nodes(node1->get_name(),_nodemanager->find_node(port->get_node_name())->get_name());
+            node1 = _nodemanager->find_node(mergenodename);
         }
     }
     // Check end position for ports
@@ -302,11 +315,12 @@ void SchematicSheet::add_wire(Coordinate start, Coordinate end, bool active)
         if(!node2)
         {
             node2 = _nodemanager->find_node(port->get_node_name());
-            end_priority = 3;
+            node2->add_priority(3);
         }
         else if(_nodemanager->find_node(port->get_node_name()) != node1)
         {
-            // Conflict TODO
+            Glib::ustring mergenodename = _nodemanager->merge_nodes(node2->get_name(),_nodemanager->find_node(port->get_node_name())->get_name());
+            node2 = _nodemanager->find_node(mergenodename);
         }
     }
 
@@ -327,22 +341,17 @@ void SchematicSheet::add_wire(Coordinate start, Coordinate end, bool active)
     }
     else if(node1 != node2)
     {
-        if (start_priority == 3 && end_priority != 3)
-        {
-            // Merge node2 to node1
-        }
-        else if(end_priority == 3)
-        {
-            // Merge node1 to node2
-        }
-        else 
-        {
-            // Neutral node merge
-        }
+        Glib::ustring mergenodename = _nodemanager->merge_nodes(node1->get_name(),node2->get_name());
+        node = _nodemanager->find_node(mergenodename);
     }
+    else
+    {
+        node = node1;
+    }
+    
     if(node)
     {
-        _wirelist->add_wire(node,start,end);
+        _wirelist->add_wire(node->get_name(),start,end);
     }
 
 }

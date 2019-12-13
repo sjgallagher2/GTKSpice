@@ -113,7 +113,7 @@ public:
     virtual int size() const {return _wire_list.size();}
 
     virtual void draw(const Cairo::RefPtr<Cairo::Context>& context);
-    void add_wire(std::shared_ptr<GtkSpiceNode> node, Coordinate start, Coordinate end);
+    std::shared_ptr<GtkSpiceWire> add_wire(Glib::ustring node, Coordinate start, Coordinate end);
     bool remove_wire(std::shared_ptr<GtkSpiceWire> wire);
     std::shared_ptr<GtkSpiceWire> find_wire(int wire_index);
     void set_active_wire(std::shared_ptr<GtkSpiceWire> wire, int grabpoint = 1) // grabpoint = 0 (start) or 1 (end)
@@ -138,7 +138,6 @@ public:
     }
     std::shared_ptr<GtkSpiceWire> get_wire_under_cursor(const Coordinate& mousepos);
     std::vector<std::shared_ptr<GtkSpiceWire>> get_wires_in_selection(const Coordinate& start, const Coordinate& end);
-    std::vector<std::shared_ptr<GtkSpiceWire>> get_wires_by_node(std::shared_ptr<GtkSpiceNode> node);
     std::vector<std::shared_ptr<GtkSpiceWire>> get_wires_by_node(const Glib::ustring& node_name);
 
     // -1 for none, 0 for start, 1 for end
@@ -153,7 +152,7 @@ private:
     std::shared_ptr<GtkSpiceWire> _active_wire = nullptr; // Active wire
     int _active_wire_grabpoint = 1; // 0 = start, 1 = end, 2 = both; determines which end of wire is being moved
 
-    std::set<Glib::ustring> _node_names; // List of all node names
+    std::set<Glib::ustring> _node_names; // List of all node names TODO Why??
 };
 
 #endif /* GTKSPICE_OBJECT_LIST_H */

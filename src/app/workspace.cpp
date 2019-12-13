@@ -47,19 +47,21 @@ Workspace::Workspace(std::shared_ptr<Window> toplevel) :
         std::shared_ptr<NodeManager> nodemgr = _schem->get_active_sheet()->get_node_manager();
         if(nodemgr->empty())
         {
+            
             nodemgr->add_node("0");
+            /*
             nodemgr->add_node("vin");
             nodemgr->add_node("vout");
 
             Glib::ustring v1name = elems->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/voltage.asy",Coordinate(10,10));
             Glib::ustring res1name = elems->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/ind.asy",Coordinate(80,0));
             elems->find_element(res1name)->rotate90();
-            wires->add_wire(nodemgr->find_node("vin"),Coordinate(10,18),Coordinate(10,8));
-            wires->add_wire(nodemgr->find_node("vin"),Coordinate(10,8),Coordinate(32,8));
-            wires->add_wire(nodemgr->find_node("vout"),Coordinate(72,8),Coordinate(88,8));
+            wires->add_wire("vin",Coordinate(10,18),Coordinate(10,8));
+            wires->add_wire("vin",Coordinate(10,8),Coordinate(32,8));
+            wires->add_wire("vout",Coordinate(72,8),Coordinate(88,8));
 
             ports->add_gnd_port(Coordinate(10,48));
-            wires->add_wire(nodemgr->find_node("0"),Coordinate(10,58),Coordinate(10,68));
+            wires->add_wire("0",Coordinate(10,58),Coordinate(10,68));
             if(ports->get_port_under_cursor(Coordinate(10,69)))
                 ports->get_port_under_cursor(Coordinate(10,69))->set_highlight(false);
 
@@ -67,6 +69,7 @@ Workspace::Workspace(std::shared_ptr<Window> toplevel) :
             nodemgr->connect_node("vin",elems->find_element(v1name),1);
             nodemgr->connect_node("0",elems->find_element(v1name),2);
             nodemgr->connect_node("vout", elems->find_element(res1name),1);
+            */
 
             // TESTING SCHEMATIC EDITING
             std::shared_ptr<SchematicSheet> sheet = _schem->get_active_sheet();
