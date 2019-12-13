@@ -74,18 +74,20 @@ Glib::ustring SchematicSheet::add_element(const Glib::ustring& sym_file, Coordin
         // Check other elements
         std::pair<std::shared_ptr<GtkSpiceElement>,int> under_e;
         under_e = _elementlist->get_pin_under(pin_pos);
-        if(under_e.first != nullptr && under_e.second != -1)
+        if(under_e.first != nullptr && under_e.second != -1 && under_e.first->get_inst_name() != elemname)
         {
             // This element's pin is under our pin
             // Connect them with a wire of length zero
             if(under_e.first->pin_has_node(under_e.second))
             {
+                // Other element already has a node/wire
                 auto node = _nodemanager->find_node(under_e.first->get_pin_node(under_e.second));
                 _wirelist->add_wire(node,pin_pos,pin_pos);
                 _nodemanager->connect_node(node->get_name(),_elementlist->find_element(elemname),std::stoi((*itr)->get_attribute_value("SPICE_ORDER")));
             }
             else
             {
+                // Neither element has a node/wire
                 Glib::ustring newnode = _nodemanager->add_auto_node();
                 _wirelist->add_wire(_nodemanager->find_node(newnode),pin_pos,pin_pos);
                 _nodemanager->connect_node(newnode,_elementlist->find_element(elemname),std::stoi((*itr)->get_attribute_value("SPICE_ORDER")));
@@ -132,7 +134,217 @@ void SchematicSheet::add_wire(Coordinate start, Coordinate end, bool active)
     // This should add a wire from 'start' to 'end', checking endpoints
     // for new connections. If no new connection (no pins or wires under
     // endpoints) make a new node. Otherwise, connect to node of new
-    // connection. 
+    // connection. TODO: Should also check for any pins now connecting
+    // to the wire, or have all components update on new wire addition
+
+    std::shared_ptr<GtkSpiceNode> node = nullptr; // Final node
+    std::shared_ptr<GtkSpiceNode> node1 = nullptr; // Start position node
+    std::shared_ptr<GtkSpiceNode> node2 = nullptr; // End position node
+    // We'll check later if these are the same, and we'll merge if needed
+    int start_priority = 0; // Priority for net node selection (in case of conflict)
+    int end_priority = 0; 
+    /* Priority levels:
+     *  0   No node, no priority
+     *  1   New node, can be immediately merged
+     *  2   Existing node, evaluate before merging
+     *  3   Node from port, should always take priority
+     */  
+    
+    // Check start position for other wires
+    std::pair<std::shared_ptr<GtkSpiceWire>,int> under_w;
+    under_w = _wirelist->get_wire_pin_under(start);
+    if(under_w.first != nullptr && under_w.second != -1)
+    {
+        // This wire's pin is under our wire's pin, connect them
+        if(!node1)
+            node1 = _nodemanager->find_node(under_w.first->get_node_name());
+        else if(_nodemanager->find_node(under_w.first->get_node_name()) != node1)
+        {
+            // Conflict TODO
+        }
+    }
+    else if(std::shared_ptr<GtkSpiceWire> wire = _wirelist->get_wire_under_cursor(start))
+    {
+        // This wire is under our pin as a junction, connect them (intersection?)
+        if(!node1)
+            node1 = _nodemanager->find_node(wire->get_node_name());
+        else if(_nodemanager->find_node(wire->get_node_name()) != node1)
+        {
+            // Conflict TODO
+        }
+        
+    }
+    // Check end position for other wires
+    under_w = _wirelist->get_wire_pin_under(end);
+    if(under_w.first != nullptr && under_w.second != -1)
+    {
+        // This wire's pin is under our wire's pin, connect them
+        if(!node1)
+            node2 = _nodemanager->find_node(under_w.first->get_node_name());
+        else if(_nodemanager->find_node(under_w.first->get_node_name()) != node1)
+        {
+            // Conflict TODO
+        }
+    }
+    else if(std::shared_ptr<GtkSpiceWire> wire = _wirelist->get_wire_under_cursor(end))
+    {
+        // This wire is under our pin as a junction, connect them (intersection?)
+        if(!node2)
+            node2 = _nodemanager->find_node(wire->get_node_name());
+        else if(_nodemanager->find_node(wire->get_node_name()) != node1)
+        {
+            // Conflict TODO
+        }
+    }
+
+    // Check start position for elements
+    std::pair<std::shared_ptr<GtkSpiceElement>,int> under_e;
+    under_e = _elementlist->get_pin_under(start);
+    if(under_e.first != nullptr && under_e.second != -1)
+    {
+        // This element's pin is under our wire
+        // Connect them with a wire of length zero
+        if(under_e.first->pin_has_node(under_e.second))
+        {
+            // Other element already has a node/wire
+            if(!node1)
+                node1 = _nodemanager->find_node(under_e.first->get_pin_node(under_e.second));
+            else 
+            {
+                // Conflict TODO
+            }
+        }
+        else
+        {
+            // Other element does not have a node/wire
+            if(node1)
+            {
+                _nodemanager->connect_node(node1->get_name(),under_e.first,under_e.second);
+            }
+            else if(!node1 && !node2)
+            { 
+                Glib::ustring newnodename = _nodemanager->add_auto_node(); // Make new node
+                node1 = _nodemanager->find_node(newnodename); // Set this wire's node to the new node
+                _nodemanager->connect_node(newnodename,under_e.first,under_e.second); // Connect element pin to wire node
+            }
+            else if(!node1 && node2)
+            {
+                node1 = node2;
+                _nodemanager->connect_node(node1->get_name(),under_e.first,under_e.second);
+            }
+            else
+            {
+                // Conflict TODO
+            }
+        }
+    }
+    // Check end position for elements
+    under_e = _elementlist->get_pin_under(end);
+    if(under_e.first != nullptr && under_e.second != -1)
+    {
+        // This element's pin is under our wire
+        // Connect them with a wire of length zero
+        if(under_e.first->pin_has_node(under_e.second))
+        {
+            // Other element already has a node/wire
+            if(!node2)
+                node2 = _nodemanager->find_node(under_e.first->get_pin_node(under_e.second));
+            else
+            {
+                // Conflict TODO
+            }
+        }
+        else
+        {
+            // Other element does not have a node/wire
+            if(node2)
+            {
+                _nodemanager->connect_node(node1->get_name(),under_e.first,under_e.second);
+            }
+            else if(!node1 && !node2)
+            { 
+                Glib::ustring newnodename = _nodemanager->add_auto_node(); // Make new node
+                node2 = _nodemanager->find_node(newnodename); // Set this wire's node to the new node
+                _nodemanager->connect_node(newnodename,under_e.first,under_e.second); // Connect element pin to wire node
+            }
+            else if(node1 && !node2)
+            {
+                node2 = node1;
+                _nodemanager->connect_node(node2->get_name(),under_e.first,under_e.second);
+            }
+            else 
+            {
+                // Conflict TODO
+            }
+        }
+    }
+
+    // Check start position for ports
+    std::shared_ptr<GtkSpicePort> port = _portlist->get_port_pin_under(start);
+    if(port)
+    {
+        // This port's pin is under our pin, connect them
+        if(!node1)
+        {
+            node1 = _nodemanager->find_node(port->get_node_name());
+            start_priority = 3;
+        }
+        else if(_nodemanager->find_node(port->get_node_name()) != node1)
+        {
+            // Conflict TODO
+        }
+    }
+    // Check end position for ports
+    port = _portlist->get_port_pin_under(end);
+    if(port)
+    {
+        // This port's pin is under our pin, connect them
+        if(!node2)
+        {
+            node2 = _nodemanager->find_node(port->get_node_name());
+            end_priority = 3;
+        }
+        else if(_nodemanager->find_node(port->get_node_name()) != node1)
+        {
+            // Conflict TODO
+        }
+    }
+
+    if(!node1 && !node2)
+    {
+        // Make a new node
+        node = _nodemanager->find_node(_nodemanager->add_auto_node());
+    }
+    else if(node1 && !node2)
+    {
+        // Use node1
+        node = node1;
+    }
+    else if(!node1 && node2)
+    {
+        // Use node2
+        node = node2;
+    }
+    else if(node1 != node2)
+    {
+        if (start_priority == 3 && end_priority != 3)
+        {
+            // Merge node2 to node1
+        }
+        else if(end_priority == 3)
+        {
+            // Merge node1 to node2
+        }
+        else 
+        {
+            // Neutral node merge
+        }
+    }
+    if(node)
+    {
+        _wirelist->add_wire(node,start,end);
+    }
+
 }
 void SchematicSheet::add_gnd_port(Coordinate pos, bool floating)
 {

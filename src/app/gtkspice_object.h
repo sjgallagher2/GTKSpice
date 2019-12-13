@@ -134,8 +134,7 @@ public:
     void add_node(Glib::ustring node_name)
         { _node_map.insert(NodeKeyPair(node_name,std::make_shared<GtkSpiceNode>(node_name))); }
     Glib::ustring add_auto_node(); // Adds a new node which is autonamed
-    void combine_nodes(Glib::ustring node1, Glib::ustring node2)
-        {} // TODO
+    void merge_nodes(Glib::ustring node1, Glib::ustring node2,int node1_priority = 0,int node2_priority = 0);
     
     void rename_node(Glib::ustring node_name, Glib::ustring new_name);
     void connect_node(Glib::ustring node_name,std::shared_ptr<GtkSpiceElement> elem,int pin_order);

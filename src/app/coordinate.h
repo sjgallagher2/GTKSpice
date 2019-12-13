@@ -58,7 +58,7 @@ public:
     /* Operator overloads */
     virtual bool operator==(const Coordinate& r) const {return (r.x() == _x && r.y() == _y);}
     virtual Coordinate operator+(const Coordinate& r) const {return Coordinate(r.x() + _x, r.y() + _y);}
-    virtual Coordinate operator-(const Coordinate& r) const {return Coordinate(r.x() - _x, r.y() - _y);}
+    virtual Coordinate operator-(const Coordinate& r) const {return Coordinate(_x - r.x(), _y - r.y());}
     virtual Coordinate operator*(const Coordinate& r) const {return Coordinate(r.x() * _x, r.y() + _y);}
 
 protected:

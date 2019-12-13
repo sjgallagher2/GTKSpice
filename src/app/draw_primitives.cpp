@@ -507,8 +507,8 @@ BoundingBox SymbolPin::get_bounding_box()
     bb.height = _hbox_size;
 
     Coordinate anch;
-    anch.x(_pinloc.x());
-    anch.y(_pinloc.y());
+    anch.x(_pinloc.x() - _hbox_size/2.0);
+    anch.y(_pinloc.y() - _hbox_size/2.0);
     bb.anchor = anch;
 
     return bb;

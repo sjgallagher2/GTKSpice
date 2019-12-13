@@ -68,8 +68,16 @@ Workspace::Workspace(std::shared_ptr<Window> toplevel) :
             nodemgr->connect_node("0",elems->find_element(v1name),2);
             nodemgr->connect_node("vout", elems->find_element(res1name),1);
 
+            // TESTING SCHEMATIC EDITING
             std::shared_ptr<SchematicSheet> sheet = _schem->get_active_sheet();
             sheet->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/cap.asy",Coordinate(80,8));
+            sheet->add_wire(Coordinate(88,40),Coordinate(88,55));
+            sheet->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/cap.asy",Coordinate(80,55));
+            sheet->add_wire(Coordinate(88,45),Coordinate(98,45));
+            sheet->add_wire(Coordinate(98,45),Coordinate(98,55));
+            sheet->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/cap.asy",Coordinate(90,45));
+            sheet->add_wire(Coordinate(88,87),Coordinate(98,87));
+            sheet->add_wire(Coordinate(98,77),Coordinate(98,87));
 
             std::string spicelines = _schem->get_spice_lines();
             std::cout << spicelines;

@@ -75,7 +75,7 @@ std::shared_ptr<Action> PointerTool::tool_move_handler(Coordinate mousepos)
     {
         Coordinate delta;
         mousepos.set_to_device_coordinate();
-        delta = _pan_anchor_d - mousepos;
+        delta = mousepos - _pan_anchor_d;
         delta.set_view_matrix(mousepos.get_view_matrix());
         delta.set_to_user_distance();
         _cs->set_pan_delta(delta);
