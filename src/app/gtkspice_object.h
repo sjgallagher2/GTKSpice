@@ -72,14 +72,14 @@ public:
     int pin_under(const Coordinate& pos); // Return SPICE_ORDER of pin under pos, or -1 if none
     bool pin_has_node(int pin_order)
     {
-        if (pin_order < _pin_nodes.size())
-            return (_pin_nodes.at(pin_order) > "");
+        if (pin_order <= _pin_nodes.size())
+            return (_pin_nodes.at(pin_order-1) > "");
         else return false;
     }
     std::string get_pin_node(int pin_order)
     {
-        if(pin_order < _pin_nodes.size())
-            return _pin_nodes.at(pin_order);
+        if(pin_order <= _pin_nodes.size())
+            return _pin_nodes.at(pin_order-1);
         return "";
     }
     

@@ -69,8 +69,7 @@ Glib::ustring SchematicSheet::add_element(const Glib::ustring& sym_file, Coordin
     for(auto itr = pins->begin(); itr != pins->end(); ++itr)
     {
         // Iterating over pins
-        Coordinate pin_pos = (*itr)->pin_location();
-        //_elementlist->find_element(elemname)->get_position();
+        Coordinate pin_pos = (*itr)->pin_location() + _elementlist->find_element(elemname)->get_position();
         
         // Check other elements
         std::pair<std::shared_ptr<GtkSpiceElement>,int> under_e;

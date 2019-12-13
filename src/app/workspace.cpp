@@ -51,9 +51,6 @@ Workspace::Workspace(std::shared_ptr<Window> toplevel) :
             nodemgr->add_node("vin");
             nodemgr->add_node("vout");
 
-            std::shared_ptr<SchematicSheet> sheet = _schem->get_active_sheet();
-            sheet->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/cap.asy",Coordinate(80,8));
-
             Glib::ustring v1name = elems->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/voltage.asy",Coordinate(10,10));
             Glib::ustring res1name = elems->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/ind.asy",Coordinate(80,0));
             elems->find_element(res1name)->rotate90();
@@ -66,10 +63,13 @@ Workspace::Workspace(std::shared_ptr<Window> toplevel) :
             if(ports->get_port_under_cursor(Coordinate(10,69)))
                 ports->get_port_under_cursor(Coordinate(10,69))->set_highlight(false);
 
-            nodemgr->connect_node("vin",elems->find_element(res1name),1);
-            nodemgr->connect_node("vin",elems->find_element(v1name),0);
-            nodemgr->connect_node("0",elems->find_element(v1name),1);
-            nodemgr->connect_node("vout", elems->find_element(res1name),0);
+            nodemgr->connect_node("vin",elems->find_element(res1name),2);
+            nodemgr->connect_node("vin",elems->find_element(v1name),1);
+            nodemgr->connect_node("0",elems->find_element(v1name),2);
+            nodemgr->connect_node("vout", elems->find_element(res1name),1);
+
+            std::shared_ptr<SchematicSheet> sheet = _schem->get_active_sheet();
+            sheet->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/cap.asy",Coordinate(80,8));
 
             std::string spicelines = _schem->get_spice_lines();
             std::cout << spicelines;

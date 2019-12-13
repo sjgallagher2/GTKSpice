@@ -192,12 +192,12 @@ void GtkSpiceElementList::_auto_name(GtkSpiceElement& element)
 
     // Fill in a vector of the names as ints
     auto lowerbound = _element_list.lower_bound(prefix);
-    auto upperbound = _element_list.upper_bound(prefix);
+    auto upperbound = _element_list.upper_bound(prefix+"999999"); // This may
+    // seem like a hack but it's safer than trying to get the next alphabetic
+    // letter
 
     if(lowerbound != _element_list.end())
     {
-        if(lowerbound == upperbound) // upper_bound will default to last element instead of end
-            upperbound = _element_list.end();
         for(auto itr = lowerbound; itr != upperbound; ++itr)
         {
             size_t next_char;

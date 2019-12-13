@@ -84,10 +84,10 @@ void GtkSpiceElement::set_name(Glib::ustring name)
 
 void GtkSpiceElement::connect_pin(int pin_order, std::string node)
 {
-    if(pin_order < _pin_nodes.size())
+    if(pin_order <= _pin_nodes.size())
     {
-        _pin_nodes.at(pin_order) = node;
-        _pin_highlights.at(pin_order) = false;
+        _pin_nodes.at(pin_order-1) = node;
+        _pin_highlights.at(pin_order-1) = false;
     }
 }
 
