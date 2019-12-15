@@ -222,6 +222,7 @@ public:
     void set_position(Coordinate pos) {_position = pos; if(_symbol) _symbol->position(_position);}
     Coordinate get_position() const {return _position;}
     Glib::ustring get_node_name() const {return _node_name;}
+    Coordinate get_pin_position() {return _symbol->get_pins()->at(0)->pin_location();}
 
     void set_active() {_active = true;}
     void set_floating() {_floating = true;}

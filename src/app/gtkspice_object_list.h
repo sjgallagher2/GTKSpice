@@ -41,6 +41,8 @@ public:
     std::shared_ptr<ObjectPins> get_element_pins(const Glib::ustring& inst_name ) {return find_element(inst_name)->get_pins();}
     int get_pin_under(const Glib::ustring inst_name, const Coordinate& pos);
     std::pair<std::shared_ptr<GtkSpiceElement>,int> get_pin_under(const Coordinate& pos);
+    typedef std::pair<Glib::ustring,std::shared_ptr<SymbolPin>> ElementPinPair;
+    std::vector<ElementPinPair> find_pins_on_wire(std::shared_ptr<GtkSpiceWire> wire, bool exclude_endpoints = false);
 
     Glib::ustring add_element(const Glib::ustring& sym_file, Coordinate pos);
     bool remove_element(const Glib::ustring& inst_name);
@@ -82,7 +84,7 @@ public:
     void add_in_port(Glib::ustring node_name, Coordinate pos);
     void add_out_port(Glib::ustring node_name, Coordinate pos);
     void add_inout_port(Glib::ustring node_name, Coordinate pos);
-    void add_gnd_port(Coordinate pos);
+    std::shared_ptr<GtkSpicePort> add_gnd_port(Coordinate pos);
     void add_global_port(Coordinate pos);
 
     bool remove_port(std::shared_ptr<GtkSpicePort> port);
@@ -96,7 +98,7 @@ public:
     std::shared_ptr<GtkSpicePort> get_port_pin_under(const Coordinate& pos);
 
 private:
-    typedef std::map<Glib::ustring, std::shared_ptr<GtkSpicePort>> PortList;
+    typedef std::multimap<Glib::ustring, std::shared_ptr<GtkSpicePort>> PortList;
     typedef std::pair<Glib::ustring, std::shared_ptr<GtkSpicePort>> PortPair;
     PortList _port_list;
 

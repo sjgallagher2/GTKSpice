@@ -48,7 +48,6 @@ public:
     std::vector<std::shared_ptr<GtkSpiceWire>> get_wires_in_selection(const Coordinate& start, const Coordinate& end);
     std::vector<std::shared_ptr<GtkSpicePort>> get_ports_in_selection(const Coordinate& start, const Coordinate& end);
 
-    // TODO Implement these methods to create a facade for the whole schematic sheet
     Glib::ustring add_element(const Glib::ustring& sym_file, Coordinate pos, bool floating = false);
     void add_wire(Coordinate start, Coordinate end, bool active = false);
     void add_gnd_port(Coordinate pos, bool floating = false); 
@@ -72,6 +71,13 @@ public:
     void remove_port(std::shared_ptr<GtkSpicePort> port);
 
 private:
+    void _update_pin_element_connections(Glib::ustring elemname, std::shared_ptr<SymbolPin> pin);
+    void _update_pin_wire_connections(Glib::ustring elemname, std::shared_ptr<SymbolPin> pin);
+    void _update_pin_port_connections(Glib::ustring elemname, std::shared_ptr<SymbolPin> pin);
+    
+    void _update_port_connections(std::shared_ptr<GtkSpicePort> port);
+    void _update_element_connections(Glib::ustring elemname);
+
     void _update_intersections();
 
     std::shared_ptr<GtkSpiceElementList> _elementlist;

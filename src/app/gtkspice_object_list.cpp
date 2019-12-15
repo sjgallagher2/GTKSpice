@@ -82,6 +82,26 @@ std::shared_ptr<GtkSpiceElement> GtkSpiceElementList::find_element(const Glib::u
         return _element_list.find(inst_name)->second;
     return nullptr;
 }
+std::vector<GtkSpiceElementList::ElementPinPair> GtkSpiceElementList::find_pins_on_wire(std::shared_ptr<GtkSpiceWire> wire, bool exclude_endpoints)
+{
+    // Return a vector of element-pin pairs for all pins found on a wire
+    std::vector<ElementPinPair> ret;
+    for(auto& elem_map : _element_list)
+    {
+        auto pins = elem_map.second->get_pins();
+        for(auto& pin : *pins)
+        {
+            if(exclude_endpoints)
+                if(wire->under(pin->pin_location()))
+                    if(wire->pin_under(pin->pin_location()) == -1)
+                        ret.push_back(ElementPinPair(elem_map.first,pin));
+            else
+                if(wire->under(pin->pin_location()))
+                    ret.push_back(ElementPinPair(elem_map.first, pin));
+        }
+    }
+    return ret;
+}
 bool GtkSpiceElementList::set_element_active(const Glib::ustring& inst_name)
 {
     if(_element_list.find(inst_name) != _element_list.end() )
@@ -234,11 +254,12 @@ void GtkSpicePortList::draw(const Cairo::RefPtr<Cairo::Context>& context)
     }
 }
 
-void GtkSpicePortList::add_gnd_port(Coordinate pos)
+std::shared_ptr<GtkSpicePort> GtkSpicePortList::add_gnd_port(Coordinate pos)
 {
     std::shared_ptr<GtkSpiceGndPort> gndport = std::make_shared<GtkSpiceGndPort>();
     gndport->set_position(pos);
     _port_list.insert(PortPair("0",gndport));
+    return gndport;
 }
 
 bool GtkSpicePortList::remove_port(std::shared_ptr<GtkSpicePort> node)

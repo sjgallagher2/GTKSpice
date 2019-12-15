@@ -193,14 +193,15 @@ void GtkSpiceNode::remove_connection(std::shared_ptr<GtkSpiceElement> elem, int 
 {
     if(_connections.find(elem) != _connections.end())
     {
-        auto itrs = _connections.equal_range(elem);
-        for(auto itr = itrs.first; itr != itrs.second; ++itr)
+        auto itr = _connections.lower_bound(elem);
+        while(itr != _connections.upper_bound(elem))
         {
             if(itr->second == pin)
             {
                 _connections.erase(itr);
                 elem->connect_pin(pin,"");
             }
+            itr = _connections.lower_bound(elem);
         }
     }
 }
@@ -218,17 +219,27 @@ void GtkSpiceNode::disconnect_wire(std::shared_ptr<GtkSpiceWire> wire)
 Glib::ustring NodeManager::add_auto_node()
 {
     // Create a new node, autoname it
-    for(int i = 1; i <= _node_map.size(); i++)
+    if(_node_map.size() > 0)
     {
-        // i is the autoname incrementer
-        // Just move from 1 to the end searching for free spaces
-        // No prefixes to worry about
-        Glib::ustring i_str = std::to_string(i);
-        if(_node_map.find(i_str) == _node_map.end())
+        int i = 1;
+        while(1)
         {
-            _node_map.insert(NodeKeyPair(i_str,std::make_shared<GtkSpiceNode>(i_str)));
-            return i_str;
+            // i is the autoname incrementer
+            // Just move from 1 to the end searching for free spaces
+            // No prefixes to worry about
+            Glib::ustring i_str = std::to_string(i);
+            if(_node_map.find(i_str) == _node_map.end())
+            {
+                _node_map.insert(NodeKeyPair(i_str,std::make_shared<GtkSpiceNode>(i_str)));
+                return i_str;
+            }
+            ++i;
         }
+    }
+    else
+    {
+        _node_map.insert(NodeKeyPair("1",std::make_shared<GtkSpiceNode>("1")));
+        return "1";
     }
     return "NODE_ERROR"; // Should not get to this
 }
@@ -405,6 +416,7 @@ GtkSpiceGndPort::GtkSpiceGndPort()
     ObjectGeometry geom;
     ObjectPins pins;
     Coordinate pos = Coordinate(0,0);
+    _node_name = "0";
 
     std::shared_ptr<LinePrimitive> line1,line2,line3,line4;
     line1 = std::make_shared<LinePrimitive>();

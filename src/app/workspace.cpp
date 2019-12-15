@@ -48,7 +48,6 @@ Workspace::Workspace(std::shared_ptr<Window> toplevel) :
         if(nodemgr->empty())
         {
             
-            nodemgr->add_node("0");
             /*
             nodemgr->add_node("vin");
             nodemgr->add_node("vout");
@@ -73,14 +72,23 @@ Workspace::Workspace(std::shared_ptr<Window> toplevel) :
 
             // TESTING SCHEMATIC EDITING
             std::shared_ptr<SchematicSheet> sheet = _schem->get_active_sheet();
+            sheet->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/voltage.asy",Coordinate(10,10));
+            Glib::ustring res1name = sheet->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/res.asy",Coordinate(80,0));
+            sheet->get_element_list()->find_element(res1name)->rotate90();
             sheet->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/cap.asy",Coordinate(80,8));
+            sheet->add_wire(Coordinate(10,18),Coordinate(10,8));
+            sheet->add_wire(Coordinate(10,8),Coordinate(32,8));
+            sheet->add_wire(Coordinate(72,8),Coordinate(88,8));
             sheet->add_wire(Coordinate(88,40),Coordinate(88,55));
+            sheet->add_wire(Coordinate(10,58),Coordinate(10,68));
             sheet->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/cap.asy",Coordinate(80,55));
             sheet->add_wire(Coordinate(88,45),Coordinate(98,45));
             sheet->add_wire(Coordinate(98,45),Coordinate(98,55));
             sheet->add_element("/home/sam/Documents/Electronics/SPICE/lib/sym/cap.asy",Coordinate(90,45));
             sheet->add_wire(Coordinate(88,87),Coordinate(98,87));
             sheet->add_wire(Coordinate(98,77),Coordinate(98,87));
+            sheet->add_gnd_port(Coordinate(10,48));
+            sheet->add_gnd_port(Coordinate(88,71));
 
             std::string spicelines = _schem->get_spice_lines();
             std::cout << spicelines;
