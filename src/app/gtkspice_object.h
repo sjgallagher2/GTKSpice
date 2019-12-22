@@ -187,6 +187,12 @@ public:
     }
     Coordinate start() const {return _start;}
     Coordinate end() const {return _end;}
+
+    bool has_start_junction() {return _start_junction;}
+    bool has_end_junction() {return _end_junction;}
+    void set_start_junction(bool j) {_start_junction = j;}
+    void set_end_junction(bool j) {_end_junction = j;}
+
     bool under(Coordinate pos, float tol = 1);
     bool within(const Coordinate& begin, const Coordinate& end);
 
@@ -206,6 +212,8 @@ public:
 private:
     Glib::ustring _node;
     Coordinate _start,_end;
+    bool _start_junction = false; // Show a junction square on start pin
+    bool _end_junction = false; // Show a junction square on end pin
     double _height,_width;
     bool _active = false;
     bool _floating = false;

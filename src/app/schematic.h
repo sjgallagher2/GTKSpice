@@ -78,13 +78,10 @@ private:
     void _update_port_connections(std::shared_ptr<GtkSpicePort> port);
     void _update_element_connections(Glib::ustring elemname);
 
-    void _update_intersections();
-
     std::shared_ptr<GtkSpiceElementList> _elementlist;
     std::shared_ptr<GtkSpiceWireList> _wirelist;
     std::shared_ptr<GtkSpicePortList> _portlist;
     std::shared_ptr<NodeManager> _nodemanager;
-    // TODO Add method of storing drawing intersection connections
 };
 
 class GtkSpiceSchematic

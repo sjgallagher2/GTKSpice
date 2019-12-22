@@ -154,6 +154,19 @@ void GtkSpiceWire::draw(Cairo::RefPtr<Cairo::Context> context)
     context->line_to(_end.x(),_end.y());
     context->stroke();
 
+    if(_start_junction)
+    {
+        // Draw a filled square on the start pin
+        context->rectangle(_start.x()-1,_start.y()-1,2,2);
+        context->fill();
+    }
+    if(_end_junction)
+    {
+        // Draw a filled square on the end pin
+        context->rectangle(_end.x()-1,_end.y()-1,2,2);
+        context->fill();
+    }
+
     context->restore();
 }
 

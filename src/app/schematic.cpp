@@ -80,27 +80,29 @@ void SchematicSheet::add_wire(Coordinate start, Coordinate end, bool active)
     std::shared_ptr<GtkSpiceNode> node1 = nullptr; // Start position node
     std::shared_ptr<GtkSpiceNode> node2 = nullptr; // End position node
     // We'll check later if these are the same, and we'll merge if needed
+
+    bool start_junction=false,end_junction=false; // Junction connections at start and end
     
     // Check start position for other wires
-    std::pair<std::shared_ptr<GtkSpiceWire>,int> under_w;
-    under_w = _wirelist->get_wire_pin_under(start);
-    if(under_w.first != nullptr && under_w.second != -1)
+    std::pair<std::shared_ptr<GtkSpiceWire>,int> under_w_start;
+    under_w_start = _wirelist->get_wire_pin_under(start);
+    if(under_w_start.first != nullptr && under_w_start.second != -1)
     {
         // This wire's pin is under our wire's pin, connect them
         if(!node1)
         {
-            node1 = _nodemanager->find_node(under_w.first->get_node_name());
+            node1 = _nodemanager->find_node(under_w_start.first->get_node_name());
             node1->set_priority(1);
         }
-        else if(_nodemanager->find_node(under_w.first->get_node_name()) != node1)
+        else if(_nodemanager->find_node(under_w_start.first->get_node_name()) != node1)
         {
-            Glib::ustring mergenodename = _nodemanager->merge_nodes(node1->get_name(),under_w.first->get_node_name());
+            Glib::ustring mergenodename = _nodemanager->merge_nodes(node1->get_name(),under_w_start.first->get_node_name());
             node1 = _nodemanager->find_node(mergenodename);
         }
     }
     else if(std::shared_ptr<GtkSpiceWire> wire = _wirelist->get_wire_under_cursor(start))
     {
-        // This wire is under our pin as a junction, connect them (intersection?)
+        // This wire is under our pin as a junction, connect them and add intersection
         if(!node1)
             node1 = _nodemanager->find_node(wire->get_node_name());
         else if(_nodemanager->find_node(wire->get_node_name()) != node1)
@@ -108,18 +110,20 @@ void SchematicSheet::add_wire(Coordinate start, Coordinate end, bool active)
             Glib::ustring mergenodename = _nodemanager->merge_nodes(node1->get_name(),wire->get_node_name());
             node1 = _nodemanager->find_node(mergenodename);
         }
+        start_junction = true;
         
     }
     // Check end position for other wires
-    under_w = _wirelist->get_wire_pin_under(end);
-    if(under_w.first != nullptr && under_w.second != -1)
+    std::pair<std::shared_ptr<GtkSpiceWire>,int> under_w_end;
+    under_w_end = _wirelist->get_wire_pin_under(end);
+    if(under_w_end.first != nullptr && under_w_end.second != -1)
     {
         // This wire's pin is under our wire's pin, connect them
         if(!node2)
-            node2 = _nodemanager->find_node(under_w.first->get_node_name());
-        else if(_nodemanager->find_node(under_w.first->get_node_name()) != node1)
+            node2 = _nodemanager->find_node(under_w_end.first->get_node_name());
+        else if(_nodemanager->find_node(under_w_end.first->get_node_name()) != node1)
         {
-            Glib::ustring mergenodename = _nodemanager->merge_nodes(node2->get_name(),under_w.first->get_node_name());
+            Glib::ustring mergenodename = _nodemanager->merge_nodes(node2->get_name(),under_w_end.first->get_node_name());
             node2 = _nodemanager->find_node(mergenodename);
         }
     }
@@ -133,6 +137,7 @@ void SchematicSheet::add_wire(Coordinate start, Coordinate end, bool active)
             Glib::ustring mergenodename = _nodemanager->merge_nodes(node1->get_name(),wire->get_node_name());
             node2 = _nodemanager->find_node(mergenodename);
         }
+        end_junction = true;
     }
 
     // Check start position for elements
@@ -152,6 +157,7 @@ void SchematicSheet::add_wire(Coordinate start, Coordinate end, bool active)
                 Glib::ustring mergenodename = _nodemanager->merge_nodes(node1->get_name(),under_e.first->get_pin_node(under_e.second));
                 node1 = _nodemanager->find_node(mergenodename);
             }
+            start_junction = true;
         }
         else
         {
@@ -194,6 +200,7 @@ void SchematicSheet::add_wire(Coordinate start, Coordinate end, bool active)
                 Glib::ustring mergenodename = _nodemanager->merge_nodes(node2->get_name(),under_e.first->get_pin_node(under_e.second));
                 node2 = _nodemanager->find_node(mergenodename);
             }
+            end_junction = true;
         }
         else
         {
@@ -283,6 +290,8 @@ void SchematicSheet::add_wire(Coordinate start, Coordinate end, bool active)
     if(node)
     {
         auto wire = _wirelist->add_wire(node->get_name(),start,end);
+        wire->set_start_junction(start_junction);
+        wire->set_end_junction(end_junction);
         auto elem_pin_pair_vec = _elementlist->find_pins_on_wire(wire,true);
         for(auto& itr : elem_pin_pair_vec)
         {
@@ -290,8 +299,6 @@ void SchematicSheet::add_wire(Coordinate start, Coordinate end, bool active)
             _update_pin_wire_connections(itr.first,itr.second);
         }
     }
-
-
 }
 
 void SchematicSheet::add_gnd_port(Coordinate pos, bool floating)
@@ -385,12 +392,6 @@ void SchematicSheet::remove_port(std::shared_ptr<GtkSpicePort> port)
     // be autonamed
 }
 
-void SchematicSheet::_update_intersections()
-{
-    // This should be called after a wire or element is dropped or
-    // moved. The list of intersection points is used to draw
-    // junction squares
-}
 void SchematicSheet::_update_pin_element_connections(Glib::ustring elemname, std::shared_ptr<SymbolPin> pin)
 {
     Coordinate pin_pos = pin->pin_location() + _elementlist->find_element(elemname)->get_position();
@@ -406,6 +407,7 @@ void SchematicSheet::_update_pin_element_connections(Glib::ustring elemname, std
             // Other element already has a node/wire
             Glib::ustring node = under_e.first->get_pin_node(under_e.second);
             std::shared_ptr<GtkSpiceWire> newwire = _wirelist->add_wire(node,pin_pos,pin_pos);
+            newwire->set_start_junction(true);
             _nodemanager->connect_node(node,_elementlist->find_element(elemname),std::stoi(pin->get_attribute_value("SPICE_ORDER")));
             _nodemanager->connect_node(node,newwire);
             _nodemanager->find_node(node)->add_priority(2);
@@ -440,8 +442,12 @@ void SchematicSheet::_update_pin_wire_connections(Glib::ustring elemname, std::s
         if(std::shared_ptr<GtkSpiceWire> wire = _wirelist->get_wire_under_cursor(pin_pos))
         {
             // This wire is under our pin as a junction
-            // Connect them with a wire of length zero, add intersection?
+            // Connect them with a wire of length zero, add intersection
             std::shared_ptr<GtkSpiceWire> newwire = _wirelist->add_wire(wire->get_node_name(),pin_pos,pin_pos);
+            if(under_w.second == 0)
+                newwire->set_start_junction(true);
+            else if(under_w.second == 1)
+                newwire->set_end_junction(true);
             _nodemanager->connect_node(wire->get_node_name(),_elementlist->find_element(elemname),std::stoi(pin->get_attribute_value("SPICE_ORDER")));
             _nodemanager->connect_node(wire->get_node_name(),newwire);
             _nodemanager->find_node(wire->get_node_name())->add_priority(2);
@@ -498,12 +504,14 @@ void SchematicSheet::_update_port_connections(std::shared_ptr<GtkSpicePort> port
             Glib::ustring other_node = under_e.first->get_pin_node(under_e.second);
             _nodemanager->merge_nodes(port->get_node_name(),other_node); // Always prefers our port node name
             std::shared_ptr<GtkSpiceWire> newwire = _wirelist->add_wire(port->get_node_name(),pin_pos,pin_pos);
+            newwire->set_start_junction(true);
             port->set_highlight(false);
         }
         else
         {
             // Other element doesn't have a node
             std::shared_ptr<GtkSpiceWire> newwire = _wirelist->add_wire(port->get_node_name(),pin_pos,pin_pos);
+            newwire->set_start_junction(true);
             _nodemanager->connect_node(port->get_node_name(),under_e.first,under_e.second);
             _nodemanager->connect_node(port->get_node_name(),newwire);
             _nodemanager->find_node(port->get_node_name())->add_priority(3);
@@ -533,6 +541,10 @@ void SchematicSheet::_update_port_connections(std::shared_ptr<GtkSpicePort> port
             Glib::ustring other_node = wire->get_node_name();
             _nodemanager->merge_nodes(port->get_node_name(),other_node); // Always prefers our port node name
             std::shared_ptr<GtkSpiceWire> newwire = _wirelist->add_wire(port->get_node_name(),pin_pos,pin_pos);
+            if(under_w.second == 0)
+                newwire->set_start_junction(true);
+            else if(under_w.second == 1)
+                newwire->set_end_junction(true);
             port->set_highlight(false);
         }
     }
