@@ -1,9 +1,0 @@
-GTKSPICE
-Sam Gallagher 2017-2019
-
-This is a proper implementation of SPICE with the GTK toolkit to compete with the Windows-only LTSpice. 
-
-It runs on gtkmm and uses ngspice as a backend (not yet implemented). I'm constantly learning new things and use
-this project to test design patterns etc so progress can be twisty. But hopefully one day we can have an
-open-source alternative to LTSpice and others.
-
