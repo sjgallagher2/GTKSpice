@@ -187,7 +187,7 @@ public:
     }
     Coordinate start() const {return _start;}
     Coordinate end() const {return _end;}
-
+    
     bool has_start_junction() {return _start_junction;}
     bool has_end_junction() {return _end_junction;}
     void set_start_junction(bool j) {_start_junction = j;}

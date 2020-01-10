@@ -274,22 +274,28 @@ std::shared_ptr<GtkSpicePort> GtkSpicePortList::find_port(const Glib::ustring& n
     return nullptr;
 }*/
 
-bool GtkSpicePortList::set_port_active(const Coordinate& pos)
+bool GtkSpicePortList::set_port_active(const Coordinate& pos, bool active)
 {
     for(auto& itr : _port_list)
     {
         if(itr.second->near(pos))
         {
-            itr.second->set_active();
+            if(active)
+                itr.second->set_active();
+            else
+                itr.second->unset_active();
             return true;
         }
     }
     return false;
 }
 
-bool GtkSpicePortList::set_port_active(std::shared_ptr<GtkSpicePort> port)
+bool GtkSpicePortList::set_port_active(std::shared_ptr<GtkSpicePort> port, bool active)
 {
-    port->set_active();
+    if(active)
+        port->set_active();
+    else
+        port->unset_active();
     return true;
 }
 
