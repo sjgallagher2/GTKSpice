@@ -268,6 +268,35 @@ void NodeManager::rename_node(Glib::ustring node_name, Glib::ustring new_name)
     }
 }
 
+void NodeManager::rename_node(Glib::ustring node_name)
+{
+    // This finds a new name e.g. after a port was deleted
+    if( _node_map.find(node_name) != _node_map.end())
+    {
+        Glib::ustring new_name = "";
+        // Autoname
+        int i = 1;
+        while(1)
+        {
+            // i is the autoname incrementer
+            // Just move from 1 to the end searching for free spaces
+            // No prefixes to worry about
+            Glib::ustring i_str = std::to_string(i);
+            if(_node_map.find(i_str) == _node_map.end())
+            {
+                _node_map.insert(NodeKeyPair(i_str,std::make_shared<GtkSpiceNode>(i_str)));
+                new_name = i_str;
+            }
+            ++i;
+        }
+
+        _node_map.find(node_name)->second->rename(new_name);
+        std::shared_ptr<GtkSpiceNode> tnode = _node_map.find(node_name)->second;
+        _node_map.erase(node_name);
+        _node_map.insert(NodeKeyPair(new_name,tnode));
+    }
+}
+
 void NodeManager::connect_node(Glib::ustring node_name,std::shared_ptr<GtkSpiceElement> elem,int pin_order)
 {
     if( _node_map.find(node_name) != _node_map.end())

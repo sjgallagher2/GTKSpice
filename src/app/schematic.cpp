@@ -387,9 +387,8 @@ void SchematicSheet::remove_wire(std::shared_ptr<GtkSpiceWire> wire)
 {
     // This should remove a wire; the nodes on either side of the wire
     // should be autonamed
-    
-    // Get wires on this node
-    // Get elements on this node
+    Glib::ustring nodename = wire->get_node_name();
+    auto wirenode = _nodemanager->find_node(nodename);
 
     // Remove wire
     _wirelist->remove_wire(wire);
@@ -399,12 +398,17 @@ void SchematicSheet::remove_wire(std::shared_ptr<GtkSpiceWire> wire)
 void SchematicSheet::remove_port(std::shared_ptr<GtkSpicePort> port)
 {
     // This should remove a port; the wire connected to the pin should
-    // be autonamed
+    // be renamed (autonamed or adapted to other port if, for some reason,
+    // two ports are connected together)
     
-    // Get wire connected to port and autoname
+    // Get port node
+    Glib::ustring nodename = port->get_node_name();
 
     // Remove port
     _portlist->remove_port(port);
+
+    // Rename the node
+    _nodemanager->rename_node(nodename);
 }
 
 void SchematicSheet::_update_pin_element_connections(Glib::ustring elemname, std::shared_ptr<SymbolPin> pin)

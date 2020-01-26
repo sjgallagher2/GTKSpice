@@ -317,27 +317,85 @@ EXAMPLE
 /**************************/
 
 
-///////////////////////////////
-A -node- is a conceptual connection, which has a name (a string). 
-From a modelling standpoing, wires don't exist. Only nodes exist, 
-and each node is by default numbered starting with "0" (reserved 
-for ground) followed by 1, 2, ... by default, and generally
-nodes are named with strings. GtkSpiceObjects maintain a list of nodes 
-in SpiceOrder, which means "connecting" two components with wires 
-involves:
-I. Initialization of a wire
-	a. If this is a new wire (free wire or unconnected pin), give it 
-		a new node name, connect the pin to this node
-	b. If this wire starts on another node (a wire or connected pin)
-		use the existing node name
-II. Connection of a wire
-	a. If the connection is free, start a new wire after this wire
-	b. If the connection is to another node (a wire or connected pin)
-		somehow merge the two node names, renaming all connections, 
-		finish wire.
-	c. If the connection is to an unconnected pin, set the connection 
-		for that pin, finish wire.
-	d. Optionally finish the wire
+=======================================
+Active Elements, Wires, and Ports
+-------------------
+When a drawable object is -active-, that means it has been selected
+for operation by a tool, and from now on, the tool will operate on 
+that object. This may be an operation that is performed once and 
+then is complete, such as rotation and mirroring, or it may be 
+an operation that is continuous until the user stops it, like moving.
+
+Active objects should not update their connections. They should 
+wait until they are no longer active. After they are no longer active,
+they should then update their connections. 
+
+Floating objects are similar. They are objects which have not yet been
+instantiated, or "dropped". For example, after selecting a component
+to add, the user typically wishes to place the object while seeing a 
+temporary "floating" version of it. Standard drag-and-drop stuff. 
+A floating object can have a name etc, but it's not necessary, until
+it is dropped/instantiated. 
+
+Problems arise with respect to storing information about an object 
+before and after it is active. For example, if the user presses escape 
+to cancel a movement action, the object should return to its original 
+position with its original connections (although they can be simply 
+recalculated). There are many ways to handle this, including having 
+the object store a "copy" (either an actual copy or only storing 
+information required to recreate it), and to keep all actions and 
+operations abstract and relative.
+
+Some tools like delete require the ability to store an object, 
+remove it from the schematic, and optionally later to bring it back
+as it was before it was deleted, so copying would be appropriate 
+there too.
+
+============================
+Drawable Objects
+-------------------------
+Currently, circuit elements, wires, and ports (like ground) are all 
+separate objects, with no shared parent class. For this reason, we
+have to manage each of them, so every selection can include three 
+types of objects, requiring three vectors when we ask for pointers 
+to everything in a selection. 
+
+The primary differences between these objects are:
+	* Their geometry (wires have two vertices, elements and ports have
+		symbols; wires also have junction points)
+	* The priorities of their nodes (ports have high priority, then 
+		wires, while elements adapt)
+	* Their behavior during movement (wires are moved by vertice, 
+		elements and ports are symbols moved whole)
+	* Their instantiation (naming, creation)
+Wires could be defined simply by having a collection of vertices 
+which point back to one-another to create a linked chain, but having 
+a two-port defined Wire object is convenient for a number of reasons,
+including easier node and geometry management. 
 
 
+===========================================
+The Node Manager
+===========================================
+Node management is critical for proper netlist generation, so having a
+rock-solid node management system is important. Here's how the node manager
+in its current form works. 
 
+We must manage the following:
+	Every element's pins should be assigned a node (even a no-connect node)
+	Every element pin, wire, and port which are 'connected' by wires must have
+		the same node name
+	When two wires of different node names are connected, the nodes must be
+		merged
+	Node priority should work as follows. Anything connected to a port should 
+		have that port's node name. If multiple ports are connected to each other,
+		take the first name (this is an edge case, should not really happen).
+		Next, wires with more connections have their node name favored. Element 
+		pins have no priority in their node names.
+	Given a node name, return all the wires or all the element pins which are 
+		connected to that node.
+	Node names should be autogenerated when necessary
+	Node connections must be breakable
+	Node connections can be deleted 
+
+Here's how I've managed these requirements. 
