@@ -161,11 +161,23 @@ private:
     NodeMap _node_map;
 };
 
-/* 
+/* A 'wire' is a visual aid showing node connections in a circuit. Wires are
+ * linked-list type data structures which represent a single, straight-line 
+ * segment on the schematic. Because wires are used to control node connections,
+ * it's important to be able to check when wires are connected to each other,
+ * when they connect directly to elements or ports, when they have junctions, 
+ * and so on. When a wire is deleted, we must check the wires it was connected
+ * to, traversing them to find a new node name for those other wires. 
  * 
+ * Wires are visual, so the "order matters", we can't simply use node names to
+ * organize them, we need to know what wires are actually connected and in 
+ * what way. Contrast this with elements and ports, where we only need to say
+ * what node name the pins have. 
  */
 class GtkSpiceWire
 {
+public:
+    typedef std::vector<std::shared_ptr<GtkSpiceWire>> WireVector;
 public:
     GtkSpiceWire(Glib::ustring node, Coordinate start, Coordinate end) : 
         _node(node),_start(start),_end(end) {}
@@ -193,6 +205,42 @@ public:
     void set_start_junction(bool j) {_start_junction = j;}
     void set_end_junction(bool j) {_end_junction = j;}
 
+    bool has_start_connection() const {return _has_start_wire_connection || _count_start_element_connections || _count_start_port_connections;}
+    bool has_end_connection() const {return _has_end_wire_connection || _count_end_element_connections || _count_end_port_connections;}
+    bool has_junc_connection() const {return _has_junc_wire_connections;}
+    bool has_start_wire_connection() const {return _has_start_wire_connection;}
+    bool has_end_wire_connection() const {return _has_end_wire_connection;}
+    bool has_start_element_connection() const {return _count_start_element_connections;}
+    bool has_end_element_connection() const {return _count_end_element_connections;}
+    bool has_start_port_connection() const {return _count_start_port_connections;}
+    bool has_end_port_connection() const {return _count_end_port_connections;}
+
+    // To add a wire connection, pass its pointer
+    void add_start_wire_connection(std::shared_ptr<GtkSpiceWire> wire);
+    void add_end_wire_connection(std::shared_ptr<GtkSpiceWire> wire);
+    void add_junc_wire_connection(std::shared_ptr<GtkSpiceWire> wire);
+
+    // To remove a wire connection, pass its pointer, and the list will be
+    // searched for that pointer and an element that matches will be removed
+    void remove_start_wire_connection(std::shared_ptr<GtkSpiceWire> wire);
+    void remove_end_wire_connection(std::shared_ptr<GtkSpiceWire> wire);
+    void remove_junc_wire_connection(std::shared_ptr<GtkSpiceWire> wire);
+
+    // These simply increment/decrement the number of element/port connections,
+    // no further information about the connections is stored
+    void add_start_element_connection() {_count_start_element_connections++;}
+    void add_end_element_connection() {_count_end_element_connections++;}
+    void add_start_port_connection() {_count_start_port_connections++;}
+    void add_end_port_connection() {_count_end_port_connections++;}
+    void remove_start_element_connection() {_count_start_element_connections--;}
+    void remove_end_element_connection() {_count_end_element_connections--;}
+    void remove_start_port_connection() {_count_start_port_connections--;}
+    void remove_end_port_connection() {_count_end_port_connections--;}
+
+    WireVector get_start_connections() const {return _start_wire_connections;}
+    WireVector get_end_connections() const {return _end_wire_connections;}
+    WireVector get_junc_connections() const {return _junc_wire_connections;}
+
     bool under(Coordinate pos, float tol = 1);
     bool within(const Coordinate& begin, const Coordinate& end);
 
@@ -210,6 +258,19 @@ public:
     // Defaults to end if start==end
 
 private:
+    // Connections on start and end to other wires, elements, ports
+    // This is needed for wire traversals
+    WireVector _start_wire_connections;
+    WireVector _end_wire_connections;
+    WireVector _junc_wire_connections; // Wires that attach to this wire at a junction
+    bool _has_start_wire_connection;
+    bool _has_end_wire_connection;
+    bool _has_junc_wire_connections;
+    int _count_start_element_connections = 0;
+    int _count_end_element_connections = 0;
+    int _count_start_port_connections = 0;
+    int _count_end_port_connections = 0;
+    
     Glib::ustring _node;
     Coordinate _start,_end;
     bool _start_junction = false; // Show a junction square on start pin

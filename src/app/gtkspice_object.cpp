@@ -138,6 +138,93 @@ int GtkSpiceElement::pin_under(const Coordinate& pos)
     return -1;
 }
 
+void GtkSpiceWire::add_start_wire_connection(std::shared_ptr<GtkSpiceWire> wire) 
+{
+    bool dup = false;
+    for(auto& itr : _start_wire_connections)
+    {
+        if(itr == wire)
+            dup = true;
+    }
+
+    if(!dup)
+    {
+        _start_wire_connections.push_back(wire);
+    }
+}
+
+void GtkSpiceWire::add_end_wire_connection(std::shared_ptr<GtkSpiceWire> wire) 
+{
+    bool dup = false;
+    for(auto& itr : _end_wire_connections)
+    {
+        if(itr == wire)
+            dup = true;
+    }
+
+    if(!dup)
+    {
+        _end_wire_connections.push_back(wire);
+    }
+
+}
+
+void GtkSpiceWire::add_junc_wire_connection(std::shared_ptr<GtkSpiceWire> wire) 
+{
+    bool dup = false;
+    for(auto& itr : _junc_wire_connections)
+    {
+        if(itr == wire)
+            dup = true;
+    }
+
+    if(!dup)
+    {
+        _end_wire_connections.push_back(wire);
+    }
+
+}
+
+
+void GtkSpiceWire::remove_start_wire_connection(std::shared_ptr<GtkSpiceWire> wire) 
+{
+    for(auto itr = _start_wire_connections.begin(); itr != _start_wire_connections.end(); ++itr)
+    {
+        if(*itr == wire)
+        {
+            // Erase this wire from the list
+            _start_wire_connections.erase(itr);
+        }
+    }
+}
+
+void GtkSpiceWire::remove_end_wire_connection(std::shared_ptr<GtkSpiceWire> wire) 
+{
+    for(auto itr = _end_wire_connections.begin(); itr != _end_wire_connections.end(); ++itr)
+    {
+        if(*itr == wire)
+        {
+            // Erase this wire from the list
+            _end_wire_connections.erase(itr);
+        }
+    }
+
+}
+
+void GtkSpiceWire::remove_junc_wire_connection(std::shared_ptr<GtkSpiceWire> wire) 
+{
+    for(auto itr = _junc_wire_connections.begin(); itr != _junc_wire_connections.end(); ++itr)
+    {
+        if(*itr == wire)
+        {
+            // Erase this wire from the list
+            _junc_wire_connections.erase(itr);
+        }
+    }
+
+}
+
+
 void GtkSpiceWire::draw(Cairo::RefPtr<Cairo::Context> context)
 {
     context->save();

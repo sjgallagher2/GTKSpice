@@ -89,8 +89,8 @@ public:
 
     bool remove_port(std::shared_ptr<GtkSpicePort> port);
     //std::shared_ptr<GtkSpicePort> find_port(const Glib::ustring& node_name);
-    bool set_port_active(const Coordinate& pos);
-    bool set_port_active(std::shared_ptr<GtkSpicePort> port);
+    bool set_port_active(const Coordinate& pos, bool active);
+    bool set_port_active(std::shared_ptr<GtkSpicePort> port, bool active);
     void move_active_port(const Coordinate& pos);
     std::vector<std::shared_ptr<GtkSpicePort>> get_active_ports(); // Return port being moved/dropped
     std::shared_ptr<GtkSpicePort> get_port_under_cursor(const Coordinate& mousepos);
