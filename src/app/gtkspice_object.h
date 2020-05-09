@@ -99,12 +99,34 @@ protected:
     std::vector<std::string> _pin_nodes; // node of pins, indexed as SPICE_ORDER
 };
 
-/* GtkSpiceNode
- * A node stores its name (a string), pointers to the elements associated with it with their pin numbers,
- * pointers to the wires associated with it, and a priority value (0-3) for node merges.
+/* NODE MANAGEMENT
+ * Each GtkSpiceNode maintains:
+ *  - Its name
+ *  - Its connections (wires and element pins, not ports)
+ *  - Its priority (used for node merges)
  * 
- * AVOID ACCESSING NODES DIRECTLY. DO NOT USE MODIFY CONNECTIONS WITH THE NODE.
+ * Most of the interface is through the NodeManager. Although the GtkSpiceNode
+ * has public methods like add_connection(), remove_connection(), etc, their
+ * use is NOT RECOMMENDED for anyone outside the NodeManager. They're available,
+ * but you'll risk having the NodeManager and the Node out of sync.
+ * 
+ * The key methods for the NodeManager are:
+ *  find_node()         # Returns a node object from its name
+ *  add_node()          # Add a node with a given name (e.g. for initilizing from netlist)
+ *  add_auto_node()     # Add a node and give it a new (numeric) name
+ * Note: Adding a node simply adds it to the NodeManager's list, no connections are made
+ *  connect_node()      # Add an element's pin, or a wire, to a Node object's connections list,
+ *                        and calls the element's connect_pin() function, which stores
+ *                        the node name for that pin. Wire's are assigned nodes.
+ *  break_connection()  # Takes either an element and pin, or a wire, and calls remove_connection
+ *                        for the element, or disconnect_wire for the wire. Note that
+ *                        it breaks whatever connection an element pin has made.
+ *                        Resets pin's connection to empty (""), sets wire node to empty ("").
+ *  rename_node()       # Takes a node and gives it a new name, updating all wires and element pins
+ *  merge_nodes()       # Uses node priority to merge two nodes into one
+ * 
  */
+
 class GtkSpiceNode
 {
 public:
@@ -172,6 +194,7 @@ public:
     Glib::ustring merge_nodes(Glib::ustring node1, Glib::ustring node2);
     
     void rename_node(Glib::ustring node_name, Glib::ustring new_name);
+    void rename_node(Glib::ustring node_name); // Autoname the node
     void connect_node(Glib::ustring node_name,std::shared_ptr<GtkSpiceElement> elem,int pin_order);
     void connect_node(Glib::ustring node_name,std::shared_ptr<GtkSpiceWire> wire);
     void break_connection(Glib::ustring node_name, std::shared_ptr<GtkSpiceElement> elem, int pin_order);
@@ -297,7 +320,8 @@ private:
     Glib::ustring _node;
     Coordinate _start,_end;
     bool _start_junction = false; // Show a junction square on start pin
-    bool _end_junction = false; // Show a junction square on end pin
+    bool _end_junction = false; // Show a junction square on end pin￼
+
     double _height,_width;
     bool _active = false;
     bool _floating = false;
