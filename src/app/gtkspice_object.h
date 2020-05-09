@@ -99,7 +99,12 @@ protected:
     std::vector<std::string> _pin_nodes; // node of pins, indexed as SPICE_ORDER
 };
 
-
+/* GtkSpiceNode
+ * A node stores its name (a string), pointers to the elements associated with it with their pin numbers,
+ * pointers to the wires associated with it, and a priority value (0-3) for node merges.
+ * 
+ * AVOID ACCESSING NODES DIRECTLY. DO NOT USE MODIFY CONNECTIONS WITH THE NODE.
+ */
 class GtkSpiceNode
 {
 public:
@@ -128,6 +133,24 @@ private:
     int _priority = 0; // Priorities for merges (see NodeManager::merge_nodes())
 };
 
+/* NodeManager
+ * The NodeManager is the interface to the list (map) of nodes in the schematic, which it stores.
+ * Nodes can be added or merged. Nodes can be autonamed using add_auto_node(), which is preferred 
+ * to the manual add_node() function. 
+ * 
+ * A Node stores the elements and wires associated with itself. An element or wire, in turn, only 
+ * stores the node string(s), and it doesn't manage the node string(s) directly. The Node will 
+ * keep this updated as necessary. This makes node merges and renames much easier.
+ * 
+ * To connect an element pin or wire to a node, use the NodeManager, NOT the Node. Call 
+ * connect_node() when a pin or wire does not already have a node. If the element pin or
+ * wire already has a node, you must call break_connection() first. 
+ * 
+ * A node merge occurs when a wire connects two other wires which originally have different nodes.
+ * The wires must all share one node, so we need to decide which node to keep and which can be 
+ * merged in. This is done with priorities. For instance, a port (like ground) has the highest
+ * priority.
+ */
 class NodeManager
 {
 public:

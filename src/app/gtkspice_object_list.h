@@ -143,7 +143,7 @@ public:
     std::vector<std::shared_ptr<GtkSpiceWire>> get_wires_by_node(const Glib::ustring& node_name);
 
     // -1 for none, 0 for start, 1 for end
-    std::pair<std::shared_ptr<GtkSpiceWire>,int> get_wire_pin_under(const Coordinate& pos);
+    std::vector<std::pair<std::shared_ptr<GtkSpiceWire>,int>> get_wire_pins_under(const Coordinate& pos);
 
     // Returns a vector of Coordinate representing Wire intersections (only when sharing node)
     std::vector<Coordinate> get_intersections();

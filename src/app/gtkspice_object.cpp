@@ -307,12 +307,15 @@ void GtkSpiceNode::remove_connection(std::shared_ptr<GtkSpiceElement> elem, int 
 }
 void GtkSpiceNode::disconnect_wire(std::shared_ptr<GtkSpiceWire> wire)
 {
+    // Safely move through an erase wire connections
+    bool fin = false;
     for(auto itr = _wires.begin(); itr != _wires.end(); ++itr)
     {
         if((*itr) == wire)
         {
             _wires.erase(itr);
             wire->assign_node("");
+            break;
         }
     }
 }

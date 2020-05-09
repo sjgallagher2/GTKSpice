@@ -414,12 +414,15 @@ std::vector<std::shared_ptr<GtkSpiceWire>> GtkSpiceWireList::get_wires_by_node(c
         ret.push_back(itr->second);
     return ret;
 }
-std::pair<std::shared_ptr<GtkSpiceWire>,int> GtkSpiceWireList::get_wire_pin_under(const Coordinate& pos)
+std::vector<std::pair<std::shared_ptr<GtkSpiceWire>,int>> GtkSpiceWireList::get_wire_pins_under(const Coordinate& pos)
 {
+    std::vector<std::pair<std::shared_ptr<GtkSpiceWire>,int>> ret;
     for(auto& itr : _wire_list)
         if(itr.second->pin_under(pos) != -1)
-            return std::pair<std::shared_ptr<GtkSpiceWire>,int>(itr.second,itr.second->pin_under(pos));
-    return std::pair<std::shared_ptr<GtkSpiceWire>,int>(nullptr,-1);
+            ret.push_back(std::pair<std::shared_ptr<GtkSpiceWire>,int>(itr.second,itr.second->pin_under(pos)));
+    if(ret.size() == 0)
+        ret.push_back(std::pair<std::shared_ptr<GtkSpiceWire>,int>(nullptr,-1));
+    return ret;
 }
 
 std::vector<Coordinate> GtkSpiceWireList::get_intersections()

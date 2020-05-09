@@ -287,6 +287,33 @@ app/coordinate_system.cpp.s:
 	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/coordinate_system.cpp.s
 .PHONY : app/coordinate_system.cpp.s
 
+app/draw_primitives.o: app/draw_primitives.cpp.o
+
+.PHONY : app/draw_primitives.o
+
+# target to build an object file
+app/draw_primitives.cpp.o:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/draw_primitives.cpp.o
+.PHONY : app/draw_primitives.cpp.o
+
+app/draw_primitives.i: app/draw_primitives.cpp.i
+
+.PHONY : app/draw_primitives.i
+
+# target to preprocess a source file
+app/draw_primitives.cpp.i:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/draw_primitives.cpp.i
+.PHONY : app/draw_primitives.cpp.i
+
+app/draw_primitives.s: app/draw_primitives.cpp.s
+
+.PHONY : app/draw_primitives.s
+
+# target to generate assembly for a file
+app/draw_primitives.cpp.s:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/draw_primitives.cpp.s
+.PHONY : app/draw_primitives.cpp.s
+
 app/gtkspice.o: app/gtkspice.cpp.o
 
 .PHONY : app/gtkspice.o
@@ -313,6 +340,60 @@ app/gtkspice.s: app/gtkspice.cpp.s
 app/gtkspice.cpp.s:
 	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/gtkspice.cpp.s
 .PHONY : app/gtkspice.cpp.s
+
+app/gtkspice_object.o: app/gtkspice_object.cpp.o
+
+.PHONY : app/gtkspice_object.o
+
+# target to build an object file
+app/gtkspice_object.cpp.o:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/gtkspice_object.cpp.o
+.PHONY : app/gtkspice_object.cpp.o
+
+app/gtkspice_object.i: app/gtkspice_object.cpp.i
+
+.PHONY : app/gtkspice_object.i
+
+# target to preprocess a source file
+app/gtkspice_object.cpp.i:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/gtkspice_object.cpp.i
+.PHONY : app/gtkspice_object.cpp.i
+
+app/gtkspice_object.s: app/gtkspice_object.cpp.s
+
+.PHONY : app/gtkspice_object.s
+
+# target to generate assembly for a file
+app/gtkspice_object.cpp.s:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/gtkspice_object.cpp.s
+.PHONY : app/gtkspice_object.cpp.s
+
+app/gtkspice_object_list.o: app/gtkspice_object_list.cpp.o
+
+.PHONY : app/gtkspice_object_list.o
+
+# target to build an object file
+app/gtkspice_object_list.cpp.o:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/gtkspice_object_list.cpp.o
+.PHONY : app/gtkspice_object_list.cpp.o
+
+app/gtkspice_object_list.i: app/gtkspice_object_list.cpp.i
+
+.PHONY : app/gtkspice_object_list.i
+
+# target to preprocess a source file
+app/gtkspice_object_list.cpp.i:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/gtkspice_object_list.cpp.i
+.PHONY : app/gtkspice_object_list.cpp.i
+
+app/gtkspice_object_list.s: app/gtkspice_object_list.cpp.s
+
+.PHONY : app/gtkspice_object_list.s
+
+# target to generate assembly for a file
+app/gtkspice_object_list.cpp.s:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/gtkspice_object_list.cpp.s
+.PHONY : app/gtkspice_object_list.cpp.s
 
 app/gtkspice_state.o: app/gtkspice_state.cpp.o
 
@@ -368,32 +449,86 @@ app/key_accel_map.cpp.s:
 	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/key_accel_map.cpp.s
 .PHONY : app/key_accel_map.cpp.s
 
-app/object_tree.o: app/object_tree.cpp.o
+app/ltspice_symbol_lexer.o: app/ltspice_symbol_lexer.cpp.o
 
-.PHONY : app/object_tree.o
+.PHONY : app/ltspice_symbol_lexer.o
 
 # target to build an object file
-app/object_tree.cpp.o:
-	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/object_tree.cpp.o
-.PHONY : app/object_tree.cpp.o
+app/ltspice_symbol_lexer.cpp.o:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/ltspice_symbol_lexer.cpp.o
+.PHONY : app/ltspice_symbol_lexer.cpp.o
 
-app/object_tree.i: app/object_tree.cpp.i
+app/ltspice_symbol_lexer.i: app/ltspice_symbol_lexer.cpp.i
 
-.PHONY : app/object_tree.i
+.PHONY : app/ltspice_symbol_lexer.i
 
 # target to preprocess a source file
-app/object_tree.cpp.i:
-	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/object_tree.cpp.i
-.PHONY : app/object_tree.cpp.i
+app/ltspice_symbol_lexer.cpp.i:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/ltspice_symbol_lexer.cpp.i
+.PHONY : app/ltspice_symbol_lexer.cpp.i
 
-app/object_tree.s: app/object_tree.cpp.s
+app/ltspice_symbol_lexer.s: app/ltspice_symbol_lexer.cpp.s
 
-.PHONY : app/object_tree.s
+.PHONY : app/ltspice_symbol_lexer.s
 
 # target to generate assembly for a file
-app/object_tree.cpp.s:
-	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/object_tree.cpp.s
-.PHONY : app/object_tree.cpp.s
+app/ltspice_symbol_lexer.cpp.s:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/ltspice_symbol_lexer.cpp.s
+.PHONY : app/ltspice_symbol_lexer.cpp.s
+
+app/ltspice_symbol_parser.o: app/ltspice_symbol_parser.cpp.o
+
+.PHONY : app/ltspice_symbol_parser.o
+
+# target to build an object file
+app/ltspice_symbol_parser.cpp.o:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/ltspice_symbol_parser.cpp.o
+.PHONY : app/ltspice_symbol_parser.cpp.o
+
+app/ltspice_symbol_parser.i: app/ltspice_symbol_parser.cpp.i
+
+.PHONY : app/ltspice_symbol_parser.i
+
+# target to preprocess a source file
+app/ltspice_symbol_parser.cpp.i:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/ltspice_symbol_parser.cpp.i
+.PHONY : app/ltspice_symbol_parser.cpp.i
+
+app/ltspice_symbol_parser.s: app/ltspice_symbol_parser.cpp.s
+
+.PHONY : app/ltspice_symbol_parser.s
+
+# target to generate assembly for a file
+app/ltspice_symbol_parser.cpp.s:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/ltspice_symbol_parser.cpp.s
+.PHONY : app/ltspice_symbol_parser.cpp.s
+
+app/object_symbol.o: app/object_symbol.cpp.o
+
+.PHONY : app/object_symbol.o
+
+# target to build an object file
+app/object_symbol.cpp.o:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/object_symbol.cpp.o
+.PHONY : app/object_symbol.cpp.o
+
+app/object_symbol.i: app/object_symbol.cpp.i
+
+.PHONY : app/object_symbol.i
+
+# target to preprocess a source file
+app/object_symbol.cpp.i:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/object_symbol.cpp.i
+.PHONY : app/object_symbol.cpp.i
+
+app/object_symbol.s: app/object_symbol.cpp.s
+
+.PHONY : app/object_symbol.s
+
+# target to generate assembly for a file
+app/object_symbol.cpp.s:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/app/object_symbol.cpp.s
+.PHONY : app/object_symbol.cpp.s
 
 app/schematic.o: app/schematic.cpp.o
 
@@ -800,6 +935,33 @@ testing/testdraw.cpp.s:
 	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/testing/testdraw.cpp.s
 .PHONY : testing/testdraw.cpp.s
 
+tools/tool_component_drag.o: tools/tool_component_drag.cpp.o
+
+.PHONY : tools/tool_component_drag.o
+
+# target to build an object file
+tools/tool_component_drag.cpp.o:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/tools/tool_component_drag.cpp.o
+.PHONY : tools/tool_component_drag.cpp.o
+
+tools/tool_component_drag.i: tools/tool_component_drag.cpp.i
+
+.PHONY : tools/tool_component_drag.i
+
+# target to preprocess a source file
+tools/tool_component_drag.cpp.i:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/tools/tool_component_drag.cpp.i
+.PHONY : tools/tool_component_drag.cpp.i
+
+tools/tool_component_drag.s: tools/tool_component_drag.cpp.s
+
+.PHONY : tools/tool_component_drag.s
+
+# target to generate assembly for a file
+tools/tool_component_drag.cpp.s:
+	cd /home/sam/Documents/Devel/Cpp/GTKSpice && $(MAKE) -f src/CMakeFiles/gtkspice.dir/build.make src/CMakeFiles/gtkspice.dir/tools/tool_component_drag.cpp.s
+.PHONY : tools/tool_component_drag.cpp.s
+
 tools/tool_delete.o: tools/tool_delete.cpp.o
 
 .PHONY : tools/tool_delete.o
@@ -935,18 +1097,33 @@ help:
 	@echo "... app/coordinate_system.o"
 	@echo "... app/coordinate_system.i"
 	@echo "... app/coordinate_system.s"
+	@echo "... app/draw_primitives.o"
+	@echo "... app/draw_primitives.i"
+	@echo "... app/draw_primitives.s"
 	@echo "... app/gtkspice.o"
 	@echo "... app/gtkspice.i"
 	@echo "... app/gtkspice.s"
+	@echo "... app/gtkspice_object.o"
+	@echo "... app/gtkspice_object.i"
+	@echo "... app/gtkspice_object.s"
+	@echo "... app/gtkspice_object_list.o"
+	@echo "... app/gtkspice_object_list.i"
+	@echo "... app/gtkspice_object_list.s"
 	@echo "... app/gtkspice_state.o"
 	@echo "... app/gtkspice_state.i"
 	@echo "... app/gtkspice_state.s"
 	@echo "... app/key_accel_map.o"
 	@echo "... app/key_accel_map.i"
 	@echo "... app/key_accel_map.s"
-	@echo "... app/object_tree.o"
-	@echo "... app/object_tree.i"
-	@echo "... app/object_tree.s"
+	@echo "... app/ltspice_symbol_lexer.o"
+	@echo "... app/ltspice_symbol_lexer.i"
+	@echo "... app/ltspice_symbol_lexer.s"
+	@echo "... app/ltspice_symbol_parser.o"
+	@echo "... app/ltspice_symbol_parser.i"
+	@echo "... app/ltspice_symbol_parser.s"
+	@echo "... app/object_symbol.o"
+	@echo "... app/object_symbol.i"
+	@echo "... app/object_symbol.s"
 	@echo "... app/schematic.o"
 	@echo "... app/schematic.i"
 	@echo "... app/schematic.s"
@@ -992,6 +1169,9 @@ help:
 	@echo "... testing/testdraw.o"
 	@echo "... testing/testdraw.i"
 	@echo "... testing/testdraw.s"
+	@echo "... tools/tool_component_drag.o"
+	@echo "... tools/tool_component_drag.i"
+	@echo "... tools/tool_component_drag.s"
 	@echo "... tools/tool_delete.o"
 	@echo "... tools/tool_delete.i"
 	@echo "... tools/tool_delete.s"
